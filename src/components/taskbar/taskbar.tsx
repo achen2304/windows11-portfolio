@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import moment from 'moment';
 import { useTheme } from '../theme-provider';
 import { themes } from '@/lib/themes';
 import { TaskbarProps, PanelType } from './taskbar-types';
+import { useWindowManager } from '../webpage/window-manager';
 import {
   Wifi,
   Volume2,
@@ -32,8 +33,10 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
   const { theme, setTheme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
   const [hoveredApp, setHoveredApp] = useState<string | null>(null);
+  const [clickedApp, setClickedApp] = useState<string | null>(null);
   const [currentTime, setCurrentTime] = useState(moment());
   const [isSpinning, setIsSpinning] = useState(false);
+  const { windows, focusWindow, minimizeWindow } = useWindowManager();
 
   // Update time every second
   useEffect(() => {
@@ -65,9 +68,35 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
   const isSystemPanelActive = activePanels.has('system');
   const isCalendarPanelActive = activePanels.has('calendar');
 
+  // No need for appsWithActiveState - we'll check window state directly
+
+  // Handle app click - focus if open, otherwise call onAppClick
+  const handleAppClick = (appId: string) => {
+    // Add click animation
+    setClickedApp(appId);
+    setTimeout(() => setClickedApp(null), 150);
+
+    // Find window that starts with the app ID (to handle unique window IDs)
+    const openWindow = windows.find((window) => window.id.startsWith(appId));
+
+    if (openWindow) {
+      if (openWindow.isMinimized) {
+        // If minimized, restore it
+        minimizeWindow(openWindow.id);
+      } else if (!openWindow.isActive) {
+        // If open but not active, focus it
+        focusWindow(openWindow.id);
+      }
+      // If already active, do nothing (no minimize behavior)
+    } else {
+      // If not open, call the original onAppClick to open it
+      onAppClick(appId);
+    }
+  };
+
   return (
     <div
-      className={`fixed bottom-0 left-0 right-0 z-[100] backdrop-blur-md ${className}`}
+      className={`fixed bottom-0 left-0 right-0 z-[300] backdrop-blur-md ${className}`}
       style={{
         height: '48px',
         background:
@@ -123,45 +152,72 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
                   e.preventDefault();
                   e.stopPropagation();
                   console.log(`App clicked: ${app.id}`); // Debug log
-                  onAppClick(app.id);
+                  handleAppClick(app.id);
                 }}
                 onMouseEnter={() => setHoveredApp(app.id)}
                 onMouseLeave={() => setHoveredApp(null)}
-                className="relative flex items-center justify-center w-10 h-10 rounded transition-all duration-200 cursor-pointer"
+                className="relative flex items-center justify-center w-12 h-12 rounded transition-all duration-200 cursor-pointer"
                 title={app.name}
                 style={{
-                  backgroundColor: app.isActive
-                    ? theme === 'dark'
-                      ? 'rgba(255, 255, 255, 0.15)'
-                      : 'rgba(0, 0, 0, 0.15)'
-                    : hoveredApp === app.id
-                    ? theme === 'dark'
-                      ? 'rgba(255, 255, 255, 0.1)'
-                      : 'rgba(0, 0, 0, 0.1)'
-                    : 'transparent',
-                  borderBottom: app.isActive
-                    ? `2px solid ${theme === 'dark' ? '#ffffff' : '#000000'}`
-                    : 'none',
+                  backgroundColor:
+                    hoveredApp === app.id
+                      ? theme === 'dark'
+                        ? 'rgba(255, 255, 255, 0.1)'
+                        : 'rgba(0, 0, 0, 0.1)'
+                      : 'transparent',
                   pointerEvents: 'auto',
                 }}
               >
                 <img
                   src={app.icon}
                   alt={app.name}
-                  className="w-6 h-6 object-contain pointer-events-none"
+                  className="w-8 h-8 object-contain pointer-events-none transition-transform duration-150 ease-out"
+                  style={{
+                    transform:
+                      clickedApp === app.id ? 'scale(0.9)' : 'scale(1)',
+                  }}
                 />
-                {app.isPinned && (
-                  <div
-                    className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 rounded-full pointer-events-none"
-                    style={{ backgroundColor: currentTheme.text.muted }}
-                  />
-                )}
-                {app.hasNotification && (
-                  <div
-                    className="absolute top-1 right-1 w-2 h-2 rounded-full pointer-events-none"
-                    style={{ backgroundColor: '#ff4444' }}
-                  />
-                )}
+
+                {/* Window state indicators */}
+                {(() => {
+                  // Find window that starts with the app ID (to handle unique window IDs)
+                  const openWindow = windows.find((window) =>
+                    window.id.startsWith(app.id)
+                  );
+                  const hasOpenWindow = !!openWindow;
+                  const isWindowActive =
+                    openWindow?.isActive && !openWindow?.isMinimized;
+
+                  if (isWindowActive) {
+                    // Active/focused window - longer line at bottom (like Edge in your image)
+                    return (
+                      <div
+                        className="absolute bottom-1 left-1/2 transform -translate-x-1/2 rounded-full pointer-events-none transition-all duration-300 ease-out"
+                        style={{
+                          backgroundColor:
+                            theme === 'dark' ? '#ffffff' : '#000000',
+                          width: '24px',
+                          height: '3px',
+                        }}
+                      />
+                    );
+                  } else if (hasOpenWindow) {
+                    // Open but not active/focused - small dot at bottom (like other apps in your image)
+                    return (
+                      <div
+                        className="absolute bottom-1 left-1/2 transform -translate-x-1/2 rounded-full pointer-events-none transition-all duration-300 ease-out"
+                        style={{
+                          backgroundColor:
+                            theme === 'dark' ? '#ffffff' : '#000000',
+                          width: '6px',
+                          height: '6px',
+                        }}
+                      />
+                    );
+                  }
+                  // No indicator for pinned but not open apps (like the second Edge in your image)
+                  return null;
+                })()}
               </button>
             ))}
           </div>

@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { TaskbarApp, PanelType } from './taskbar-types';
+import { startPanelApps, quickLinks } from '@/data/apps/taskbar-pannel-apps';
 import Taskbar from './taskbar';
 import StartPanel from './taskbar-pannel';
 import CalendarPanel from './calendar-pannel';
@@ -110,7 +111,7 @@ const TaskbarShell: React.FC<TaskbarShellProps> = ({
       {/* Centralized Backdrop - Only show when any panel is open */}
       {activePanel && (
         <div
-          className="fixed inset-0 z-[90]"
+          className="fixed inset-0 z-[150]"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -138,6 +139,8 @@ const TaskbarShell: React.FC<TaskbarShellProps> = ({
       <StartPanel
         isOpen={activePanel === 'start'}
         onClose={closePanel}
+        apps={startPanelApps}
+        quickLinks={quickLinks}
         onAppClick={handleAppClick}
       />
 

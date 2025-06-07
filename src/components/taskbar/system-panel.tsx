@@ -174,12 +174,12 @@ const SystemPanel: React.FC<SystemPanelProps> = ({
     <>
       {/* System Panel */}
       <div
-        className={`fixed bottom-14 right-2 z-[110] w-80 rounded-lg backdrop-blur-xl shadow-2xl transition-all duration-300 ease-out ${className}`}
+        className={`fixed bottom-14 right-2 z-[200] w-80 rounded-lg backdrop-blur-xl shadow-2xl transition-all duration-300 ease-out ${className}`}
         style={{
           background: currentTheme.glass.background,
           border: `1px solid ${currentTheme.glass.border}`,
           WebkitBackdropFilter: 'blur(30px)',
-          transform: isOpen ? 'translateX(0)' : 'translateX(calc(100% + 1rem))',
+          transform: isOpen ? 'translateY(0)' : 'translateY(calc(100%))',
           opacity: isOpen ? 1 : 0,
           pointerEvents: isOpen ? 'auto' : 'none',
           visibility: isOpen ? 'visible' : 'hidden',

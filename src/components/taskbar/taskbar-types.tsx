@@ -2,9 +2,6 @@ export interface TaskbarApp {
   id: string;
   name: string;
   icon: string;
-  isActive?: boolean;
-  isPinned?: boolean;
-  hasNotification?: boolean;
 }
 
 export interface StartApp {
@@ -16,12 +13,12 @@ export interface StartApp {
   description?: string;
 }
 
-export interface RecentItem {
+export interface QuickLink {
   id: string;
   name: string;
-  type: 'file' | 'folder';
-  path: string;
-  lastAccessed: Date;
+  newTab?: boolean;
+  type?: 'link' | 'copy';
+  url?: string;
   icon?: string;
 }
 
@@ -85,7 +82,7 @@ export interface StartPanelProps {
   isOpen: boolean;
   onClose: () => void;
   apps?: StartApp[];
-  recentItems?: RecentItem[];
+  quickLinks?: QuickLink[];
   onAppClick?: (appId: string) => void;
   className?: string;
 }

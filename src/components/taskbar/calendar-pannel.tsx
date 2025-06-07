@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import { useTheme } from '../theme-provider';
 import { themes } from '@/lib/themes';
@@ -9,7 +9,9 @@ import {
   CalendarEvent,
   NotificationItem,
 } from './taskbar-types';
-import { ChevronUp, ChevronDown } from 'lucide-react';
+import { ChevronUp, ChevronDown, Copy, Check, X, Info } from 'lucide-react';
+import { notificationUtils, copyToClipboard } from '@/lib/notification-utils';
+import { useToast } from '@/components/ui/toast';
 
 const CalendarPanel: React.FC<CalendarPanelProps> = ({
   isOpen,
@@ -22,18 +24,22 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
 }) => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
+  const { addToast } = useToast();
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [focusMinutes, setFocusMinutes] = useState(30);
+  const [storeNotifications, setStoreNotifications] = useState(
+    notificationUtils.getNotifications()
+  );
 
-  // Mock notifications
-  const defaultNotifications: NotificationItem[] = [
-    // Empty by default to match the "No new notifications" state
-  ];
-
-  const currentNotifications =
-    notifications.length > 0 ? notifications : defaultNotifications;
+  // Subscribe to notification changes
+  useEffect(() => {
+    const unsubscribe = notificationUtils.subscribe(() => {
+      setStoreNotifications(notificationUtils.getNotifications());
+    });
+    return unsubscribe;
+  }, []);
 
   const handleDateClick = (date: Date) => {
     setSelectedDate(date);
@@ -133,7 +139,7 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
     <>
       {/* Panel Container - Groups both cards */}
       <div
-        className="fixed bottom-14 right-2 z-[110] w-80 space-y-2"
+        className="fixed bottom-14 right-2 z-[200] w-80 space-y-2"
         style={{
           visibility: isOpen ? 'visible' : 'hidden',
         }}
@@ -162,13 +168,30 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
               </h3>
             </div>
 
-            <div className="min-h-[60px] flex items-center justify-center">
-              <p
-                className="text-sm"
-                style={{ color: currentTheme.text.secondary }}
-              >
-                No new notifications
-              </p>
+            <div className="min-h-[60px]">
+              {storeNotifications.length === 0 ? (
+                <div className="flex items-center justify-center h-[60px]">
+                  <p
+                    className="text-sm"
+                    style={{ color: currentTheme.text.secondary }}
+                  >
+                    No new notifications
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-2 max-h-[200px] overflow-y-auto">
+                  {storeNotifications.slice(0, 5).map((notification) => (
+                    <NotificationCard
+                      key={notification.id}
+                      notification={notification}
+                      theme={currentTheme}
+                      onClose={() =>
+                        notificationUtils.removeNotification(notification.id)
+                      }
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -299,5 +322,70 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
     </>
   );
 };
+
+// NotificationCard component
+function NotificationCard({
+  notification,
+  theme,
+  onClose,
+}: {
+  notification: any;
+  theme: any;
+  onClose: () => void;
+}) {
+  const getIcon = () => {
+    switch (notification.type) {
+      case 'success':
+      case 'copy':
+        return <Check size={14} className="text-green-500" />;
+      case 'error':
+        return <X size={14} className="text-red-500" />;
+      case 'info':
+      default:
+        return <Info size={14} style={{ color: theme.text.muted }} />;
+    }
+  };
+
+  return (
+    <div
+      className="p-3 rounded-md transition-colors duration-200"
+      style={{
+        backgroundColor: theme.glass.cardBackgroundDark,
+        border: `1px solid ${theme.glass.border}`,
+      }}
+    >
+      <div className="flex items-start space-x-2">
+        <div className="flex-shrink-0 mt-0.5">{getIcon()}</div>
+        <div className="flex-1 min-w-0">
+          <div
+            className="text-xs font-medium"
+            style={{ color: theme.text.primary }}
+          >
+            {notification.title}
+          </div>
+          {notification.description && (
+            <div className="text-xs mt-1" style={{ color: theme.text.muted }}>
+              {notification.description}
+            </div>
+          )}
+          <div className="text-xs mt-1" style={{ color: theme.text.muted }}>
+            {moment(notification.timestamp).fromNow()}
+          </div>
+        </div>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
+          className="flex-shrink-0 p-1 rounded hover:bg-opacity-10 transition-colors"
+          style={{ color: theme.text.muted }}
+          title="Close notification"
+        >
+          <X size={12} />
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default CalendarPanel;

@@ -1,95 +1,91 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Squares } from '@/components/ui/squares-background';
 import { useTheme } from '@/components/theme-provider';
 import { themes } from '@/lib/themes';
 import TaskbarShell from '@/components/taskbar/taskbar-shell';
-import { TaskbarApp } from '@/components/taskbar/taskbar-types';
+import { WindowManagerProvider } from '@/components/webpage/window-manager';
+import { useAppOpener } from '@/components/webpage/app-openers';
+import { desktopApps } from '@/data/apps/desktop-apps';
+import { taskbarApps } from '@/data/apps/taskbar-apps';
+
+// Demo content component that uses the window manager
+const DemoContent: React.FC = () => {
+  const { theme } = useTheme();
+  const currentTheme = themes[theme as keyof typeof themes];
+  const { openAppById } = useAppOpener();
+
+  return (
+    <div
+      className="h-full w-full p-6"
+      style={{ minHeight: 'calc(100vh - 48px)' }}
+    >
+      {/* Desktop Icons Grid - Vertical layout like Windows */}
+      <div className="grid grid-rows-8 grid-flow-col gap-4 h-full content-start auto-cols-max">
+        {desktopApps.map((app, index) => (
+          <div
+            key={app.id}
+            onClick={() => openAppById(app.id)}
+            className="flex flex-col items-center justify-center p-3 rounded-lg cursor-pointer transition-all duration-200 hover:bg-white/10 active:bg-white/20 group"
+            style={{
+              width: '90px',
+              height: '90px',
+            }}
+          >
+            {/* App Icon */}
+            <div className="mb-2 transition-transform duration-200 group-hover:scale-110">
+              <img
+                src={app.icon}
+                alt={app.name}
+                className="w-12 h-12 object-contain drop-shadow-lg"
+                style={{
+                  filter:
+                    theme === 'dark'
+                      ? 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))'
+                      : 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))',
+                }}
+              />
+            </div>
+
+            {/* App Name */}
+            <span
+              className="text-xs font-medium text-center leading-tight px-1 py-0.5 rounded transition-all duration-200"
+              style={{
+                color: currentTheme.text.primary,
+              }}
+            >
+              {app.name}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop Context Menu Area (Right-click functionality could be added here) */}
+      <div className="absolute bottom-16 right-6 text-xs opacity-30">
+        <div style={{ color: currentTheme.text.muted }}>
+          Right-click for context menu
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default function Home() {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
 
-  // Sample taskbar apps with enhanced data
-  const taskbarApps: TaskbarApp[] = [
-    {
-      id: 'edge',
-      name: 'Microsoft Edge',
-      icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Microsoft_Edge_logo_%282019%29.svg/64px-Microsoft_Edge_logo_%282019%29.svg.png',
-      isActive: false,
-      isPinned: true,
-      hasNotification: false,
-    },
-    {
-      id: 'code',
-      name: 'Visual Studio Code',
-      icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/64px-Visual_Studio_Code_1.35_icon.svg.png',
-      isActive: true,
-      isPinned: true,
-      hasNotification: false,
-    },
-    {
-      id: 'folder',
-      name: 'File Explorer',
-      icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Windows_Explorer_icon_%28Windows_10%29.svg/64px-Windows_Explorer_icon_%28Windows_10%29.svg.png',
-      isActive: false,
-      isPinned: true,
-      hasNotification: false,
-    },
-    {
-      id: 'terminal',
-      name: 'Windows Terminal',
-      icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Windows_Terminal_Logo_256x256.png/64px-Windows_Terminal_Logo_256x256.png',
-      isActive: false,
-      isPinned: true,
-      hasNotification: false,
-    },
-    {
-      id: 'discord',
-      name: 'Discord',
-      icon: 'https://upload.wikimedia.org/wikipedia/en/thumb/9/98/Discord_logo.svg/64px-Discord_logo.svg.png',
-      isActive: false,
-      isPinned: true,
-      hasNotification: true, // Example of a notification
-    },
-    {
-      id: 'spotify',
-      name: 'Spotify',
-      icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/64px-Spotify_icon.svg.png',
-      isActive: false,
-      isPinned: true,
-      hasNotification: false,
-    },
-  ];
+  return (
+    <WindowManagerProvider>
+      <HomeContent />
+    </WindowManagerProvider>
+  );
+}
 
-  const handleAppClick = (appId: string) => {
-    console.log(`App clicked: ${appId}`);
-
-    // Example of handling different app clicks
-    switch (appId) {
-      case 'edge':
-        console.log('Opening Microsoft Edge...');
-        break;
-      case 'code':
-        console.log('Opening Visual Studio Code...');
-        break;
-      case 'folder':
-        console.log('Opening File Explorer...');
-        break;
-      case 'terminal':
-        console.log('Opening Windows Terminal...');
-        break;
-      case 'discord':
-        console.log('Opening Discord...');
-        break;
-      case 'spotify':
-        console.log('Opening Spotify...');
-        break;
-      default:
-        console.log(`Opening ${appId}...`);
-    }
-  };
+const HomeContent: React.FC = () => {
+  const { theme } = useTheme();
+  const currentTheme = themes[theme as keyof typeof themes];
+  const { openAppById } = useAppOpener();
 
   return (
     <div
@@ -114,105 +110,16 @@ export default function Home() {
       </div>
 
       {/* Main Content Area */}
-      <div className="relative z-10 min-h-screen pb-12">
+      <div
+        className="relative z-10 pb-12"
+        style={{ minHeight: 'calc(100vh - 48px)' }}
+      >
         {/* Portfolio Content */}
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="text-center space-y-6">
-            <h1
-              className="text-6xl font-bold mb-6"
-              style={{ color: currentTheme.text.primary }}
-            >
-              Welcome to My Portfolio
-            </h1>
-            <p
-              className="text-xl mb-8"
-              style={{ color: currentTheme.text.secondary }}
-            >
-              Windows 11-inspired design with modern aesthetics
-            </p>
-
-            {/* Feature showcase */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-12">
-              <div
-                className="p-6 rounded-lg backdrop-blur-sm"
-                style={{
-                  background: currentTheme.glass.background,
-                  border: `1px solid ${currentTheme.glass.border}`,
-                }}
-              >
-                <h3
-                  className="text-lg font-semibold mb-2"
-                  style={{ color: currentTheme.text.primary }}
-                >
-                  Modern Taskbar
-                </h3>
-                <p
-                  className="text-sm"
-                  style={{ color: currentTheme.text.secondary }}
-                >
-                  Windows 11-inspired taskbar with Start menu, system tray, and
-                  calendar
-                </p>
-              </div>
-
-              <div
-                className="p-6 rounded-lg backdrop-blur-sm"
-                style={{
-                  background: currentTheme.glass.background,
-                  border: `1px solid ${currentTheme.glass.border}`,
-                }}
-              >
-                <h3
-                  className="text-lg font-semibold mb-2"
-                  style={{ color: currentTheme.text.primary }}
-                >
-                  Interactive Panels
-                </h3>
-                <p
-                  className="text-sm"
-                  style={{ color: currentTheme.text.secondary }}
-                >
-                  System settings, calendar events, and notification management
-                </p>
-              </div>
-
-              <div
-                className="p-6 rounded-lg backdrop-blur-sm"
-                style={{
-                  background: currentTheme.glass.background,
-                  border: `1px solid ${currentTheme.glass.border}`,
-                }}
-              >
-                <h3
-                  className="text-lg font-semibold mb-2"
-                  style={{ color: currentTheme.text.primary }}
-                >
-                  Theme System
-                </h3>
-                <p
-                  className="text-sm"
-                  style={{ color: currentTheme.text.secondary }}
-                >
-                  Dynamic dark/light theme switching with consistent styling
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-8">
-              <p
-                className="text-sm opacity-75"
-                style={{ color: currentTheme.text.muted }}
-              >
-                Try clicking on the taskbar elements below to explore the
-                interface
-              </p>
-            </div>
-          </div>
-        </div>
+        <DemoContent />
       </div>
 
       {/* Windows Taskbar Shell - All panels managed here */}
-      <TaskbarShell apps={taskbarApps} onAppClick={handleAppClick} />
+      <TaskbarShell apps={taskbarApps} onAppClick={openAppById} />
     </div>
   );
-}
+};
