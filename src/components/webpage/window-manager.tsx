@@ -13,6 +13,8 @@ export interface WindowState {
   isMinimized: boolean;
   zIndex: number;
   isActive: boolean;
+  isOpening?: boolean;
+  isClosing?: boolean;
 }
 
 interface WindowManagerContextType {
@@ -30,6 +32,7 @@ interface WindowManagerContextType {
     id: string,
     size: { width: number; height: number }
   ) => void;
+  finishOpeningAnimation: (id: string) => void;
 }
 
 const WindowManagerContext = createContext<WindowManagerContextType | null>(
@@ -54,7 +57,7 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
   children,
 }) => {
   const [windows, setWindows] = useState<WindowState[]>([]);
-  const [nextZIndex, setNextZIndex] = useState(50);
+  const [nextZIndex, setNextZIndex] = useState(100);
 
   // Calculate staggered position for new windows
   const getStaggeredPosition = useCallback((index: number) => {
@@ -72,7 +75,8 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
         const existingWindow = prev.find((w) => w.id === windowData.id);
         if (existingWindow) {
           // Focus existing window instead of creating new one
-          const newZIndex = Math.min(nextZIndex, 99);
+          const highestZIndex = Math.max(50, ...prev.map((w) => w.zIndex));
+          const newZIndex = Math.max(highestZIndex + 1, nextZIndex);
           return prev.map((w) => ({
             ...w,
             isActive: w.id === windowData.id,
@@ -83,18 +87,25 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
         // Create new window with staggered position
         const position =
           windowData.position || getStaggeredPosition(prev.length);
-        const newZIndex = Math.min(nextZIndex, 99);
+
+        // Get highest z-index currently in use, ensure new window is on top
+        const highestZIndex =
+          prev.length > 0 ? Math.max(50, ...prev.map((w) => w.zIndex)) : 50;
+        const newZIndex = Math.max(highestZIndex + 1, nextZIndex);
+
         const newWindow: WindowState = {
           ...windowData,
           position,
           zIndex: newZIndex,
           isActive: true,
+          isOpening: true,
+          isClosing: false,
         };
 
         // Deactivate all other windows
         const updatedWindows = prev.map((w) => ({ ...w, isActive: false }));
 
-        setNextZIndex((prev) => Math.min(prev + 1, 99));
+        setNextZIndex((prev) => Math.min(newZIndex + 1, 999));
         return [...updatedWindows, newWindow];
       });
     },
@@ -102,7 +113,14 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
   );
 
   const closeWindow = useCallback((id: string) => {
-    setWindows((prev) => prev.filter((w) => w.id !== id));
+    setWindows((prev) =>
+      prev.map((w) => (w.id === id ? { ...w, isClosing: true } : w))
+    );
+
+    // Remove window after animation completes
+    setTimeout(() => {
+      setWindows((prev) => prev.filter((w) => w.id !== id));
+    }, 300);
   }, []);
 
   const focusWindow = useCallback(
@@ -111,14 +129,17 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
         const targetWindow = prev.find((w) => w.id === id);
         if (!targetWindow || targetWindow.isMinimized) return prev;
 
-        const newZIndex = Math.min(nextZIndex, 99);
+        // Get highest z-index currently in use, ensure new zIndex is higher
+        const highestZIndex = Math.max(50, ...prev.map((w) => w.zIndex));
+        const newZIndex = Math.max(highestZIndex + 1, nextZIndex);
+
         const updatedWindows = prev.map((w) => ({
           ...w,
           isActive: w.id === id,
           zIndex: w.id === id ? newZIndex : w.zIndex,
         }));
 
-        setNextZIndex((prev) => Math.min(prev + 1, 99));
+        setNextZIndex((prev) => Math.min(newZIndex + 1, 999));
         return updatedWindows;
       });
     },
@@ -155,6 +176,12 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
     []
   );
 
+  const finishOpeningAnimation = useCallback((id: string) => {
+    setWindows((prev) =>
+      prev.map((w) => (w.id === id ? { ...w, isOpening: false } : w))
+    );
+  }, []);
+
   const contextValue: WindowManagerContextType = {
     windows,
     openWindow,
@@ -164,6 +191,7 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
     maximizeWindow,
     updateWindowPosition,
     updateWindowSize,
+    finishOpeningAnimation,
   };
 
   return (
@@ -184,9 +212,15 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
               onMinimize={() => minimizeWindow(window.id)}
               onMaximizeToggle={() => maximizeWindow(window.id)}
               isActive={window.isActive}
+              isOpening={window.isOpening}
+              isClosing={window.isClosing}
+              onOpeningAnimationEnd={() => finishOpeningAnimation(window.id)}
               style={{
                 zIndex: window.zIndex,
-                transition: 'opacity 0.2s ease, box-shadow 0.2s ease',
+                transition:
+                  !window.isOpening && !window.isClosing
+                    ? 'opacity 0.2s ease, box-shadow 0.2s ease'
+                    : 'none',
               }}
               onFocus={() => focusWindow(window.id)}
               onPositionChange={(position) =>

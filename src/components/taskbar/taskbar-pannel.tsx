@@ -8,6 +8,8 @@ import { startPanelApps, getQuickLinks } from '@/data/apps/taskbar-pannel-apps';
 import { Search, Power, User, ExternalLink, Copy } from 'lucide-react';
 import { useToast } from '@/components/ui/toast';
 import { copyToClipboard } from '@/lib/notification-utils';
+import { useWindowManager } from '../webpage/window-manager';
+import { handleAppClick } from '@/lib/window-utils';
 
 const StartPanel: React.FC<StartPanelProps> = ({
   isOpen,
@@ -20,6 +22,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
   const { theme, setTheme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
   const { addToast } = useToast();
+  const { windows, focusWindow, minimizeWindow } = useWindowManager();
 
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -45,11 +48,17 @@ const StartPanel: React.FC<StartPanelProps> = ({
     e.currentTarget.style.backgroundColor = 'transparent';
   };
 
+  // Handle start panel app click - focus if open, otherwise open new
+  const handleStartPanelAppClick = (appId: string) => {
+    // Use the centralized utility function
+    handleAppClick(appId, windows, focusWindow, minimizeWindow, onAppClick);
+  };
+
   return (
     <>
       {/* Start Panel */}
       <div
-        className={`fixed bottom-14 left-2 z-[200] w-[640px] rounded-lg backdrop-blur-xl shadow-2xl transition-all duration-300 ease-out ${className}`}
+        className={`fixed bottom-14 left-2 z-[200] w-[640px] max-w-[90vw] rounded-lg backdrop-blur-xl shadow-2xl transition-all duration-300 ease-out ${className}`}
         style={{
           background: currentTheme.glass.background,
           border: `1px solid ${currentTheme.glass.border}`,
@@ -61,7 +70,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
         }}
       >
         {/* Search Bar */}
-        <div className="px-8 pt-8 pb-6">
+        <div className="px-4 sm:px-8 pt-4 sm:pt-8 pb-3 sm:pb-6">
           <div className="relative">
             <Search
               size={20}
@@ -84,28 +93,29 @@ const StartPanel: React.FC<StartPanelProps> = ({
         </div>
 
         {/* Content Area */}
-        <div className="px-8">
+        <div className="px-4 sm:px-8">
           {searchQuery ? (
             /* Search Results */
-            <div className="mb-6">
+            <div className="mb-3 sm:mb-6">
               <h3
                 style={{ color: currentTheme.text.primary }}
-                className="text-sm font-semibold mb-6"
+                className="text-sm font-semibold mb-3 sm:mb-6"
               >
                 Search results for "{searchQuery}"
               </h3>
-              <div className="grid grid-cols-6 gap-6">
+              <div className="grid grid-cols-4 sm:grid-cols-5 gap-6">
                 {filteredApps.map((app) => (
                   <button
                     key={app.id}
                     onClick={() => {
-                      onAppClick(app.id);
+                      handleStartPanelAppClick(app.id);
                       onClose();
                     }}
                     className="flex flex-col items-center p-4 rounded-lg transition-colors duration-200"
                     style={{
                       backgroundColor: 'transparent',
                       color: currentTheme.text.primary,
+                      height: '100px',
                     }}
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
@@ -113,7 +123,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
                     <img
                       src={app.icon}
                       alt={app.name}
-                      className="w-10 h-10 object-contain mb-3"
+                      className="w-6 h-6 sm:w-8 sm:h-8 object-contain mb-3"
                     />
                     <span className="text-xs text-center font-medium leading-tight">
                       {app.name}
@@ -125,31 +135,31 @@ const StartPanel: React.FC<StartPanelProps> = ({
           ) : (
             <>
               {/* Pinned Section */}
-              <div className="mb-6">
-                <div className="flex items-center justify-between mb-6">
+              <div className="mb-3 sm:mb-6">
+                <div className="flex items-center justify-between mb-3 sm:mb-6">
                   <h3
                     style={{ color: currentTheme.text.primary }}
                     className="text-sm font-semibold"
                   >
-                    Pinned
+                    All Apps
                   </h3>
                 </div>
                 <div
-                  className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-6"
-                  style={{ minHeight: '160px' }}
+                  className="grid grid-cols-4 sm:grid-cols-5 gap-3 sm:gap-6"
+                  style={{ minHeight: '140px' }}
                 >
                   {pinnedApps.map((app) => (
                     <button
                       key={app.id}
                       onClick={() => {
-                        onAppClick(app.id);
+                        handleStartPanelAppClick(app.id);
                         onClose();
                       }}
-                      className="flex flex-col items-center p-4 rounded-lg transition-colors duration-200"
+                      className="flex flex-col items-center p-2 sm:p-4 rounded-lg transition-colors duration-200"
                       style={{
                         backgroundColor: 'transparent',
                         color: currentTheme.text.primary,
-                        height: '100px',
+                        height: '80px',
                       }}
                       onMouseEnter={handleMouseEnter}
                       onMouseLeave={handleMouseLeave}
@@ -157,7 +167,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
                       <img
                         src={app.icon}
                         alt={app.name}
-                        className="w-10 h-10 object-contain mb-3"
+                        className="w-6 h-6 sm:w-8 sm:h-8 object-contain mb-2 sm:mb-3"
                       />
                       <span className="text-xs text-center font-medium leading-tight">
                         {app.name}
@@ -168,8 +178,8 @@ const StartPanel: React.FC<StartPanelProps> = ({
               </div>
 
               {/* Quick Links Section */}
-              <div className="mb-6">
-                <div className="flex items-center justify-between mb-6">
+              <div className="mb-3 sm:mb-6">
+                <div className="flex items-center justify-between mb-3 sm:mb-6">
                   <h3
                     style={{ color: currentTheme.text.primary }}
                     className="text-sm font-semibold"
@@ -178,17 +188,17 @@ const StartPanel: React.FC<StartPanelProps> = ({
                   </h3>
                 </div>
                 <div
-                  className="grid grid-cols-2 gap-3"
-                  style={{ minHeight: '120px' }}
+                  className="grid grid-cols-2 gap-2 sm:gap-3"
+                  style={{ minHeight: '100px' }}
                 >
                   {allQuickLinks.slice(0, 6).map((item: QuickLink) => (
                     <button
                       key={item.id}
-                      className="flex items-center space-x-3 p-4 rounded-lg text-left transition-colors duration-200 cursor-pointer"
+                      className="flex items-center space-x-2 sm:space-x-3 p-2 sm:p-4 px-4 rounded-lg text-left transition-colors duration-200 cursor-pointer"
                       style={{
                         backgroundColor: 'transparent',
                         color: currentTheme.text.primary,
-                        height: '56px',
+                        height: '48px',
                       }}
                       onClick={async () => {
                         if (item.url) {
@@ -222,7 +232,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
                       <img
                         src={item.icon}
                         alt={item.name}
-                        className="w-10 h-10 object-contain"
+                        className="w-6 h-6 sm:w-10 sm:h-10 object-contain"
                       />
                       <div className="flex-1 min-w-0">
                         <div className="text-sm font-medium truncate">
@@ -255,7 +265,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
 
         {/* Profile Footer */}
         <div
-          className="px-8 py-4"
+          className="px-4 sm:px-8 py-2 sm:py-4"
           style={{ background: currentTheme.glass.backgroundDark }}
         >
           <div className="flex items-center justify-between">

@@ -6,6 +6,7 @@ import { useTheme } from '../theme-provider';
 import { themes } from '@/lib/themes';
 import { TaskbarProps, PanelType } from './taskbar-types';
 import { useWindowManager } from '../webpage/window-manager';
+import { handleAppClick } from '@/lib/window-utils';
 import {
   Wifi,
   Volume2,
@@ -71,27 +72,13 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
   // No need for appsWithActiveState - we'll check window state directly
 
   // Handle app click - focus if open, otherwise call onAppClick
-  const handleAppClick = (appId: string) => {
+  const handleTaskbarAppClick = (appId: string) => {
     // Add click animation
     setClickedApp(appId);
     setTimeout(() => setClickedApp(null), 150);
 
-    // Find window that starts with the app ID (to handle unique window IDs)
-    const openWindow = windows.find((window) => window.id.startsWith(appId));
-
-    if (openWindow) {
-      if (openWindow.isMinimized) {
-        // If minimized, restore it
-        minimizeWindow(openWindow.id);
-      } else if (!openWindow.isActive) {
-        // If open but not active, focus it
-        focusWindow(openWindow.id);
-      }
-      // If already active, do nothing (no minimize behavior)
-    } else {
-      // If not open, call the original onAppClick to open it
-      onAppClick(appId);
-    }
+    // Use the centralized utility function
+    handleAppClick(appId, windows, focusWindow, minimizeWindow, onAppClick);
   };
 
   return (
@@ -152,7 +139,7 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
                   e.preventDefault();
                   e.stopPropagation();
                   console.log(`App clicked: ${app.id}`); // Debug log
-                  handleAppClick(app.id);
+                  handleTaskbarAppClick(app.id);
                 }}
                 onMouseEnter={() => setHoveredApp(app.id)}
                 onMouseLeave={() => setHoveredApp(null)}

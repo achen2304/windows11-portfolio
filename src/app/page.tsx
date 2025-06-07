@@ -5,8 +5,12 @@ import { Squares } from '@/components/ui/squares-background';
 import { useTheme } from '@/components/theme-provider';
 import { themes } from '@/lib/themes';
 import TaskbarShell from '@/components/taskbar/taskbar-shell';
-import { WindowManagerProvider } from '@/components/webpage/window-manager';
+import {
+  WindowManagerProvider,
+  useWindowManager,
+} from '@/components/webpage/window-manager';
 import { useAppOpener } from '@/components/webpage/app-openers';
+import { handleAppClick } from '@/lib/window-utils';
 import { desktopApps } from '@/data/apps/desktop-apps';
 import { taskbarApps } from '@/data/apps/taskbar-apps';
 
@@ -15,6 +19,26 @@ const DemoContent: React.FC = () => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
   const { openAppById } = useAppOpener();
+  const { windows, focusWindow, minimizeWindow, closeWindow } =
+    useWindowManager();
+
+  // Handle desktop icon click - close existing window and reopen
+  const handleDesktopIconClick = (appId: string) => {
+    // Find window that starts with the app ID (to handle unique window IDs)
+    const openWindow = windows.find((window) => window.id.startsWith(appId));
+
+    if (openWindow) {
+      // Close the existing window first
+      closeWindow(openWindow.id);
+      // Small delay to ensure clean closing, then reopen
+      setTimeout(() => {
+        openAppById(appId);
+      }, 100);
+    } else {
+      // If not open, just open it
+      openAppById(appId);
+    }
+  };
 
   return (
     <div
@@ -26,7 +50,7 @@ const DemoContent: React.FC = () => {
         {desktopApps.map((app, index) => (
           <div
             key={app.id}
-            onClick={() => openAppById(app.id)}
+            onClick={() => handleDesktopIconClick(app.id)}
             className="flex flex-col items-center justify-center p-3 rounded-lg cursor-pointer transition-all duration-200 hover:bg-white/10 active:bg-white/20 group"
             style={{
               width: '90px',
@@ -77,6 +101,16 @@ export default function Home() {
 
   return (
     <WindowManagerProvider>
+      {/* Prevent document expansion during window dragging */}
+      <style jsx global>{`
+        html,
+        body {
+          overflow: hidden;
+          width: 100vw;
+          height: 100vh;
+          position: fixed;
+        }
+      `}</style>
       <HomeContent />
     </WindowManagerProvider>
   );
