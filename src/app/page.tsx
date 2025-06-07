@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Squares } from '@/components/ui/squares-background';
 import { useTheme } from '@/components/theme-provider';
 import { themes } from '@/lib/themes';
@@ -10,7 +10,6 @@ import {
   useWindowManager,
 } from '@/components/webpage/window-manager';
 import { useAppOpener } from '@/components/webpage/app-openers';
-import { handleAppClick } from '@/lib/window-utils';
 import { desktopApps } from '@/data/apps/desktop-apps';
 import { taskbarApps } from '@/data/apps/taskbar-apps';
 
@@ -19,8 +18,7 @@ const DemoContent: React.FC = () => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
   const { openAppById } = useAppOpener();
-  const { windows, focusWindow, minimizeWindow, closeWindow } =
-    useWindowManager();
+  const { windows, closeWindow } = useWindowManager();
 
   // Handle desktop icon click - close existing window and reopen
   const handleDesktopIconClick = (appId: string) => {

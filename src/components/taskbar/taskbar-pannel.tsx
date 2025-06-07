@@ -19,7 +19,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
   onAppClick = () => {},
   className = '',
 }) => {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
   const { addToast } = useToast();
   const { windows, focusWindow, minimizeWindow } = useWindowManager();

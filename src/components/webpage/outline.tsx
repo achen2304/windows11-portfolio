@@ -206,7 +206,7 @@ const AppOutline: React.FC<AppOutlineProps> = ({
                     e.currentTarget.style.backgroundColor = 'transparent';
                   }}
                 >
-                  <Maximize2 size={14} />
+                  <Minimize2 size={14} />
                 </button>
               )}
 

@@ -20,10 +20,7 @@ import {
 
 const SystemPanel: React.FC<SystemPanelProps> = ({
   isOpen,
-  onClose,
   batteryInfo,
-  onWifiConnect = () => {},
-  onAudioDeviceSelect = () => {},
   onVolumeChange = () => {},
   className = '',
 }) => {

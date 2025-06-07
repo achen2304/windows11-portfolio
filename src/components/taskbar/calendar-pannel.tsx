@@ -4,31 +4,21 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import { useTheme } from '../theme-provider';
 import { themes } from '@/lib/themes';
-import {
-  CalendarPanelProps,
-  CalendarEvent,
-  NotificationItem,
-} from './taskbar-types';
-import { ChevronUp, ChevronDown, Copy, Check, X, Info } from 'lucide-react';
-import { notificationUtils, copyToClipboard } from '@/lib/notification-utils';
+import { CalendarPanelProps } from './taskbar-types';
+import { ChevronUp, ChevronDown, Check, X, Info } from 'lucide-react';
+import { notificationUtils } from '@/lib/notification-utils';
 import { useToast } from '@/components/ui/toast';
 
 const CalendarPanel: React.FC<CalendarPanelProps> = ({
   isOpen,
-  onClose,
-  events = [],
-  notifications = [],
-  onEventClick = () => {},
   onDateSelect = () => {},
   className = '',
 }) => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
-  const { addToast } = useToast();
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [focusMinutes, setFocusMinutes] = useState(30);
   const [storeNotifications, setStoreNotifications] = useState(
     notificationUtils.getNotifications()
   );

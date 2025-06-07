@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import { useTheme } from '../theme-provider';
 import { themes } from '@/lib/themes';
