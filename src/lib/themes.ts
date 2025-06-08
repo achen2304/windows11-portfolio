@@ -35,6 +35,31 @@ export const themes = {
       radial:
         'radial-gradient(circle at 50% 50%, rgba(17, 17, 17, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%)',
     },
+    // Steam-specific theme colors
+    steam: {
+      // Main Steam color scheme
+      background: '#1b2838',
+      header: '#171a21',
+      sidebar: '#2a3f5a',
+      sidebarHover: '#324965',
+      content: '#1b2838',
+      card: '#16202d',
+      cardHover: '#1c3a5d',
+      divider: '#2d4a67',
+      highlight: '#66c0f4', // Steam blue
+      green: '#5c7e10', // Steam green
+      accent: '#1a9fff', // Light blue accent
+      buttonGradientStart: '#75b022',
+      buttonGradientEnd: '#588a1b',
+      navSelected: '#66c0f4',
+      inputBg: '#2a3f5a',
+      itemBg: '#16202d',
+      itemHover: '#1f3c5d',
+      featuredGradient: 'linear-gradient(to right, #1b2838, #2a475e)',
+      textPrimary: '#c7d5e0',
+      textSecondary: '#8f98a0',
+      priceBg: '#344654',
+    },
   },
   light: {
     background: '#ffffff',
@@ -71,6 +96,31 @@ export const themes = {
     gradient: {
       radial:
         'radial-gradient(circle at 50% 50%, rgba(248, 249, 250, 0.4) 0%, rgba(229, 229, 229, 0.8) 100%)',
+    },
+    // Steam-specific theme colors (same as dark mode for consistent Steam look)
+    steam: {
+      // Main Steam color scheme
+      background: '#1b2838',
+      header: '#171a21',
+      sidebar: '#2a3f5a',
+      sidebarHover: '#324965',
+      content: '#1b2838',
+      card: '#16202d',
+      cardHover: '#1c3a5d',
+      divider: '#2d4a67',
+      highlight: '#66c0f4', // Steam blue
+      green: '#5c7e10', // Steam green
+      accent: '#1a9fff', // Light blue accent
+      buttonGradientStart: '#75b022',
+      buttonGradientEnd: '#588a1b',
+      navSelected: '#66c0f4',
+      inputBg: '#2a3f5a',
+      itemBg: '#16202d',
+      itemHover: '#1f3c5d',
+      featuredGradient: 'linear-gradient(to right, #1b2838, #2a475e)',
+      textPrimary: '#c7d5e0',
+      textSecondary: '#8f98a0',
+      priceBg: '#344654',
     },
   },
 } as const;

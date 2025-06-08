@@ -7,8 +7,8 @@ export interface DesktopApp {
 
 export const desktopApps: DesktopApp[] = [
   {
-    id: 'steam',
-    name: 'Steam',
+    id: 'projects',
+    name: 'Projects',
     icon: '/app icons/steam.svg',
     description: 'Gaming Platform',
   },

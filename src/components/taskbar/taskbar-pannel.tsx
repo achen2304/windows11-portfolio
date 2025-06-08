@@ -58,7 +58,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
     <>
       {/* Start Panel */}
       <div
-        className={`fixed bottom-14 left-2 z-[200] w-[640px] max-w-[90vw] rounded-lg backdrop-blur-xl shadow-2xl transition-all duration-300 ease-out ${className}`}
+        className={`fixed bottom-14 left-2 z-[200] w-[520px] max-w-[90vw] rounded-lg backdrop-blur-xl shadow-2xl transition-all duration-300 ease-out ${className}`}
         style={{
           background: currentTheme.glass.background,
           border: `1px solid ${currentTheme.glass.border}`,
@@ -232,10 +232,10 @@ const StartPanel: React.FC<StartPanelProps> = ({
                       <img
                         src={item.icon}
                         alt={item.name}
-                        className="w-6 h-6 sm:w-10 sm:h-10 object-contain"
+                        className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
                       />
                       <div className="flex-1 min-w-0">
-                        <div className="text-sm font-medium truncate">
+                        <div className="text-xs font-small truncate">
                           {item.name}
                         </div>
                         <div

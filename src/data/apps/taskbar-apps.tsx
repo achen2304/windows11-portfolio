@@ -2,8 +2,8 @@ import { TaskbarApp } from '@/components/taskbar/taskbar-types';
 
 export const taskbarApps: TaskbarApp[] = [
   {
-    id: 'steam',
-    name: 'Steam',
+    id: 'projects',
+    name: 'Projects',
     icon: '/app icons/steam.svg',
   },
   {

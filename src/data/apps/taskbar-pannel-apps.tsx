@@ -2,8 +2,8 @@ import { StartApp, QuickLink } from '@/components/taskbar/taskbar-types';
 
 export const startPanelApps: StartApp[] = [
   {
-    id: 'steam',
-    name: 'Steam',
+    id: 'projects',
+    name: 'Projects',
     icon: '/app icons/steam.svg',
     description: 'Gaming Platform',
     isPinned: true,

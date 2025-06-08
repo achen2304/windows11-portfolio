@@ -25,8 +25,8 @@ export interface AppDefinition {
 // Define all available apps in one place
 export const availableApps: AppDefinition[] = [
   {
-    id: 'steam',
-    name: 'Project Steam',
+    id: 'projects',
+    name: 'Projects',
     icon: '🎮',
     component: <SteamApp />,
     defaultSize: { width: 1200, height: 800 },
