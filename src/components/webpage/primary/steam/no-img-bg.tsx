@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 
 interface ProjectImageBackgroundProps {
   imagePath: string;
@@ -23,11 +24,13 @@ const ProjectImageBackground: React.FC<ProjectImageBackgroundProps> = ({
 }) => {
   return (
     <div className={`relative ${height} w-full`}>
-      <img
+      <Image
         src={imagePath}
         alt={alt}
         className="w-full h-full object-cover"
         style={{ opacity }}
+        fill
+        sizes="100vw"
       />
       <div
         className="absolute inset-0"

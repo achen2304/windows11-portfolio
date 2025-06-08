@@ -11,12 +11,13 @@ import {
 import Library from './all projects/library';
 import FeaturedProjects from './featured-projects';
 import WindowSizeProvider from '@/components/webpage/breakpoints';
+import { SteamTheme } from '@/components/types/system-types';
 
 // Inner component that uses navigation context
 const SteamAppContent: React.FC = () => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
-  const steamTheme = currentTheme.steam;
+  const steamTheme = currentTheme.steam as SteamTheme;
   const { navigate, getCurrentState, history, currentIndex } = useNavigation();
 
   // Create a ref for the content container with proper typing
@@ -33,9 +34,9 @@ const SteamAppContent: React.FC = () => {
       navigate('steam-app', { tab: 'featured' });
     } else if (currentState.data?.tab) {
       // Update the active tab based on navigation
-      setActiveTab(currentState.data.tab);
+      setActiveTab(currentState.data.tab as 'featured' | 'all');
     }
-  }, [history, currentIndex]);
+  }, [history, currentIndex, navigate, getCurrentState]);
 
   // Handle tab change from UI
   const handleTabChange = (tab: 'featured' | 'all') => {

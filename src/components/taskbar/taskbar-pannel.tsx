@@ -10,6 +10,7 @@ import { useToast } from '@/components/ui/toast';
 import { copyToClipboard } from '@/lib/notification-utils';
 import { useWindowManager } from '../webpage/window-manager';
 import { handleAppClick } from '@/lib/window-utils';
+import Image from 'next/image';
 
 const StartPanel: React.FC<StartPanelProps> = ({
   isOpen,
@@ -101,7 +102,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
                 style={{ color: currentTheme.text.primary }}
                 className="text-sm font-semibold mb-3 sm:mb-6"
               >
-                Search results for "{searchQuery}"
+                Search results for &quot;{searchQuery}&quot;
               </h3>
               <div className="grid grid-cols-4 sm:grid-cols-5 gap-6">
                 {filteredApps.map((app) => (
@@ -120,10 +121,12 @@ const StartPanel: React.FC<StartPanelProps> = ({
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                   >
-                    <img
+                    <Image
                       src={app.icon}
                       alt={app.name}
                       className="w-6 h-6 sm:w-8 sm:h-8 object-contain mb-3"
+                      width={32}
+                      height={32}
                     />
                     <span className="text-xs text-center font-medium leading-tight">
                       {app.name}
@@ -164,10 +167,12 @@ const StartPanel: React.FC<StartPanelProps> = ({
                       onMouseEnter={handleMouseEnter}
                       onMouseLeave={handleMouseLeave}
                     >
-                      <img
+                      <Image
                         src={app.icon}
                         alt={app.name}
                         className="w-6 h-6 sm:w-8 sm:h-8 object-contain mb-2 sm:mb-3"
+                        width={32}
+                        height={32}
                       />
                       <span className="text-xs text-center font-medium leading-tight">
                         {app.name}
@@ -229,10 +234,12 @@ const StartPanel: React.FC<StartPanelProps> = ({
                       onMouseEnter={handleMouseEnter}
                       onMouseLeave={handleMouseLeave}
                     >
-                      <img
-                        src={item.icon}
+                      <Image
+                        src={item.icon || '/icons/default.png'}
                         alt={item.name}
                         className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
+                        width={32}
+                        height={32}
                       />
                       <div className="flex-1 min-w-0">
                         <div className="text-xs font-small truncate">

@@ -4,7 +4,7 @@ export interface Notification {
   description?: string;
   type: 'success' | 'error' | 'info' | 'copy';
   timestamp: Date;
-  data?: any; // For storing additional data like copied text
+  data?: Record<string, unknown>; // For storing additional data like copied text
 }
 
 export interface NotificationStore {
@@ -82,11 +82,18 @@ export const notificationUtils = {
   },
 };
 
+interface ToastData {
+  title: string;
+  description?: string;
+  type: 'success' | 'error' | 'info';
+  duration?: number;
+}
+
 // Copy utility that creates both toast and notification
 export const copyToClipboard = async (
   text: string,
   title: string = 'Copied!',
-  addToast: (toast: any) => void
+  addToast: (toast: ToastData) => void
 ) => {
   try {
     await navigator.clipboard.writeText(text);
@@ -108,7 +115,7 @@ export const copyToClipboard = async (
     });
 
     return true;
-  } catch (error) {
+  } catch {
     // Add error toast
     addToast({
       title: 'Copy failed',

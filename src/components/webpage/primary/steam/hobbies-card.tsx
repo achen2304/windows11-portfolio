@@ -2,6 +2,8 @@
 
 import React from 'react';
 import ProjectImageBackground from './no-img-bg';
+import { SteamTheme } from '@/components/types/system-types';
+import Image from 'next/image';
 
 interface HobbiesCardProps {
   game: {
@@ -10,7 +12,7 @@ interface HobbiesCardProps {
     image: string;
     tags: string[];
   };
-  steamTheme: any;
+  steamTheme: SteamTheme;
   variant?: 'compact' | 'normal';
   maxTags?: number;
   maxDescriptionLength?: number;
@@ -43,10 +45,12 @@ const HobbiesCard: React.FC<HobbiesCardProps> = ({
           border: `1px solid ${steamTheme.divider}`,
         }}
       >
-        <img
+        <Image
           src={`/games/${game.image}`}
           alt={game.name}
           className="w-16 h-16 rounded-md object-cover mr-3 flex-shrink-0"
+          width={64}
+          height={64}
         />
         <div className="flex-1 min-w-0">
           <h3

@@ -12,6 +12,7 @@ import {
 import { useAppOpener } from '@/components/webpage/app-openers';
 import { desktopApps } from '@/data/apps/desktop-apps';
 import { taskbarApps } from '@/data/apps/taskbar-apps';
+import Image from 'next/image';
 
 // Demo content component that uses the window manager
 const DemoContent: React.FC = () => {
@@ -57,10 +58,12 @@ const DemoContent: React.FC = () => {
           >
             {/* App Icon */}
             <div className="mb-2 transition-transform duration-200 group-hover:scale-110">
-              <img
+              <Image
                 src={app.icon}
                 alt={app.name}
                 className="w-12 h-12 object-contain drop-shadow-lg"
+                width={48}
+                height={48}
                 style={{
                   filter:
                     theme === 'dark'

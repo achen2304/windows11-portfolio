@@ -49,7 +49,7 @@ export interface BatteryInfo {
   percentage: number;
   isCharging: boolean;
   timeRemaining?: string;
-  powerMode: 'battery-saver' | 'balanced' | 'performance';
+  powerMode?: 'battery-saver' | 'balanced' | 'performance';
 }
 
 export interface CalendarEvent {

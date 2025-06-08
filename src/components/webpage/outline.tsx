@@ -24,7 +24,6 @@ interface AppOutlineProps {
   initialPosition?: { x: number; y: number };
   initialSize?: { width: number; height: number };
   onClose?: () => void;
-  onMinimize?: () => void;
   className?: string;
   isMaximized?: boolean;
   onMaximizeToggle?: () => void;
@@ -44,7 +43,6 @@ const AppOutline: React.FC<AppOutlineProps> = ({
   initialPosition = { x: 100, y: 100 },
   initialSize = { width: 800, height: 600 },
   onClose,
-  onMinimize,
   className = '',
   isMaximized = false,
   onMaximizeToggle,

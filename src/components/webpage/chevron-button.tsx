@@ -9,17 +9,18 @@ import React, {
   useEffect,
 } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { SteamTheme } from '@/components/types/system-types';
 
 // Define navigation history types
 type NavigationState = {
   id: string;
-  data?: any;
+  data?: Record<string, unknown>;
 };
 
 type NavigationContextType = {
   history: NavigationState[];
   currentIndex: number;
-  navigate: (id: string, data?: any) => void;
+  navigate: (id: string, data?: Record<string, unknown>) => void;
   canGoBack: boolean;
   canGoForward: boolean;
   goBack: () => void;
@@ -40,7 +41,7 @@ export const NavigationProvider: React.FC<{ children: ReactNode }> = ({
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
 
   const navigate = useCallback(
-    (id: string, data?: any) => {
+    (id: string, data?: Record<string, unknown>) => {
       // Remove forward history when navigating to a new state
       const newHistory = history.slice(0, currentIndex + 1);
       const newState: NavigationState = { id, data };
@@ -103,7 +104,7 @@ export const useNavigation = () => {
 // ChevronButton component
 interface ChevronButtonProps {
   direction: 'back' | 'forward';
-  steamTheme: any;
+  steamTheme: SteamTheme;
   className?: string;
   color?: string;
 }

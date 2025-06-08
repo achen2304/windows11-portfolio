@@ -15,6 +15,7 @@ import {
   Moon,
   BatteryMedium,
 } from 'lucide-react';
+import Image from 'next/image';
 
 interface TaskbarComponentProps extends TaskbarProps {
   onSystemTrayClick?: () => void;
@@ -103,7 +104,6 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              console.log('Start button clicked'); // Debug log
               onStartClick();
             }}
             className="flex items-center justify-center w-10 h-10 mx-1 rounded transition-colors duration-200 cursor-pointer"
@@ -138,7 +138,6 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  console.log(`App clicked: ${app.id}`); // Debug log
                   handleTaskbarAppClick(app.id);
                 }}
                 onMouseEnter={() => setHoveredApp(app.id)}
@@ -155,10 +154,12 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
                   pointerEvents: 'auto',
                 }}
               >
-                <img
+                <Image
                   src={app.icon}
                   alt={app.name}
                   className="w-8 h-8 object-contain pointer-events-none transition-transform duration-150 ease-out"
+                  width={32}
+                  height={32}
                   style={{
                     transform:
                       clickedApp === app.id ? 'scale(0.9)' : 'scale(1)',
@@ -230,7 +231,6 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              console.log('Theme toggle clicked'); // Debug log
               toggleTheme();
             }}
             className="flex items-center justify-center w-10 h-10 mx-1 rounded transition-colors duration-200 cursor-pointer"
@@ -257,7 +257,6 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              console.log('System tray clicked'); // Debug log
               onSystemTrayClick();
             }}
             className="flex items-center space-x-2 px-2 py-2 mx-1 rounded transition-colors duration-200 w-20 h-10 cursor-pointer"
@@ -283,7 +282,6 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              console.log('Date/time clicked'); // Debug log
               onDateTimeClick();
             }}
             className="flex flex-col items-end justify-center px-3 py-1 rounded transition-colors duration-200 min-w-[80px] h-10 cursor-pointer"

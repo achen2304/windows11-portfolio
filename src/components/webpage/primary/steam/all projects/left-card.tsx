@@ -2,11 +2,12 @@
 
 import React from 'react';
 import { Project } from '@/data/projects';
+import { SteamTheme } from '@/components/types/system-types';
 
 interface LeftCardProps {
   project: Project;
   isSelected: boolean;
-  steamTheme: any;
+  steamTheme: SteamTheme;
   onClick: () => void;
 }
 

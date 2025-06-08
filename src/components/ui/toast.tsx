@@ -1,13 +1,11 @@
 'use client';
 
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import {
-  AnimatedList,
-  AnimatedListItem,
-} from '@/components/magicui/animated-list';
+import { AnimatedList } from '@/components/magicui/animated-list';
 import { useTheme } from '@/components/theme-provider';
 import { themes } from '@/lib/themes';
 import { Check, Copy, X } from 'lucide-react';
+import { ThemeObject } from '@/components/types/system-types';
 
 export interface Toast {
   id: string;
@@ -75,7 +73,7 @@ function ToastContainer() {
             key={toast.id}
             toast={toast}
             onClose={() => removeToast(toast.id)}
-            theme={currentTheme}
+            theme={currentTheme as unknown as ThemeObject}
           />
         ))}
       </AnimatedList>
@@ -90,7 +88,7 @@ function ToastItem({
 }: {
   toast: Toast;
   onClose: () => void;
-  theme: any;
+  theme: ThemeObject;
 }) {
   const getIcon = () => {
     switch (toast.type) {
@@ -100,7 +98,7 @@ function ToastItem({
         return <X size={16} className="text-red-500" />;
       case 'info':
       default:
-        return <Copy size={16} style={{ color: theme.text.muted }} />;
+        return <Copy size={16} style={{ color: theme.text?.muted }} />;
     }
   };
 
@@ -108,16 +106,16 @@ function ToastItem({
     <div
       className="flex items-start space-x-3 p-4 rounded-lg backdrop-blur-xl shadow-lg border"
       style={{
-        background: theme.glass.background,
-        border: `1px solid ${theme.glass.border}`,
-        color: theme.text.primary,
+        background: theme.glass?.background,
+        border: `1px solid ${theme.glass?.border}`,
+        color: theme.text?.primary,
       }}
     >
       <div className="flex-shrink-0 mt-0.5">{getIcon()}</div>
       <div className="flex-1 min-w-0">
         <div className="text-sm font-medium">{toast.title}</div>
         {toast.description && (
-          <div className="text-xs mt-1" style={{ color: theme.text.muted }}>
+          <div className="text-xs mt-1" style={{ color: theme.text?.muted }}>
             {toast.description}
           </div>
         )}
@@ -125,7 +123,7 @@ function ToastItem({
       <button
         onClick={onClose}
         className="flex-shrink-0 p-1 rounded hover:bg-opacity-10 transition-colors"
-        style={{ color: theme.text.muted }}
+        style={{ color: theme.text?.muted }}
       >
         <X size={14} />
       </button>

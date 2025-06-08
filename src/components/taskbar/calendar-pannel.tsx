@@ -7,6 +7,8 @@ import { themes } from '@/lib/themes';
 import { CalendarPanelProps } from './taskbar-types';
 import { ChevronUp, ChevronDown, Check, X, Info } from 'lucide-react';
 import { notificationUtils } from '@/lib/notification-utils';
+import { Notification } from '@/lib/notification-utils';
+import { ThemeObject } from '@/components/types/system-types';
 
 const CalendarPanel: React.FC<CalendarPanelProps> = ({
   isOpen,
@@ -173,7 +175,7 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
                     <NotificationCard
                       key={notification.id}
                       notification={notification}
-                      theme={currentTheme}
+                      theme={currentTheme as unknown as ThemeObject}
                       onClose={() =>
                         notificationUtils.removeNotification(notification.id)
                       }
@@ -318,8 +320,8 @@ function NotificationCard({
   theme,
   onClose,
 }: {
-  notification: any;
-  theme: any;
+  notification: Notification;
+  theme: ThemeObject;
   onClose: () => void;
 }) {
   const getIcon = () => {
@@ -331,7 +333,7 @@ function NotificationCard({
         return <X size={14} className="text-red-500" />;
       case 'info':
       default:
-        return <Info size={14} style={{ color: theme.text.muted }} />;
+        return <Info size={14} style={{ color: theme.text?.muted }} />;
     }
   };
 
@@ -339,8 +341,8 @@ function NotificationCard({
     <div
       className="p-3 rounded-md transition-colors duration-200"
       style={{
-        backgroundColor: theme.glass.cardBackgroundDark,
-        border: `1px solid ${theme.glass.border}`,
+        backgroundColor: theme.glass?.cardBackgroundDark,
+        border: `1px solid ${theme.glass?.border}`,
       }}
     >
       <div className="flex items-start space-x-2">
@@ -348,16 +350,16 @@ function NotificationCard({
         <div className="flex-1 min-w-0">
           <div
             className="text-xs font-medium"
-            style={{ color: theme.text.primary }}
+            style={{ color: theme.text?.primary }}
           >
             {notification.title}
           </div>
           {notification.description && (
-            <div className="text-xs mt-1" style={{ color: theme.text.muted }}>
+            <div className="text-xs mt-1" style={{ color: theme.text?.muted }}>
               {notification.description}
             </div>
           )}
-          <div className="text-xs mt-1" style={{ color: theme.text.muted }}>
+          <div className="text-xs mt-1" style={{ color: theme.text?.muted }}>
             {moment(notification.timestamp).fromNow()}
           </div>
         </div>
@@ -367,7 +369,7 @@ function NotificationCard({
             onClose();
           }}
           className="flex-shrink-0 p-1 rounded hover:bg-opacity-10 transition-colors"
-          style={{ color: theme.text.muted }}
+          style={{ color: theme.text?.muted }}
           title="Close notification"
         >
           <X size={12} />

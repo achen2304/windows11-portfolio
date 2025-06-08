@@ -4,13 +4,13 @@ import React from 'react';
 import { useTheme } from '../../../theme-provider';
 import { themes } from '@/lib/themes';
 import { projects } from '@/data/projects';
-import { ExternalLink, GamepadIcon } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { Marquee } from '@/components/magicui/marquee';
 import { useNavigation } from '@/components/webpage/chevron-button';
 import { favoriteGames } from '@/data/hobbies';
 import { useWindowSize } from '@/components/webpage/breakpoints';
-import ProjectImageBackground from './no-img-bg';
 import HobbiesCard from './hobbies-card';
+import Image from 'next/image';
 
 const FeaturedProjects: React.FC = () => {
   const { theme } = useTheme();
@@ -110,10 +110,12 @@ const FeaturedProjects: React.FC = () => {
                 <div
                   className={`${getCardImageHeight()} w-full overflow-hidden`}
                 >
-                  <img
+                  <Image
                     src={`/projects/${project.image}`}
                     alt={project.name}
                     className="w-full h-full object-cover"
+                    width={400}
+                    height={300}
                   />
                 </div>
 
@@ -196,15 +198,8 @@ const FeaturedProjects: React.FC = () => {
               className="text-lg font-bold"
               style={{ color: steamTheme.textPrimary }}
             >
-              My Hobbies and Games I Like
+              My Hobbies
             </h2>
-            <span
-              className="text-sm"
-              style={{ color: steamTheme.textSecondary }}
-            >
-              <GamepadIcon className="inline mr-1" size={16} />
-              Favorites
-            </span>
           </div>
 
           {/* Games Grid with adaptive card styles */}

@@ -42,7 +42,7 @@ const Library: React.FC = () => {
     // Check if we have a specific project in the navigation state
     if (currentState?.data?.project) {
       const projectFromHistory = projects.find(
-        (p) => p.name === currentState.data.project
+        (p) => p.name === currentState.data?.project
       );
       if (projectFromHistory) {
         setSelectedProject(projectFromHistory);

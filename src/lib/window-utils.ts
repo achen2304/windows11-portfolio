@@ -1,4 +1,4 @@
-import { Window } from '@/components/webpage/window-manager';
+import { WindowState } from '@/components/webpage/window-manager';
 
 /**
  * Handles app click logic - focuses existing window or opens new one
@@ -10,7 +10,7 @@ import { Window } from '@/components/webpage/window-manager';
  */
 export const handleAppClick = (
   appId: string,
-  windows: Window[],
+  windows: WindowState[],
   focusWindow: (id: string) => void,
   minimizeWindow: (id: string) => void,
   openAppById: (id: string) => void

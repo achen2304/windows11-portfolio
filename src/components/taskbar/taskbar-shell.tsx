@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { TaskbarApp, PanelType } from './taskbar-types';
 import { startPanelApps, quickLinks } from '@/data/apps/taskbar-pannel-apps';
 import Taskbar from './taskbar';
 import StartPanel from './taskbar-pannel';
 import CalendarPanel from './calendar-pannel';
-import SystemPanel from './system-panel';
+import SystemPanel from './system pannel/system-panel';
 
 interface TaskbarShellProps {
   apps?: TaskbarApp[];
@@ -15,7 +15,8 @@ interface TaskbarShellProps {
   className?: string;
 }
 
-const TaskbarShell: React.FC<TaskbarShellProps> = ({
+// Create a wrapped version that uses searchParams inside Suspense
+const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
   apps = [],
   onAppClick = () => {},
   className = '',
@@ -81,12 +82,6 @@ const TaskbarShell: React.FC<TaskbarShellProps> = ({
     togglePanel('calendar');
   }, [togglePanel, activePanel]);
 
-  const handleNotificationClick = useCallback(() => {}, []);
-
-  const handleCalendarClick = useCallback(() => {
-    togglePanel('calendar');
-  }, [togglePanel]);
-
   const handleAppClick = useCallback(
     (appId: string) => {
       // Close any open panels when clicking an app
@@ -95,16 +90,6 @@ const TaskbarShell: React.FC<TaskbarShellProps> = ({
     },
     [closePanel, onAppClick]
   );
-
-  const handleEventClick = useCallback((eventId: string) => {}, []);
-
-  const handleDateSelect = useCallback((date: Date) => {}, []);
-
-  const handleWifiConnect = useCallback((ssid: string) => {}, []);
-
-  const handleAudioDeviceSelect = useCallback((deviceId: string) => {}, []);
-
-  const handleVolumeChange = useCallback((volume: number) => {}, []);
 
   return (
     <>
@@ -145,22 +130,24 @@ const TaskbarShell: React.FC<TaskbarShellProps> = ({
       />
 
       {/* System Panel */}
-      <SystemPanel
-        isOpen={activePanel === 'system'}
-        onClose={closePanel}
-        onWifiConnect={handleWifiConnect}
-        onAudioDeviceSelect={handleAudioDeviceSelect}
-        onVolumeChange={handleVolumeChange}
-      />
+      <SystemPanel isOpen={activePanel === 'system'} onClose={closePanel} />
 
       {/* Calendar Panel */}
-      <CalendarPanel
-        isOpen={activePanel === 'calendar'}
-        onClose={closePanel}
-        onEventClick={handleEventClick}
-        onDateSelect={handleDateSelect}
-      />
+      <CalendarPanel isOpen={activePanel === 'calendar'} onClose={closePanel} />
     </>
+  );
+};
+
+// Main component wrapped in Suspense
+const TaskbarShell: React.FC<TaskbarShellProps> = (props) => {
+  return (
+    <Suspense
+      fallback={
+        <div className="fixed bottom-0 left-0 right-0 z-[300] h-12 bg-black/70"></div>
+      }
+    >
+      <TaskbarShellContent {...props} />
+    </Suspense>
   );
 };
 
