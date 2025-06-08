@@ -72,15 +72,15 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
   // Event handlers
   const handleStartClick = useCallback(() => {
     togglePanel('start');
-  }, [togglePanel, activePanel]);
+  }, [togglePanel]);
 
   const handleSystemTrayClick = useCallback(() => {
     togglePanel('system');
-  }, [togglePanel, activePanel]);
+  }, [togglePanel]);
 
   const handleDateTimeClick = useCallback(() => {
     togglePanel('calendar');
-  }, [togglePanel, activePanel]);
+  }, [togglePanel]);
 
   const handleAppClick = useCallback(
     (appId: string) => {

@@ -139,7 +139,11 @@ export const ImageViewerApp: React.FC = () => {
     >
       <div className="flex-1 p-4">
         <div className="flex items-center space-x-2 mb-4">
-          <Image size={20} style={{ color: currentTheme.text.primary }} />
+          <Image
+            size={20}
+            style={{ color: currentTheme.text.primary }}
+            aria-label="Image icon"
+          />
           <h3
             className="font-semibold"
             style={{ color: currentTheme.text.primary }}
@@ -160,6 +164,7 @@ export const ImageViewerApp: React.FC = () => {
               size={64}
               style={{ color: currentTheme.text.muted }}
               className="mx-auto mb-4"
+              aria-label="No image placeholder"
             />
             <p style={{ color: currentTheme.text.secondary }}>
               No image selected

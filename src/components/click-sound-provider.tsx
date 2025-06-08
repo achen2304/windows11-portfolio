@@ -1,6 +1,13 @@
 'use client';
 
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+} from 'react';
 import { Howl } from 'howler';
 
 // Context to track if sounds are enabled
@@ -58,40 +65,43 @@ export function ClickSoundProvider({
     }
   };
 
-  // Global click handler
-  const handleGlobalClick = (e: MouseEvent) => {
-    // Skip if sounds are disabled
-    if (!soundEnabled) return;
+  // Global click handler wrapped in useCallback
+  const handleGlobalClick = useCallback(
+    (e: MouseEvent) => {
+      // Skip if sounds are disabled
+      if (!soundEnabled) return;
 
-    // Get the clicked element
-    const target = e.target as HTMLElement;
+      // Get the clicked element
+      const target = e.target as HTMLElement;
 
-    // Check if the clicked element is interactive (button, link, or has interactive class/attribute)
-    const isInteractive =
-      target.tagName === 'BUTTON' ||
-      target.tagName === 'A' ||
-      target.getAttribute('role') === 'button' ||
-      target.getAttribute('aria-role') === 'button' ||
-      target.classList.contains('cursor-pointer') ||
-      // Don't use invalid CSS selectors with pseudo-classes
-      target.closest('[role="button"]') ||
-      target.closest('.cursor-pointer') ||
-      target.closest('button') ||
-      target.closest('a');
+      // Check if the clicked element is interactive (button, link, or has interactive class/attribute)
+      const isInteractive =
+        target.tagName === 'BUTTON' ||
+        target.tagName === 'A' ||
+        target.getAttribute('role') === 'button' ||
+        target.getAttribute('aria-role') === 'button' ||
+        target.classList.contains('cursor-pointer') ||
+        // Don't use invalid CSS selectors with pseudo-classes
+        target.closest('[role="button"]') ||
+        target.closest('.cursor-pointer') ||
+        target.closest('button') ||
+        target.closest('a');
 
-    // Play sound if the element is interactive
-    if (isInteractive) {
-      try {
-        // Ensure we're using the latest global volume
-        clickSound.volume(globalVolume);
+      // Play sound if the element is interactive
+      if (isInteractive) {
+        try {
+          // Ensure we're using the latest global volume
+          clickSound.volume(globalVolume);
 
-        // Play the click sound
-        clickSound.play();
-      } catch (error) {
-        console.error('Error playing click sound:', error);
+          // Play the click sound
+          clickSound.play();
+        } catch (error) {
+          console.error('Error playing click sound:', error);
+        }
       }
-    }
-  };
+    },
+    [soundEnabled]
+  );
 
   // Function to play a test click sound
   const playTestSound = () => {
