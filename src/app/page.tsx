@@ -30,7 +30,7 @@ const DemoContent: React.FC = () => {
 
     // Clean up timer on component unmount
     return () => clearTimeout(timer);
-  }, [openAppById]); // Only run once when component mounts
+  }, []); // Only run once when component mounts
 
   // Handle desktop icon click - close existing window and reopen
   const handleDesktopIconClick = (appId: string) => {
