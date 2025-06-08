@@ -9,6 +9,7 @@ import {
   SettingsApp,
 } from './example-apps';
 import SteamApp from './primary/steam/steam-app';
+import TextEditorApp from './primary/text/text-editor-app';
 
 export interface AppDefinition {
   id: string;
@@ -24,6 +25,16 @@ export interface AppDefinition {
 
 // Define all available apps in one place
 export const availableApps: AppDefinition[] = [
+  {
+    id: 'text-editor',
+    name: 'Notepad',
+    icon: '/app icons/text.svg',
+    component: <TextEditorApp />,
+    defaultSize: { width: 400, height: 300 },
+    defaultPosition: { x: 500, y: 300 },
+    category: 'Productivity',
+    description: 'Windows 11 style Notepad for text editing',
+  },
   {
     id: 'projects',
     name: 'Projects',
@@ -136,6 +147,8 @@ export const useAppOpeners = () => {
   const { openApp } = useAppOpener();
 
   return {
+    openTextEditor: (options?: Parameters<typeof openApp>[1]) =>
+      openApp('text-editor', options),
     openSteam: (options?: Parameters<typeof openApp>[1]) =>
       openApp('steam', options),
     openNotepad: (options?: Parameters<typeof openApp>[1]) =>

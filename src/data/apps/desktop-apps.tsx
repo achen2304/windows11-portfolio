@@ -2,6 +2,7 @@ export interface DesktopApp {
   id: string;
   name: string;
   icon: string;
+  iconLight?: string;
   description: string;
 }
 
@@ -13,9 +14,10 @@ export const desktopApps: DesktopApp[] = [
     description: 'Gaming Platform',
   },
   {
-    id: 'notepad',
+    id: 'text-editor',
     name: 'Notepad',
-    icon: '/app icons/file.png',
+    icon: '/app icons/textlight.svg',
+    iconLight: '/app icons/text.svg',
     description: 'Text Editor',
   },
   {

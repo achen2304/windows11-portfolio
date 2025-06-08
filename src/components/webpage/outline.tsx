@@ -393,7 +393,7 @@ const AppOutline: React.FC<AppOutlineProps> = ({
         size={size}
         position={position}
         minWidth={300}
-        minHeight={200}
+        minHeight={300}
         className={`${
           isDragging || isResizing ? '' : 'transition-all duration-200 ease-out'
         } ${className}`}

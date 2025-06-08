@@ -4,6 +4,7 @@ import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { ToastProvider } from '@/components/ui/toast';
 import { ClickSoundProvider } from '@/components/click-sound-provider';
+import { Toaster } from '@/components/ui/sonner';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -33,6 +34,7 @@ export default function RootLayout({
         <ThemeProvider defaultTheme="dark">
           <ClickSoundProvider>
             <ToastProvider>{children}</ToastProvider>
+            <Toaster position="top-right" />
           </ClickSoundProvider>
         </ThemeProvider>
       </body>

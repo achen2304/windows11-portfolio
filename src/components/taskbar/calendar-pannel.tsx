@@ -128,6 +128,59 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
 
   return (
     <>
+      {/* Custom Scrollbar Styles */}
+      <style jsx>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: ${theme === 'dark'
+            ? 'rgba(255, 255, 255, 0.05)'
+            : 'rgba(0, 0, 0, 0.05)'};
+          border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: ${theme === 'dark'
+            ? 'rgba(255, 255, 255, 0.2)'
+            : 'rgba(0, 0, 0, 0.2)'};
+          border-radius: 4px;
+          border: 2px solid transparent;
+          background-clip: content-box;
+          transition: background 0.2s ease;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: ${theme === 'dark'
+            ? 'rgba(255, 255, 255, 0.35)'
+            : 'rgba(0, 0, 0, 0.35)'};
+          background-clip: content-box;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:active {
+          background: ${theme === 'dark'
+            ? 'rgba(255, 255, 255, 0.5)'
+            : 'rgba(0, 0, 0, 0.5)'};
+          background-clip: content-box;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-corner {
+          background: ${theme === 'dark'
+            ? 'rgba(255, 255, 255, 0.05)'
+            : 'rgba(0, 0, 0, 0.05)'};
+        }
+
+        /* Firefox scrollbar */
+        .custom-scrollbar {
+          scrollbar-width: thin;
+          scrollbar-color: ${theme === 'dark'
+            ? 'rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05)'
+            : 'rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.05)'};
+        }
+      `}</style>
+
       {/* Panel Container - Groups both cards */}
       <div
         className="fixed bottom-14 right-2 z-[200] w-80 space-y-2"
@@ -170,17 +223,39 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
                   </p>
                 </div>
               ) : (
-                <div className="space-y-2 max-h-[200px] overflow-y-auto">
-                  {storeNotifications.slice(0, 5).map((notification) => (
-                    <NotificationCard
-                      key={notification.id}
-                      notification={notification}
-                      theme={currentTheme as unknown as ThemeObject}
-                      onClose={() =>
-                        notificationUtils.removeNotification(notification.id)
+                <div className="space-y-2 max-h-[240px] overflow-y-auto custom-scrollbar">
+                  {/* Filter out toasts for email notifications that might be duplicates */}
+                  {storeNotifications
+                    // Group by description to remove duplicates
+                    .filter((notification, index, self) => {
+                      // Keep the notification if it's the first one with this description
+                      // or if it's not an email notification
+                      const isEmailNotification =
+                        notification.type === 'copy' &&
+                        notification.description?.includes('@');
+
+                      if (!isEmailNotification) {
+                        return true;
                       }
-                    />
-                  ))}
+
+                      // For email notifications, check if it's a duplicate
+                      return (
+                        self.findIndex(
+                          (n) => n.description === notification.description
+                        ) === index
+                      );
+                    })
+                    .slice(0, 10)
+                    .map((notification) => (
+                      <NotificationCard
+                        key={notification.id}
+                        notification={notification}
+                        theme={currentTheme as unknown as ThemeObject}
+                        onClose={() =>
+                          notificationUtils.removeNotification(notification.id)
+                        }
+                      />
+                    ))}
                 </div>
               )}
             </div>

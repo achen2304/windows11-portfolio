@@ -39,7 +39,7 @@ const Library: React.FC = () => {
         setSidebarVisible(false);
       }
     }
-  }, [isXs, isSm, history]);
+  }, [isXs, isSm, history, sidebarVisible]);
 
   // Handle project selection through navigation
   useEffect(() => {
@@ -63,7 +63,14 @@ const Library: React.FC = () => {
       const currentTab = currentState?.data?.tab || 'all';
       navigate('steam-app', { tab: currentTab, project: projects[0].name });
     }
-  }, [history, currentIndex, getCurrentState, navigate, selectedProject]);
+  }, [
+    history,
+    currentIndex,
+    getCurrentState,
+    navigate,
+    selectedProject,
+    sidebarVisible,
+  ]);
 
   // Handle project selection
   const handleProjectSelect = (project: Project) => {

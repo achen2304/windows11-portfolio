@@ -5,6 +5,7 @@ export interface Notification {
   type: 'success' | 'error' | 'info' | 'copy';
   timestamp: Date;
   data?: Record<string, unknown>; // For storing additional data like copied text
+  fromToast?: boolean; // Flag to indicate if this notification came from a toast
 }
 
 export interface NotificationStore {
@@ -27,16 +28,39 @@ const notifyListeners = () => {
 export const notificationUtils = {
   // Add a notification with duplicate prevention
   addNotification: (notification: Omit<Notification, 'id' | 'timestamp'>) => {
-    // Check for duplicates based on title and type within the last 5 minutes
+    // Check for duplicates based on multiple criteria
     const now = new Date();
-    const recentDuplicate = notificationStore.find(
-      (n) =>
+
+    // Special handling for email copies
+    const isEmailCopy =
+      notification.type === 'copy' &&
+      notification.description?.includes('@') &&
+      notification.description?.includes('copied to clipboard');
+
+    // Find any recent duplicate within the last 5 minutes
+    const recentDuplicate = notificationStore.find((n) => {
+      // For email copies, check content regardless of title
+      if (
+        isEmailCopy &&
+        n.type === 'copy' &&
+        n.description === notification.description
+      ) {
+        return now.getTime() - n.timestamp.getTime() < 300000; // 5 minutes
+      }
+
+      // Otherwise use standard title + type matching
+      return (
         n.title === notification.title &&
         n.type === notification.type &&
-        now.getTime() - n.timestamp.getTime() < 300000 // 5 minutes
-    );
+        now.getTime() - n.timestamp.getTime() < 300000
+      ); // 5 minutes
+    });
 
     if (recentDuplicate) {
+      // If this notification has the fromToast flag, mark the existing one
+      if (notification.fromToast) {
+        recentDuplicate.fromToast = true;
+      }
       return recentDuplicate.id; // Return existing ID instead of creating duplicate
     }
 
@@ -49,7 +73,7 @@ export const notificationUtils = {
 
     notificationStore.unshift(newNotification); // Add to beginning
 
-    // Keep only last 50 notifications
+    // Keep only last 10 notifications
     if (notificationStore.length > 10) {
       notificationStore = notificationStore.slice(0, 10);
     }
@@ -98,37 +122,44 @@ export const copyToClipboard = async (
   try {
     await navigator.clipboard.writeText(text);
 
-    // Add toast
+    // For email addresses, use a custom title to group them properly
+    const isEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(text);
+    const notificationTitle = isEmail ? 'Email copied!' : title;
+
+    // Add persistent notification (with duplicate checking)
+    // Add the fromToast flag since we're going to show a toast
+    notificationUtils.addNotification({
+      title: notificationTitle,
+      description: `${text} copied to clipboard`,
+      type: 'copy',
+      data: { copiedText: text },
+      fromToast: true, // Mark as coming from a toast
+    });
+
+    // Always add toast (toasts should always appear)
     addToast({
-      title,
+      title: notificationTitle,
       description: `${text} copied to clipboard`,
       type: 'success',
       duration: 4000,
     });
 
-    // Add persistent notification
-    notificationUtils.addNotification({
-      title,
-      description: `${text} copied to clipboard`,
-      type: 'copy',
-      data: { copiedText: text },
-    });
-
     return true;
   } catch {
-    // Add error toast
+    // Add error notification (with duplicate checking)
+    notificationUtils.addNotification({
+      title: 'Copy failed',
+      description: 'Unable to copy to clipboard',
+      type: 'error',
+      fromToast: true, // Mark as coming from a toast
+    });
+
+    // Always add error toast
     addToast({
       title: 'Copy failed',
       description: 'Unable to copy to clipboard',
       type: 'error',
       duration: 4000,
-    });
-
-    // Add error notification
-    notificationUtils.addNotification({
-      title: 'Copy failed',
-      description: 'Unable to copy to clipboard',
-      type: 'error',
     });
 
     return false;

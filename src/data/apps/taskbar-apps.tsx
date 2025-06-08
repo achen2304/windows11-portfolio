@@ -9,7 +9,7 @@ export const taskbarApps: TaskbarApp[] = [
   {
     id: 'notepad',
     name: 'Notepad',
-    icon: '/app icons/file.png',
+    icon: '/app icons/file.png',  
   },
   {
     id: 'calculator',

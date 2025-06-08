@@ -2,6 +2,7 @@ export interface TaskbarApp {
   id: string;
   name: string;
   icon: string;
+  iconLight?: string;
 }
 
 export interface StartApp {

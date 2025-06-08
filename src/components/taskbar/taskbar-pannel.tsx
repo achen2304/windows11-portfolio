@@ -5,7 +5,7 @@ import { useTheme } from '../theme-provider';
 import { themes } from '@/lib/themes';
 import { StartPanelProps, QuickLink } from './taskbar-types';
 import { startPanelApps, getQuickLinks } from '@/data/apps/taskbar-pannel-apps';
-import { Search, Power, User, ExternalLink, Copy } from 'lucide-react';
+import { Search, Power, ExternalLink, Copy } from 'lucide-react';
 import { useToast } from '@/components/ui/toast';
 import { copyToClipboard } from '@/lib/notification-utils';
 import { useWindowManager } from '../webpage/window-manager';
@@ -229,6 +229,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
                               // Fallback to opening in mail client
                               if (item.url) window.location.href = item.url;
                             }
+
                           } else if (item.newTab === true) {
                             window.open(item.url, '_blank');
                           } else {
