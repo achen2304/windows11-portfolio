@@ -2,17 +2,17 @@ import { StartApp, QuickLink } from '@/components/taskbar/taskbar-types';
 
 export const startPanelApps: StartApp[] = [
   {
+    id: 'text-editor',
+    name: 'Notepad',
+    icon: '/app icons/textlight.svg',
+    description: 'Text Editor',
+    isPinned: true,
+  },
+  {
     id: 'projects',
     name: 'Projects',
     icon: '/app icons/steam.svg',
     description: 'Gaming Platform',
-    isPinned: true,
-  },
-  {
-    id: 'notepad',
-    name: 'Notepad',
-    icon: '/app icons/file.png',
-    description: 'Text Editor',
     isPinned: true,
   },
   {

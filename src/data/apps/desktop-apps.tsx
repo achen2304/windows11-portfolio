@@ -8,17 +8,18 @@ export interface DesktopApp {
 
 export const desktopApps: DesktopApp[] = [
   {
-    id: 'projects',
-    name: 'Projects',
-    icon: '/app icons/steam.svg',
-    description: 'Gaming Platform',
-  },
-  {
     id: 'text-editor',
     name: 'Notepad',
     icon: '/app icons/textlight.svg',
     iconLight: '/app icons/text.svg',
     description: 'Text Editor',
+  },
+
+  {
+    id: 'projects',
+    name: 'Projects',
+    icon: '/app icons/steam.svg',
+    description: 'Gaming Platform',
   },
   {
     id: 'calculator',

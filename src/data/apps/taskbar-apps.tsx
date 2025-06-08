@@ -2,14 +2,14 @@ import { TaskbarApp } from '@/components/taskbar/taskbar-types';
 
 export const taskbarApps: TaskbarApp[] = [
   {
+    id: 'text-editor',
+    name: 'Notepad',
+    icon: '/app icons/textlight.svg',
+  },
+  {
     id: 'projects',
     name: 'Projects',
     icon: '/app icons/steam.svg',
-  },
-  {
-    id: 'notepad',
-    name: 'Notepad',
-    icon: '/app icons/file.png',  
   },
   {
     id: 'calculator',

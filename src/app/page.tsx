@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Squares } from '@/components/ui/squares-background';
 import { useTheme } from '@/components/theme-provider';
 import { themes } from '@/lib/themes';
@@ -20,6 +20,17 @@ const DemoContent: React.FC = () => {
   const currentTheme = themes[theme as keyof typeof themes];
   const { openAppById } = useAppOpener();
   const { windows, closeWindow } = useWindowManager();
+
+  // Open text editor automatically when page loads
+  useEffect(() => {
+    // Small delay to ensure everything is loaded
+    const timer = setTimeout(() => {
+      openAppById('text-editor');
+    }, 500);
+
+    // Clean up timer on component unmount
+    return () => clearTimeout(timer);
+  }, [openAppById]); // Only run once when component mounts
 
   // Handle desktop icon click - close existing window and reopen
   const handleDesktopIconClick = (appId: string) => {
