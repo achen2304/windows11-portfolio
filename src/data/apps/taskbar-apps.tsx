@@ -12,6 +12,11 @@ export const taskbarApps: TaskbarApp[] = [
     icon: '/app icons/steam.svg',
   },
   {
+    id: 'about-me',
+    name: 'About Me',
+    icon: '/app icons/slack.png',
+  },
+  {
     id: 'calculator',
     name: 'Calculator',
     icon: '/app icons/calculator.svg',

@@ -3,10 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export default function NotFound() {
   const [progress, setProgress] = useState(0);
-
+  const router = useRouter();
   // Simulate loading progress with staged increments
   useEffect(() => {
     // First stage: 0% to 24%
@@ -54,11 +55,11 @@ export default function NotFound() {
               className="px-6 py-2 bg-white text-[#0078d7] font-semibold rounded hover:bg-gray-100 transition animate-fadeIn inline-block"
               onClick={() => {
                 setTimeout(() => {
-                  window.location.href = '/';
+                  router.push('/');
                 }, 1000);
               }}
             >
-              Return to desktop
+              Restart Windows
             </Link>
           )}
         </div>

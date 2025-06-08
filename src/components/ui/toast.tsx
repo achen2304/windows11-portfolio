@@ -12,6 +12,7 @@ export interface Toast {
   description?: string;
   type: 'success' | 'error' | 'info';
   duration?: number;
+  notification?: boolean;
 }
 
 interface ToastContextType {
@@ -35,18 +36,21 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 
   const addToast = useCallback(
     (toastProps: Toast) => {
-      // Add to notification system (with duplicate checking)
-      notificationUtils.addNotification({
-        title: toastProps.title,
-        description: toastProps.description,
-        type:
-          toastProps.type === 'success'
-            ? 'success'
-            : toastProps.type === 'error'
-            ? 'error'
-            : 'info',
-        fromToast: true,
-      });
+      // Check if we should also add a notification (not set to false explicitly)
+      if (toastProps.notification !== false) {
+        // Add to notification system (with duplicate checking)
+        notificationUtils.addNotification({
+          title: toastProps.title,
+          description: toastProps.description,
+          type:
+            toastProps.type === 'success'
+              ? 'success'
+              : toastProps.type === 'error'
+              ? 'error'
+              : 'info',
+          fromToast: true,
+        });
+      }
 
       // Always show the toast with Sonner
       const toastOptions = {

@@ -10,6 +10,7 @@ import {
 } from './example-apps';
 import SteamApp from './primary/steam/steam-app';
 import TextEditorApp from './primary/text/text-editor-app';
+import SlackApp from './primary/slack/slack';
 
 export interface AppDefinition {
   id: string;
@@ -30,7 +31,7 @@ export const availableApps: AppDefinition[] = [
     name: 'Notepad',
     icon: '/app icons/text.svg',
     component: <TextEditorApp />,
-    defaultSize: { width: 400, height: 300 },
+    defaultSize: { width: 400, height: 350 },
     defaultPosition: { x: 500, y: 300 },
     category: 'Productivity',
     description: 'Windows 11 style Notepad for text editing',
@@ -38,11 +39,20 @@ export const availableApps: AppDefinition[] = [
   {
     id: 'projects',
     name: 'Projects',
-    icon: '🎮',
+    icon: '/app icons/steam.svg',
     component: <SteamApp />,
     defaultSize: { width: 1200, height: 800 },
     category: 'Portfolio',
     description: 'Steam-inspired showcase of my development projects',
+  },
+  {
+    id: 'about-me',
+    name: 'About Me',
+    icon: '/app icons/slack.svg',
+    component: <SlackApp />,
+    defaultSize: { width: 1000, height: 700 },
+    category: 'Portfolio',
+    description: 'Slack-inspired about me information and skills',
   },
   {
     id: 'notepad',

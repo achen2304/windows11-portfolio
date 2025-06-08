@@ -22,6 +22,12 @@ export const desktopApps: DesktopApp[] = [
     description: 'Gaming Platform',
   },
   {
+    id: 'about-me',
+    name: 'About Me',
+    icon: '/app icons/slack.png',
+    description: 'About Me',
+  },
+  {
     id: 'calculator',
     name: 'Calculator',
     icon: '/app icons/calculator.svg',

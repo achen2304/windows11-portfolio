@@ -31,7 +31,7 @@ export const useEditorHandlers = (
 
   // File menu handlers
   const handleNewDocument = () => {
-    const defaultText = `hi, i'm cai chen\n\nto get started checkout the apps in the background, taskbar or start menu to get started!`;
+    const defaultText = `hi, i'm cai chen \n\nthis is my portfolio website :) \n\nto get started checkout the "about" app in the background, taskbar or start menu! \n\np.s. all of buttons are interactive!`;
 
     // Reset the storage
     if (typeof window !== 'undefined') {

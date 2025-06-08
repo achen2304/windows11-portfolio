@@ -48,3 +48,26 @@ export interface SteamTheme {
   sidebarHover: string;
   [key: string]: string;
 }
+
+// Slack app specific theme properties
+export interface SlackTheme {
+  background: string;
+  sidebarBackground: string;
+  sidebarText: string;
+  sidebarHover: string;
+  sidebarActive: string;
+  contentBackground: string;
+  messageBackground: string;
+  messageHover: string;
+  divider: string;
+  textPrimary: string;
+  textSecondary: string;
+  accent: string;
+  mentionBadge: string;
+  buttonPrimary: string;
+  welcomeBackground: string;
+  threadBackground: string;
+  searchBackground: string;
+  channelActiveBackground: string;
+  notification: string;
+}

@@ -23,6 +23,8 @@ interface AppOutlineProps {
   children: React.ReactNode;
   initialPosition?: { x: number; y: number };
   initialSize?: { width: number; height: number };
+  minWidth?: number;
+  minHeight?: number;
   onClose?: () => void;
   className?: string;
   isMaximized?: boolean;
@@ -42,6 +44,8 @@ const AppOutline: React.FC<AppOutlineProps> = ({
   children,
   initialPosition = { x: 100, y: 100 },
   initialSize = { width: 800, height: 600 },
+  minWidth = 300,
+  minHeight = 300,
   onClose,
   className = '',
   isMaximized = false,
@@ -58,10 +62,16 @@ const AppOutline: React.FC<AppOutlineProps> = ({
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
 
-  // Ensure initial size doesn't exceed viewport
+  // Ensure initial size doesn't exceed viewport and respects minimum dimensions
   const constrainedInitialSize = {
-    width: Math.min(initialSize.width, window.innerWidth - 40),
-    height: Math.min(initialSize.height, window.innerHeight - 88), // Account for taskbar
+    width: Math.max(
+      minWidth,
+      Math.min(initialSize.width, window.innerWidth - 40)
+    ),
+    height: Math.max(
+      minHeight,
+      Math.min(initialSize.height, window.innerHeight - 88)
+    ), // Account for taskbar
   };
 
   // Ensure initial position is within viewport
@@ -344,10 +354,13 @@ const AppOutline: React.FC<AppOutlineProps> = ({
           // Calculate new size if window extends beyond screen edges
           const adjustedSize = { ...size };
           if (d.x + size.width > viewportWidth - 20) {
-            adjustedSize.width = Math.max(300, viewportWidth - d.x - 20);
+            adjustedSize.width = Math.max(minWidth, viewportWidth - d.x - 20);
           }
           if (d.y + size.height > viewportHeight - 68) {
-            adjustedSize.height = Math.max(200, viewportHeight - d.y - 68);
+            adjustedSize.height = Math.max(
+              minHeight,
+              viewportHeight - d.y - 68
+            );
           }
 
           // Update size if changes were needed
@@ -392,8 +405,8 @@ const AppOutline: React.FC<AppOutlineProps> = ({
         }}
         size={size}
         position={position}
-        minWidth={300}
-        minHeight={300}
+        minWidth={minWidth}
+        minHeight={minHeight}
         className={`${
           isDragging || isResizing ? '' : 'transition-all duration-200 ease-out'
         } ${className}`}

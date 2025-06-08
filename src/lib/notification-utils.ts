@@ -30,24 +30,8 @@ export const notificationUtils = {
   addNotification: (notification: Omit<Notification, 'id' | 'timestamp'>) => {
     // Check for duplicates based on multiple criteria
     const now = new Date();
-
-    // Special handling for email copies
-    const isEmailCopy =
-      notification.type === 'copy' &&
-      notification.description?.includes('@') &&
-      notification.description?.includes('copied to clipboard');
-
     // Find any recent duplicate within the last 5 minutes
     const recentDuplicate = notificationStore.find((n) => {
-      // For email copies, check content regardless of title
-      if (
-        isEmailCopy &&
-        n.type === 'copy' &&
-        n.description === notification.description
-      ) {
-        return now.getTime() - n.timestamp.getTime() < 300000; // 5 minutes
-      }
-
       // Otherwise use standard title + type matching
       return (
         n.title === notification.title &&
@@ -111,6 +95,7 @@ interface ToastData {
   description?: string;
   type: 'success' | 'error' | 'info';
   duration?: number;
+  notification?: boolean;
 }
 
 // Copy utility that creates both toast and notification
@@ -122,39 +107,18 @@ export const copyToClipboard = async (
   try {
     await navigator.clipboard.writeText(text);
 
-    // For email addresses, use a custom title to group them properly
-    const isEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(text);
-    const notificationTitle = isEmail ? 'Email copied!' : title;
-
-    // Add persistent notification (with duplicate checking)
-    // Add the fromToast flag since we're going to show a toast
-    notificationUtils.addNotification({
-      title: notificationTitle,
-      description: `${text} copied to clipboard`,
-      type: 'copy',
-      data: { copiedText: text },
-      fromToast: true, // Mark as coming from a toast
-    });
-
-    // Always add toast (toasts should always appear)
+    // For toast-only notification (no duplication)
     addToast({
-      title: notificationTitle,
+      title: title,
       description: `${text} copied to clipboard`,
       type: 'success',
       duration: 4000,
+      notification: true,
     });
 
     return true;
   } catch {
-    // Add error notification (with duplicate checking)
-    notificationUtils.addNotification({
-      title: 'Copy failed',
-      description: 'Unable to copy to clipboard',
-      type: 'error',
-      fromToast: true, // Mark as coming from a toast
-    });
-
-    // Always add error toast
+    // For toast-only error notification (no duplication)
     addToast({
       title: 'Copy failed',
       description: 'Unable to copy to clipboard',

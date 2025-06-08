@@ -16,6 +16,13 @@ export const startPanelApps: StartApp[] = [
     isPinned: true,
   },
   {
+    id: 'about-me',
+    name: 'About Me',
+    icon: '/app icons/slack.png',
+    description: 'About Me Information',
+    isPinned: true,
+  },
+  {
     id: 'calculator',
     name: 'Calculator',
     icon: '/app icons/calculator.svg',
@@ -60,19 +67,19 @@ export const getQuickLinks = (theme: string): QuickLink[] => [
   },
   {
     id: 'link3',
-    name: 'Email',
-    newTab: true,
-    type: 'copy',
-    icon: '/app icons/gmail.svg',
-    url: 'mailto:achen2304@gmail.com',
-  },
-  {
-    id: 'link4',
     name: 'Resume',
     newTab: true,
     type: 'link',
     icon: '/app icons/file.png',
     url: '/resume.pdf',
+  },
+  {
+    id: 'link4',
+    name: 'Email',
+    newTab: true,
+    type: 'copy',
+    icon: '/app icons/gmail.svg',
+    url: 'mailto:achen2304@gmail.com',
   },
 ];
 
