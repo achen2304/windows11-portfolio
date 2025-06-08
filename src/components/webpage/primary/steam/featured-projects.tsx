@@ -4,16 +4,20 @@ import React from 'react';
 import { useTheme } from '../../../theme-provider';
 import { themes } from '@/lib/themes';
 import { projects } from '@/data/projects';
-import { Github, Globe, ExternalLink, GamepadIcon } from 'lucide-react';
+import { ExternalLink, GamepadIcon } from 'lucide-react';
 import { Marquee } from '@/components/magicui/marquee';
 import { useNavigation } from '@/components/webpage/chevron-button';
 import { favoriteGames } from '@/data/hobbies';
+import { useWindowSize } from '@/components/webpage/breakpoints';
+import ProjectImageBackground from './no-img-bg';
+import HobbiesCard from './hobbies-card';
 
 const FeaturedProjects: React.FC = () => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
   const steamTheme = currentTheme.steam;
   const { navigate } = useNavigation();
+  const { isXs, isSm, isMd, width } = useWindowSize();
 
   // Filter featured projects
   const featuredProjects = projects.filter((project) => project.featured);
@@ -26,6 +30,52 @@ const FeaturedProjects: React.FC = () => {
     });
   };
 
+  // Determine if we should use compact mode
+  const isCompactMode = isXs || isSm || isMd;
+
+  // Calculate card width based on window size - make cards bigger on small screens
+  const getCardWidth = () => {
+    if (isXs) return 'w-64'; // Extra small window
+    if (isSm) return 'w-72'; // Small window
+    if (isMd) return 'w-80'; // Medium window
+    return 'w-96'; // Large window (default)
+  };
+
+  // Calculate card height based on window size
+  const getCardImageHeight = () => {
+    if (isXs) return 'h-36'; // Taller on small screens
+    if (isSm) return 'h-40';
+    if (isMd) return 'h-44';
+    return 'h-52';
+  };
+
+  // Calculate grid columns for games section based on screen size
+  const getGridColumns = () => {
+    if (isXs) return 'grid-cols-1 gap-3'; // Single column
+    if (isSm) return 'grid-cols-1 gap-3';
+    if (isMd) return 'grid-cols-2 gap-4';
+    return 'grid-cols-3 gap-6';
+  };
+
+  // Special breakpoint for compact cards in grid-2 layout
+  // Use this threshold for when grid-2 should use compact cards (e.g., narrower windows)
+  const useCompactInGrid = width < 550;
+
+  // Determine if we should use compact cards based on layout
+  const shouldUseCompactCards = () => {
+    // Always use compact cards in single column layout
+    if (isXs || isSm) return true;
+    // Use compact cards in narrow grid layouts
+    return useCompactInGrid;
+  };
+
+  // Calculate how many tags to show based on layout
+  const getMaxTags = () => {
+    if (isXs || isSm) return 3; // Show more tags in compact view
+    if (isMd) return 2;
+    return 4; // Show more tags in larger layouts
+  };
+
   return (
     <div
       className="h-full flex flex-col overflow-auto"
@@ -35,91 +85,113 @@ const FeaturedProjects: React.FC = () => {
       }}
     >
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col p-6">
-        {/* Main Marquee - large, horizontal */}
-        <div className="w-full mb-12">
+      <div className="flex-1 flex flex-col p-4 md:p-6">
+        {/* Featured Projects - Always use Marquee but with responsive sizing */}
+        <div className="w-full mb-8 md:mb-12">
           <h2
-            className="text-lg font-bold mb-4"
+            className="text-lg font-bold mb-3 md:mb-4"
             style={{ color: steamTheme.textPrimary }}
           >
             Featured Projects
           </h2>
-          <Marquee pauseOnHover className="py-6">
+
+          <Marquee pauseOnHover className="py-3 md:py-6">
             {featuredProjects.map((project) => (
               <div
                 key={project.name}
-                className="flex-shrink-0 w-120 cursor-pointer hover:scale-105 transition-all duration-300"
+                className={`flex-shrink-0 ${getCardWidth()} cursor-pointer hover:brightness-110 transition-all duration-300 mx-2 md:mx-3 rounded-lg overflow-hidden`}
                 onClick={() => handleProjectClick(project.name)}
+                style={{
+                  background: steamTheme.card,
+                  border: `1px solid ${steamTheme.divider}`,
+                }}
               >
-                <img
-                  src={`/projects/${project.image}`}
-                  alt={project.name}
-                  className="w-full h-60 object-cover rounded-t-lg"
-                />
+                {/* Project image without any text overlay */}
                 <div
-                  className="p-4 rounded-b-lg"
-                  style={{
-                    background: steamTheme.card,
-                    border: `1px solid ${steamTheme.divider}`,
-                    borderTop: 'none',
-                  }}
+                  className={`${getCardImageHeight()} w-full overflow-hidden`}
                 >
+                  <img
+                    src={`/projects/${project.image}`}
+                    alt={project.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* Card content section */}
+                <div className="p-4">
+                  {/* Project title */}
                   <h3
-                    className="font-bold text-lg truncate"
+                    className={`font-bold ${
+                      isCompactMode ? 'text-lg' : 'text-xl'
+                    } truncate mb-2`}
                     style={{ color: steamTheme.textPrimary }}
                   >
                     {project.name}
                   </h3>
+
+                  {/* Description */}
                   <p
-                    className="text-sm mt-1"
+                    className={`${
+                      isCompactMode ? 'text-sm' : 'text-base'
+                    } mt-1 ${isCompactMode ? 'line-clamp-2' : ''} mb-3`}
                     style={{ color: steamTheme.textSecondary }}
                   >
                     {project.d1}
                   </p>
-                  <p className="flex flex-wrap gap-2 mb-3 pt-2">
-                    {project.technologies.slice(0, 3).map((tech) => (
+
+                  {/* Technology tags */}
+                  <div className={`flex overflow-hidden space-x-1.5 mb-4`}>
+                    {project.technologies
+                      .slice(0, isCompactMode ? 2 : 3)
+                      .map((tech) => (
+                        <span
+                          key={tech}
+                          className={`px-2 py-0.5 rounded-full text-xs flex-shrink-0`}
+                          style={{
+                            background: steamTheme.priceBg,
+                            color: steamTheme.textSecondary,
+                            border: `1px solid ${steamTheme.divider}`,
+                          }}
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    {project.technologies.length > (isCompactMode ? 2 : 3) && (
                       <span
-                        key={tech}
-                        className="px-2 py-1 rounded-full text-xs"
-                        style={{
-                          background: steamTheme.priceBg,
-                          color: steamTheme.textSecondary,
-                          border: `1px solid ${steamTheme.divider}`,
-                        }}
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                    {project.technologies.length > 3 && (
-                      <span
-                        className="text-xs pt-1"
+                        className={`${
+                          isCompactMode ? 'text-xs' : 'text-sm'
+                        } flex-shrink-0`}
                         style={{ color: steamTheme.textSecondary }}
                       >
-                        +{project.technologies.length - 3} more
+                        +{project.technologies.length - (isCompactMode ? 2 : 3)}
                       </span>
                     )}
-                  </p>
-                  <p className="flex justify-end">
+                  </div>
+
+                  {/* View button */}
+                  <div className="flex justify-end">
                     <button
-                      className="flex items-center text-sm space-x-1 px-3 py-1 rounded-full hover:cursor-pointer"
+                      className={`flex items-center ${
+                        isCompactMode ? 'text-sm' : 'text-base'
+                      } gap-1 px-3 py-1 rounded-full hover:cursor-pointer`}
                       style={{
                         background: `linear-gradient(to right, ${steamTheme.buttonGradientStart}, ${steamTheme.buttonGradientEnd})`,
                         color: '#ffffff',
                       }}
                     >
-                      <ExternalLink size={16} />
-                      <span>View Project</span>
+                      <ExternalLink size={isCompactMode ? 14 : 16} />
+                      <span>View Details</span>
                     </button>
-                  </p>
+                  </div>
                 </div>
               </div>
             ))}
           </Marquee>
         </div>
 
-        {/* Games I Like Section */}
-        <div className="w-full mb-10">
-          <div className="flex items-center justify-between mb-4">
+        {/* Games I Like Section - Responsive layouts */}
+        <div className="w-full mb-8 md:mb-10">
+          <div className="flex items-center justify-between mb-3 md:mb-4">
             <h2
               className="text-lg font-bold"
               style={{ color: steamTheme.textPrimary }}
@@ -131,67 +203,21 @@ const FeaturedProjects: React.FC = () => {
               style={{ color: steamTheme.textSecondary }}
             >
               <GamepadIcon className="inline mr-1" size={16} />
-              Personal Favorites
+              Favorites
             </span>
           </div>
 
-          {/* Games Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Games Grid with adaptive card styles */}
+          <div className={`grid ${getGridColumns()}`}>
             {favoriteGames.map((game) => (
-              <div
+              <HobbiesCard
                 key={game.name}
-                className="rounded-lg overflow-hidden cursor-pointer hover:brightness-110 transition-all duration-200"
-                style={{
-                  background: steamTheme.card,
-                  border: `1px solid ${steamTheme.divider}`,
-                }}
-              >
-                <div className="relative">
-                  <img
-                    src={`/games/${game.image}`}
-                    alt={game.name}
-                    className="w-full h-40 object-cover"
-                  />
-                  <div
-                    className="absolute bottom-0 right-0 px-3 py-1 rounded-tl-md"
-                    style={{
-                      background: 'rgba(0,0,0,0.7)',
-                      color: '#ffffff',
-                    }}
-                  >
-                    {game.releaseYear}
-                  </div>
-                </div>
-                <div className="p-3">
-                  <h3
-                    className="font-medium text-md"
-                    style={{ color: steamTheme.textPrimary }}
-                  >
-                    {game.name}
-                  </h3>
-                  <p
-                    className="text-sm mt-1"
-                    style={{ color: steamTheme.textSecondary }}
-                  >
-                    {game.description}
-                  </p>
-                  <div className="flex flex-wrap gap-1 mt-2">
-                    {game.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2 py-0.5 rounded-sm text-xs"
-                        style={{
-                          background: steamTheme.priceBg,
-                          color: steamTheme.textSecondary,
-                          border: `1px solid ${steamTheme.divider}`,
-                        }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
+                game={game}
+                steamTheme={steamTheme}
+                variant={shouldUseCompactCards() ? 'compact' : 'normal'}
+                maxTags={getMaxTags()}
+                maxDescriptionLength={shouldUseCompactCards() ? 80 : 100}
+              />
             ))}
           </div>
         </div>

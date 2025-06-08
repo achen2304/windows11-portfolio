@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTheme } from '../../../theme-provider';
 import { themes } from '@/lib/themes';
 import {
@@ -10,6 +10,7 @@ import {
 } from '@/components/webpage/chevron-button';
 import Library from './all projects/library';
 import FeaturedProjects from './featured-projects';
+import WindowSizeProvider from '@/components/webpage/breakpoints';
 
 // Inner component that uses navigation context
 const SteamAppContent: React.FC = () => {
@@ -17,6 +18,9 @@ const SteamAppContent: React.FC = () => {
   const currentTheme = themes[theme as keyof typeof themes];
   const steamTheme = currentTheme.steam;
   const { navigate, getCurrentState, history, currentIndex } = useNavigation();
+
+  // Create a ref for the content container with proper typing
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const [activeTab, setActiveTab] = useState<'featured' | 'all'>('featured');
 
@@ -111,12 +115,14 @@ const SteamAppContent: React.FC = () => {
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-hidden">
-        {/* Main content area */}
-        <div className="h-full">
-          {activeTab === 'all' && <Library />}
-          {activeTab === 'featured' && <FeaturedProjects />}
-        </div>
+      <div className="flex-1 overflow-hidden" ref={contentRef}>
+        {/* Wrap content with WindowSizeProvider */}
+        <WindowSizeProvider containerRef={contentRef}>
+          <div className="h-full">
+            {activeTab === 'all' && <Library />}
+            {activeTab === 'featured' && <FeaturedProjects />}
+          </div>
+        </WindowSizeProvider>
       </div>
     </div>
   );

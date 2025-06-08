@@ -45,7 +45,7 @@ const DemoContent: React.FC = () => {
     >
       {/* Desktop Icons Grid - Vertical layout like Windows */}
       <div className="grid grid-rows-8 grid-flow-col gap-4 h-full content-start auto-cols-max">
-        {desktopApps.map((app, index) => (
+        {desktopApps.map((app) => (
           <div
             key={app.id}
             onClick={() => handleDesktopIconClick(app.id)}
@@ -94,9 +94,6 @@ const DemoContent: React.FC = () => {
 };
 
 export default function Home() {
-  const { theme } = useTheme();
-  const currentTheme = themes[theme as keyof typeof themes];
-
   return (
     <WindowManagerProvider>
       {/* Prevent document expansion during window dragging */}

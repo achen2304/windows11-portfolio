@@ -3,6 +3,8 @@
 import React from 'react';
 import { Project } from '@/data/projects';
 import { Github, ExternalLink, Clock, Calendar, Tag } from 'lucide-react';
+import ProjectImageBackground from '../no-img-bg';
+import { useWindowSize } from '@/components/webpage/breakpoints';
 
 interface MainAreaProps {
   selectedProject: Project;
@@ -10,32 +12,37 @@ interface MainAreaProps {
 }
 
 const MainArea: React.FC<MainAreaProps> = ({ selectedProject, steamTheme }) => {
+  const { isXs, isSm, isMd } = useWindowSize();
+
+  // Determine layout based on screen size
+  const isMobileView = isXs || isSm || isMd;
+
   return (
     <div
       className="flex-1 flex flex-col h-full overflow-hidden"
       style={{ background: steamTheme.content }}
     >
       {/* Project header with banner */}
-      <div className="relative">
-        <div className="h-56 w-full bg-gradient-to-b from-transparent to-black relative">
-          <img
-            src={`/projects/${selectedProject.image}`}
-            alt={selectedProject.name}
-            className="w-full h-full object-cover opacity-70"
-          />
-          <div className="absolute bottom-0 left-0 p-6">
-            <h1
-              className="text-4xl font-bold mb-2"
-              style={{ color: steamTheme.textPrimary }}
-            >
-              {selectedProject.name}
-            </h1>
-            <p className="text-lg" style={{ color: steamTheme.textSecondary }}>
-              {selectedProject.d1}
-            </p>
-          </div>
-        </div>
-      </div>
+      <ProjectImageBackground
+        imagePath={`/projects/${selectedProject.image}`}
+        alt={selectedProject.name}
+        height={isMobileView ? 'h-44' : 'h-56'}
+        gradientFrom="transparent"
+        gradientTo="rgba(0,0,0,0.9)"
+      >
+        <h1
+          className={`${isMobileView ? 'text-2xl' : 'text-4xl'} font-bold mb-2`}
+          style={{ color: steamTheme.textPrimary }}
+        >
+          {selectedProject.name}
+        </h1>
+        <p
+          className={`${isMobileView ? 'text-sm' : 'text-lg'}`}
+          style={{ color: steamTheme.textSecondary }}
+        >
+          {selectedProject.d1}
+        </p>
+      </ProjectImageBackground>
 
       {/* Action buttons */}
       <div
@@ -77,13 +84,19 @@ const MainArea: React.FC<MainAreaProps> = ({ selectedProject, steamTheme }) => {
         </div>
       </div>
 
-      {/* Project details */}
-      <div className="flex-1 overflow-auto p-6">
-        <div className="grid grid-cols-3 gap-6">
-          {/* Main content - 2/3 width */}
-          <div className="col-span-2 space-y-6">
+      {/* Project details - Flexbox layout */}
+      <div className="flex-1 overflow-auto p-4 md:p-6">
+        <div
+          className={`flex flex-col ${!isMobileView && 'md:flex-row'} gap-6`}
+        >
+          {/* Main content - responsive width */}
+          <div
+            className={`${
+              isMobileView ? 'w-full' : 'md:flex-[2]'
+            } space-y-6 order-2 md:order-1`}
+          >
             <div
-              className="p-5 rounded"
+              className="p-4 md:p-5 rounded"
               style={{
                 background: steamTheme.card,
                 border: `1px solid ${steamTheme.divider}`,
@@ -112,8 +125,12 @@ const MainArea: React.FC<MainAreaProps> = ({ selectedProject, steamTheme }) => {
             </div>
           </div>
 
-          {/* Sidebar - 1/3 width */}
-          <div className="space-y-4">
+          {/* Sidebar - responsive width and order */}
+          <div
+            className={`${
+              isMobileView ? 'w-full' : 'md:flex-1'
+            } space-y-4 order-1 md:order-2`}
+          >
             {/* Technologies used */}
             <div
               className="p-4 rounded"

@@ -7,7 +7,6 @@ import { themes } from '@/lib/themes';
 import { CalendarPanelProps } from './taskbar-types';
 import { ChevronUp, ChevronDown, Check, X, Info } from 'lucide-react';
 import { notificationUtils } from '@/lib/notification-utils';
-import { useToast } from '@/components/ui/toast';
 
 const CalendarPanel: React.FC<CalendarPanelProps> = ({
   isOpen,

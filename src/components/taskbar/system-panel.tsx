@@ -56,10 +56,6 @@ const SystemPanel: React.FC<SystemPanelProps> = ({
     onVolumeChange(newVolume);
   };
 
-  const handleBrightnessChange = (values: number[]) => {
-    setBrightness(values[0]);
-  };
-
   const handleButtonClick = (actionId: string, originalAction: () => void) => {
     setClickedButton(actionId);
     originalAction();

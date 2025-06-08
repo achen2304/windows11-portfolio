@@ -4,19 +4,36 @@ import React, { useState, useEffect } from 'react';
 import { useTheme } from '../../../../theme-provider';
 import { themes } from '@/lib/themes';
 import { projects, Project } from '@/data/projects';
-import { Search } from 'lucide-react';
+import { Search, Menu, X } from 'lucide-react';
 import LeftCard from './left-card';
 import MainArea from './main-area';
 import { useNavigation } from '@/components/webpage/chevron-button';
+import { useWindowSize } from '@/components/webpage/breakpoints';
 
 const Library: React.FC = () => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
   const steamTheme = currentTheme.steam;
   const { navigate, getCurrentState, history, currentIndex } = useNavigation();
+  const { isXs, isSm } = useWindowSize();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [sidebarVisible, setSidebarVisible] = useState(!isXs && !isSm);
+
+  // Toggle sidebar visibility
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
+  };
+
+  // Update sidebar visibility on screen size change
+  useEffect(() => {
+    if (!isXs && !isSm) {
+      setSidebarVisible(true);
+    } else if (sidebarVisible) {
+      setSidebarVisible(false);
+    }
+  }, [isXs, isSm]);
 
   // Handle project selection through navigation
   useEffect(() => {
@@ -52,6 +69,11 @@ const Library: React.FC = () => {
 
     // Add project selection to navigation history
     navigate('steam-app', { tab: currentTab, project: project.name });
+
+    // Close sidebar on small screens after selection
+    if (isXs || isSm) {
+      setSidebarVisible(false);
+    }
   };
 
   // Filter projects based on search
@@ -80,13 +102,33 @@ const Library: React.FC = () => {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex-1 flex h-full">
+      <div className="flex-1 flex h-full relative">
+        {/* Mobile sidebar toggle button */}
+        {(isXs || isSm) && (
+          <button
+            onClick={toggleSidebar}
+            className="absolute top-3 left-3 z-20 p-2 rounded-full"
+            style={{
+              background: steamTheme.card,
+              border: `1px solid ${steamTheme.divider}`,
+              color: steamTheme.textPrimary,
+            }}
+          >
+            {sidebarVisible ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        )}
+
         {/* Left sidebar with game list */}
         <div
-          className="w-64 flex flex-col border-r overflow-hidden"
+          className={`${
+            isXs || isSm ? 'absolute z-10 h-full' : 'w-64'
+          } flex flex-col border-r overflow-hidden transition-all duration-300 ease-in-out`}
           style={{
             background: steamTheme.sidebar,
             borderColor: steamTheme.divider,
+            width: sidebarVisible ? (isXs ? '85%' : '300px') : '0',
+            opacity: sidebarVisible ? 1 : 0,
+            visibility: sidebarVisible ? 'visible' : 'hidden',
           }}
         >
           {/* Search bar */}
@@ -175,8 +217,24 @@ const Library: React.FC = () => {
           </div>
         </div>
 
+        {/* Semi-transparent overlay for mobile */}
+        {(isXs || isSm) && sidebarVisible && (
+          <div
+            className="absolute inset-0 z-5 bg-black opacity-50"
+            onClick={() => setSidebarVisible(false)}
+          />
+        )}
+
         {/* Main content area showing selected project */}
-        <MainArea selectedProject={selectedProject} steamTheme={steamTheme} />
+        <div
+          className="flex-1"
+          style={{
+            marginLeft: isXs || isSm ? 0 : sidebarVisible ? '0' : '-64px',
+            transition: 'margin-left 0.3s ease-in-out',
+          }}
+        >
+          <MainArea selectedProject={selectedProject} steamTheme={steamTheme} />
+        </div>
       </div>
     </div>
   );
