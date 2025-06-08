@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Mac Portfolio',
-  description: 'A macOS-inspired portfolio website',
+  title: 'Cai Chen - Windows 11 Portfolio',
+  description: 'A Windows 11-inspired portfolio website',
 };
 
 export default function RootLayout({

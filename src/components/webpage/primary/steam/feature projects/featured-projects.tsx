@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useTheme } from '../../../theme-provider';
+import { useTheme } from '../../../../theme-provider';
 import { themes } from '@/lib/themes';
 import { projects } from '@/data/projects';
 import { ExternalLink } from 'lucide-react';

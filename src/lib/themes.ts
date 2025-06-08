@@ -40,8 +40,8 @@ export const themes = {
       // Main Steam color scheme
       background: '#1b2838',
       header: '#171a21',
-      sidebar: '#2a3f5a',
-      sidebarHover: '#324965',
+      sidebar: '#1a2940',
+      sidebarHover: '#273b54',
       content: '#1b2838',
       card: '#16202d',
       cardHover: '#1c3a5d',
@@ -102,8 +102,8 @@ export const themes = {
       // Main Steam color scheme
       background: '#1b2838',
       header: '#171a21',
-      sidebar: '#2a3f5a',
-      sidebarHover: '#324965',
+      sidebar: '#1a2940',
+      sidebarHover: '#273b54',
       content: '#1b2838',
       card: '#16202d',
       cardHover: '#1c3a5d',

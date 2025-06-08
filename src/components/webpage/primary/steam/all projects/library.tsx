@@ -19,7 +19,11 @@ const Library: React.FC = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [sidebarVisible, setSidebarVisible] = useState(!isXs && !isSm);
+  // Initialize sidebar to closed on small screens, open on larger screens
+  const [sidebarVisible, setSidebarVisible] = useState(() => {
+    // This prevents the initial flash of sidebar on small screens
+    return !isXs && !isSm;
+  });
 
   // Toggle sidebar visibility
   const toggleSidebar = () => {
@@ -30,10 +34,12 @@ const Library: React.FC = () => {
   useEffect(() => {
     if (!isXs && !isSm) {
       setSidebarVisible(true);
-    } else if (sidebarVisible) {
-      setSidebarVisible(false);
+    } else {
+      if (sidebarVisible && Object.keys(history).length <= 1) {
+        setSidebarVisible(false);
+      }
     }
-  }, [isXs, isSm, sidebarVisible]);
+  }, [isXs, isSm, history]);
 
   // Handle project selection through navigation
   useEffect(() => {
@@ -76,16 +82,16 @@ const Library: React.FC = () => {
     }
   };
 
-  // Filter projects based on search
+  // Filter projects based on search by word
   const filteredProjects = projects.filter((project) => {
-    const matchesSearch =
-      project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      project.d1.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      project.d2?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      project.technologies.some((tech) =>
-        tech.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    return matchesSearch;
+    if (!searchQuery.trim()) return true;
+
+    const query = searchQuery.toLowerCase();
+
+    // Split name into words and check if any word starts with the query
+    const nameWords = project.name.toLowerCase().split(/\s+/);
+
+    return nameWords.some((word) => word.startsWith(query));
   });
 
   // Separate featured and non-featured projects
@@ -161,18 +167,12 @@ const Library: React.FC = () => {
           <div className="flex-1 overflow-auto">
             {/* FAVORITES section */}
             <div className="mb-4">
-              <div className="flex items-center justify-between p-3">
+              <div className="flex items-center p-3">
                 <span
                   className="text-xs uppercase font-semibold"
                   style={{ color: steamTheme.textSecondary }}
                 >
                   FAVORITES ({featuredProjects.length})
-                </span>
-                <span
-                  className="text-xs"
-                  style={{ color: steamTheme.textSecondary }}
-                >
-                  SORT
                 </span>
               </div>
 

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import ProjectImageBackground from './no-img-bg';
+import ProjectImageBackground from '../no-img-bg';
 import { SteamTheme } from '@/components/types/system-types';
 import Image from 'next/image';
 
@@ -48,24 +48,24 @@ const HobbiesCard: React.FC<HobbiesCardProps> = ({
         <Image
           src={`/games/${game.image}`}
           alt={game.name}
-          className="w-16 h-16 rounded-md object-cover mr-3 flex-shrink-0"
+          className="w-16 h-16 rounded-md object-cover mr-3 flex-shrink-0 pl-2"
           width={64}
           height={64}
         />
         <div className="flex-1 min-w-0">
           <h3
-            className="font-bold text-md truncate"
+            className="font-bold text-md truncate pt-2 pb-1"
             style={{ color: steamTheme.textPrimary }}
           >
             {game.name}
           </h3>
           <p
-            className="text-xs truncate"
+            className="text-xs pr-2 line-clamp-2 h-8"
             style={{ color: steamTheme.textSecondary }}
           >
             {description}
           </p>
-          <div className="flex overflow-hidden mt-1 space-x-1">
+          <div className="flex overflow-hidden mt-1 pt-1 space-x-1  pr-2 pb-2">
             {displayTags.map((tag) => (
               <span
                 key={tag}

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { useTheme } from '../../../theme-provider';
 import { themes } from '@/lib/themes';
 import {
@@ -9,19 +10,20 @@ import {
   useNavigation,
 } from '@/components/webpage/chevron-button';
 import Library from './all projects/library';
-import FeaturedProjects from './featured-projects';
-import WindowSizeProvider from '@/components/webpage/breakpoints';
+import FeaturedProjects from './feature projects/featured-projects';
+import {
+  WindowSizeProvider,
+  useWindowSize,
+} from '@/components/webpage/breakpoints';
 import { SteamTheme } from '@/components/types/system-types';
 
-// Inner component that uses navigation context
-const SteamAppContent: React.FC = () => {
+// Inner component for Steam content with access to navigation and window size
+const SteamContent: React.FC = () => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
   const steamTheme = currentTheme.steam as SteamTheme;
   const { navigate, getCurrentState, history, currentIndex } = useNavigation();
-
-  // Create a ref for the content container with proper typing
-  const contentRef = useRef<HTMLDivElement>(null);
+  const { isXs, isSm, isMd } = useWindowSize();
 
   const [activeTab, setActiveTab] = useState<'featured' | 'all'>('featured');
 
@@ -82,7 +84,7 @@ const SteamAppContent: React.FC = () => {
         <div className="flex items-center space-x-4">
           <button
             onClick={() => handleTabChange('featured')}
-            className="uppercase font-medium text-sm px-2 py-1 transition-colors hover:cursor-pointer"
+            className="uppercase font-medium text-sm px-2 py-1 transition-colors truncate hover:cursor-pointer"
             style={{
               color:
                 activeTab === 'featured'
@@ -94,11 +96,11 @@ const SteamAppContent: React.FC = () => {
                   : 'none',
             }}
           >
-            FEATURED PROJECTS
+            {isXs ? 'FEATURED' : 'FEATURED PROJECTS'}
           </button>
           <button
             onClick={() => handleTabChange('all')}
-            className="uppercase font-medium text-sm px-2 py-1 transition-colors hover:cursor-pointer"
+            className="uppercase font-medium text-sm px-2 py-1 transition-colors truncate hover:cursor-pointer"
             style={{
               color:
                 activeTab === 'all'
@@ -110,21 +112,57 @@ const SteamAppContent: React.FC = () => {
                   : 'none',
             }}
           >
-            ALL PROJECTS
+            {isXs ? 'ALL' : 'ALL PROJECTS'}
           </button>
+        </div>
+
+        {/* Profile section - hidden on medium and smaller screens */}
+        <div
+          className="ml-auto flex items-center gap-2 px-3 py-1 rounded"
+          style={{
+            background: steamTheme.sidebarHover,
+            display: isXs || isSm || isMd ? 'none' : 'flex',
+          }}
+        >
+          <div className="relative w-7 h-7 rounded-full overflow-hidden">
+            <Image
+              src="/other/profile.png"
+              alt="Profile"
+              fill
+              sizes="28px"
+              style={{ objectFit: 'cover' }}
+            />
+          </div>
+          <span
+            className="text-sm font-medium pl-1 pr-1"
+            style={{ color: steamTheme.highlight }}
+          >
+            Cai Chen
+          </span>
         </div>
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-hidden" ref={contentRef}>
-        {/* Wrap content with WindowSizeProvider */}
-        <WindowSizeProvider containerRef={contentRef}>
-          <div className="h-full">
-            {activeTab === 'all' && <Library />}
-            {activeTab === 'featured' && <FeaturedProjects />}
-          </div>
-        </WindowSizeProvider>
+      <div className="flex-1 overflow-hidden">
+        <div className="h-full">
+          {activeTab === 'all' && <Library />}
+          {activeTab === 'featured' && <FeaturedProjects />}
+        </div>
       </div>
+    </div>
+  );
+};
+
+// Inner component that uses navigation context
+const SteamAppContent: React.FC = () => {
+  // Create a ref for the content container
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  return (
+    <div ref={contentRef} className="h-full flex flex-col">
+      <WindowSizeProvider containerRef={contentRef}>
+        <SteamContent />
+      </WindowSizeProvider>
     </div>
   );
 };

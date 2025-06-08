@@ -34,9 +34,14 @@ const StartPanel: React.FC<StartPanelProps> = ({
   const pinnedApps = allApps.filter((app) => app.isPinned);
 
   const filteredApps = searchQuery
-    ? allApps.filter((app) =>
-        app.name.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+    ? allApps.filter((app) => {
+        if (!searchQuery.trim()) return true;
+
+        const query = searchQuery.toLowerCase();
+        // Split app name into words and check if any word starts with the query
+        const nameWords = app.name.toLowerCase().split(/\s+/);
+        return nameWords.some((word) => word.startsWith(query));
+      })
     : pinnedApps;
 
   // Reusable hover methods
@@ -297,7 +302,13 @@ const StartPanel: React.FC<StartPanelProps> = ({
                   border: `1px solid ${currentTheme.glass.border}`,
                 }}
               >
-                <User size={16} style={{ color: currentTheme.text.primary }} />
+                <Image
+                  src="/other/profile.png"
+                  alt="Profile"
+                  className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
+                  width={32}
+                  height={32}
+                />
               </div>
               <span className="text-sm font-medium">Profile</span>
             </button>
