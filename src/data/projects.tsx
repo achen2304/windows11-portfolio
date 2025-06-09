@@ -33,6 +33,18 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    name: 'Windows 11 Portfolio (V3)',
+    created: 'June 2025',
+    updated: 'Today',
+    d1: 'Personal Portfolio Website',
+    d2: 'A personal portfolio website built with Typescript, React, and Tailwind CSS. This is the third iteration of my portfolio site. It is a Windows 11 themed portfolio website that is fully responsive with multiple apps/windows.',
+    image: 'portfoliov3.webp',
+    link: 'https://www.portfolio.czchen.dev',
+    github: 'https://github.com/achen2304/windows11-portfolio',
+    technologies: ['Typescript', 'React', 'Tailwind CSS', 'HTML/CSS'],
+    featured: true,
+  },
+  {
     name: 'MealMate',
     created: 'May 2025',
     updated: 'May 2025',
@@ -51,19 +63,6 @@ export const projects: Project[] = [
     ],
     featured: true,
   },
-  {
-    name: 'Windows 11 Portfolio (V3)',
-    created: 'June 2025',
-    updated: 'Today',
-    d1: 'Personal Portfolio Website',
-    d2: 'A personal portfolio website built with Typescript, React, and Tailwind CSS. This is the third iteration of my portfolio site. It is a Windows 11 themed portfolio website that is fully responsive with multiple apps/windows.',
-    image: 'portfoliov3.webp',
-    link: 'https://www.portfolio.czchen.dev',
-    github: 'https://github.com/achen2304/windows11-portfolio',
-    technologies: ['Typescript', 'React', 'Tailwind CSS', 'HTML/CSS'],
-    featured: true,
-  },
-
   {
     name: 'Portfolio V2',
     created: 'March 2025',
