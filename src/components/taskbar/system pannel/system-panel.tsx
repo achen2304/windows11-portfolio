@@ -54,14 +54,6 @@ const SystemPanel: React.FC<SystemPanelProps> = ({
     onVolumeChange(newVolume);
   };
 
-  // Trigger night light animation
-  const triggerNightLightAnimation = () => {
-    setIsNightLightSpinning(true);
-    setTimeout(() => {
-      setIsNightLightSpinning(false);
-    }, 150); // Match taskbar animation timing - halfway through animation
-  };
-
   return (
     <>
       {/* System Panel */}
@@ -116,11 +108,9 @@ const SystemPanel: React.FC<SystemPanelProps> = ({
         <div className="px-4">
           {/* Brightness Slider */}
           <BrightnessControl
-            initialBrightness={theme === 'dark' ? 38 : 65}
+            initialBrightness={100}
             theme={theme}
             currentTheme={currentTheme}
-            onThemeChange={handleThemeChange}
-            triggerNightLightAnimation={triggerNightLightAnimation}
           />
 
           {/* Volume Slider */}

@@ -1,11 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Wifi,
   Bluetooth,
   Plane,
-  Sun,
   Moon,
   BatteryCharging,
   WifiOff,
@@ -51,11 +50,9 @@ interface QuickActionsProps {
 }
 
 const QuickActions = ({
-  theme,
   currentTheme,
   soundEnabled,
   toggleSound,
-  onThemeChange,
   isSpinning = false,
   setIsSpinning,
 }: QuickActionsProps) => {
@@ -63,10 +60,34 @@ const QuickActions = ({
   const [bluetoothEnabled, setBluetoothEnabled] = useState(false);
   const [airplaneMode, setAirplaneMode] = useState(false);
   const [energySaver, setEnergySaver] = useState(false);
+  const [nightLightEnabled, setNightLightEnabled] = useState(false);
   const [clickedButton, setClickedButton] = useState<string | null>(null);
   const [isWifiAnimating, setIsWifiAnimating] = useState(false);
   const [isAirplaneFlyingOut, setIsAirplaneFlyingOut] = useState(false);
   const [isBluetoothAnimating, setIsBluetoothAnimating] = useState(false);
+
+  // Apply night light filter when enabled
+  useEffect(() => {
+    const rootElement = document.documentElement;
+    const currentFilter = rootElement.style.filter || '';
+
+    // Extract existing brightness filter if present
+    const brightnessFilter = currentFilter.match(/brightness\([^)]+\)/);
+    const brightnessValue = brightnessFilter
+      ? brightnessFilter[0]
+      : 'brightness(1)';
+
+    if (nightLightEnabled) {
+      // Apply blue light filter while preserving brightness
+      rootElement.style.filter = `${brightnessValue} sepia(20%) contrast(0.95)`;
+    } else if (brightnessFilter) {
+      // Keep only brightness filter
+      rootElement.style.filter = brightnessValue;
+    } else {
+      // No filters
+      rootElement.style.filter = '';
+    }
+  }, [nightLightEnabled]);
 
   const handleButtonClick = (actionId: string, originalAction: () => void) => {
     setClickedButton(actionId);
@@ -83,11 +104,11 @@ const QuickActions = ({
     setIsSpinning?.(true);
 
     setTimeout(() => {
-      const newTheme = theme === 'dark' ? 'light' : 'dark';
-      onThemeChange(newTheme as Theme);
+      // Toggle night light without changing theme
+      setNightLightEnabled(!nightLightEnabled);
       setIsSpinning?.(false);
       setClickedButton(null);
-    }, 150); // Match taskbar animation halfway point
+    }, 200); // Match taskbar animation halfway point
   };
 
   const handleWifiClick = () => {
@@ -169,15 +190,15 @@ const QuickActions = ({
     },
     {
       id: 'night',
-      icon: theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />,
+      icon: <Moon size={20} />,
       label: 'Night light',
-      isActive: theme === 'dark',
+      isActive: nightLightEnabled,
       onClick: handleNightLightClick,
     },
     {
       id: 'sound',
       icon: soundEnabled ? <Volume2 size={20} /> : <VolumeX size={20} />,
-      label: 'Click Sound',
+      label: 'Sound',
       isActive: soundEnabled,
       onClick: handleSoundToggle,
     },

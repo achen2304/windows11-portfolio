@@ -3,9 +3,6 @@
 import { useState, useEffect } from 'react';
 import { Sun } from 'lucide-react';
 
-// Define theme type to match theme-provider
-type Theme = 'dark' | 'light';
-
 // Define a type for the theme object
 interface ThemeObject {
   text: {
@@ -24,38 +21,46 @@ interface BrightnessControlProps {
   initialBrightness: number;
   theme: string;
   currentTheme: ThemeObject;
-  onThemeChange: (theme: Theme) => void;
+  onThemeChange?: (theme: string) => void;
   onBrightnessChange?: (brightness: number) => void;
-  triggerNightLightAnimation?: () => void;
 }
 
 const BrightnessControl = ({
-  initialBrightness,
+  initialBrightness = 100, // Set default to 100%
   theme,
   currentTheme,
-  onThemeChange,
   onBrightnessChange,
-  triggerNightLightAnimation,
 }: BrightnessControlProps) => {
   const [brightness, setBrightness] = useState(initialBrightness);
   const [clickedButton, setClickedButton] = useState<string | null>(null);
 
-  // Update brightness when theme changes from outside this component
+  // Apply brightness filter to the document body
   useEffect(() => {
-    // Update brightness to match current theme (without triggering theme change again)
-    setBrightness(theme === 'dark' ? 38 : 65);
-  }, [theme]);
+    // Apply actual brightness filter to the root element
+    const rootElement = document.documentElement;
+
+    // Get current filter, extract any existing sepia/contrast (for night light)
+    const currentFilter = rootElement.style.filter || '';
+    const nightLightFilter = currentFilter.match(
+      /(sepia\([^)]+\)|contrast\([^)]+\))/g
+    );
+
+    // Combine brightness with existing night light filter if present
+    if (nightLightFilter && nightLightFilter.length) {
+      rootElement.style.filter = `brightness(${
+        brightness / 100
+      }) ${nightLightFilter.join(' ')}`;
+    } else {
+      rootElement.style.filter = `brightness(${brightness / 100})`;
+    }
+
+    return () => {
+      // Don't fully clean up on unmount to avoid removing night light filter
+    };
+  }, [brightness]);
 
   // Handle brightness change
   const handleBrightnessChange = (newBrightness: number) => {
-    // Check if we're crossing the theme threshold
-    const themeThreshold = 50;
-    const wasDarkTheme = brightness < themeThreshold;
-    const willBeDarkTheme = newBrightness < themeThreshold;
-
-    // Detect threshold crossing
-    const crossingThreshold = wasDarkTheme !== willBeDarkTheme;
-
     // Update brightness state
     setBrightness(newBrightness);
 
@@ -63,55 +68,21 @@ const BrightnessControl = ({
     if (onBrightnessChange) {
       onBrightnessChange(newBrightness);
     }
-
-    // Apply theme change immediately for a more responsive experience
-    if (crossingThreshold) {
-      // Apply theme change
-      applyBrightnessChange(newBrightness);
-    }
   };
 
-  // Apply brightness change and update theme if needed
-  const applyBrightnessChange = (newBrightness: number) => {
-    // Theme transition threshold - below 50 is dark, above 50 is light
-    const themeThreshold = 50;
-
-    // Determine if we should change the theme
-    const shouldBeDarkTheme = newBrightness < themeThreshold;
-    const currentIsDarkTheme = theme === 'dark';
-
-    // Change theme if needed
-    if (shouldBeDarkTheme !== currentIsDarkTheme) {
-      // Trigger the night light animation if available
-      if (triggerNightLightAnimation) {
-        triggerNightLightAnimation();
-      }
-
-      // Apply the theme change
-      onThemeChange(shouldBeDarkTheme ? 'dark' : 'light');
-    }
-  };
-
-  // Toggle between light and dark theme when clicking the brightness icon
+  // Toggle between minimum and maximum brightness when clicking the brightness icon
   const handleBrightnessIconClick = () => {
-    // Toggle the theme
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    const newBrightness = newTheme === 'dark' ? 38 : 65;
+    // Toggle between 40% and 100% brightness
+    const newBrightness = brightness < 50 ? 100 : 40;
 
-    // Trigger the night light animation if available
-    if (triggerNightLightAnimation) {
-      triggerNightLightAnimation();
-    }
+    // Update the brightness
+    handleBrightnessChange(newBrightness);
 
     // Visual feedback for button click
     setClickedButton('brightness-icon');
     setTimeout(() => {
       setClickedButton(null);
     }, 200);
-
-    // Update the theme and brightness
-    onThemeChange(newTheme as Theme);
-    setBrightness(newBrightness);
   };
 
   return (
@@ -133,14 +104,14 @@ const BrightnessControl = ({
             }}
           />
         </div>
-        <div className="flex-1">
+        <div className="flex-1 relative">
           <input
             type="range"
-            min="0"
+            min="10"
             max="100"
             value={brightness}
             onChange={(e) => handleBrightnessChange(parseInt(e.target.value))}
-            className="w-full h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer slider"
+            className="w-full h-1 rounded-lg appearance-none cursor-pointer slider"
             style={{
               background: `linear-gradient(to right, ${
                 currentTheme.text.primary
