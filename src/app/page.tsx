@@ -55,8 +55,8 @@ const DemoContent: React.FC = () => {
       className="h-full w-full p-6"
       style={{ minHeight: 'calc(100vh - 48px)' }}
     >
-      {/* Desktop Icons Grid - Vertical layout like Windows */}
-      <div className="grid grid-rows-8 grid-flow-col gap-4 h-full content-start auto-cols-max">
+      {/* Desktop Icons - Vertical flexbox layout */}
+      <div className="flex flex-col flex-wrap h-[calc(100vh-65px)] gap-4 content-start">
         {desktopApps.map((app) => (
           <div
             key={app.id}
@@ -103,8 +103,8 @@ const DemoContent: React.FC = () => {
         ))}
       </div>
 
-      {/* Desktop Context Menu Area (Right-click functionality could be added here) */}
-      <div className="absolute bottom-16 right-6 text-xs opacity-30">
+      {/* Copyright notice - Fixed to bottom right, accounting for taskbar */}
+      <div className="fixed bottom-0 right-0 mb-[56px] mr-3 text-xs opacity-30 z-10">
         <div style={{ color: currentTheme.text.muted }}>
           @{new Date().getFullYear()} Cai Chen. All rights reserved.
         </div>

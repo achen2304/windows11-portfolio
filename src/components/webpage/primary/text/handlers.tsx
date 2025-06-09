@@ -4,6 +4,8 @@ import React from 'react';
 import { useToast } from '@/components/ui/toast';
 import { copyToClipboard } from '@/lib/notification-utils';
 
+export const defaultText = `hi, i'm cai \n\nthis is my (wip) portfolio website :) \n\nto get started checkout the "about" app in the background, taskbar or start menu! \n\np.s. all of buttons are interactive (including the ones in this window, try typing)!`;
+
 // Text editor handlers
 export const useEditorHandlers = (
   textareaRef: React.RefObject<HTMLTextAreaElement | null>,
@@ -31,8 +33,6 @@ export const useEditorHandlers = (
 
   // File menu handlers
   const handleNewDocument = () => {
-    const defaultText = `hi, i'm cai \n\nthis is my portfolio website :) \n\nto get started checkout the "about" app in the background, taskbar or start menu! \n\np.s. all of buttons are interactive!`;
-
     // Reset the storage
     if (typeof window !== 'undefined') {
       localStorage.setItem('notepad-content', defaultText);

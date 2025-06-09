@@ -10,6 +10,7 @@ import Dropdown, {
 import useEditorHandlers from './handlers';
 import { useWindowManager, WindowState } from '../../window-manager';
 import { useAppOpener } from '../../app-openers';
+import { defaultText } from './handlers';
 
 export const TextEditorApp: React.FC = () => {
   const { theme } = useTheme();
@@ -23,7 +24,7 @@ export const TextEditorApp: React.FC = () => {
       const savedContent = localStorage.getItem('notepad-content');
       if (savedContent) return savedContent;
     }
-    return `hi, i'm cai \n\nthis is my portfolio website :) \n\nto get started checkout the "about" app in the background, taskbar or start menu! \n\np.s. all of buttons are interactive!`;
+    return defaultText;
   };
 
   const [content, setContent] = useState<string>(getInitialContent());

@@ -27,7 +27,7 @@ export const availableApps: AppDefinition[] = [
     name: 'Notepad',
     icon: '/app icons/text.svg',
     component: <TextEditorApp />,
-    defaultSize: { width: 400, height: 350 },
+    defaultSize: { width: 400, height: 375 },
     defaultPosition: { x: 500, y: 300 },
     category: 'Productivity',
     description: 'Windows 11 style Notepad for text editing',
