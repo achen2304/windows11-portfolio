@@ -8,11 +8,8 @@ import WelcomeBanner from '../common/WelcomeBanner';
 import ProfileImage from '../common/ProfileImage';
 import { skills as allSkills } from '@/data/skills';
 
-// Custom message content component for skills
 const SkillsMessageContent = ({ slackTheme }: { slackTheme: SlackTheme }) => {
-  // Create skill categories from the data file based on skill types
   const skillsByCategory = useMemo(() => {
-    // Group skills by type
     const groupedSkills = allSkills.reduce((acc, skill) => {
       const type = skill.type;
       if (!acc[type]) {
@@ -26,32 +23,23 @@ const SkillsMessageContent = ({ slackTheme }: { slackTheme: SlackTheme }) => {
       return acc;
     }, {} as Record<string, { name: string }[]>);
 
-    // Sort each category alphabetically
-    Object.keys(groupedSkills).forEach((key) => {
-      groupedSkills[key].sort((a, b) => a.name.localeCompare(b.name));
-    });
-
     return groupedSkills;
   }, []);
 
-  // Map type names to display names
   const categoryTitles = {
     language: 'Programming Languages',
     frontend: 'Frontend Development',
     backend: 'Backend Development',
     database: 'Database & Cloud',
-    devops: 'DevOps & Cloud',
-    tools: 'Tools & Utilities',
+    tools: 'DevOps & Tools',
   };
 
-  // Define category order
   const categoryOrder = [
     'language',
     'frontend',
     'backend',
     'database',
     'tools',
-    'devops',
   ];
 
   return (
@@ -73,7 +61,7 @@ const SkillsMessageContent = ({ slackTheme }: { slackTheme: SlackTheme }) => {
                 title={
                   categoryTitles[type as keyof typeof categoryTitles] || type
                 }
-                skills={skillsByCategory[type]}
+                skills={skillsByCategory[type].map((skill) => skill.name)}
                 theme={slackTheme}
               />
             </div>

@@ -28,11 +28,9 @@ const StartPanel: React.FC<StartPanelProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [maxPanelHeight, setMaxPanelHeight] = useState('80vh');
 
-  // Set max height based on window size
   useEffect(() => {
     const updateMaxHeight = () => {
-      // Calculate max height based on viewport height, leaving space for taskbar
-      const maxHeight = Math.min(window.innerHeight - 60, 700); // 60px for taskbar, max 700px
+      const maxHeight = Math.min(window.innerHeight - 60, 700);
       setMaxPanelHeight(`${maxHeight}px`);
     };
 
@@ -52,13 +50,11 @@ const StartPanel: React.FC<StartPanelProps> = ({
         if (!searchQuery.trim()) return true;
 
         const query = searchQuery.toLowerCase();
-        // Split app name into words and check if any word starts with the query
         const nameWords = app.name.toLowerCase().split(/\s+/);
         return nameWords.some((word) => word.startsWith(query));
       })
     : pinnedApps;
 
-  // Reusable hover methods
   const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.style.backgroundColor =
       theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
@@ -68,9 +64,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
     e.currentTarget.style.backgroundColor = 'transparent';
   };
 
-  // Handle start panel app click - focus if open, otherwise open new
   const handleStartPanelAppClick = (appId: string) => {
-    // Use the centralized utility function
     handleAppClick(appId, windows, focusWindow, minimizeWindow, onAppClick);
   };
 

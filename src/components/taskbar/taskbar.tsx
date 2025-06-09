@@ -73,15 +73,10 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
   const isCalendarPanelActive = activePanels.has('calendar');
   const isSoundboardPanelActive = activePanels.has('soundboard');
 
-  // No need for appsWithActiveState - we'll check window state directly
-
-  // Handle app click - focus if open, otherwise call onAppClick
   const handleTaskbarAppClick = (appId: string) => {
-    // Add click animation
     setClickedApp(appId);
     setTimeout(() => setClickedApp(null), 150);
 
-    // Use the centralized utility function
     handleAppClick(appId, windows, focusWindow, minimizeWindow, onAppClick);
   };
 
@@ -185,8 +180,8 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
                   const isWindowActive =
                     openWindow?.isActive && !openWindow?.isMinimized;
 
+                  // Active/focused window - shorter/longer line at bottom
                   if (isWindowActive) {
-                    // Active/focused window - longer line at bottom (like Edge in your image)
                     return (
                       <div
                         className="absolute bottom-1 left-1/2 transform -translate-x-1/2 rounded-full pointer-events-none transition-all duration-300 ease-out"
@@ -199,7 +194,6 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
                       />
                     );
                   } else if (hasOpenWindow) {
-                    // Open but not active/focused - small dot at bottom (like other apps in your image)
                     return (
                       <div
                         className="absolute bottom-1 left-1/2 transform -translate-x-1/2 rounded-full pointer-events-none transition-all duration-300 ease-out"
@@ -212,7 +206,6 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
                       />
                     );
                   }
-                  // No indicator for pinned but not open apps (like the second Edge in your image)
                   return null;
                 })()}
               </button>

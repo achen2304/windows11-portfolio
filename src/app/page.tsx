@@ -21,31 +21,23 @@ const DemoContent: React.FC = () => {
   const { openAppById } = useAppOpener();
   const { windows, closeWindow } = useWindowManager();
 
-  // Open text editor automatically when page loads
   useEffect(() => {
-    // Small delay to ensure everything is loaded
     const timer = setTimeout(() => {
       openAppById('text-editor');
     }, 500);
 
-    // Clean up timer on component unmount
     return () => clearTimeout(timer);
-  }, []); // Only run once when component mounts
+  }, []);
 
-  // Handle desktop icon click - close existing window and reopen
   const handleDesktopIconClick = (appId: string) => {
-    // Find window that starts with the app ID (to handle unique window IDs)
     const openWindow = windows.find((window) => window.id.startsWith(appId));
 
     if (openWindow) {
-      // Close the existing window first
       closeWindow(openWindow.id);
-      // Small delay to ensure clean closing, then reopen
       setTimeout(() => {
         openAppById(appId);
       }, 100);
     } else {
-      // If not open, just open it
       openAppById(appId);
     }
   };

@@ -15,10 +15,8 @@ interface MainAreaProps {
 const MainArea: React.FC<MainAreaProps> = ({ selectedProject, steamTheme }) => {
   const { isXs, isSm, isMd } = useWindowSize();
 
-  // Ensure steamTheme is of the right type
   const theme = steamTheme as SteamTheme;
 
-  // Determine layout based on screen size
   const isMobileView = isXs || isSm || isMd;
 
   return (
@@ -97,7 +95,7 @@ const MainArea: React.FC<MainAreaProps> = ({ selectedProject, steamTheme }) => {
           <div
             className={`${
               isMobileView ? 'w-full' : 'md:flex-[2]'
-            } space-y-6 order-2 md:order-1`}
+            } space-y-6 order-1 md:order-1`}
           >
             <div
               className="p-4 md:p-5 rounded"
@@ -133,7 +131,7 @@ const MainArea: React.FC<MainAreaProps> = ({ selectedProject, steamTheme }) => {
           <div
             className={`${
               isMobileView ? 'w-full' : 'md:flex-1'
-            } space-y-4 order-1 md:order-2`}
+            } space-y-4 order-2 md:order-2`}
           >
             {/* Technologies used */}
             <div

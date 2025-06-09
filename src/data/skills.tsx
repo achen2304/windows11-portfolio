@@ -1,17 +1,32 @@
 import {
   FaHtml5,
   FaCss3Alt,
-  FaJs,
   FaReact,
   FaNodeJs,
   FaPython,
   FaJava,
   FaGitAlt,
-  FaGoogle,
+  FaAws,
 } from 'react-icons/fa';
-import { SiMongodb, SiMariadb, SiGnubash, SiPostman } from 'react-icons/si';
+import {
+  SiMongodb,
+  SiMariadb,
+  SiGnubash,
+  SiC,
+  SiExpress,
+  SiSwagger,
+  SiJunit5,
+  SiJest,
+  SiStorybook,
+  SiTailwindcss,
+  SiMui,
+  SiRedux,
+  SiTypescript,
+  SiJavascript,
+} from 'react-icons/si';
 import { TbBrandMysql } from 'react-icons/tb';
-import { TiVendorMicrosoft } from 'react-icons/ti';
+import { BiLogoSpringBoot } from 'react-icons/bi';
+import { RiNextjsFill } from 'react-icons/ri';
 
 export interface Skill {
   name: string;
@@ -22,12 +37,13 @@ export interface Skill {
 export const skills: Skill[] = [
   {
     name: 'Typescript',
-    icon: <FaJs />,
+    icon: <SiTypescript />,
     type: 'language',
   },
+
   {
     name: 'Javascript',
-    icon: <FaJs />,
+    icon: <SiJavascript />,
     type: 'language',
   },
   {
@@ -42,22 +58,24 @@ export const skills: Skill[] = [
   },
   {
     name: 'C',
-    icon: <FaHtml5 />,
+    icon: <SiC />,
     type: 'language',
   },
   {
     name: 'HTML',
     icon: <FaHtml5 />,
-    type: 'frontend',
+    type: 'language',
   },
   {
     name: 'CSS',
     icon: <FaCss3Alt />,
-    type: 'frontend',
+    type: 'language',
   },
+  // ----------------Frontend----------------
+
   {
     name: 'Next.js',
-    icon: <FaReact />,
+    icon: <RiNextjsFill />,
     type: 'frontend',
   },
   {
@@ -67,27 +85,35 @@ export const skills: Skill[] = [
   },
   {
     name: 'Tailwind CSS',
-    icon: <FaCss3Alt />,
+    icon: <SiTailwindcss />,
     type: 'frontend',
   },
   {
     name: 'Material UI',
-    icon: <FaCss3Alt />,
+    icon: <SiMui />,
     type: 'frontend',
   },
   {
     name: 'Redux Toolkit',
-    icon: <FaCss3Alt />,
+    icon: <SiRedux />,
     type: 'frontend',
   },
   {
-    name: 'React Context',
-    icon: <FaCss3Alt />,
+    name: 'Storybook',
+    icon: <SiStorybook />,
     type: 'frontend',
   },
+  {
+    name: 'Jest',
+    icon: <SiJest />,
+    type: 'frontend',
+  },
+
+  // ----------------Backend----------------
+
   {
     name: 'Express.js',
-    icon: <FaNodeJs />,
+    icon: <SiExpress />,
     type: 'backend',
   },
   {
@@ -97,22 +123,25 @@ export const skills: Skill[] = [
   },
   {
     name: 'Spring Boot',
-    icon: <FaNodeJs />,
+    icon: <BiLogoSpringBoot />,
+    type: 'backend',
+  },
+  {
+    name: 'Junit',
+    icon: <SiJunit5 />,
     type: 'backend',
   },
   {
     name: 'Swagger',
-    icon: <FaNodeJs />,
+    icon: <SiSwagger />,
     type: 'backend',
   },
+
+  // ----------------Database----------------
+
   {
     name: 'MongoDB',
     icon: <SiMongodb />,
-    type: 'database',
-  },
-  {
-    name: 'PostgreSQL',
-    icon: <SiMariadb />,
     type: 'database',
   },
   {
@@ -120,21 +149,19 @@ export const skills: Skill[] = [
     icon: <TbBrandMysql />,
     type: 'database',
   },
+  {
+    name: 'PostgreSQL',
+    icon: <SiMariadb />,
+    type: 'database',
+  },
+
+  // ----------------Tools----------------
+
+  {
+    name: 'AWS',
+    icon: <FaAws />,
+    type: 'tools',
+  },
   { name: 'Bash', icon: <SiGnubash />, type: 'tools' },
   { name: 'Git', icon: <FaGitAlt />, type: 'tools' },
-  {
-    name: 'PostMan',
-    icon: <SiPostman />,
-    type: 'tools',
-  },
-  {
-    name: 'Microsoft Office',
-    icon: <TiVendorMicrosoft />,
-    type: 'tools',
-  },
-  {
-    name: 'Google Suite',
-    icon: <FaGoogle />,
-    type: 'tools',
-  },
 ];

@@ -24,7 +24,6 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
     notificationUtils.getNotifications()
   );
 
-  // Subscribe to notification changes
   useEffect(() => {
     const unsubscribe = notificationUtils.subscribe(() => {
       setStoreNotifications(notificationUtils.getNotifications());
@@ -58,7 +57,6 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
 
     const days: (Date | null)[] = [];
 
-    // Add days from previous month to fill the first week
     const prevMonth = new Date(year, month - 1, 0);
     const prevMonthDays = prevMonth.getDate();
     for (let i = startingDayOfWeek - 1; i >= 0; i--) {
@@ -66,12 +64,10 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
       days.push(prevDate);
     }
 
-    // Add days of current month
     for (let day = 1; day <= daysInMonth; day++) {
       days.push(new Date(year, month, day));
     }
 
-    // Add days from next month to fill remaining cells (total 42 days = 6 rows)
     const remainingCells = 42 - days.length;
     for (let day = 1; day <= remainingCells; day++) {
       const nextDate = new Date(year, month + 1, day);
@@ -226,10 +222,7 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
                 <div className="space-y-2 max-h-[160px] overflow-y-auto custom-scrollbar">
                   {/* Filter out toasts for email notifications that might be duplicates */}
                   {storeNotifications
-                    // Group by description to remove duplicates
                     .filter((notification, index, self) => {
-                      // Keep the notification if it's the first one with this description
-                      // or if it's not an email notification
                       const isEmailNotification =
                         notification.type === 'copy' &&
                         notification.description?.includes('@');
@@ -238,7 +231,6 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
                         return true;
                       }
 
-                      // For email notifications, check if it's a duplicate
                       return (
                         self.findIndex(
                           (n) => n.description === notification.description

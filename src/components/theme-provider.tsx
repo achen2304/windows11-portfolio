@@ -32,7 +32,6 @@ export function ThemeProvider({
   const [theme, setTheme] = React.useState<Theme>(defaultTheme);
   const [mounted, setMounted] = React.useState(false);
 
-  // Initialize theme from localStorage after component mounts
   React.useEffect(() => {
     setMounted(true);
     const storedTheme = localStorage.getItem(storageKey) as Theme;
@@ -59,7 +58,6 @@ export function ThemeProvider({
     },
   };
 
-  // Prevent hydration mismatch by not rendering until mounted
   if (!mounted) {
     return (
       <ThemeProviderContext.Provider

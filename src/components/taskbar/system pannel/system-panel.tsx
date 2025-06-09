@@ -26,13 +26,10 @@ const SystemPanel: React.FC<SystemPanelProps> = ({
   const currentTheme = themes[theme as keyof typeof themes];
   const { soundEnabled, toggleSound, setVolume } = useClickSound();
 
-  // Default volume level
   const [volume, setVolumeState] = useState(30);
 
-  // Night light animation state
   const [isNightLightSpinning, setIsNightLightSpinning] = useState(false);
 
-  // Initialize click sound volume with system volume
   useEffect(() => {
     if (isOpen) {
       try {

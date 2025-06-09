@@ -75,7 +75,6 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
     [activePanel, openPanel, closePanel]
   );
 
-  // Event handlers
   const handleStartClick = useCallback(() => {
     togglePanel('start');
   }, [togglePanel]);
@@ -94,7 +93,6 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
 
   const handleAppClick = useCallback(
     (appId: string) => {
-      // Close any open panels when clicking an app
       closePanel();
       onAppClick(appId);
     },
@@ -155,7 +153,6 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
   );
 };
 
-// Main component wrapped in Suspense
 const TaskbarShell: React.FC<TaskbarShellProps> = (props) => {
   return (
     <Suspense

@@ -37,32 +37,23 @@ const VolumeControl = ({
   const [isDraggingVolume, setIsDraggingVolume] = useState(false);
   const [clickedButton, setClickedButton] = useState<string | null>(null);
 
-  // Volume change handler with visual feedback and test sound
   const handleVolumeChange = (newVolume: number) => {
-    // Update local temporary volume state while dragging
     setTempVolume(newVolume);
 
-    // Update the system volume immediately (visual update)
     onVolumeChange(newVolume);
 
-    // Only apply the actual volume when done dragging
     if (!isDraggingVolume) {
       applyVolumeChange(newVolume);
     }
   };
 
-  // Apply volume change and play test sound
   const applyVolumeChange = (newVolume: number) => {
-    // Update actual volume state
     setVolumeState(newVolume);
 
-    // Update the click sound volume
     try {
       setVolume(newVolume);
 
-      // Play a test sound when volume changes and sound is enabled
       if (soundEnabled && newVolume > 0) {
-        // Play with a slight delay to ensure volume was updated
         setTimeout(() => {
           playTestSound();
         }, 30);
@@ -71,7 +62,6 @@ const VolumeControl = ({
       console.error('Error setting click sound volume:', error);
     }
 
-    // Visual feedback - flash the sound icon if sound is enabled
     if (soundEnabled && newVolume > 0) {
       setClickedButton('volume-feedback');
       setTimeout(() => {
@@ -80,32 +70,25 @@ const VolumeControl = ({
     }
   };
 
-  // Handle start of volume slider drag
   const handleVolumeSliderStart = () => {
     setIsDraggingVolume(true);
   };
 
-  // Handle end of volume slider drag
   const handleVolumeSliderEnd = () => {
     setIsDraggingVolume(false);
-    // Apply the final volume value
     applyVolumeChange(tempVolume);
   };
 
-  // Toggle mute/unmute when clicking the volume icon
   const handleVolumeIconClick = () => {
-    // If volume is currently 0, restore to previous non-zero volume or default to 50
     if (tempVolume === 0) {
       const newVolume = volume > 0 ? volume : 30;
       setTempVolume(newVolume);
       applyVolumeChange(newVolume);
     } else {
-      // If volume is not 0, save current volume and set to 0
       setTempVolume(0);
       applyVolumeChange(0);
     }
 
-    // Visual feedback
     setClickedButton('volume-icon');
     setTimeout(() => {
       setClickedButton(null);

@@ -30,7 +30,6 @@ const FeaturedProjects: React.FC = () => {
     });
   };
 
-  // Determine if we should use compact mode
   const isCompactMode = isXs || isSm || isMd;
 
   // Calculate card width based on window size - make cards bigger on small screens
@@ -43,7 +42,7 @@ const FeaturedProjects: React.FC = () => {
 
   // Calculate card height based on window size
   const getCardImageHeight = () => {
-    if (isXs) return 'h-36'; // Taller on small screens
+    if (isXs) return 'h-36'; 
     if (isSm) return 'h-40';
     if (isMd) return 'h-44';
     return 'h-52';
@@ -51,29 +50,25 @@ const FeaturedProjects: React.FC = () => {
 
   // Calculate grid columns for games section based on screen size
   const getGridColumns = () => {
-    if (isXs) return 'grid-cols-1 gap-3'; // Single column
+    if (isXs) return 'grid-cols-1 gap-3'; 
     if (isSm) return 'grid-cols-1 gap-3';
     if (isMd) return 'grid-cols-2 gap-4';
     return 'grid-cols-3 gap-6';
   };
 
   // Special breakpoint for compact cards in grid-2 layout
-  // Use this threshold for when grid-2 should use compact cards (e.g., narrower windows)
   const useCompactInGrid = width < 550;
 
-  // Determine if we should use compact cards based on layout
   const shouldUseCompactCards = () => {
-    // Always use compact cards in single column layout
     if (isXs || isSm) return true;
-    // Use compact cards in narrow grid layouts
     return useCompactInGrid;
   };
 
   // Calculate how many tags to show based on layout
   const getMaxTags = () => {
-    if (isXs || isSm) return 3; // Show more tags in compact view
+    if (isXs || isSm) return 3;
     if (isMd) return 2;
-    return 4; // Show more tags in larger layouts
+    return 4;
   };
 
   return (

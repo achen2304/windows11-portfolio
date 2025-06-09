@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { Sun } from 'lucide-react';
-
-// Define a type for the theme object
 interface ThemeObject {
   text: {
     primary: string;
@@ -26,7 +24,7 @@ interface BrightnessControlProps {
 }
 
 const BrightnessControl = ({
-  initialBrightness = 100, // Set default to 100%
+  initialBrightness = 100,
   theme,
   currentTheme,
   onBrightnessChange,
@@ -34,9 +32,7 @@ const BrightnessControl = ({
   const [brightness, setBrightness] = useState(initialBrightness);
   const [clickedButton, setClickedButton] = useState<string | null>(null);
 
-  // Apply brightness filter to the document body
   useEffect(() => {
-    // Apply actual brightness filter to the root element
     const rootElement = document.documentElement;
 
     // Get current filter, extract any existing sepia/contrast (for night light)
@@ -54,17 +50,12 @@ const BrightnessControl = ({
       rootElement.style.filter = `brightness(${brightness / 100})`;
     }
 
-    return () => {
-      // Don't fully clean up on unmount to avoid removing night light filter
-    };
+    return () => {};
   }, [brightness]);
 
-  // Handle brightness change
   const handleBrightnessChange = (newBrightness: number) => {
-    // Update brightness state
     setBrightness(newBrightness);
 
-    // Notify parent of brightness change if callback provided
     if (onBrightnessChange) {
       onBrightnessChange(newBrightness);
     }
@@ -72,13 +63,10 @@ const BrightnessControl = ({
 
   // Toggle between minimum and maximum brightness when clicking the brightness icon
   const handleBrightnessIconClick = () => {
-    // Toggle between 40% and 100% brightness
     const newBrightness = brightness < 50 ? 100 : 40;
 
-    // Update the brightness
     handleBrightnessChange(newBrightness);
 
-    // Visual feedback for button click
     setClickedButton('brightness-icon');
     setTimeout(() => {
       setClickedButton(null);

@@ -124,7 +124,7 @@ const ChannelItem = ({
     transition={{
       duration: 0.3,
       ease: 'easeOut',
-      delay: index * 0.05, // Staggered animation
+      delay: index * 0.05,
     }}
     whileHover={{
       scale: 1.02,
@@ -173,7 +173,6 @@ const QuickLinkItem = ({
   const handleLinkClick = async () => {
     if (item.url) {
       if (item.type === 'copy' && item.url.startsWith('mailto:')) {
-        // Extract email from mailto: link and copy to clipboard
         const email = item.url.replace('mailto:', '');
         await copyToClipboard(email, 'Email copied!', addToast);
       } else if (item.newTab === true) {
@@ -191,7 +190,7 @@ const QuickLinkItem = ({
       transition={{
         duration: 0.3,
         ease: 'easeOut',
-        delay: index * 0.05, // Staggered animation
+        delay: index * 0.05,
       }}
       whileHover={{
         scale: 1.02,

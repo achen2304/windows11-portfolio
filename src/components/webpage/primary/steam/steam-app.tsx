@@ -17,7 +17,6 @@ import {
 } from '@/components/webpage/breakpoints';
 import { SteamTheme } from '@/components/types/system-types';
 
-// Inner component for Steam content with access to navigation and window size
 const SteamContent: React.FC = () => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
@@ -27,23 +26,18 @@ const SteamContent: React.FC = () => {
 
   const [activeTab, setActiveTab] = useState<'featured' | 'all'>('featured');
 
-  // Update tab when navigation state changes or initialize
   useEffect(() => {
     const currentState = getCurrentState();
 
     if (!currentState) {
-      // Initialize with the featured tab
       navigate('steam-app', { tab: 'featured' });
     } else if (currentState.data?.tab) {
-      // Update the active tab based on navigation
       setActiveTab(currentState.data.tab as 'featured' | 'all');
     }
   }, [history, currentIndex, navigate, getCurrentState]);
 
-  // Handle tab change from UI
   const handleTabChange = (tab: 'featured' | 'all') => {
     if (activeTab !== tab) {
-      // Preserve the current project selection when changing tabs
       const currentState = getCurrentState();
       const currentProject = currentState?.data?.project;
 
@@ -155,7 +149,6 @@ const SteamContent: React.FC = () => {
 
 // Inner component that uses navigation context
 const SteamAppContent: React.FC = () => {
-  // Create a ref for the content container
   const contentRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -167,7 +160,6 @@ const SteamAppContent: React.FC = () => {
   );
 };
 
-// Wrapper component that provides navigation context
 const SteamApp: React.FC = () => {
   return (
     <NavigationProvider>

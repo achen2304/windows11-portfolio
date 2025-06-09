@@ -8,21 +8,17 @@ import { useRouter } from 'next/navigation';
 export default function NotFound() {
   const [progress, setProgress] = useState(0);
   const router = useRouter();
-  // Simulate loading progress with staged increments
+
   useEffect(() => {
-    // First stage: 0% to 24%
     setTimeout(() => {
       setProgress(24);
 
-      // Second stage: 24% to 54%
       setTimeout(() => {
         setProgress(54);
 
-        // Third stage: 54% to 94%
         setTimeout(() => {
           setProgress(94);
 
-          // Final stage: 100%
           setTimeout(() => {
             setProgress(100);
           }, 500);

@@ -13,10 +13,8 @@ import {
   VolumeX,
 } from 'lucide-react';
 
-// Define theme type to match theme-provider
 type Theme = 'dark' | 'light';
 
-// Define a type for the theme object
 interface ThemeObject {
   text: {
     primary: string;
@@ -71,20 +69,16 @@ const QuickActions = ({
     const rootElement = document.documentElement;
     const currentFilter = rootElement.style.filter || '';
 
-    // Extract existing brightness filter if present
     const brightnessFilter = currentFilter.match(/brightness\([^)]+\)/);
     const brightnessValue = brightnessFilter
       ? brightnessFilter[0]
       : 'brightness(1)';
 
     if (nightLightEnabled) {
-      // Apply blue light filter while preserving brightness
       rootElement.style.filter = `${brightnessValue} sepia(20%) contrast(0.95)`;
     } else if (brightnessFilter) {
-      // Keep only brightness filter
       rootElement.style.filter = brightnessValue;
     } else {
-      // No filters
       rootElement.style.filter = '';
     }
   }, [nightLightEnabled]);
@@ -93,7 +87,6 @@ const QuickActions = ({
     setClickedButton(actionId);
     originalAction();
 
-    // Reset animation after a short delay
     setTimeout(() => {
       setClickedButton(null);
     }, 200);
@@ -104,11 +97,10 @@ const QuickActions = ({
     setIsSpinning?.(true);
 
     setTimeout(() => {
-      // Toggle night light without changing theme
       setNightLightEnabled(!nightLightEnabled);
       setIsSpinning?.(false);
       setClickedButton(null);
-    }, 200); // Match taskbar animation halfway point
+    }, 200);
   };
 
   const handleWifiClick = () => {
@@ -141,14 +133,13 @@ const QuickActions = ({
       setAirplaneMode(!airplaneMode);
       setIsAirplaneFlyingOut(false);
       setClickedButton(null);
-    }, 400); // Animation duration
+    }, 400);
   };
 
   const handleSoundToggle = () => {
     setClickedButton('sound');
     toggleSound();
 
-    // Reset animation after a short delay
     setTimeout(() => {
       setClickedButton(null);
     }, 200);

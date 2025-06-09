@@ -13,11 +13,9 @@ export interface MessageProps {
 
 // Simple function to render markdown-like syntax
 const renderMarkdown = (text: string) => {
-  // Handle bold text with **text**
   const boldRegex = /\*\*(.*?)\*\*/g;
   const textWithBold = text.replace(boldRegex, '<strong>$1</strong>');
 
-  // Handle line breaks
   const withLineBreaks = textWithBold.replace(/\n/g, '<br />');
 
   return { __html: withLineBreaks };

@@ -11,7 +11,6 @@ import React, {
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { SteamTheme } from '@/components/types/system-types';
 
-// Define navigation history types
 type NavigationState = {
   id: string;
   data?: Record<string, unknown>;
@@ -28,12 +27,10 @@ type NavigationContextType = {
   getCurrentState: () => NavigationState | null;
 };
 
-// Create context for navigation history
 const NavigationContext = createContext<NavigationContextType | undefined>(
   undefined
 );
 
-// Provider component for navigation history
 export const NavigationProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
@@ -42,7 +39,6 @@ export const NavigationProvider: React.FC<{ children: ReactNode }> = ({
 
   const navigate = useCallback(
     (id: string, data?: Record<string, unknown>) => {
-      // Remove forward history when navigating to a new state
       const newHistory = history.slice(0, currentIndex + 1);
       const newState: NavigationState = { id, data };
 
@@ -92,7 +88,6 @@ export const NavigationProvider: React.FC<{ children: ReactNode }> = ({
   );
 };
 
-// Hook to use navigation history
 export const useNavigation = () => {
   const context = useContext(NavigationContext);
   if (context === undefined) {
@@ -101,7 +96,6 @@ export const useNavigation = () => {
   return context;
 };
 
-// ChevronButton component
 interface ChevronButtonProps {
   direction: 'back' | 'forward';
   steamTheme: SteamTheme;
@@ -150,7 +144,6 @@ export const ChevronButton: React.FC<ChevronButtonProps> = ({
   );
 };
 
-// Component that uses the navigation system
 interface NavigationConsumerProps {
   id: string;
   onNavigate?: (state: NavigationState | null) => void;
@@ -164,11 +157,9 @@ export const NavigationConsumer: React.FC<NavigationConsumerProps> = ({
 }) => {
   const { navigate, getCurrentState, history, currentIndex } = useNavigation();
 
-  // Handle initial navigation and history changes
   useEffect(() => {
     const currentState = getCurrentState();
 
-    // If there's no current state yet, navigate to this component
     if (!currentState) {
       navigate(id);
     } else if (onNavigate) {

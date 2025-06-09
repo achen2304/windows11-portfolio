@@ -6,7 +6,6 @@ import { themes } from '@/lib/themes';
 import { X, Maximize2, Minimize2 } from 'lucide-react';
 import { Rnd } from 'react-rnd';
 
-// Handle styles for better resize cursors
 const handleStyles = {
   bottom: { cursor: 'ns-resize' },
   bottomLeft: { cursor: 'nesw-resize' },
@@ -62,7 +61,6 @@ const AppOutline: React.FC<AppOutlineProps> = ({
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
 
-  // Ensure initial size doesn't exceed viewport and respects minimum dimensions
   const constrainedInitialSize = {
     width: Math.max(
       minWidth,
@@ -71,7 +69,7 @@ const AppOutline: React.FC<AppOutlineProps> = ({
     height: Math.max(
       minHeight,
       Math.min(initialSize.height, window.innerHeight - 88)
-    ), // Account for taskbar
+    ),
   };
 
   // Ensure initial position is within viewport
@@ -93,7 +91,6 @@ const AppOutline: React.FC<AppOutlineProps> = ({
 
   const windowRef = useRef<HTMLDivElement>(null);
 
-  // Handle opening animation end
   useEffect(() => {
     if (isOpening) {
       const timer = setTimeout(() => {
@@ -103,26 +100,21 @@ const AppOutline: React.FC<AppOutlineProps> = ({
     }
   }, [isOpening, onOpeningAnimationEnd]);
 
-  // Handle window click for focus
   const handleWindowClick = useCallback(() => {
     onFocus?.();
   }, [onFocus]);
 
-  // Calculate header background based on focus state
   const getHeaderBackground = useCallback(() => {
     if (isActive === undefined) {
-      // Default behavior when isActive is not provided
       return currentTheme.glass.backgroundDark;
     }
 
     if (isActive) {
-      // Focused window - use current darker background
       return currentTheme.glass.backgroundDark;
     } else {
-      // Unfocused window - use lighter background
       return theme === 'dark'
-        ? 'rgba(60, 60, 60, 0.95)' // Lighter gray for dark theme
-        : 'rgba(240, 240, 240, 0.95)'; // Lighter gray for light theme
+        ? 'rgba(60, 60, 60, 0.95)'
+        : 'rgba(240, 240, 240, 0.95)';
     }
   }, [isActive, currentTheme.glass.backgroundDark, theme]);
 
@@ -172,7 +164,7 @@ const AppOutline: React.FC<AppOutlineProps> = ({
             border: `1px solid ${currentTheme.glass.border}`,
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
-            bottom: '48px', // Leave space for taskbar
+            bottom: '48px',
             transform: isOpening
               ? 'scale(0.9)'
               : isClosing
@@ -347,11 +339,9 @@ const AppOutline: React.FC<AppOutlineProps> = ({
         onDragStop={(e, d) => {
           setIsDragging(false);
 
-          // Ensure window doesn't go offscreen when moved
           const viewportWidth = window.innerWidth;
           const viewportHeight = window.innerHeight;
 
-          // Calculate new size if window extends beyond screen edges
           const adjustedSize = { ...size };
           if (d.x + size.width > viewportWidth - 20) {
             adjustedSize.width = Math.max(minWidth, viewportWidth - d.x - 20);
@@ -363,7 +353,6 @@ const AppOutline: React.FC<AppOutlineProps> = ({
             );
           }
 
-          // Update size if changes were needed
           if (
             adjustedSize.width !== size.width ||
             adjustedSize.height !== size.height
@@ -372,7 +361,6 @@ const AppOutline: React.FC<AppOutlineProps> = ({
             onSizeChange?.(adjustedSize);
           }
 
-          // Update position
           const newPosition = { x: d.x, y: d.y };
           setPosition(newPosition);
           onPositionChange?.(newPosition);
@@ -380,13 +368,11 @@ const AppOutline: React.FC<AppOutlineProps> = ({
         onResize={(e, direction, ref, delta, pos) => {
           setIsResizing(true);
 
-          // Constrain size to viewport
           const newSize = {
             width: Math.min(ref.offsetWidth, window.innerWidth - 40),
             height: Math.min(ref.offsetHeight, window.innerHeight - 88),
           };
 
-          // Constrain position to keep window within viewport
           const newPosition = {
             x: Math.min(Math.max(0, pos.x), window.innerWidth - newSize.width),
             y: Math.min(

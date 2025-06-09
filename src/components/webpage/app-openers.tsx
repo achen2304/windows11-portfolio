@@ -20,7 +20,6 @@ export interface AppDefinition {
   description?: string;
 }
 
-// Define all available apps in one place
 export const availableApps: AppDefinition[] = [
   {
     id: 'text-editor',
@@ -65,16 +64,6 @@ export const availableApps: AppDefinition[] = [
     icon: '/app icons/google.svg',
     component: <GoogleApp />,
   },
-  // Add more apps here easily:
-  // {
-  //   id: 'browser',
-  //   name: 'Web Browser',
-  //   icon: '🌐',
-  //   component: <BrowserApp />,
-  //   defaultSize: { width: 1000, height: 700 },
-  //   category: 'Internet',
-  //   description: 'Browse the web',
-  // },
 ];
 
 // Hook for opening apps
@@ -95,7 +84,6 @@ export const useAppOpener = () => {
       return;
     }
 
-    // Generate unique window ID to allow multiple instances
     const windowId = `${app.id}-${Date.now()}`;
 
     createWindow(windowId, app.name, app.component, {
@@ -127,7 +115,6 @@ export const useAppOpener = () => {
   };
 };
 
-// Individual app opener functions for easy use
 export const useAppOpeners = () => {
   const { openApp } = useAppOpener();
 
@@ -148,7 +135,6 @@ export const useAppOpeners = () => {
       openApp('vscode', options),
     openGoogle: (options?: Parameters<typeof openApp>[1]) =>
       openApp('google', options),
-    // Add more specific openers here as needed
   };
 };
 

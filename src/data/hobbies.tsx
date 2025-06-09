@@ -25,7 +25,8 @@ export const favoriteGames = [
   {
     name: 'League of Legends',
     image: 'league-of-legends.webp',
-    description: 'Love-Hate Relationship with this game, TFT is goated though.',
+    description:
+      'Love-Hate Relationship with this game, but TFT is consistently good.',
     tags: ['MOBA', 'PvP', 'Multiplayer', 'Strategy'],
     type: 'game',
   },
@@ -33,21 +34,21 @@ export const favoriteGames = [
     name: 'One Piece',
     image: 'one-piece.webp',
     description:
-      "Top tier anime, haven't actually fully finished watched it, but the manga is peak.",
+      "Top tier anime, haven't actually fully finished watched it, but I am fully caught up with the manga.",
     tags: ['Action', 'Adventure', 'Shonen', 'Fantasy'],
     type: 'show',
   },
   {
     name: 'Breaking Bad',
     image: 'breaking-bad.webp',
-    description: 'The one of best show ever made.',
+    description: 'The one of the best shows ever made.',
     tags: ['Crime', 'Drama', 'Thriller'],
     type: 'show',
   },
   {
     name: 'Severance',
     image: 'severance.webp',
-    description: 'Great show that came out within the past few years.',
+    description: 'Solid show that came out within the past few years.',
     tags: ['Drama', 'Thriller'],
     type: 'show',
   },

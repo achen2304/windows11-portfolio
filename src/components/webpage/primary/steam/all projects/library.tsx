@@ -19,18 +19,14 @@ const Library: React.FC = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  // Initialize sidebar to closed on small screens, open on larger screens
   const [sidebarVisible, setSidebarVisible] = useState(() => {
-    // This prevents the initial flash of sidebar on small screens
     return !isXs && !isSm;
   });
 
-  // Toggle sidebar visibility
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
   };
 
-  // Update sidebar visibility on screen size change
   useEffect(() => {
     if (!isXs && !isSm) {
       setSidebarVisible(true);
@@ -41,11 +37,9 @@ const Library: React.FC = () => {
     }
   }, [isXs, isSm, history, sidebarVisible]);
 
-  // Handle project selection through navigation
   useEffect(() => {
     const currentState = getCurrentState();
 
-    // Check if we have a specific project in the navigation state
     if (currentState?.data?.project) {
       const projectFromHistory = projects.find(
         (p) => p.name === currentState.data?.project
@@ -56,10 +50,8 @@ const Library: React.FC = () => {
       }
     }
 
-    // Otherwise set first project as selected by default
     if (projects.length > 0 && !selectedProject) {
       setSelectedProject(projects[0]);
-      // Add initial project to history
       const currentTab = currentState?.data?.tab || 'all';
       navigate('steam-app', { tab: currentTab, project: projects[0].name });
     }
@@ -72,36 +64,29 @@ const Library: React.FC = () => {
     sidebarVisible,
   ]);
 
-  // Handle project selection
   const handleProjectSelect = (project: Project) => {
     setSelectedProject(project);
 
-    // Get current tab from navigation state
     const currentState = getCurrentState();
     const currentTab = currentState?.data?.tab || 'all';
 
-    // Add project selection to navigation history
     navigate('steam-app', { tab: currentTab, project: project.name });
 
-    // Close sidebar on small screens after selection
     if (isXs || isSm) {
       setSidebarVisible(false);
     }
   };
 
-  // Filter projects based on search by word
   const filteredProjects = projects.filter((project) => {
     if (!searchQuery.trim()) return true;
 
     const query = searchQuery.toLowerCase();
 
-    // Split name into words and check if any word starts with the query
     const nameWords = project.name.toLowerCase().split(/\s+/);
 
     return nameWords.some((word) => word.startsWith(query));
   });
 
-  // Separate featured and non-featured projects
   const featuredProjects = filteredProjects.filter(
     (project) => project.featured
   );

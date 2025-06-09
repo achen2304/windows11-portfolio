@@ -2,14 +2,9 @@ import React from 'react';
 import { SlackTheme } from '@/components/types/system-types';
 import { skills as allSkills } from '@/data/skills';
 
-interface Skill {
-  name: string;
-  level?: number; // Make level optional since we won't display it
-}
-
 interface SkillCategoryProps {
   title: string;
-  skills: Skill[];
+  skills: string[];
   theme: SlackTheme;
 }
 
@@ -18,7 +13,6 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
   skills,
   theme,
 }) => {
-  // Get icons from the skills data
   const getIconForSkill = (skillName: string) => {
     const skill = allSkills.find(
       (s) => s.name.toLowerCase() === skillName.toLowerCase()
@@ -46,7 +40,7 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
 
       <div className="flex flex-wrap gap-2">
         {skills.map((skill, index) => {
-          const icon = getIconForSkill(skill.name);
+          const icon = getIconForSkill(skill);
 
           return (
             <div
@@ -71,7 +65,7 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
                 className="text-sm font-medium"
                 style={{ color: theme.textPrimary }}
               >
-                {skill.name}
+                {skill}
               </span>
             </div>
           );

@@ -78,13 +78,10 @@ export const WindowSizeProvider: React.FC<WindowSizeProviderProps> = ({
     size: 'md',
   });
 
-  // Use refs to store previous values to compare and avoid unnecessary updates
   const prevDimensionsRef = useRef({ width: 0, height: 0 });
 
-  // Memoize breakpoints to avoid recreation on every render
   const breakpointsRef = useRef(breakpoints);
 
-  // Determine window size category based on width
   const getWindowSize = useCallback(
     (width: number): WindowSize => {
       const { xs, sm, md, lg } = breakpointsRef.current;
@@ -94,23 +91,20 @@ export const WindowSizeProvider: React.FC<WindowSizeProviderProps> = ({
       if (width < lg) return 'lg';
       return 'xl';
     },
-    [] // No dependencies needed as we're using breakpointsRef
+    [] 
   );
 
   // Update dimensions when container size changes
   const updateDimensions = useCallback(() => {
     if (containerRef?.current) {
-      // Get dimensions from the container ref
       const { offsetWidth, offsetHeight } = containerRef.current;
 
-      // Only update if dimensions have actually changed
       if (
         prevDimensionsRef.current.width !== offsetWidth ||
         prevDimensionsRef.current.height !== offsetHeight
       ) {
         const size = getWindowSize(offsetWidth);
 
-        // Update our ref with current values
         prevDimensionsRef.current = {
           width: offsetWidth,
           height: offsetHeight,
@@ -123,17 +117,14 @@ export const WindowSizeProvider: React.FC<WindowSizeProviderProps> = ({
         });
       }
     } else if (typeof window !== 'undefined') {
-      // Fallback to window dimensions if no container ref
       const { innerWidth, innerHeight } = window;
 
-      // Only update if dimensions have actually changed
       if (
         prevDimensionsRef.current.width !== innerWidth ||
         prevDimensionsRef.current.height !== innerHeight
       ) {
         const size = getWindowSize(innerWidth);
 
-        // Update our ref with current values
         prevDimensionsRef.current = {
           width: innerWidth,
           height: innerHeight,
@@ -146,9 +137,8 @@ export const WindowSizeProvider: React.FC<WindowSizeProviderProps> = ({
         });
       }
     }
-  }, [containerRef, getWindowSize]); // Minimal dependencies
+  }, [containerRef, getWindowSize]); 
 
-  // Update breakpoints ref if options change
   useEffect(() => {
     breakpointsRef.current = {
       ...DEFAULT_BREAKPOINTS,
@@ -156,15 +146,11 @@ export const WindowSizeProvider: React.FC<WindowSizeProviderProps> = ({
     };
   }, [options.breakpoints]);
 
-  // Setup resize observer and event listeners
   useEffect(() => {
-    // Initial update
     updateDimensions();
 
     if (containerRef?.current) {
-      // Use ResizeObserver for container element
       const observer = new ResizeObserver(() => {
-        // Use requestAnimationFrame to throttle updates
         window.requestAnimationFrame(updateDimensions);
       });
 
@@ -174,9 +160,7 @@ export const WindowSizeProvider: React.FC<WindowSizeProviderProps> = ({
         observer.disconnect();
       };
     } else if (typeof window !== 'undefined') {
-      // Use window resize event as fallback
       const handleResize = () => {
-        // Use requestAnimationFrame to throttle updates
         window.requestAnimationFrame(updateDimensions);
       };
 
@@ -188,7 +172,6 @@ export const WindowSizeProvider: React.FC<WindowSizeProviderProps> = ({
     }
   }, [containerRef, updateDimensions]);
 
-  // Create context value with helper booleans
   const contextValue: WindowSizeContextType = {
     width: dimensions.width,
     height: dimensions.height,
@@ -207,7 +190,6 @@ export const WindowSizeProvider: React.FC<WindowSizeProviderProps> = ({
   );
 };
 
-// Helper component for conditional rendering based on window size
 interface WindowSizeRendererProps {
   children: React.ReactNode;
   sizes: WindowSize[];

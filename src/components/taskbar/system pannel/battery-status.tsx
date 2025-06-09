@@ -2,8 +2,6 @@
 
 import { BatteryMedium, BatteryCharging } from 'lucide-react';
 import { BatteryInfo } from '../taskbar-types';
-
-// Define a type for the theme object
 interface ThemeObject {
   text: {
     primary: string;
