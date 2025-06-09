@@ -65,7 +65,7 @@ const VolumeControl = ({
         // Play with a slight delay to ensure volume was updated
         setTimeout(() => {
           playTestSound();
-        }, 50);
+        }, 30);
       }
     } catch (error) {
       console.error('Error setting click sound volume:', error);
@@ -96,7 +96,7 @@ const VolumeControl = ({
   const handleVolumeIconClick = () => {
     // If volume is currently 0, restore to previous non-zero volume or default to 50
     if (tempVolume === 0) {
-      const newVolume = volume > 0 ? volume : 50;
+      const newVolume = volume > 0 ? volume : 30;
       setTempVolume(newVolume);
       applyVolumeChange(newVolume);
     } else {

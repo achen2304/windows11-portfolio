@@ -3,13 +3,13 @@ import { TaskbarApp } from '@/components/taskbar/taskbar-types';
 export const taskbarApps: TaskbarApp[] = [
   {
     id: 'text-editor',
-    name: 'Notepad',
+    name: '.txt',
     icon: '/app icons/textlight.svg',
     iconLight: '/app icons/textdark.svg',
   },
   {
     id: 'about-me',
-    name: 'About Me',
+    name: 'About',
     icon: '/app icons/slack.png',
   },
   {

@@ -223,7 +223,7 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
                   </p>
                 </div>
               ) : (
-                <div className="space-y-2 max-h-[240px] overflow-y-auto custom-scrollbar">
+                <div className="space-y-2 max-h-[160px] overflow-y-auto custom-scrollbar">
                   {/* Filter out toasts for email notifications that might be duplicates */}
                   {storeNotifications
                     // Group by description to remove duplicates

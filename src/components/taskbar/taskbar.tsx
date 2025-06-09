@@ -20,6 +20,7 @@ import Image from 'next/image';
 interface TaskbarComponentProps extends TaskbarProps {
   onSystemTrayClick?: () => void;
   onDateTimeClick?: () => void;
+  onSoundboardClick?: () => void;
   activePanels?: Set<PanelType>;
 }
 
@@ -29,6 +30,7 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
   onStartClick = () => {},
   onSystemTrayClick = () => {},
   onDateTimeClick = () => {},
+  onSoundboardClick = () => {},
   activePanels = new Set(),
   className = '',
 }) => {
@@ -69,6 +71,7 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
 
   const isSystemPanelActive = activePanels.has('system');
   const isCalendarPanelActive = activePanels.has('calendar');
+  const isSoundboardPanelActive = activePanels.has('soundboard');
 
   // No need for appsWithActiveState - we'll check window state directly
 
@@ -219,15 +222,30 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
 
         {/* Right side - System tray */}
         <div className="flex items-center h-full">
-          {/* Hidden icons indicator */}
+          {/* Soundboard button */}
           <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onSoundboardClick();
+            }}
             className="flex items-center justify-center w-10 h-10 rounded transition-colors duration-200 cursor-pointer"
             style={{
+              backgroundColor: isSoundboardPanelActive
+                ? theme === 'dark'
+                  ? 'rgba(255, 255, 255, 0.15)'
+                  : 'rgba(0, 0, 0, 0.15)'
+                : 'transparent',
               color: currentTheme.text.primary,
               pointerEvents: 'auto',
             }}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onMouseEnter={
+              !isSoundboardPanelActive ? handleMouseEnter : undefined
+            }
+            onMouseLeave={
+              !isSoundboardPanelActive ? handleMouseLeave : undefined
+            }
+            title="Soundboard"
           >
             <ChevronUp size={14} />
           </button>

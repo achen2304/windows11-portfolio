@@ -27,7 +27,7 @@ const SystemPanel: React.FC<SystemPanelProps> = ({
   const { soundEnabled, toggleSound, setVolume } = useClickSound();
 
   // Default volume level
-  const [volume, setVolumeState] = useState(75);
+  const [volume, setVolumeState] = useState(30);
 
   // Night light animation state
   const [isNightLightSpinning, setIsNightLightSpinning] = useState(false);

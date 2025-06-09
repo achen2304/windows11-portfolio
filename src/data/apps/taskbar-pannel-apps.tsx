@@ -3,7 +3,7 @@ import { StartApp, QuickLink } from '@/components/taskbar/taskbar-types';
 export const startPanelApps: StartApp[] = [
   {
     id: 'text-editor',
-    name: 'Notepad',
+    name: '.txt',
     icon: '/app icons/textlight.svg',
     iconLight: '/app icons/text.svg',
     description: 'Text Editor',
@@ -11,7 +11,7 @@ export const startPanelApps: StartApp[] = [
   },
   {
     id: 'about-me',
-    name: 'About Me',
+    name: 'About',
     icon: '/app icons/slack.png',
     description: 'About Me Information',
     isPinned: true,
@@ -49,14 +49,6 @@ export const getQuickLinks = (theme: string): QuickLink[] => [
   },
   {
     id: 'link3',
-    name: 'Resume',
-    newTab: true,
-    type: 'link',
-    icon: '/app icons/quick links/word.svg',
-    url: '/resume.pdf',
-  },
-  {
-    id: 'link4',
     name: 'Email',
     newTab: true,
     type: 'copy',

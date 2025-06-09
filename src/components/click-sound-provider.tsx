@@ -9,6 +9,7 @@ import {
   useCallback,
 } from 'react';
 import { Howl } from 'howler';
+import { sounds } from '@/data/sounds';
 
 // Context to track if sounds are enabled
 interface ClickSoundContextProps {
@@ -17,25 +18,29 @@ interface ClickSoundContextProps {
   setVolume: (volume: number) => void;
   volume: number;
   playTestSound: () => void;
+  playSoundById: (soundUrl: string) => void;
+  sounds: typeof sounds;
 }
 
 const ClickSoundContext = createContext<ClickSoundContextProps>({
   soundEnabled: true,
   toggleSound: () => {},
   setVolume: () => {},
-  volume: 0.5,
+  volume: 0.3,
   playTestSound: () => {},
+  playSoundById: () => {},
+  sounds: sounds,
 });
 
 // Create audio instance - keep it outside the component to ensure a single instance
 const clickSound = new Howl({
   src: ['/sounds/click.mp3'],
-  volume: 0.5,
+  volume: 0.3,
   preload: true,
 });
 
 // Track volume globally to ensure it's consistent across all clicks
-let globalVolume = 0.5;
+let globalVolume = 0.3;
 
 /**
  * Provider component that sets up global click sounds
@@ -62,6 +67,21 @@ export function ClickSoundProvider({
       clickSound.volume(normalizedVolume);
     } catch (error) {
       console.error('Error setting click sound volume:', error);
+    }
+  };
+
+  // Play a sound by URL
+  const playSoundById = (soundUrl: string) => {
+    if (!soundEnabled) return;
+
+    try {
+      const sound = new Howl({
+        src: [soundUrl],
+        volume: globalVolume,
+      });
+      sound.play();
+    } catch (error) {
+      console.error('Error playing sound:', error);
     }
   };
 
@@ -151,6 +171,8 @@ export function ClickSoundProvider({
         setVolume,
         volume: globalVolume, // Always use the global volume here
         playTestSound,
+        playSoundById,
+        sounds,
       }}
     >
       {children}

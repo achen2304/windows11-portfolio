@@ -106,7 +106,7 @@ const DemoContent: React.FC = () => {
       {/* Desktop Context Menu Area (Right-click functionality could be added here) */}
       <div className="absolute bottom-16 right-6 text-xs opacity-30">
         <div style={{ color: currentTheme.text.muted }}>
-          Right-click for context menu
+          @{new Date().getFullYear()} Cai Chen. All rights reserved.
         </div>
       </div>
     </div>

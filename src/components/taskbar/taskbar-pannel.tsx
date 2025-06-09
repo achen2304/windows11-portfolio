@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme } from '../theme-provider';
 import { themes } from '@/lib/themes';
 import { StartPanelProps, QuickLink } from './taskbar-types';
@@ -26,6 +26,20 @@ const StartPanel: React.FC<StartPanelProps> = ({
   const { windows, focusWindow, minimizeWindow } = useWindowManager();
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [maxPanelHeight, setMaxPanelHeight] = useState('80vh');
+
+  // Set max height based on window size
+  useEffect(() => {
+    const updateMaxHeight = () => {
+      // Calculate max height based on viewport height, leaving space for taskbar
+      const maxHeight = Math.min(window.innerHeight - 60, 700); // 60px for taskbar, max 700px
+      setMaxPanelHeight(`${maxHeight}px`);
+    };
+
+    updateMaxHeight();
+    window.addEventListener('resize', updateMaxHeight);
+    return () => window.removeEventListener('resize', updateMaxHeight);
+  }, []);
 
   // Use centralized app data
   const allApps = apps.length > 0 ? apps : startPanelApps;
@@ -62,9 +76,62 @@ const StartPanel: React.FC<StartPanelProps> = ({
 
   return (
     <>
+      {/* Custom Scrollbar Styles */}
+      <style jsx>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: ${theme === 'dark'
+            ? 'rgba(255, 255, 255, 0.05)'
+            : 'rgba(0, 0, 0, 0.05)'};
+          border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: ${theme === 'dark'
+            ? 'rgba(255, 255, 255, 0.2)'
+            : 'rgba(0, 0, 0, 0.2)'};
+          border-radius: 4px;
+          border: 2px solid transparent;
+          background-clip: content-box;
+          transition: background 0.2s ease;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: ${theme === 'dark'
+            ? 'rgba(255, 255, 255, 0.35)'
+            : 'rgba(0, 0, 0, 0.35)'};
+          background-clip: content-box;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:active {
+          background: ${theme === 'dark'
+            ? 'rgba(255, 255, 255, 0.5)'
+            : 'rgba(0, 0, 0, 0.5)'};
+          background-clip: content-box;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-corner {
+          background: ${theme === 'dark'
+            ? 'rgba(255, 255, 255, 0.05)'
+            : 'rgba(0, 0, 0, 0.05)'};
+        }
+
+        /* Firefox scrollbar */
+        .custom-scrollbar {
+          scrollbar-width: thin;
+          scrollbar-color: ${theme === 'dark'
+            ? 'rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05)'
+            : 'rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.05)'};
+        }
+      `}</style>
+
       {/* Start Panel */}
       <div
-        className={`fixed bottom-14 left-2 z-[200] w-[520px] max-w-[90vw] rounded-lg backdrop-blur-xl shadow-2xl transition-all duration-300 ease-out ${className}`}
+        className={`fixed bottom-14 left-2 z-[200] w-[520px] max-w-[90vw] rounded-lg backdrop-blur-xl shadow-2xl transition-all duration-300 ease-out custom-scrollbar ${className}`}
         style={{
           background: currentTheme.glass.background,
           border: `1px solid ${currentTheme.glass.border}`,
@@ -73,6 +140,8 @@ const StartPanel: React.FC<StartPanelProps> = ({
           opacity: isOpen ? 1 : 0,
           pointerEvents: isOpen ? 'auto' : 'none',
           visibility: isOpen ? 'visible' : 'hidden',
+          maxHeight: maxPanelHeight,
+          overflowY: 'auto',
         }}
       >
         {/* Search Bar */}
@@ -194,7 +263,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
               </div>
 
               {/* Quick Links Section */}
-              <div className="mb-3 sm:mb-6">
+              <div>
                 <div className="flex items-center justify-between mb-3 sm:mb-6">
                   <h3
                     style={{ color: currentTheme.text.primary }}
@@ -204,7 +273,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
                   </h3>
                 </div>
                 <div
-                  className="grid grid-cols-2 gap-2 sm:gap-3"
+                  className="grid grid-cols-3 gap-2 sm:gap-3"
                   style={{ minHeight: '100px' }}
                 >
                   {allQuickLinks.slice(0, 6).map((item: QuickLink) => (
@@ -289,7 +358,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
 
         {/* Profile Footer */}
         <div
-          className="px-4 sm:px-8 py-2 sm:py-4"
+          className="px-4 sm:px-8 py-2 "
           style={{ background: currentTheme.glass.backgroundDark }}
         >
           <div className="flex items-center justify-between">

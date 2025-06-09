@@ -120,9 +120,16 @@ export interface SystemPanelProps {
   className?: string;
 }
 
+export interface SoundboardPanelProps {
+  isOpen: boolean;
+  onClose?: () => void;
+  className?: string;
+}
+
 export type PanelType =
   | 'start'
   | 'calendar'
   | 'system'
+  | 'soundboard'
   | 'notifications'
   | null;

@@ -8,6 +8,7 @@ import Taskbar from './taskbar';
 import StartPanel from './taskbar-pannel';
 import CalendarPanel from './calendar-pannel';
 import SystemPanel from './system pannel/system-panel';
+import SoundboardPanel from './soundboard-pannel';
 
 interface TaskbarShellProps {
   apps?: TaskbarApp[];
@@ -29,13 +30,18 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
   const activePanelParam = searchParams.get('panel');
   const activePanel: PanelType =
     activePanelParam &&
-    ['start', 'system', 'calendar', 'notifications'].includes(activePanelParam)
+    ['start', 'system', 'calendar', 'soundboard', 'notifications'].includes(
+      activePanelParam
+    )
       ? (activePanelParam as PanelType)
       : null;
 
   // Update activePanels set when URL changes
   useEffect(() => {
-    if (activePanel && ['start', 'system', 'calendar'].includes(activePanel)) {
+    if (
+      activePanel &&
+      ['start', 'system', 'calendar', 'soundboard'].includes(activePanel)
+    ) {
       setActivePanels(new Set([activePanel]));
     } else {
       setActivePanels(new Set());
@@ -82,6 +88,10 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
     togglePanel('calendar');
   }, [togglePanel]);
 
+  const handleSoundboardClick = useCallback(() => {
+    togglePanel('soundboard');
+  }, [togglePanel]);
+
   const handleAppClick = useCallback(
     (appId: string) => {
       // Close any open panels when clicking an app
@@ -116,6 +126,7 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
         onStartClick={handleStartClick}
         onSystemTrayClick={handleSystemTrayClick}
         onDateTimeClick={handleDateTimeClick}
+        onSoundboardClick={handleSoundboardClick}
         activePanels={activePanels}
         className={className}
       />
@@ -134,6 +145,12 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
 
       {/* Calendar Panel */}
       <CalendarPanel isOpen={activePanel === 'calendar'} onClose={closePanel} />
+
+      {/* Soundboard Panel */}
+      <SoundboardPanel
+        isOpen={activePanel === 'soundboard'}
+        onClose={closePanel}
+      />
     </>
   );
 };

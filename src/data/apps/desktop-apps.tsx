@@ -9,14 +9,14 @@ export interface DesktopApp {
 export const desktopApps: DesktopApp[] = [
   {
     id: 'text-editor',
-    name: 'Notepad',
+    name: '.txt',
     icon: '/app icons/textlight.svg',
     iconLight: '/app icons/textdark.svg',
     description: 'Text Editor',
   },
   {
     id: 'about-me',
-    name: 'About Me',
+    name: 'About',
     icon: '/app icons/slack.png',
     description: 'About Me',
   },

@@ -15,7 +15,7 @@ const GeneralChannel: React.FC = () => {
     <div className="p-4">
       {/* Channel welcome message */}
       <WelcomeBanner
-        title="About Me!"
+        title="About Me"
         description="This section will serve as an introduction to who I am, what I do, and what you can find in this portfolio."
         slackTheme={slackTheme}
       />
