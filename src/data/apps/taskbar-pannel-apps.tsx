@@ -5,7 +5,7 @@ export const startPanelApps: StartApp[] = [
     id: 'text-editor',
     name: 'Notepad',
     icon: '/app icons/textlight.svg',
-    iconLight: '/app icons/textdark.svg',
+    iconLight: '/app icons/text.svg',
     description: 'Text Editor',
     isPinned: true,
   },
@@ -39,7 +39,11 @@ export const getQuickLinks = (theme: string): QuickLink[] => [
     name: 'Github',
     newTab: true,
     type: 'link',
-    icon: '/app icons/quick links/githublight.svg',
+    icon:
+      theme === 'dark'
+        ? '/app icons/quick links/githublight.svg'
+        : '/app icons/quick links/githubdark.svg',
+
     iconLight: '/app icons/quick links/githubdark.svg',
     url: 'https://github.com/achen2304',
   },
