@@ -99,13 +99,13 @@ const SkillsChannel: React.FC = () => {
       />
 
       {/* Skill categories */}
-      <div className="space-y-6 mb-6">
-        <div className="mb-4 flex items-start">
+      <div className="space-y-4 mb-6">
+        <div className="py-2 flex items-start">
           <ProfileImage src="/other/profile.png" alt="Cai Chen" />
           <div className="flex-1">
             <div className="flex items-center">
               <span
-                className="font-bold text-sm"
+                className="font-bold text-md"
                 style={{ color: slackTheme.textPrimary }}
               >
                 Cai Chen
@@ -124,9 +124,9 @@ const SkillsChannel: React.FC = () => {
 
         <Message
           content="I'm always looking to expand my skill set and learn new technologies. Currently, I'm focusing on improving my knowledge of cloud infrastructure and serverless architectures."
-          username="Cai Chen"
+          user="Cai Chen"
           timestamp="10:20 AM"
-          profileImage="/other/profile.png"
+          avatar="/other/profile.png"
         />
       </div>
     </div>

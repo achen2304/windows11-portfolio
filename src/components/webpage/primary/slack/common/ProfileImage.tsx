@@ -13,7 +13,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
   className = '',
 }) => (
   <div
-    className={`w-9 h-9 rounded mr-3 overflow-hidden flex-shrink-0 ${className}`}
+    className={`w-9 h-9 rounded mr-2 overflow-hidden flex-shrink-0 ${className}`}
   >
     <Image
       src={src}

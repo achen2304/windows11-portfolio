@@ -48,13 +48,13 @@ const ExperienceChannel: React.FC = () => {
       />
 
       {/* Experience items */}
-      <div className="space-y-6 mb-6">
-        <div className="mb-4 flex items-start">
+      <div className="space-y-4 mb-6">
+        <div className="py-2 flex items-start">
           <ProfileImage src="/other/profile.png" alt="profile" />
           <div className="flex-1">
             <div className="flex items-center">
               <span
-                className="font-bold text-sm"
+                className="font-bold text-md"
                 style={{ color: slackTheme.textPrimary }}
               >
                 Cai Chen
@@ -73,9 +73,9 @@ const ExperienceChannel: React.FC = () => {
 
         <Message
           content="Throughout my career, I've focused on delivering high-quality, user-friendly web applications while constantly learning and adopting new technologies and best practices."
-          username="Cai Chen"
+          user="Cai Chen"
           timestamp="11:05 AM"
-          profileImage="/other/profile.png"
+          avatar="/other/profile.png"
         />
       </div>
     </div>

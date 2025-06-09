@@ -73,7 +73,7 @@ export const themes = {
       divider: '#383838',
       textPrimary: '#D1D2D3',
       textSecondary: '#ABABAD',
-      accent: '#4A154B', // Slack purple
+      accent: '#8A268C', // Slack purple
       mentionBadge: '#E01E5A',
       buttonPrimary: '#007a5a', // Slack green
       welcomeBackground: '#222529',
@@ -157,7 +157,7 @@ export const themes = {
       divider: '#E0E0E0',
       textPrimary: '#1D1C1D',
       textSecondary: '#616061',
-      accent: '#4A154B',
+      accent: '#8A268C',
       mentionBadge: '#E01E5A',
       buttonPrimary: '#007a5a',
       welcomeBackground: '#F8F8F8',

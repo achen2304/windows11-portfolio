@@ -5,10 +5,10 @@ import { SlackTheme } from '@/components/types/system-types';
 import ProfileImage from './common/ProfileImage';
 
 export interface MessageProps {
-  content: string;
-  username: string;
+  content: string | React.ReactNode;
+  user: string;
   timestamp?: string;
-  profileImage?: string;
+  avatar?: string;
 }
 
 // Simple function to render markdown-like syntax
@@ -25,17 +25,20 @@ const renderMarkdown = (text: string) => {
 
 // Message Header component
 const MessageHeader = ({
-  username,
+  user,
   timestamp,
   slackTheme,
 }: {
-  username: string;
+  user: string;
   timestamp: string;
   slackTheme: SlackTheme;
 }) => (
   <div className="flex items-center mb-1">
-    <span className="font-bold mr-2" style={{ color: slackTheme.textPrimary }}>
-      {username}
+    <span
+      className="font-bold text-md mr-2"
+      style={{ color: slackTheme.textPrimary }}
+    >
+      {user}
     </span>
     <span className="text-xs" style={{ color: slackTheme.textSecondary }}>
       {timestamp}
@@ -45,9 +48,9 @@ const MessageHeader = ({
 
 const Message: React.FC<MessageProps> = ({
   content,
-  username,
+  user,
   timestamp = '1:23 PM',
-  profileImage = '/other/profile.png',
+  avatar = '/other/profile.png',
 }) => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
@@ -55,7 +58,7 @@ const Message: React.FC<MessageProps> = ({
 
   return (
     <div
-      className="px-4 py-2 hover:cursor-pointer transition-colors"
+      className="py-2 hover:cursor-pointer transition-colors"
       style={{
         background: 'transparent',
       }}
@@ -67,20 +70,29 @@ const Message: React.FC<MessageProps> = ({
       }}
     >
       <div className="flex items-start">
-        <ProfileImage src={profileImage} alt={username} />
+        <ProfileImage src={avatar} alt={user} />
 
         <div className="flex-1 min-w-0">
           <MessageHeader
-            username={username}
+            user={user}
             timestamp={timestamp}
             slackTheme={slackTheme}
           />
 
-          <div
-            className="break-words"
-            style={{ color: slackTheme.textPrimary }}
-            dangerouslySetInnerHTML={renderMarkdown(content)}
-          />
+          {typeof content === 'string' ? (
+            <div
+              className="break-words text-sm"
+              style={{ color: slackTheme.textPrimary }}
+              dangerouslySetInnerHTML={renderMarkdown(content)}
+            />
+          ) : (
+            <div
+              className="break-words text-sm"
+              style={{ color: slackTheme.textPrimary }}
+            >
+              {content}
+            </div>
+          )}
         </div>
       </div>
     </div>

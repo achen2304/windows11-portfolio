@@ -1,12 +1,12 @@
 import React from 'react';
-import { useTheme } from '../../../../theme-provider';
+import Message from '../message';
+import { useTheme } from '@/components/theme-provider';
 import { themes } from '@/lib/themes';
 import { SlackTheme } from '@/components/types/system-types';
-import Message from '../message';
 import WelcomeBanner from '../common/WelcomeBanner';
-import { MESSAGES } from '@/data/about-messages';
+import { PORTFOLIO_MESSAGES } from '@/data/portfolio-messages';
 
-const GeneralChannel: React.FC = () => {
+const Portfolio: React.FC = () => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
   const slackTheme = currentTheme.slack as SlackTheme;
@@ -15,20 +15,20 @@ const GeneralChannel: React.FC = () => {
     <div className="p-4">
       {/* Channel welcome message */}
       <WelcomeBanner
-        title="About Me"
-        description="This section serves as an introduction to who I am, what I do, and what you can find in this app."
+        title="Portfolio Overview"
+        description="This channel provides a comprehensive overview of all the features and functionality in this Windows 11 portfolio."
         slackTheme={slackTheme}
       />
 
-      {/* About me */}
+      {/* Portfolio messages */}
       <div className="space-y-4 mb-6">
-        {MESSAGES.map((message, index) => (
+        {PORTFOLIO_MESSAGES.map((message, index) => (
           <Message
             key={index}
             content={message.content}
-            user={message.user}
+            user={message.user || 'Cai Chen'}
             timestamp={message.time}
-            avatar={message.avatar}
+            avatar="/other/profile.png"
           />
         ))}
       </div>
@@ -36,4 +36,4 @@ const GeneralChannel: React.FC = () => {
   );
 };
 
-export default GeneralChannel;
+export default Portfolio;
