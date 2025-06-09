@@ -126,7 +126,7 @@ const SteamContent: React.FC = () => {
         >
           <div className="relative w-7 h-7 rounded-full overflow-hidden">
             <Image
-              src="/other/profile.png"
+              src="/other/profile.webp"
               alt="Profile"
               fill
               sizes="28px"

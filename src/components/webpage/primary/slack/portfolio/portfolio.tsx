@@ -28,7 +28,7 @@ const Portfolio: React.FC = () => {
             content={message.content}
             user={message.user || 'Cai Chen'}
             timestamp={message.time}
-            avatar="/other/profile.png"
+            avatar="/other/profile.webp"
           />
         ))}
       </div>

@@ -101,7 +101,7 @@ const SkillsChannel: React.FC = () => {
       {/* Skill categories */}
       <div className="space-y-4 mb-6">
         <div className="py-2 flex items-start">
-          <ProfileImage src="/other/profile.png" alt="Cai Chen" />
+          <ProfileImage src="/other/profile.webp" alt="Cai Chen" />
           <div className="flex-1">
             <div className="flex items-center">
               <span
@@ -126,7 +126,7 @@ const SkillsChannel: React.FC = () => {
           content="I'm always looking to expand my skill set and learn new technologies. Currently, I'm focusing on improving my knowledge of cloud infrastructure and serverless architectures."
           user="Cai Chen"
           timestamp="10:20 AM"
-          avatar="/other/profile.png"
+          avatar="/other/profile.webp"
         />
       </div>
     </div>

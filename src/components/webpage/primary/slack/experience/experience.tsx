@@ -50,7 +50,7 @@ const ExperienceChannel: React.FC = () => {
       {/* Experience items */}
       <div className="space-y-4 mb-6">
         <div className="py-2 flex items-start">
-          <ProfileImage src="/other/profile.png" alt="profile" />
+          <ProfileImage src="/other/profile.webp" alt="profile" />
           <div className="flex-1">
             <div className="flex items-center">
               <span
@@ -75,7 +75,7 @@ const ExperienceChannel: React.FC = () => {
           content="Throughout my career, I've focused on delivering high-quality, user-friendly web applications while constantly learning and adopting new technologies and best practices."
           user="Cai Chen"
           timestamp="11:05 AM"
-          avatar="/other/profile.png"
+          avatar="/other/profile.webp"
         />
       </div>
     </div>

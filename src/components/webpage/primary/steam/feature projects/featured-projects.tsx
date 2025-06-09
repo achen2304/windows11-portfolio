@@ -35,9 +35,9 @@ const FeaturedProjects: React.FC = () => {
 
   // Calculate card width based on window size - make cards bigger on small screens
   const getCardWidth = () => {
-    if (isXs) return 'w-64'; // Extra small window
-    if (isSm) return 'w-72'; // Small window
-    if (isMd) return 'w-80'; // Medium window
+    if (isXs) return 'w-72'; // Extra small window
+    if (isSm) return 'w-80'; // Small window
+    if (isMd) return 'w-96'; // Medium window
     return 'w-96'; // Large window (default)
   };
 
@@ -87,9 +87,9 @@ const FeaturedProjects: React.FC = () => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col p-4 md:p-6">
         {/* Featured Projects - Always use Marquee but with responsive sizing */}
-        <div className="w-full mb-8 md:mb-12">
+        <div className="w-full my-8 md:mb-12 flex flex-col items-center">
           <h2
-            className="text-lg font-bold mb-3 md:mb-4"
+            className="text-3xl font-bold mb-3 md:mb-4"
             style={{ color: steamTheme.textPrimary }}
           >
             Featured Projects
@@ -190,30 +190,66 @@ const FeaturedProjects: React.FC = () => {
             ))}
           </Marquee>
         </div>
+        {/* Simple Divider */}
+        <hr
+          className="w-full my-4 mb-8 border-t-0 h-1 rounded-full"
+          style={{ backgroundColor: steamTheme.divider }}
+        />
 
-        {/* Games I Like Section - Responsive layouts */}
-        <div className="w-full mb-8 md:mb-10">
-          <div className="flex items-center justify-between mb-3 md:mb-4">
+        {/* Favorite Shows Section - Responsive layouts */}
+        <div className="w-full my-8 md:mb-10 flex flex-col items-center">
+          <div className="flex items-center justify-center mb-3 md:mb-4">
             <h2
-              className="text-lg font-bold"
+              className="text-2xl font-bold"
               style={{ color: steamTheme.textPrimary }}
             >
-              My Hobbies
+              Favorite Shows
             </h2>
           </div>
 
           {/* Games Grid with adaptive card styles */}
           <div className={`grid ${getGridColumns()}`}>
-            {favoriteGames.map((game) => (
-              <HobbiesCard
-                key={game.name}
-                game={game}
-                steamTheme={steamTheme}
-                variant={shouldUseCompactCards() ? 'compact' : 'normal'}
-                maxTags={getMaxTags()}
-                maxDescriptionLength={shouldUseCompactCards() ? 80 : 100}
-              />
-            ))}
+            {favoriteGames.map(
+              (game) =>
+                game.type === 'show' && (
+                  <HobbiesCard
+                    key={game.name}
+                    game={game}
+                    steamTheme={steamTheme}
+                    variant={shouldUseCompactCards() ? 'compact' : 'normal'}
+                    maxTags={getMaxTags()}
+                    maxDescriptionLength={shouldUseCompactCards() ? 80 : 100}
+                  />
+                )
+            )}
+          </div>
+        </div>
+        {/* Games I Like Section - Responsive layouts */}
+        <div className="w-full mb-8 md:mb-10 flex flex-col items-center">
+          <div className="flex items-center justify-center mb-3 md:mb-4">
+            <h2
+              className="text-2xl font-bold"
+              style={{ color: steamTheme.textPrimary }}
+            >
+              Favorite Games
+            </h2>
+          </div>
+
+          {/* Games Grid with adaptive card styles */}
+          <div className={`grid ${getGridColumns()}`}>
+            {favoriteGames.map(
+              (game) =>
+                game.type === 'game' && (
+                  <HobbiesCard
+                    key={game.name}
+                    game={game}
+                    steamTheme={steamTheme}
+                    variant={shouldUseCompactCards() ? 'compact' : 'normal'}
+                    maxTags={getMaxTags()}
+                    maxDescriptionLength={shouldUseCompactCards() ? 80 : 100}
+                  />
+                )
+            )}
           </div>
         </div>
       </div>

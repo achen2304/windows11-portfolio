@@ -384,7 +384,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
                 }}
               >
                 <Image
-                  src="/other/profile.png"
+                  src="/other/profile.webp"
                   alt="Profile"
                   className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
                   width={32}

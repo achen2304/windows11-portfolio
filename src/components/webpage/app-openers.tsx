@@ -35,7 +35,7 @@ export const availableApps: AppDefinition[] = [
   {
     id: 'projects',
     name: 'Projects',
-    icon: '/app icons/steam.svg',
+    icon: '/app icons/steam.webp',
     component: <SteamApp />,
     defaultSize: { width: 1200, height: 800 },
     category: 'Portfolio',

@@ -50,7 +50,7 @@ const Message: React.FC<MessageProps> = ({
   content,
   user,
   timestamp = '1:23 PM',
-  avatar = '/other/profile.png',
+  avatar = '/other/profile.webp',
 }) => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];

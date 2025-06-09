@@ -19,7 +19,7 @@ export const startPanelApps: StartApp[] = [
   {
     id: 'projects',
     name: 'Projects',
-    icon: '/app icons/steam.svg',
+    icon: '/app icons/steam.webp',
     description: 'Gaming Platform',
     isPinned: true,
   },

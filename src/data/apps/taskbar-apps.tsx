@@ -15,7 +15,7 @@ export const taskbarApps: TaskbarApp[] = [
   {
     id: 'projects',
     name: 'Projects',
-    icon: '/app icons/steam.svg',
+    icon: '/app icons/steam.webp',
   },
   {
     id: 'vscode',

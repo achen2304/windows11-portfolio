@@ -46,7 +46,7 @@ const HobbiesCard: React.FC<HobbiesCardProps> = ({
         }}
       >
         <Image
-          src={`/games/${game.image}`}
+          src={`/hobbies/${game.image}`}
           alt={game.name}
           className="w-16 h-16 rounded-md object-cover mr-3 flex-shrink-0 pl-2"
           width={64}
@@ -103,7 +103,7 @@ const HobbiesCard: React.FC<HobbiesCardProps> = ({
       }}
     >
       <ProjectImageBackground
-        imagePath={`/games/${game.image}`}
+        imagePath={`/hobbies/${game.image}`}
         alt={game.name}
         height="h-40"
         opacity={0.9}
