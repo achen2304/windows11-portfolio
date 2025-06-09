@@ -5,6 +5,8 @@ import { useWindow } from './window-manager';
 import SteamApp from './primary/steam/steam-app';
 import TextEditorApp from './primary/text/text-editor-app';
 import SlackApp from './primary/slack/slack';
+import VSCodeApp from './fun/vscode/vscode';
+import GoogleApp from './fun/google/google';
 
 export interface AppDefinition {
   id: string;
@@ -47,6 +49,21 @@ export const availableApps: AppDefinition[] = [
     defaultSize: { width: 1000, height: 700 },
     category: 'Portfolio',
     description: 'Slack-inspired about me information and skills',
+  },
+  {
+    id: 'vscode',
+    name: 'VS Code',
+    icon: '/app icons/vscode.svg',
+    component: <VSCodeApp />,
+    defaultSize: { width: 1000, height: 700 },
+    category: 'Portfolio',
+    description: 'VS Code-inspired portfolio repository',
+  },
+  {
+    id: 'google',
+    name: 'Google',
+    icon: '/app icons/google.svg',
+    component: <GoogleApp />,
   },
   // Add more apps here easily:
   // {
@@ -127,6 +144,10 @@ export const useAppOpeners = () => {
       openApp('image-viewer', options),
     openSettings: (options?: Parameters<typeof openApp>[1]) =>
       openApp('settings', options),
+    openVSCode: (options?: Parameters<typeof openApp>[1]) =>
+      openApp('vscode', options),
+    openGoogle: (options?: Parameters<typeof openApp>[1]) =>
+      openApp('google', options),
     // Add more specific openers here as needed
   };
 };

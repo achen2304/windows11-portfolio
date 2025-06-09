@@ -23,6 +23,18 @@ export const startPanelApps: StartApp[] = [
     description: 'Gaming Platform',
     isPinned: true,
   },
+  {
+    id: 'vscode',
+    name: 'VSCode',
+    icon: '/app icons/vscode.svg',
+    isPinned: true,
+  },
+  {
+    id: 'google',
+    name: 'Google',
+    icon: '/app icons/google.svg',
+    isPinned: true,
+  },
 ];
 
 export const getQuickLinks = (theme: string): QuickLink[] => [

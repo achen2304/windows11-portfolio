@@ -26,4 +26,16 @@ export const desktopApps: DesktopApp[] = [
     icon: '/app icons/steam.svg',
     description: 'Gaming Platform',
   },
+  {
+    id: 'vscode',
+    name: 'VS Code',
+    icon: '/app icons/vscode.svg',
+    description: 'VS Code-inspired portfolio repository',
+  },
+  {
+    id: 'google',
+    name: 'Google',
+    icon: '/app icons/google.svg',
+    description: 'Google Search',
+  },
 ];

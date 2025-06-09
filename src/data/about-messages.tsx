@@ -1,5 +1,3 @@
-import Message from '@/components/webpage/primary/slack/message';
-
 // Message content for the Slack general channel
 export const MESSAGES = [
   {
