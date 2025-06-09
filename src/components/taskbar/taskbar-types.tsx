@@ -12,6 +12,7 @@ export interface StartApp {
   category?: string;
   isPinned?: boolean;
   description?: string;
+  iconLight?: string;
 }
 
 export interface QuickLink {
@@ -21,6 +22,7 @@ export interface QuickLink {
   type?: 'link' | 'copy';
   url?: string;
   icon?: string;
+  iconLight?: string;
 }
 
 export interface SystemTrayItem {

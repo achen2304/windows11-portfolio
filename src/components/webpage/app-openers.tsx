@@ -2,12 +2,6 @@
 
 import React from 'react';
 import { useWindow } from './window-manager';
-import {
-  NotepadApp,
-  CalculatorApp,
-  ImageViewerApp,
-  SettingsApp,
-} from './example-apps';
 import SteamApp from './primary/steam/steam-app';
 import TextEditorApp from './primary/text/text-editor-app';
 import SlackApp from './primary/slack/slack';
@@ -53,42 +47,6 @@ export const availableApps: AppDefinition[] = [
     defaultSize: { width: 1000, height: 700 },
     category: 'Portfolio',
     description: 'Slack-inspired about me information and skills',
-  },
-  {
-    id: 'notepad',
-    name: 'Notepad',
-    icon: '📝',
-    component: <NotepadApp />,
-    defaultSize: { width: 600, height: 400 },
-    category: 'Productivity',
-    description: 'Simple text editor for notes and documents',
-  },
-  {
-    id: 'calculator',
-    name: 'Calculator',
-    icon: '🧮',
-    component: <CalculatorApp />,
-    defaultSize: { width: 300, height: 400 },
-    category: 'Utilities',
-    description: 'Basic calculator for mathematical operations',
-  },
-  {
-    id: 'image-viewer',
-    name: 'Image Viewer',
-    icon: '🖼️',
-    component: <ImageViewerApp />,
-    defaultSize: { width: 700, height: 500 },
-    category: 'Media',
-    description: 'View and manage your images',
-  },
-  {
-    id: 'settings',
-    name: 'Settings',
-    icon: '⚙️',
-    component: <SettingsApp />,
-    defaultSize: { width: 500, height: 600 },
-    category: 'System',
-    description: 'Configure system settings and preferences',
   },
   // Add more apps here easily:
   // {

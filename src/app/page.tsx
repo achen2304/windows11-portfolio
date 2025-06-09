@@ -70,7 +70,13 @@ const DemoContent: React.FC = () => {
             {/* App Icon */}
             <div className="mb-2 transition-transform duration-200 group-hover:scale-110">
               <Image
-                src={app.icon}
+                src={
+                  theme === 'dark' && app.iconLight !== undefined
+                    ? app.icon || '/app icons/quick links/default.svg'
+                    : app.iconLight ||
+                      app.icon ||
+                      '/app icons/quick links/default.svg'
+                }
                 alt={app.name}
                 className="w-12 h-12 object-contain drop-shadow-lg"
                 width={48}

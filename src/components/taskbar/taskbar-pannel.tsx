@@ -173,7 +173,13 @@ const StartPanel: React.FC<StartPanelProps> = ({
                       onMouseLeave={handleMouseLeave}
                     >
                       <Image
-                        src={app.icon}
+                        src={
+                          theme === 'dark' && app.iconLight !== undefined
+                            ? app.icon || '/app icons/quick links/default.svg'
+                            : app.iconLight ||
+                              app.icon ||
+                              '/app icons/quick links/default.svg'
+                        }
                         alt={app.name}
                         className="w-6 h-6 sm:w-8 sm:h-8 object-contain mb-2 sm:mb-3"
                         width={32}
@@ -229,7 +235,6 @@ const StartPanel: React.FC<StartPanelProps> = ({
                               // Fallback to opening in mail client
                               if (item.url) window.location.href = item.url;
                             }
-
                           } else if (item.newTab === true) {
                             window.open(item.url, '_blank');
                           } else {
@@ -241,7 +246,13 @@ const StartPanel: React.FC<StartPanelProps> = ({
                       onMouseLeave={handleMouseLeave}
                     >
                       <Image
-                        src={item.icon || '/icons/default.png'}
+                        src={
+                          theme === 'dark' && item.iconLight !== undefined
+                            ? item.icon || '/app icons/quick links/default.svg'
+                            : item.iconLight ||
+                              item.icon ||
+                              '/app icons/quick links/default.svg'
+                        }
                         alt={item.name}
                         className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
                         width={32}

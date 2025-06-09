@@ -155,7 +155,13 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
                 }}
               >
                 <Image
-                  src={app.icon}
+                  src={
+                    theme === 'dark' && app.iconLight !== undefined
+                      ? app.icon || '/app icons/quick links/default.svg'
+                      : app.iconLight ||
+                        app.icon ||
+                        '/app icons/quick links/default.svg'
+                  }
                   alt={app.name}
                   className="w-8 h-8 object-contain pointer-events-none transition-transform duration-150 ease-out"
                   width={32}

@@ -52,6 +52,19 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         });
       }
 
+      // Create a wrapper for the description with stronger color
+      const descriptionEl = toastProps.description ? (
+        <div
+          style={{
+            color: theme === 'light' ? '#4b5563' : '#cccccc',
+            opacity: 1,
+            fontWeight: 400,
+          }}
+        >
+          {toastProps.description}
+        </div>
+      ) : undefined;
+
       // Always show the toast with Sonner
       const toastOptions = {
         duration: toastProps.duration || 3000,
@@ -82,22 +95,22 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       // Use the appropriate Sonner toast type
       if (toastProps.type === 'success') {
         toast.success(toastProps.title, {
-          description: toastProps.description,
+          description: descriptionEl,
           ...toastOptions,
         });
       } else if (toastProps.type === 'error') {
         toast.error(toastProps.title, {
-          description: toastProps.description,
+          description: descriptionEl,
           ...toastOptions,
         });
       } else {
         toast.info(toastProps.title, {
-          description: toastProps.description,
+          description: descriptionEl,
           ...toastOptions,
         });
       }
     },
-    [currentTheme]
+    [currentTheme, theme]
   );
 
   return (
