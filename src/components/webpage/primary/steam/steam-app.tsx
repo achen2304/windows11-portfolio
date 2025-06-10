@@ -24,13 +24,13 @@ const SteamContent: React.FC = () => {
   const { navigate, getCurrentState, history, currentIndex } = useNavigation();
   const { isXs, isSm, isMd } = useWindowSize();
 
-  const [activeTab, setActiveTab] = useState<'featured' | 'all'>('featured');
+  const [activeTab, setActiveTab] = useState<'featured' | 'all'>('all');
 
   useEffect(() => {
     const currentState = getCurrentState();
 
     if (!currentState) {
-      navigate('steam-app', { tab: 'featured' });
+      navigate('steam-app', { tab: 'all' });
     } else if (currentState.data?.tab) {
       setActiveTab(currentState.data.tab as 'featured' | 'all');
     }

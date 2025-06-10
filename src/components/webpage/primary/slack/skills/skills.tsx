@@ -51,7 +51,13 @@ const SkillsMessageContent = ({ slackTheme }: { slackTheme: SlackTheme }) => {
         My technical skills span multiple domains of software development:
       </div>
 
-      <div className="space-y-4">
+      <div
+        className="p-3 rounded-md transition-all duration-300"
+        style={{
+          background: slackTheme.threadBackground,
+          border: `1px solid ${slackTheme.divider}`,
+        }}
+      >
         {categoryOrder.map((type) => {
           if (!skillsByCategory[type]) return null;
 
@@ -87,8 +93,16 @@ const SkillsChannel: React.FC = () => {
       />
 
       {/* Skill categories */}
-      <div className="space-y-4 mb-6">
-        <div className="py-2 flex items-start">
+      <div className="space-y-4 mb-6 ">
+        <div
+          className="p-2 pb-3 flex items-start rounded-sm"
+          onMouseOver={(e) => {
+            e.currentTarget.style.background = slackTheme.messageBackground;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'transparent';
+          }}
+        >
           <ProfileImage src="/other/profile.webp" alt="Cai Chen" />
           <div className="flex-1">
             <div className="flex items-center">

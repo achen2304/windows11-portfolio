@@ -42,7 +42,7 @@ const FeaturedProjects: React.FC = () => {
 
   // Calculate card height based on window size
   const getCardImageHeight = () => {
-    if (isXs) return 'h-36'; 
+    if (isXs) return 'h-36';
     if (isSm) return 'h-40';
     if (isMd) return 'h-44';
     return 'h-52';
@@ -50,7 +50,7 @@ const FeaturedProjects: React.FC = () => {
 
   // Calculate grid columns for games section based on screen size
   const getGridColumns = () => {
-    if (isXs) return 'grid-cols-1 gap-3'; 
+    if (isXs) return 'grid-cols-1 gap-3';
     if (isSm) return 'grid-cols-1 gap-3';
     if (isMd) return 'grid-cols-2 gap-4';
     return 'grid-cols-3 gap-6';
@@ -94,7 +94,7 @@ const FeaturedProjects: React.FC = () => {
             {featuredProjects.map((project) => (
               <div
                 key={project.name}
-                className={`flex-shrink-0 ${getCardWidth()} cursor-pointer hover:brightness-110 transition-all duration-300 mx-2 md:mx-3 rounded-lg overflow-hidden`}
+                className={`flex-shrink-0 ${getCardWidth()} cursor-pointer hover:brightness-110 hover:scale-105 transition-all duration-300 mx-2 md:mx-3 rounded-lg overflow-hidden`}
                 onClick={() => handleProjectClick(project.name)}
                 style={{
                   background: steamTheme.card,

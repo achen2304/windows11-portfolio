@@ -27,7 +27,7 @@ export const PORTFOLIO_MESSAGES = [
   {
     content:
       '**🎮 Projects**\n• **Steam-Inspired Interface** -A dynamic project dashboard mimicking the Steam UI for showcasing and managing projects.\n• **History Management** - Fully functionally history buttons that allow you to navigate to previous projects & pages.\n• **Featured Page** - A page that showcases my featured projects & favorite media with a infinite carousel. \n• **All Projects** - A page that showcases my projects with descriptions, images, and links.',
-    time: '11:20 AM',
+    time: '11:24 AM',
     user: 'Cai Chen',
   },
 ];

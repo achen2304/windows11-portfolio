@@ -39,7 +39,7 @@ const HobbiesCard: React.FC<HobbiesCardProps> = ({
   if (variant === 'compact') {
     return (
       <div
-        className="flex items-center p-2 rounded-lg mb-3 cursor-pointer hover:brightness-110 transition-all duration-200"
+        className="flex items-center p-2 rounded-lg mb-3 hover:brightness-110 hover:scale-105 transition-all duration-200"
         style={{
           background: steamTheme.card,
           border: `1px solid ${steamTheme.divider}`,
@@ -96,7 +96,7 @@ const HobbiesCard: React.FC<HobbiesCardProps> = ({
   // Normal grid card layout
   return (
     <div
-      className="rounded-lg overflow-hidden cursor-pointer hover:brightness-110 transition-all duration-200"
+      className="rounded-lg overflow-hidden hover:brightness-110 hover:scale-105 transition-all duration-200"
       style={{
         background: steamTheme.card,
         border: `1px solid ${steamTheme.divider}`,

@@ -58,7 +58,7 @@ const MainArea: React.FC<MainAreaProps> = ({ selectedProject, steamTheme }) => {
           {selectedProject.link && (
             <button
               onClick={() => window.open(selectedProject.link, '_blank')}
-              className="flex items-center gap-2 px-6 py-2 rounded font-semibold"
+              className="flex items-center gap-2 px-6 py-2 rounded font-semibold cursor-pointer hover:scale-103 transition-all duration-300"
               style={{
                 background: `linear-gradient(to right, ${theme.buttonGradientStart}, ${theme.buttonGradientEnd})`,
                 color: '#ffffff',
@@ -72,7 +72,7 @@ const MainArea: React.FC<MainAreaProps> = ({ selectedProject, steamTheme }) => {
           {selectedProject.github && (
             <button
               onClick={() => window.open(selectedProject.github, '_blank')}
-              className="flex items-center gap-2 px-6 py-2 rounded font-semibold"
+              className="flex items-center gap-2 px-6 py-2 rounded font-semibold cursor-pointer hover:brightness-110 hover:scale-103 transition-all duration-300"
               style={{
                 background: theme.inputBg,
                 color: theme.textPrimary,

@@ -49,7 +49,18 @@ const ExperienceChannel: React.FC = () => {
 
       {/* Experience items */}
       <div className="space-y-4 mb-6">
-        <div className="py-2 flex items-start">
+        <div
+          className="p-2 pb-3 flex items-start rounded-sm"
+          style={{
+            background: 'transparent',
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.background = slackTheme.messageBackground;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'transparent';
+          }}
+        >
           <ProfileImage src="/other/profile.webp" alt="profile" />
           <div className="flex-1">
             <div className="flex items-center">

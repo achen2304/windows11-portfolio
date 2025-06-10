@@ -18,8 +18,11 @@ const ExperienceItem: React.FC<ExperienceItemProps> = ({
 }) => {
   return (
     <div
-      className="p-3 rounded-md"
-      style={{ background: theme.threadBackground }}
+      className="p-3 rounded-md hover:scale-101 transition-all duration-300"
+      style={{
+        background: theme.threadBackground,
+        border: `1px solid ${theme.divider}`,
+      }}
     >
       <div className="mb-2">
         <div className="flex justify-between">

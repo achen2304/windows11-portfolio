@@ -56,7 +56,7 @@ const Message: React.FC<MessageProps> = ({
 
   return (
     <div
-      className="py-2 hover:cursor-pointer transition-colors"
+      className="py-2 px-2 transition-colors rounded-sm"
       style={{
         background: 'transparent',
       }}
