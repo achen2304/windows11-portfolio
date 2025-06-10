@@ -129,7 +129,7 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
           </button>
 
           {/* App Icons - Hide on small screens */}
-          <div className="hidden sm:flex items-center ml-2 space-x-1">
+          <div className="hidden sm:flex items-center ml-2 space-x-1 gap-1">
             {apps.map((app) => (
               <button
                 key={app.id}

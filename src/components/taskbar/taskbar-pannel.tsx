@@ -39,7 +39,6 @@ const StartPanel: React.FC<StartPanelProps> = ({
     return () => window.removeEventListener('resize', updateMaxHeight);
   }, []);
 
-  // Use centralized app data
   const allApps = apps.length > 0 ? apps : startPanelApps;
   const allQuickLinks =
     quickLinks.length > 0 ? quickLinks : getQuickLinks(theme);
@@ -207,7 +206,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
             <>
               {/* Pinned Section */}
               <div className="mb-3 sm:mb-6">
-                <div className="flex items-center justify-between mb-3 sm:mb-6">
+                <div className="flex items-center justify-between mb-2 sm:mb-4">
                   <h3
                     style={{ color: currentTheme.text.primary }}
                     className="text-sm font-semibold"
@@ -216,7 +215,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
                   </h3>
                 </div>
                 <div
-                  className="grid grid-cols-4 sm:grid-cols-5 gap-3 sm:gap-6"
+                  className="grid grid-cols-4 sm:grid-cols-5 gap-2 sm:gap-4"
                   style={{ minHeight: '140px' }}
                 >
                   {pinnedApps.map((app) => (
@@ -258,7 +257,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
 
               {/* Quick Links Section */}
               <div>
-                <div className="flex items-center justify-between mb-3 sm:mb-6">
+                <div className="flex items-center justify-between mb-2 sm:mb-4">
                   <h3
                     style={{ color: currentTheme.text.primary }}
                     className="text-sm font-semibold"
@@ -286,7 +285,6 @@ const StartPanel: React.FC<StartPanelProps> = ({
                             item.url &&
                             item.url.startsWith('mailto:')
                           ) {
-                            // Extract email from mailto: link and copy to clipboard
                             const email = item.url.replace('mailto:', '');
                             const success = await copyToClipboard(
                               email,
@@ -295,7 +293,6 @@ const StartPanel: React.FC<StartPanelProps> = ({
                             );
 
                             if (!success) {
-                              // Fallback to opening in mail client
                               if (item.url) window.location.href = item.url;
                             }
                           } else if (item.newTab === true) {

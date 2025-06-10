@@ -65,7 +65,7 @@ export const getQuickLinks = (theme: string): QuickLink[] => [
     newTab: true,
     type: 'copy',
     icon: '/app icons/quick links/gmail.svg',
-    url: 'mailto:achen2304@gmail.com',
+    url: 'mailto:cai@czchen.dev',
   },
 ];
 
