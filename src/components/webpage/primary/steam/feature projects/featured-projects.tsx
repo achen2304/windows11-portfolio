@@ -1,74 +1,81 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useTheme } from '../../../../theme-provider';
 import { themes } from '@/lib/themes';
 import { projects } from '@/data/projects';
-import { ExternalLink } from 'lucide-react';
-import { Marquee } from '@/components/magicui/marquee';
-import { useNavigation } from '@/components/webpage/chevron-button';
-import { favoriteGames } from '@/data/hobbies';
-import { useWindowSize } from '@/components/webpage/breakpoints';
-import HobbiesCard from './hobbies-card';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import FeaturedCard from './featured-card';
 import Image from 'next/image';
+import AboutMe from './about-me';
+import MediaList from './media-list';
 
 const FeaturedProjects: React.FC = () => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
   const steamTheme = currentTheme.steam;
-  const { navigate } = useNavigation();
-  const { isXs, isSm, isMd, width } = useWindowSize();
 
-  // Filter featured projects
   const featuredProjects = projects.filter((project) => project.featured);
 
-  // Handle project click to navigate to All Projects tab with the selected project
-  const handleProjectClick = (projectName: string) => {
-    navigate('steam-app', {
-      tab: 'all',
-      project: projectName,
-    });
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
+  const timerRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  const startTimer = useCallback((length: number) => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+    }
+    timerRef.current = setInterval(() => {
+      setDirection(1);
+      setCurrentIndex((prev) => (prev + 1) % length);
+    }, 10000);
+  }, []);
+
+  useEffect(() => {
+    startTimer(featuredProjects.length);
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
+  }, [startTimer, featuredProjects.length]);
+
+  const nextProject = () => {
+    setDirection(1);
+    setCurrentIndex((prev) => (prev + 1) % featuredProjects.length);
+    startTimer(featuredProjects.length);
   };
 
-  const isCompactMode = isXs || isSm || isMd;
-
-  // Calculate card width based on window size - make cards bigger on small screens
-  const getCardWidth = () => {
-    if (isXs) return 'w-72'; // Extra small window
-    if (isSm) return 'w-80'; // Small window
-    if (isMd) return 'w-96'; // Medium window
-    return 'w-96'; // Large window (default)
+  const prevProject = () => {
+    setDirection(-1);
+    setCurrentIndex(
+      (prev) => (prev - 1 + featuredProjects.length) % featuredProjects.length
+    );
+    startTimer(featuredProjects.length);
   };
 
-  // Calculate card height based on window size
-  const getCardImageHeight = () => {
-    if (isXs) return 'h-36';
-    if (isSm) return 'h-40';
-    if (isMd) return 'h-44';
-    return 'h-52';
-  };
-
-  // Calculate grid columns for games section based on screen size
-  const getGridColumns = () => {
-    if (isXs) return 'grid-cols-1 gap-3';
-    if (isSm) return 'grid-cols-1 gap-3';
-    if (isMd) return 'grid-cols-2 gap-4';
-    return 'grid-cols-3 gap-6';
-  };
-
-  // Special breakpoint for compact cards in grid-2 layout
-  const useCompactInGrid = width < 550;
-
-  const shouldUseCompactCards = () => {
-    if (isXs || isSm) return true;
-    return useCompactInGrid;
-  };
-
-  // Calculate how many tags to show based on layout
-  const getMaxTags = () => {
-    if (isXs || isSm) return 3;
-    if (isMd) return 2;
-    return 4;
+  const fadeVariants = {
+    enter: () => ({
+      opacity: 0.5,
+      scale: 0.95,
+    }),
+    center: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        opacity: { duration: 0.3 },
+        scale: { duration: 0.3 },
+      },
+    },
+    exit: () => ({
+      opacity: 0.5,
+      scale: 0.95,
+      transition: {
+        opacity: { duration: 0.1 },
+        scale: { duration: 0.1 },
+      },
+    }),
   };
 
   return (
@@ -79,173 +86,160 @@ const FeaturedProjects: React.FC = () => {
         backgroundImage: steamTheme.featuredGradient,
       }}
     >
+      {/* Banner Header */}
+      <div className="w-full">
+        <Image
+          src="/other/steam-header.webp"
+          alt="Steam Header"
+          width={1000}
+          height={200}
+          className="w-full h-[275px] object-cover"
+          priority
+        />
+      </div>
+
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col p-4 md:p-6">
-        {/* Featured Projects - Always use Marquee but with responsive sizing */}
-        <div className="w-full my-8 md:mb-12 flex flex-col items-center">
+      <div
+        className="flex-1 flex flex-col p-4 md:p-6 w-full"
+        style={{
+          maxWidth: '900px',
+          minWidth: '400px',
+          margin: '0 auto',
+        }}
+      >
+        <div className="w-full  flex flex-col">
           <h2
-            className="text-3xl font-bold mb-3 md:mb-4"
+            className="text-lg font-bold mb-2"
             style={{ color: steamTheme.textPrimary }}
           >
-            Featured Projects
+            Featured & Recommended Projects
           </h2>
 
-          <Marquee pauseOnHover className="py-3 md:py-6">
-            {featuredProjects.map((project) => (
-              <div
-                key={project.name}
-                className={`flex-shrink-0 ${getCardWidth()} cursor-pointer hover:brightness-110 hover:scale-105 transition-all duration-300 mx-2 md:mx-3 rounded-lg overflow-hidden`}
-                onClick={() => handleProjectClick(project.name)}
+          {/* Infinite Carousel */}
+          <div className="relative w-full max-w-5xl mx-auto">
+            {/* Carousel container */}
+            <div className="relative h-[360px] md:h-[450px] w-97/100 overflow-hidden mx-auto">
+              <AnimatePresence initial={false} custom={direction} mode="wait">
+                <motion.div
+                  key={currentIndex}
+                  custom={direction}
+                  variants={fadeVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  className="absolute inset-0 w-full"
+                >
+                  <FeaturedCard
+                    project={featuredProjects[currentIndex]}
+                    steamTheme={steamTheme}
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Navigation Controls - Rectangular buttons with chevrons outside the card */}
+            <div className="absolute left-[-40px] top-1/2 -translate-y-1/2 z-10">
+              <motion.button
+                onClick={prevProject}
+                className="flex items-center justify-center w-12 h-20 text-white cursor-pointer"
+                whileTap={{ scale: 0.9 }}
+                aria-label="Previous project"
+                whileHover={{
+                  background: 'linear-gradient(to left, #1D2C3D, #2a475e)',
+                  opacity: 1,
+                }}
                 style={{
-                  background: steamTheme.card,
-                  border: `1px solid ${steamTheme.divider}`,
+                  background: 'linear-gradient(to left, #1D2C3D, #141e2a)',
+                  borderRadius: '2px',
+                  opacity: 0.9,
                 }}
               >
-                {/* Project image without any text overlay */}
-                <div
-                  className={`${getCardImageHeight()} w-full overflow-hidden`}
-                >
-                  <Image
-                    src={`/projects/${project.image}`}
-                    alt={project.name}
-                    className="w-full h-full object-cover"
-                    width={400}
-                    height={300}
-                  />
-                </div>
+                <ChevronLeft className="w-6 h-6" />
+              </motion.button>
+            </div>
 
-                {/* Card content section */}
-                <div className="p-4">
-                  {/* Project title */}
-                  <h3
-                    className={`font-bold ${
-                      isCompactMode ? 'text-lg' : 'text-xl'
-                    } truncate mb-2`}
-                    style={{ color: steamTheme.textPrimary }}
-                  >
-                    {project.name}
-                  </h3>
+            <div className="absolute right-[-40px] top-1/2 -translate-y-1/2 z-10">
+              <motion.button
+                onClick={nextProject}
+                className="flex items-center justify-center w-12 h-20 text-white cursor-pointer "
+                whileTap={{ scale: 0.9 }}
+                aria-label="Next project"
+                whileHover={{
+                  background: 'linear-gradient(to right, #284258, #435D71)',
+                  opacity: 1,
+                }}
+                style={{
+                  background: 'linear-gradient(to right, #284258, #1b2838)',
+                  borderRadius: '2px',
+                  opacity: 0.9,
+                }}
+              >
+                <ChevronRight className="w-6 h-6" />
+              </motion.button>
+            </div>
 
-                  {/* Description */}
-                  <p
-                    className={`${
-                      isCompactMode ? 'text-sm' : 'text-base'
-                    } mt-1 ${isCompactMode ? 'line-clamp-2' : ''} mb-3`}
-                    style={{ color: steamTheme.textSecondary }}
-                  >
-                    {project.d1}
-                  </p>
-
-                  {/* Technology tags */}
-                  <div className={`flex overflow-hidden space-x-1.5 mb-4`}>
-                    {project.technologies
-                      .slice(0, isCompactMode ? 2 : 3)
-                      .map((tech) => (
-                        <span
-                          key={tech}
-                          className={`px-2 py-0.5 rounded-full text-xs flex-shrink-0`}
-                          style={{
-                            background: steamTheme.priceBg,
-                            color: steamTheme.textSecondary,
-                            border: `1px solid ${steamTheme.divider}`,
-                          }}
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    {project.technologies.length > (isCompactMode ? 2 : 3) && (
-                      <span
-                        className={`${
-                          isCompactMode ? 'text-xs' : 'text-sm'
-                        } flex-shrink-0`}
-                        style={{ color: steamTheme.textSecondary }}
-                      >
-                        +{project.technologies.length - (isCompactMode ? 2 : 3)}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* View button */}
-                  <div className="flex justify-end">
-                    <button
-                      className={`flex items-center ${
-                        isCompactMode ? 'text-sm' : 'text-base'
-                      } gap-1 px-3 py-1 rounded-full hover:cursor-pointer`}
-                      style={{
-                        background: `linear-gradient(to right, ${steamTheme.buttonGradientStart}, ${steamTheme.buttonGradientEnd})`,
-                        color: '#ffffff',
-                      }}
-                    >
-                      <ExternalLink size={isCompactMode ? 14 : 16} />
-                      <span>View Details</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </Marquee>
-        </div>
-        {/* Simple Divider */}
-        <hr
-          className="w-full my-4 mb-8 border-t-0 h-1 rounded-full"
-          style={{ backgroundColor: steamTheme.divider }}
-        />
-
-        {/* Favorite Shows Section - Responsive layouts */}
-        <div className="w-full my-8 md:mb-10 flex flex-col items-center">
-          <div className="flex items-center justify-center mb-3 md:mb-4">
-            <h2
-              className="text-2xl font-bold"
-              style={{ color: steamTheme.textPrimary }}
-            >
-              Favorite Shows
-            </h2>
-          </div>
-
-          {/* Games Grid with adaptive card styles */}
-          <div className={`grid ${getGridColumns()}`}>
-            {favoriteGames.map(
-              (game) =>
-                game.type === 'show' && (
-                  <HobbiesCard
-                    key={game.name}
-                    game={game}
-                    steamTheme={steamTheme}
-                    variant={shouldUseCompactCards() ? 'compact' : 'normal'}
-                    maxTags={getMaxTags()}
-                    maxDescriptionLength={shouldUseCompactCards() ? 80 : 100}
-                  />
-                )
-            )}
+            {/* Dots Indicator */}
+            <div className="flex justify-center mt-3 gap-1.5 ">
+              {featuredProjects.map((_, index) => (
+                <motion.button
+                  key={index}
+                  onClick={() => {
+                    setDirection(index > currentIndex ? 1 : -1);
+                    setCurrentIndex(index);
+                  }}
+                  className={`w-4.5 h-2.5 rounded-full transition-all hover:cursor-pointer ${
+                    index === currentIndex
+                      ? 'bg-white/80 scale-110'
+                      : 'bg-white/30 hover:bg-white/50'
+                  }`}
+                  whileTap={{ scale: 0.9 }}
+                />
+              ))}
+            </div>
           </div>
         </div>
-        {/* Games I Like Section - Responsive layouts */}
-        <div className="w-full mb-8 md:mb-10 flex flex-col items-center">
-          <div className="flex items-center justify-center mb-3 md:mb-4">
-            <h2
-              className="text-2xl font-bold"
-              style={{ color: steamTheme.textPrimary }}
-            >
-              Favorite Games
-            </h2>
-          </div>
 
-          {/* Games Grid with adaptive card styles */}
-          <div className={`grid ${getGridColumns()}`}>
-            {favoriteGames.map(
-              (game) =>
-                game.type === 'game' && (
-                  <HobbiesCard
-                    key={game.name}
-                    game={game}
-                    steamTheme={steamTheme}
-                    variant={shouldUseCompactCards() ? 'compact' : 'normal'}
-                    maxTags={getMaxTags()}
-                    maxDescriptionLength={shouldUseCompactCards() ? 80 : 100}
-                  />
-                )
-            )}
-          </div>
+        <div className="w-full mt-10">
+          <Image
+            src="/other/steam-pagebreak.webp"
+            alt="Steam Header"
+            width={1000}
+            height={100}
+            className="w-full h-[100px] object-cover rounded-sm"
+            priority
+          />
+        </div>
+
+        {/* Hobbies Section */}
+        <div className="w-full mt-10">
+          <h2
+            className="text-lg font-bold mb-2"
+            style={{ color: steamTheme.textPrimary }}
+          >
+            Some Pictures
+          </h2>
+          <AboutMe />
+        </div>
+
+        <div className="w-full mt-10">
+          <Image
+            src="/other/steam-pagebreak.webp"
+            alt="Steam Header"
+            width={1000}
+            height={100}
+            className="w-full h-[100px] object-cover rounded-sm"
+            priority
+          />
+        </div>
+
+        <div className="w-full mt-10">
+          <h2
+            className="text-lg font-bold mb-2"
+            style={{ color: steamTheme.textPrimary }}
+          >
+            My Favorites
+          </h2>
+          <MediaList />
         </div>
       </div>
     </div>
