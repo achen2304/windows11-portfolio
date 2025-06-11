@@ -137,18 +137,16 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ project, steamTheme }) => {
 
             {/* Bottom action button */}
             <div className="mt-auto">
-              {project.link && (
-                <button
-                  className={`w-full flex items-center justify-center gap-2 px-3 py-2 cursor-pointer rounded text-md font-medium`}
-                  style={{
-                    background: `linear-gradient(to right, ${steamTheme.buttonGradientStart}, ${steamTheme.buttonGradientEnd})`,
-                    color: '#ffffff',
-                  }}
-                >
-                  <ExternalLink size={isMobileView ? 14 : 16} />
-                  <span>View Project</span>
-                </button>
-              )}
+              <button
+                className={`w-full flex items-center justify-center gap-2 px-3 py-2 cursor-pointer rounded text-md font-medium`}
+                style={{
+                  background: `linear-gradient(to right, ${steamTheme.buttonGradientStart}, ${steamTheme.buttonGradientEnd})`,
+                  color: '#ffffff',
+                }}
+              >
+                <ExternalLink size={isMobileView ? 14 : 16} />
+                <span>View Project</span>
+              </button>
             </div>
           </div>
         </div>
