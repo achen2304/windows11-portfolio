@@ -17,7 +17,7 @@ export const desktopApps: DesktopApp[] = [
   {
     id: 'about-me',
     name: 'About',
-    icon: '/app icons/slack.png',
+    icon: '/app icons/slack.webp',
     description: 'About Me',
   },
   {

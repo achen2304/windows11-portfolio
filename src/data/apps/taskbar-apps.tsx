@@ -10,7 +10,7 @@ export const taskbarApps: TaskbarApp[] = [
   {
     id: 'about-me',
     name: 'About',
-    icon: '/app icons/slack.png',
+    icon: '/app icons/slack.webp',
   },
   {
     id: 'projects',

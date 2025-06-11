@@ -12,7 +12,7 @@ export const startPanelApps: StartApp[] = [
   {
     id: 'about-me',
     name: 'About',
-    icon: '/app icons/slack.png',
+    icon: '/app icons/slack.webp',
     description: 'About Me Information',
     isPinned: true,
   },
