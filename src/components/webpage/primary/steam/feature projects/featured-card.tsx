@@ -144,7 +144,6 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ project, steamTheme }) => {
                   color: '#ffffff',
                 }}
               >
-                <ExternalLink size={isMobileView ? 14 : 16} />
                 <span>View Project</span>
               </button>
             </div>
