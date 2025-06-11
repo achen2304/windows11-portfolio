@@ -2,7 +2,6 @@ import React from 'react';
 import { Project } from '@/data/projects';
 import { SteamTheme } from '@/components/types/system-types';
 import Image from 'next/image';
-import { ExternalLink } from 'lucide-react';
 import { useWindowSize } from '@/components/webpage/breakpoints';
 import { useNavigation } from '@/components/webpage/chevron-button';
 import { Tilt } from '@/components/ui/tilt';
