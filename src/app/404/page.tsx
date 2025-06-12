@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function NotFound() {
+// Separate component that uses useSearchParams
+const ErrorContent = () => {
   const [progress, setProgress] = useState(0);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -91,5 +92,14 @@ export default function NotFound() {
         </div>
       </div>
     </div>
+  );
+};
+
+// Main component with Suspense boundary
+export default function NotFound() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#0078d7]" />}>
+      <ErrorContent />
+    </Suspense>
   );
 }
