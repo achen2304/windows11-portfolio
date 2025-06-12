@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useWindowSize } from '@/components/webpage/breakpoints';
 import { useNavigation } from '@/components/webpage/chevron-button';
 import { Tilt } from '@/components/ui/tilt';
+import MobileFeaturedCard from './mobile-featured-card';
 
 interface FeaturedCardProps {
   project: Project;
@@ -23,6 +24,16 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ project, steamTheme }) => {
 
   const { isXs, isSm, isMd } = useWindowSize();
   const isMobileView = isXs || isSm || isMd;
+
+  if (isMobileView) {
+    return (
+      <MobileFeaturedCard
+        project={project}
+        steamTheme={steamTheme}
+        onClick={() => handleProjectClick(project.name)}
+      />
+    );
+  }
 
   return (
     <Tilt
@@ -52,20 +63,18 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ project, steamTheme }) => {
         {/* Content container */}
         <div className="relative z-10 flex h-full w-full">
           {/* Main content area (left 75%) - just holds the image and gradient */}
-          <div className={`${isMobileView ? 'w-1/2' : 'w-2/3'} h-full`}></div>
+          <div className="w-2/3 h-full"></div>
 
-          {/* Right sidebar (25% or 50% on mobile) */}
+          {/* Right sidebar */}
           <div
-            className={`${
-              isMobileView ? 'w-1/2' : 'w-1/3'
-            } h-full flex flex-col justify-between p-4`}
+            className="w-1/3 h-full flex flex-col justify-between p-4"
             style={{ background: 'rgba(0,0,0,0.4)' }}
           >
             {/* Top content area */}
             <div className="flex flex-col gap-3">
               {/* Project Title */}
               <h2
-                className={`${isMobileView ? 'text-xl' : 'text-2xl'} font-bold`}
+                className="text-2xl font-bold"
                 style={{ color: steamTheme.textPrimary }}
               >
                 {project.name}
@@ -73,9 +82,7 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ project, steamTheme }) => {
 
               {/* Description line */}
               <p
-                className={`${
-                  isMobileView ? 'text-md' : 'text-lg'
-                } font-medium mb-1`}
+                className="text-lg font-medium mb-1"
                 style={{ color: steamTheme.textSecondary }}
               >
                 {project.d1}
@@ -84,9 +91,7 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ project, steamTheme }) => {
               {/* Main description - truncated */}
               {project.d2 && (
                 <p
-                  className={`text-md ${
-                    isMobileView ? 'line-clamp-7' : 'line-clamp-5'
-                  } `}
+                  className="text-md line-clamp-5"
                   style={{ color: steamTheme.textSecondary }}
                 >
                   {project.d2}
@@ -96,38 +101,31 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ project, steamTheme }) => {
               {/* Technology tags - horizontal and limited */}
               <div className="flex flex-col gap-1.5">
                 <h3
-                  className={`${
-                    isMobileView ? 'text-md' : 'text-md'
-                  } font-semibold`}
+                  className="text-md font-semibold"
                   style={{ color: steamTheme.textPrimary }}
                 >
                   Technologies
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
-                  {project.technologies
-                    .slice(0, isMobileView ? 3 : 5)
-                    .map((tech) => (
-                      <span
-                        key={tech}
-                        className={`px-2 py-0.5 rounded ${
-                          isMobileView ? 'text-sm' : 'text-sm'
-                        }`}
-                        style={{
-                          background: 'rgba(25, 32, 46, 0.8)',
-                          color: steamTheme.textSecondary,
-                          border: `1px solid ${steamTheme.divider}`,
-                        }}
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  {project.technologies.length > (isMobileView ? 3 : 5) && (
+                  {project.technologies.slice(0, 3).map((tech) => (
                     <span
-                      className={`${isMobileView ? 'text-sm' : 'text-sm'}`}
+                      key={tech}
+                      className="px-2 py-0.5 rounded text-sm"
+                      style={{
+                        background: 'rgba(25, 32, 46, 0.8)',
+                        color: steamTheme.textSecondary,
+                        border: `1px solid ${steamTheme.divider}`,
+                      }}
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                  {project.technologies.length > 3 && (
+                    <span
+                      className="text-sm"
                       style={{ color: steamTheme.textSecondary }}
                     >
-                      +{project.technologies.length - (isMobileView ? 3 : 5)}{' '}
-                      more
+                      +{project.technologies.length - 3} more
                     </span>
                   )}
                 </div>
@@ -137,7 +135,7 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ project, steamTheme }) => {
             {/* Bottom action button */}
             <div className="mt-auto">
               <button
-                className={`w-full flex items-center justify-center gap-2 px-3 py-2 cursor-pointer rounded text-md font-medium`}
+                className="w-full flex items-center justify-center gap-2 px-3 py-2 cursor-pointer rounded text-md font-medium"
                 style={{
                   background: `linear-gradient(to right, ${steamTheme.buttonGradientStart}, ${steamTheme.buttonGradientEnd})`,
                   color: '#ffffff',
