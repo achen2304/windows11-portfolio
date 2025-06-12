@@ -55,7 +55,6 @@ const FeaturedProjects: React.FC = () => {
         className="flex-1 flex flex-col p-4 md:p-6 w-full"
         style={{
           maxWidth: '900px',
-          minWidth: '400px',
           margin: '0 auto',
         }}
       >
