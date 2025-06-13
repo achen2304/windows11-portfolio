@@ -100,7 +100,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
 
       setTimeout(() => {
         setShowWakeUpMessage(true);
-      }, 3000);
+      }, 2000);
     }, 3000);
   };
 
@@ -168,7 +168,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
           className="fixed inset-0 z-[1000] flex items-center justify-center"
           style={{
             backgroundColor: 'black',
-            transition: 'opacity 0.5s ease-in-out',
+            transition: 'opacity 2s ease-in-out',
             opacity: 1,
           }}
         >
