@@ -196,7 +196,7 @@ export const OutlookApp: React.FC = () => {
                     setEmailError('');
                   }
                 }}
-                onChange={(e) => {
+                onChange={() => {
                   if (emailError) {
                     setEmailError('');
                   }
