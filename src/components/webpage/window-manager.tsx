@@ -5,7 +5,6 @@ import React, {
   useCallback,
   createContext,
   useContext,
-  useRef,
   useEffect,
 } from 'react';
 import AppOutline from './outline';
@@ -73,7 +72,7 @@ interface StoredWindowState {
   size: { width: number; height: number };
   isMaximized: boolean;
   isMinimized: boolean;
-  appId: string; // Store the app ID to recreate the component
+  appId: string;
 }
 
 export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
@@ -82,9 +81,6 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
   const [windows, setWindows] = useState<WindowState[]>([]);
   const [nextZIndex, setNextZIndex] = useState(100);
 
-  // Define maximum number of windows
-  const MAX_WINDOWS = 8;
-
   // Load windows from localStorage on mount
   useEffect(() => {
     try {
@@ -92,12 +88,8 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
       if (storedWindows) {
         const parsedWindows: StoredWindowState[] = JSON.parse(storedWindows);
 
-        // Recreate windows from stored state
         parsedWindows.forEach((storedWindow) => {
-          // Find the app definition to get the component
           const appId = storedWindow.appId;
-          // This assumes you have access to availableApps here
-          // You might need to import it or pass it as a prop
           const appDefinition = availableApps.find((app) => app.id === appId);
 
           if (appDefinition) {
@@ -118,13 +110,11 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
     }
   }, []);
 
-  // Save windows to localStorage when they change
   useEffect(() => {
     if (windows.length > 0) {
       try {
-        // Only store windows that aren't in the process of closing
         const storableWindows: StoredWindowState[] = windows
-          .filter((window) => !window.isClosing) // Don't store closing windows
+          .filter((window) => !window.isClosing)
           .map((window) => {
             return {
               id: window.id,
@@ -133,7 +123,7 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
               size: window.size,
               isMaximized: window.isMaximized,
               isMinimized: window.isMinimized,
-              appId: window.id, // Since we're now using appId as the window.id directly
+              appId: window.id,
             };
           });
 
@@ -142,7 +132,6 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
         console.error('Failed to save window states:', error);
       }
     } else {
-      // If there are no windows, clear the stored state
       localStorage.removeItem('windowStates');
     }
   }, [windows]);
@@ -155,34 +144,26 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
     };
   }, []);
 
-  // Add a function to handle z-index cycling
   const getNextZIndex = useCallback(
     (currentHighest: number) => {
-      // If z-index is getting too high, reset all windows to lower values
-      // while maintaining their relative stacking order
-      if (currentHighest > 600) {
-        // Reset the base z-index
-        setNextZIndex(100);
+      if (currentHighest > 200) {
+        setNextZIndex(50);
 
-        // Sort windows by their current z-index
         const sortedWindows = [...windows].sort((a, b) => a.zIndex - b.zIndex);
 
-        // Assign new z-indices starting from 50 with increments of 10
         setWindows((prevWindows) =>
           prevWindows.map((window) => {
             const index = sortedWindows.findIndex((w) => w.id === window.id);
             return {
               ...window,
-              zIndex: 50 + index, // Maintain relative stacking order with lower values
+              zIndex: 50 + index,
             };
           })
         );
 
-        // Return a reasonable next z-index
-        return 100;
+        return 50;
       }
 
-      // Normal case - just increment
       return currentHighest + 1;
     },
     [windows]
@@ -191,7 +172,6 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
   const openWindow = useCallback(
     (windowData: Omit<WindowState, 'zIndex' | 'isActive'>) => {
       setWindows((windows) => {
-        // Check if this window is already open
         const existingWindow = windows.find((w) => w.id === windowData.id);
         if (existingWindow) {
           const highestZIndex = Math.max(50, ...windows.map((w) => w.zIndex));
@@ -203,49 +183,6 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
           }));
         }
 
-        // Check if we've reached the maximum number of windows
-        if (windows.length >= MAX_WINDOWS) {
-          // Option 1: Prevent opening new window
-          // return windows;
-
-          // Option 2: Close the oldest window
-          // Since we don't have timestamps anymore, just close the first window in the array
-          const oldestWindow = windows[0];
-
-          // Filter out the oldest window
-          const updatedWindows = windows.filter(
-            (w) => w.id !== oldestWindow.id
-          );
-
-          // Continue with adding the new window
-          const position =
-            windowData.position || getStaggeredPosition(updatedWindows.length);
-
-          const highestZIndex =
-            updatedWindows.length > 0
-              ? Math.max(50, ...updatedWindows.map((w) => w.zIndex))
-              : 50;
-          const newZIndex = getNextZIndex(highestZIndex);
-
-          const newWindow: WindowState = {
-            ...windowData,
-            position,
-            zIndex: newZIndex,
-            isActive: true,
-            isOpening: true,
-            isClosing: false,
-          };
-
-          const finalWindows = updatedWindows.map((w) => ({
-            ...w,
-            isActive: false,
-          }));
-
-          setNextZIndex(Math.min(newZIndex + 1, 999));
-          return [...finalWindows, newWindow];
-        }
-
-        // Normal flow when under the limit
         const position =
           windowData.position || getStaggeredPosition(windows.length);
 
@@ -273,18 +210,14 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
     [nextZIndex, getStaggeredPosition, getNextZIndex]
   );
 
-  // In window-manager.tsx
   const closeWindow = useCallback((id: string) => {
-    // First mark the window as closing for animation
     setWindows((prev) =>
       prev.map((w) => (w.id === id ? { ...w, isClosing: true } : w))
     );
 
-    // Create a timeout to actually remove the window after animation completes
     setTimeout(() => {
       setWindows((prev) => prev.filter((w) => w.id !== id));
 
-      // Also remove from localStorage to prevent reappearing on refresh
       try {
         const storedWindows = localStorage.getItem('windowStates');
         if (storedWindows) {
@@ -321,14 +254,12 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
   );
 
   const minimizeWindow = useCallback((id: string) => {
-    // First mark the window as minimizing for animation
     setWindows((prev) =>
       prev.map((w) =>
         w.id === id ? { ...w, isMinimizing: true, isActive: false } : w
       )
     );
 
-    // After animation completes, actually set it as minimized
     setTimeout(() => {
       setWindows((prev) =>
         prev.map((w) =>
@@ -380,7 +311,6 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
         const highestZIndex = Math.max(50, ...windows.map((w) => w.zIndex));
         const newZIndex = getNextZIndex(highestZIndex);
 
-        // First mark the window as reopening and no longer minimized
         return windows.map((w) => ({
           ...w,
           isActive: w.id === id,
@@ -390,7 +320,6 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
         }));
       });
 
-      // After animation completes, clear the reopening flag
       setTimeout(() => {
         setWindows((prev) =>
           prev.map((w) => (w.id === id ? { ...w, isReopening: false } : w))
@@ -424,7 +353,6 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
               key={window.id}
               onError={(error) => {
                 console.error(`Error in window ${window.id}:`, error);
-                // Optionally close the problematic window after a delay
                 setTimeout(() => closeWindow(window.id), 3000);
               }}
               fallback={

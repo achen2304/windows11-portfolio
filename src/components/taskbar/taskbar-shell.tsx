@@ -9,7 +9,6 @@ import StartPanel from './taskbar-pannel';
 import CalendarPanel from './calendar-pannel';
 import SystemPanel from './system pannel/system-panel';
 import SoundboardPanel from './soundboard-pannel';
-import PowerPanel from './power-panel';
 
 interface TaskbarShellProps {
   apps?: TaskbarApp[];
@@ -182,10 +181,6 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
       />
 
       {/* Power Panel */}
-      <PowerPanel
-        isOpen={isPowerPanelOpen}
-        onClose={() => setIsPowerPanelOpen(false)}
-      />
     </>
   );
 };

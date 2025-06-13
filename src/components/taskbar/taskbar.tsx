@@ -32,7 +32,6 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
   onSystemTrayClick = () => {},
   onDateTimeClick = () => {},
   onSoundboardClick = () => {},
-  onPowerClick = () => {},
   activePanels = new Set(),
   className = '',
 }) => {
@@ -45,7 +44,6 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
   const { windows, focusWindow, minimizeWindow, focusAndRestoreWindow } =
     useWindowManager();
 
-  // Update time every second
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(moment());
@@ -59,10 +57,9 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
     setTimeout(() => {
       setTheme(theme === 'dark' ? 'light' : 'dark');
       setIsSpinning(false);
-    }, 150); // Halfway through the 400ms animation
+    }, 150);
   };
 
-  // Reusable hover methods
   const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.style.backgroundColor =
       theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';

@@ -124,7 +124,6 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
 
   return (
     <>
-      {/* Custom Scrollbar Styles */}
       <style jsx>{`
         .custom-scrollbar::-webkit-scrollbar {
           width: 8px;

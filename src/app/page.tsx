@@ -19,8 +19,7 @@ const DemoContent: React.FC = () => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
   const { openAppById } = useAppOpener();
-  const { windows, focusAndRestoreWindow, focusWindow } =
-    useWindowManager();
+  const { windows, focusAndRestoreWindow, focusWindow } = useWindowManager();
 
   useEffect(() => {
     if (windows.length === 0) {
