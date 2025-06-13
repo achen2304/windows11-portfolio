@@ -18,13 +18,8 @@ export const taskbarApps: TaskbarApp[] = [
     icon: '/app icons/steam.webp',
   },
   {
-    id: 'vscode',
-    name: 'VS Code',
-    icon: '/app icons/vscode.svg',
-  },
-  {
-    id: 'google',
-    name: 'Google',
-    icon: '/app icons/google.svg',
+    id: 'contact-me',
+    name: 'Contact',
+    icon: '/app icons/outlook.svg',
   },
 ];

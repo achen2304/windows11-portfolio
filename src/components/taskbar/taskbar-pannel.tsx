@@ -226,7 +226,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
             />
             <input
               type="text"
-              placeholder="Search for apps, settings, and documents"
+              placeholder="Search for all existing apps"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-12 pr-4 py-3 rounded-md text-sm transition-colors duration-200"

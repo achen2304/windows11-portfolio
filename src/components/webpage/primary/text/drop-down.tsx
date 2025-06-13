@@ -26,7 +26,6 @@ export const Dropdown: React.FC<DropdownProps> = ({
   const currentTheme = themes[theme as keyof typeof themes];
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -117,7 +116,6 @@ export const Dropdown: React.FC<DropdownProps> = ({
   );
 };
 
-// File dropdown options with handlers
 export const createFileDropdownOptions = (
   onNew: () => void,
   onSave: () => void,
@@ -147,7 +145,6 @@ export const createFileDropdownOptions = (
   },
 ];
 
-// Edit dropdown options with handlers
 export const createEditDropdownOptions = (
   onUndo: () => void,
   onCut: () => void,

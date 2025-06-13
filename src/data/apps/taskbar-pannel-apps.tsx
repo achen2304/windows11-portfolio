@@ -24,16 +24,23 @@ export const startPanelApps: StartApp[] = [
     isPinned: true,
   },
   {
+    id: 'contact-me',
+    name: 'Contact',
+    icon: '/app icons/outlook.svg',
+    description: 'Outlook-inspired email client',
+    isPinned: true,
+  },
+  {
     id: 'vscode',
     name: 'VSCode',
     icon: '/app icons/vscode.svg',
-    isPinned: true,
+    isPinned: false,
   },
   {
     id: 'google',
     name: 'Google',
     icon: '/app icons/google.svg',
-    isPinned: true,
+    isPinned: false,
   },
 ];
 

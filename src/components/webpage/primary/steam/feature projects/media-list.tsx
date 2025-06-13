@@ -68,13 +68,13 @@ const MediaList: React.FC = () => {
   return (
     <div className="w-full flex flex-col">
       {/* Tabs */}
-      <div className="flex items-center gap-2 md:gap-4 px-2 md:px-4 overflow-x-auto scrollbar-none">
+      <div className="flex items-center gap-2 md:gap-4 px-2 md:px-4 overflow-x-auto scrollbar-none ">
         {types.map((type) => (
           <button
             key={type}
             onClick={() => setActiveTab(type)}
             className={cn(
-              'uppercase font-medium whitespace-nowrap text-sm px-3 py-2 transition-all',
+              'uppercase font-medium whitespace-nowrap text-sm px-3 py-2 transition-all cursor-pointer',
               'hover:text-white relative',
               activeTab === type ? 'text-white' : 'text-[#66c0f4]'
             )}

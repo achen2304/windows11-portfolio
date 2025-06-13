@@ -9,15 +9,8 @@ export const MESSAGES = [
   },
   {
     content:
-      'This portfolio is built with Typescript, React, Next.js, along with a much of other technologies! Feel free to explore the different channels & apps to learn more about me.',
+      'The Major Apps:\n• <strong>.txt</strong>: basic text file\n• <strong>about</strong>: this app! shows some info about me including skills, experience and details of this portfolio site\n• <strong>Projects</strong>: an app to show my projects\n• <strong>Outlook</strong>: an contact me forum, in case you want to reach out for a project, or anything else',
     time: '9:32 AM',
-    user: 'Cai Chen',
-    avatar: '/other/profile.webp',
-  },
-  {
-    content:
-      "Channel descriptions:\n• <strong>#general</strong> - You are here! An introduction to who I am.\n• <strong>#skills</strong> - The technical skills and technologies I'm proficient in.\n• <strong>#experience</strong> - My professional experience.\n• <strong>#portfolio</strong> - An overview of all the features in this Windows 11 portfolio.",
-    time: '9:35 AM',
     user: 'Cai Chen',
     avatar: '/other/profile.webp',
   },

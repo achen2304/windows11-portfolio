@@ -36,9 +36,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 
   const addToast = useCallback(
     (toastProps: Toast) => {
-      // Check if we should also add a notification (not set to false explicitly)
       if (toastProps.notification !== false) {
-        // Add to notification system (with duplicate checking)
         notificationUtils.addNotification({
           title: toastProps.title,
           description: toastProps.description,

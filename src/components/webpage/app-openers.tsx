@@ -7,6 +7,7 @@ import TextEditorApp from './primary/text/text-editor-app';
 import SlackApp from './primary/slack/slack';
 import VSCodeApp from './fun/vscode/vscode';
 import GoogleApp from './fun/google/google';
+import OutlookApp from './primary/outlook/outlook';
 
 export interface AppDefinition {
   id: string;
@@ -49,6 +50,16 @@ export const availableApps: AppDefinition[] = [
     defaultSize: { width: 1000, height: 700 },
     category: 'Portfolio',
     description: 'Slack-inspired about me information and skills',
+  },
+  {
+    id: 'contact-me',
+    name: 'Contact Me',
+    icon: '/app icons/outlook.svg',
+    component: <OutlookApp />,
+    defaultSize: { width: 400, height: 500 },
+    defaultPosition: { x: 900, y: 200 },
+    category: 'Communication',
+    description: 'Outlook-inspired email client',
   },
   {
     id: 'vscode',
@@ -136,6 +147,8 @@ export const useAppOpeners = () => {
       openApp('vscode', options),
     openGoogle: (options?: Parameters<typeof openApp>[1]) =>
       openApp('google', options),
+    openOutlook: (options?: Parameters<typeof openApp>[1]) =>
+      openApp('outlook', options),
   };
 };
 

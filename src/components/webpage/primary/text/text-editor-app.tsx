@@ -64,30 +64,23 @@ export const TextEditorApp: React.FC = () => {
     }
   };
 
-  // Load content from storage on mount and save on unmount
   useEffect(() => {
-    // Initialize the history with the current content when component mounts
     const initialContent = getInitialContent();
-    // Store a reference to the textarea element at effect time
     const textareaElement = textareaRef.current;
 
     if (initialContent && textareaElement) {
       textareaElement.value = initialContent;
     }
 
-    // Save content to storage when component unmounts
     return () => {
-      // Use the stored reference, not textareaRef.current which may have changed
       if (typeof window !== 'undefined' && textareaElement) {
         localStorage.setItem('notepad-content', textareaElement.value);
       }
     };
   }, []);
 
-  // Close dropdown when clicking outside the menu
   useEffect(() => {
     const handleWindowClick = (e: MouseEvent) => {
-      // Don't close if clicking on a dropdown item
       if (e.target instanceof Element) {
         const isDropdownClick = e.target.closest('.dropdown-menu') !== null;
         const isMenuBarClick = e.target.closest('.menu-bar-item') !== null;
@@ -98,14 +91,11 @@ export const TextEditorApp: React.FC = () => {
       }
     };
 
-    // Add listeners to close the dropdown when clicking elsewhere
     if (activeMenu) {
-      // Add with slight delay to avoid immediate closure
       const timeoutId = setTimeout(() => {
         document.addEventListener('mousedown', handleWindowClick);
       }, 100);
 
-      // Also close when pressing Escape
       const handleEscape = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
           setActiveMenu(null);
@@ -122,7 +112,6 @@ export const TextEditorApp: React.FC = () => {
     }
   }, [activeMenu]);
 
-  // Get handlers from custom hook
   const handlers = useEditorHandlers(
     textareaRef,
     setContent,
@@ -142,12 +131,10 @@ export const TextEditorApp: React.FC = () => {
     canRedo,
   } = handlers;
 
-  // Menu click handler
   const handleMenuClick = (
     menuType: 'file' | 'edit',
     event: React.MouseEvent
   ) => {
-    // Prevent event from bubbling up to window
     event.stopPropagation();
     event.preventDefault();
 
@@ -158,12 +145,10 @@ export const TextEditorApp: React.FC = () => {
     }
   };
 
-  // Track cursor position with wrapper function
   const updateCursorPosition = () => {
     handlers.updateCursorPosition(textareaRef, setLineCol);
   };
 
-  // Define text editor colors based on theme
   const editorColors = {
     background: theme === 'dark' ? currentTheme.surface : '#ffffff',
     text: theme === 'dark' ? currentTheme.text.primary : '#000000',
@@ -191,7 +176,7 @@ export const TextEditorApp: React.FC = () => {
         style={{
           borderColor: editorColors.border,
           color: editorColors.menuText,
-          position: 'relative', // Ensure proper positioning context
+          position: 'relative',
         }}
       >
         <div
