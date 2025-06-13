@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { useTheme } from '../theme-provider';
 import { themes } from '@/lib/themes';
-import { X, Maximize2, Minimize2 } from 'lucide-react';
+import { X, Maximize2, Minimize2, Minus } from 'lucide-react';
 import { Rnd } from 'react-rnd';
 
 const handleStyles = {
@@ -28,6 +28,7 @@ interface AppOutlineProps {
   className?: string;
   isMaximized?: boolean;
   onMaximizeToggle?: () => void;
+  onMinimize?: () => void;
   style?: React.CSSProperties;
   onFocus?: () => void;
   onPositionChange?: (position: { x: number; y: number }) => void;
@@ -36,6 +37,8 @@ interface AppOutlineProps {
   isOpening?: boolean;
   isClosing?: boolean;
   onOpeningAnimationEnd?: () => void;
+  isMinimizing?: boolean;
+  isReopening?: boolean;
 }
 
 const AppOutline: React.FC<AppOutlineProps> = ({
@@ -49,6 +52,7 @@ const AppOutline: React.FC<AppOutlineProps> = ({
   className = '',
   isMaximized = false,
   onMaximizeToggle,
+  onMinimize,
   style,
   onFocus,
   onPositionChange,
@@ -57,6 +61,8 @@ const AppOutline: React.FC<AppOutlineProps> = ({
   isOpening = false,
   isClosing = false,
   onOpeningAnimationEnd,
+  isMinimizing = false,
+  isReopening = false,
 }) => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
@@ -146,31 +152,77 @@ const AppOutline: React.FC<AppOutlineProps> = ({
             }
           }
 
+          @keyframes windowMinimize {
+            from {
+              transform: scale(1);
+              opacity: 1;
+            }
+            to {
+              transform: scale(0.6) translateY(80vh);
+              opacity: 0;
+            }
+          }
+
+          @keyframes windowReopen {
+            from {
+              transform: scale(0.6) translateY(80vh);
+              opacity: 0;
+            }
+            to {
+              transform: scale(1);
+              opacity: 1;
+            }
+          }
+
           .animate-window-open {
-            animation: windowOpen 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)
-              forwards;
+            animation: windowOpen 0.3s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
           }
 
           .animate-window-close {
-            animation: windowClose 0.3s cubic-bezier(0.32, 0, 0.67, 0) forwards;
+            animation: windowClose 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)
+              forwards;
+          }
+
+          .animate-window-minimize {
+            animation: windowMinimize 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)
+              forwards;
+          }
+
+          .animate-window-reopen {
+            animation: windowReopen 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)
+              forwards;
           }
         `}</style>
         <div
           className={`fixed inset-0 z-50 shadow-2xl maximized-window transition-all duration-300 ease-out ${className} ${
-            isOpening ? 'animate-window-open' : ''
-          } ${isClosing ? 'animate-window-close' : ''}`}
+            isOpening && !isClosing && !isMinimizing
+              ? 'animate-window-open'
+              : ''
+          } ${
+            isClosing && !isOpening && !isMinimizing
+              ? 'animate-window-close'
+              : ''
+          } ${isMinimizing ? 'animate-window-minimize' : ''} ${
+            isReopening ? 'animate-window-reopen' : ''
+          }`}
           style={{
             background: currentTheme.glass.background,
             border: `1px solid ${currentTheme.glass.border}`,
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
             bottom: '48px',
-            transform: isOpening
-              ? 'scale(0.9)'
-              : isClosing
-              ? 'scale(0.9)'
-              : 'scale(1)',
-            opacity: isOpening ? 0 : isClosing ? 0 : 1,
+            transform:
+              isOpening && !isReopening
+                ? 'scale(0.9)'
+                : isClosing
+                ? 'scale(0.9)'
+                : isMinimizing
+                ? 'scale(0.6) translateY(80vh)'
+                : isReopening
+                ? 'scale(0.6) translateY(80vh)'
+                : 'scale(1)',
+            opacity:
+              isOpening || isMinimizing || isReopening ? 0 : isClosing ? 0 : 1,
             ...style,
           }}
           onClick={handleWindowClick}
@@ -193,6 +245,23 @@ const AppOutline: React.FC<AppOutlineProps> = ({
 
             {/* Window Controls */}
             <div className="flex items-center space-x-1">
+              {onMinimize && (
+                <button
+                  onClick={onMinimize}
+                  className="p-1.5 rounded transition-all duration-150"
+                  style={{ color: currentTheme.text.primary }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor =
+                      currentTheme.button.backgroundHover;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }}
+                >
+                  <Minus size={14} />
+                </button>
+              )}
+
               {onMaximizeToggle && (
                 <button
                   onClick={onMaximizeToggle}
@@ -271,13 +340,45 @@ const AppOutline: React.FC<AppOutlineProps> = ({
           }
         }
 
+        @keyframes windowMinimize {
+          from {
+            transform: scale(1);
+            opacity: 1;
+          }
+          to {
+            transform: scale(0.6) translateY(80vh);
+            opacity: 0;
+          }
+        }
+
+        @keyframes windowReopen {
+          from {
+            transform: scale(0.6) translateY(80vh);
+            opacity: 0;
+          }
+          to {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+
         .animate-window-open {
-          animation: windowOpen 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+          animation: windowOpen 0.3s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
         }
 
         .animate-window-close {
-          animation: windowClose 0.3s cubic-bezier(0.32, 0, 0.67, 0) forwards;
+          animation: windowClose 0.3s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
         }
+
+        .animate-window-minimize {
+          animation: windowMinimize 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)
+            forwards;
+        }
+
+        .animate-window-reopen {
+          animation: windowReopen 0.3s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+        }
+
         .custom-scrollbar::-webkit-scrollbar {
           width: 12px;
           height: 12px;
@@ -407,8 +508,16 @@ const AppOutline: React.FC<AppOutlineProps> = ({
         <div
           ref={windowRef}
           className={`h-full shadow-2xl transition-all duration-300 ease-out ${
-            isOpening ? 'animate-window-open' : ''
-          } ${isClosing ? 'animate-window-close' : ''}`}
+            isOpening && !isClosing && !isMinimizing
+              ? 'animate-window-open'
+              : ''
+          } ${
+            isClosing && !isOpening && !isMinimizing
+              ? 'animate-window-close'
+              : ''
+          } ${isMinimizing ? 'animate-window-minimize' : ''} ${
+            isReopening ? 'animate-window-reopen' : ''
+          }`}
           style={{
             background: currentTheme.glass.background,
             border: `1px solid ${currentTheme.glass.border}`,
@@ -416,12 +525,18 @@ const AppOutline: React.FC<AppOutlineProps> = ({
             overflow: 'hidden',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
-            transform: isOpening
-              ? 'scale(0.8)'
-              : isClosing
-              ? 'scale(0.8)'
-              : 'scale(1)',
-            opacity: isOpening ? 0 : isClosing ? 0 : 1,
+            transform:
+              isOpening && !isReopening
+                ? 'scale(0.8)'
+                : isClosing
+                ? 'scale(0.8)'
+                : isMinimizing
+                ? 'scale(0.6) translateY(80vh)'
+                : isReopening
+                ? 'scale(0.6) translateY(80vh)'
+                : 'scale(1)',
+            opacity:
+              isOpening || isMinimizing || isReopening ? 0 : isClosing ? 0 : 1,
           }}
         >
           {/* Header - Draggable */}
@@ -442,6 +557,23 @@ const AppOutline: React.FC<AppOutlineProps> = ({
 
             {/* Window Controls */}
             <div className="not-draggable flex items-center space-x-1 pointer-events-auto">
+              {onMinimize && (
+                <button
+                  onClick={onMinimize}
+                  className="p-1.5 rounded transition-all duration-150"
+                  style={{ color: currentTheme.text.primary }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor =
+                      currentTheme.button.backgroundHover;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }}
+                >
+                  <Minus size={14} />
+                </button>
+              )}
+
               {onMaximizeToggle && (
                 <button
                   onClick={onMaximizeToggle}

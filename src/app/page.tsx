@@ -19,25 +19,33 @@ const DemoContent: React.FC = () => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
   const { openAppById } = useAppOpener();
-  const { windows, closeWindow } = useWindowManager();
+  const { windows, focusAndRestoreWindow, focusWindow } =
+    useWindowManager();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      openAppById('text-editor');
-    }, 500);
+    if (windows.length === 0) {
+      const timer = setTimeout(() => {
+        openAppById('text-editor');
+      }, 3000);
 
-    return () => clearTimeout(timer);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   const handleDesktopIconClick = (appId: string) => {
-    const openWindow = windows.find((window) => window.id.startsWith(appId));
+    // Find window with ID matching the appId directly
+    const openWindow = windows.find((window) => window.id === appId);
 
     if (openWindow) {
-      closeWindow(openWindow.id);
-      setTimeout(() => {
-        openAppById(appId);
-      }, 100);
+      if (openWindow.isMinimized) {
+        // If window is minimized, restore it instead of closing
+        focusAndRestoreWindow(appId);
+      } else {
+        // If window is already open and not minimized, just focus it
+        focusWindow(appId);
+      }
     } else {
+      // If window doesn't exist, open it
       openAppById(appId);
     }
   };

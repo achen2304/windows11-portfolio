@@ -85,7 +85,7 @@ export const useAppOpener = () => {
       return;
     }
 
-    const windowId = `${app.id}-${Date.now()}`;
+    const windowId = appId;
 
     createWindow(windowId, app.name, app.component, {
       position: options?.position || app.defaultPosition,

@@ -21,6 +21,7 @@ interface TaskbarComponentProps extends TaskbarProps {
   onSystemTrayClick?: () => void;
   onDateTimeClick?: () => void;
   onSoundboardClick?: () => void;
+  onPowerClick?: () => void;
   activePanels?: Set<PanelType>;
 }
 
@@ -31,6 +32,7 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
   onSystemTrayClick = () => {},
   onDateTimeClick = () => {},
   onSoundboardClick = () => {},
+  onPowerClick = () => {},
   activePanels = new Set(),
   className = '',
 }) => {
@@ -40,7 +42,8 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
   const [clickedApp, setClickedApp] = useState<string | null>(null);
   const [currentTime, setCurrentTime] = useState(moment());
   const [isSpinning, setIsSpinning] = useState(false);
-  const { windows, focusWindow, minimizeWindow } = useWindowManager();
+  const { windows, focusWindow, minimizeWindow, focusAndRestoreWindow } =
+    useWindowManager();
 
   // Update time every second
   useEffect(() => {
@@ -77,7 +80,14 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
     setClickedApp(appId);
     setTimeout(() => setClickedApp(null), 150);
 
-    handleAppClick(appId, windows, focusWindow, minimizeWindow, onAppClick);
+    handleAppClick(
+      appId,
+      windows,
+      focusWindow,
+      minimizeWindow,
+      onAppClick,
+      focusAndRestoreWindow
+    );
   };
 
   return (

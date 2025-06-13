@@ -18,12 +18,14 @@ const StartPanel: React.FC<StartPanelProps> = ({
   apps = [],
   quickLinks = [],
   onAppClick = () => {},
+  onPowerClick = () => {},
   className = '',
 }) => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
   const { addToast } = useToast();
-  const { windows, focusWindow, minimizeWindow } = useWindowManager();
+  const { windows, focusWindow, minimizeWindow, focusAndRestoreWindow } =
+    useWindowManager();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [maxPanelHeight, setMaxPanelHeight] = useState('80vh');
@@ -64,7 +66,14 @@ const StartPanel: React.FC<StartPanelProps> = ({
   };
 
   const handleStartPanelAppClick = (appId: string) => {
-    handleAppClick(appId, windows, focusWindow, minimizeWindow, onAppClick);
+    handleAppClick(
+      appId,
+      windows,
+      focusWindow,
+      minimizeWindow,
+      onAppClick,
+      focusAndRestoreWindow
+    );
   };
 
   return (
@@ -211,7 +220,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
                     style={{ color: currentTheme.text.primary }}
                     className="text-sm font-semibold"
                   >
-                    All Apps
+                    Pinned Apps
                   </h3>
                 </div>
                 <div
@@ -386,10 +395,16 @@ const StartPanel: React.FC<StartPanelProps> = ({
             </button>
 
             <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onPowerClick();
+              }}
               className="flex items-center justify-center w-10 h-10 rounded-md transition-all duration-200 hover:scale-[1.02] active:scale-95"
               style={{
                 color: currentTheme.text.primary,
                 backgroundColor: 'transparent',
+                pointerEvents: 'auto',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor =

@@ -87,6 +87,7 @@ export interface StartPanelProps {
   apps?: StartApp[];
   quickLinks?: QuickLink[];
   onAppClick?: (appId: string) => void;
+  onPowerClick?: () => void;
   className?: string;
 }
 
@@ -126,10 +127,17 @@ export interface SoundboardPanelProps {
   className?: string;
 }
 
+export interface PowerPanelProps {
+  isOpen: boolean;
+  onClose: () => void;
+  className?: string;
+}
+
 export type PanelType =
   | 'start'
   | 'calendar'
   | 'system'
   | 'soundboard'
   | 'notifications'
+  | 'power'
   | null;

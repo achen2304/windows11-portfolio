@@ -9,6 +9,7 @@ import StartPanel from './taskbar-pannel';
 import CalendarPanel from './calendar-pannel';
 import SystemPanel from './system pannel/system-panel';
 import SoundboardPanel from './soundboard-pannel';
+import PowerPanel from './power-panel';
 
 interface TaskbarShellProps {
   apps?: TaskbarApp[];
@@ -25,6 +26,7 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
   const router = useRouter();
   const searchParams = useSearchParams();
   const [activePanels, setActivePanels] = useState<Set<PanelType>>(new Set());
+  const [isPowerPanelOpen, setIsPowerPanelOpen] = useState(false);
 
   // Get active panel from URL params
   const activePanelParam = searchParams.get('panel');
@@ -91,6 +93,10 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
     togglePanel('soundboard');
   }, [togglePanel]);
 
+  const handlePowerClick = useCallback(() => {
+    setIsPowerPanelOpen((prev) => !prev);
+  }, []);
+
   const handleAppClick = useCallback(
     (appId: string) => {
       closePanel();
@@ -101,6 +107,28 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
 
   return (
     <>
+      {/* CSS for fade-in animation */}
+      <style jsx global>{`
+        @keyframes fadeIn {
+          0% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+          }
+        }
+
+        .fade-in-overlay {
+          animation: fadeIn 2s ease-out forwards;
+        }
+      `}</style>
+
+      {/* Black overlay with fade-in animation */}
+      <div
+        className="fixed inset-0 pointer-events-none z-[1000] fade-in-overlay"
+        style={{ backgroundColor: 'black' }}
+      />
+
       {/* Centralized Backdrop - Only show when any panel is open */}
       {activePanel && (
         <div
@@ -109,6 +137,7 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
             e.preventDefault();
             e.stopPropagation();
             closePanel();
+            setIsPowerPanelOpen(false);
           }}
           style={{
             pointerEvents: 'auto',
@@ -125,6 +154,7 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
         onSystemTrayClick={handleSystemTrayClick}
         onDateTimeClick={handleDateTimeClick}
         onSoundboardClick={handleSoundboardClick}
+        onPowerClick={handlePowerClick}
         activePanels={activePanels}
         className={className}
       />
@@ -136,6 +166,7 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
         apps={startPanelApps}
         quickLinks={quickLinks}
         onAppClick={handleAppClick}
+        onPowerClick={handlePowerClick}
       />
 
       {/* System Panel */}
@@ -148,6 +179,12 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
       <SoundboardPanel
         isOpen={activePanel === 'soundboard'}
         onClose={closePanel}
+      />
+
+      {/* Power Panel */}
+      <PowerPanel
+        isOpen={isPowerPanelOpen}
+        onClose={() => setIsPowerPanelOpen(false)}
       />
     </>
   );
