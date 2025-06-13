@@ -25,7 +25,6 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
   const router = useRouter();
   const searchParams = useSearchParams();
   const [activePanels, setActivePanels] = useState<Set<PanelType>>(new Set());
-  const [isPowerPanelOpen, setIsPowerPanelOpen] = useState(false);
 
   // Get active panel from URL params
   const activePanelParam = searchParams.get('panel');
@@ -92,9 +91,6 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
     togglePanel('soundboard');
   }, [togglePanel]);
 
-  const handlePowerClick = useCallback(() => {
-    setIsPowerPanelOpen((prev) => !prev);
-  }, []);
 
   const handleAppClick = useCallback(
     (appId: string) => {
@@ -136,7 +132,6 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
             e.preventDefault();
             e.stopPropagation();
             closePanel();
-            setIsPowerPanelOpen(false);
           }}
           style={{
             pointerEvents: 'auto',
@@ -153,7 +148,6 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
         onSystemTrayClick={handleSystemTrayClick}
         onDateTimeClick={handleDateTimeClick}
         onSoundboardClick={handleSoundboardClick}
-        onPowerClick={handlePowerClick}
         activePanels={activePanels}
         className={className}
       />
@@ -165,7 +159,6 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
         apps={startPanelApps}
         quickLinks={quickLinks}
         onAppClick={handleAppClick}
-        onPowerClick={handlePowerClick}
       />
 
       {/* System Panel */}

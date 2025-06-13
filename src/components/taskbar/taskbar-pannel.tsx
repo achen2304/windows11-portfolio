@@ -18,7 +18,6 @@ const StartPanel: React.FC<StartPanelProps> = ({
   apps = [],
   quickLinks = [],
   onAppClick = () => {},
-  onPowerClick = () => {},
   className = '',
 }) => {
   const { theme } = useTheme();
@@ -29,6 +28,11 @@ const StartPanel: React.FC<StartPanelProps> = ({
 
   const [searchQuery, setSearchQuery] = useState('');
   const [maxPanelHeight, setMaxPanelHeight] = useState('80vh');
+  const [isPowerDropdownOpen, setIsPowerDropdownOpen] = useState(false);
+  const [isShuttingDown, setIsShuttingDown] = useState(false);
+  const [isRestarting, setIsRestarting] = useState(false);
+  const [showShutdownScreen, setShowShutdownScreen] = useState(false);
+  const [showWakeUpMessage, setShowWakeUpMessage] = useState(false);
 
   useEffect(() => {
     const updateMaxHeight = () => {
@@ -74,6 +78,34 @@ const StartPanel: React.FC<StartPanelProps> = ({
       onAppClick,
       focusAndRestoreWindow
     );
+  };
+
+  const handleRestart = () => {
+    setIsPowerDropdownOpen(false);
+    setIsRestarting(true);
+
+    setTimeout(() => {
+      localStorage.clear();
+      window.location.reload();
+    }, 3000);
+  };
+
+  const handleShutdown = () => {
+    setIsPowerDropdownOpen(false);
+    setIsShuttingDown(true);
+
+    setTimeout(() => {
+      setIsShuttingDown(false);
+      setShowShutdownScreen(true);
+
+      setTimeout(() => {
+        setShowWakeUpMessage(true);
+      }, 3000);
+    }, 3000);
+  };
+
+  const handleWakeUp = () => {
+    window.location.reload();
   };
 
   return (
@@ -130,6 +162,42 @@ const StartPanel: React.FC<StartPanelProps> = ({
             : 'rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.05)'};
         }
       `}</style>
+
+      {(isShuttingDown || isRestarting) && (
+        <div
+          className="fixed inset-0 z-[1000] flex items-center justify-center"
+          style={{
+            backgroundColor: 'black',
+            transition: 'opacity 0.5s ease-in-out',
+            opacity: 1,
+          }}
+        >
+          <div className="flex flex-col items-center">
+            <div className="relative h-24 w-24 mb-2">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="h-16 w-16 rounded-full border-4 border-t-transparent border-blue-500 animate-spin"></div>
+              </div>
+            </div>
+            <p className="text-white text-lg">
+              {isRestarting ? 'Restarting...' : 'Shutting down...'}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Black Screen after Shutdown */}
+      {showShutdownScreen && (
+        <div
+          className="fixed inset-0 z-[1000] bg-black cursor-pointer flex items-center justify-center"
+          onClick={handleWakeUp}
+        >
+          {showWakeUpMessage && (
+            <p className="text-white text-lg opacity-50">
+              click anywhere to power on...
+            </p>
+          )}
+        </div>
+      )}
 
       {/* Start Panel */}
       <div
@@ -234,7 +302,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
                         handleStartPanelAppClick(app.id);
                         onClose();
                       }}
-                      className="flex flex-col items-center p-2 sm:p-4 rounded-lg transition-colors duration-200"
+                      className="flex flex-col items-center p-2 sm:p-4 cursor-pointer rounded-lg transition-colors duration-200"
                       style={{
                         backgroundColor: 'transparent',
                         color: currentTheme.text.primary,
@@ -394,29 +462,101 @@ const StartPanel: React.FC<StartPanelProps> = ({
               <span className="text-sm font-medium">Profile</span>
             </button>
 
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onPowerClick();
-              }}
-              className="flex items-center justify-center w-10 h-10 rounded-md transition-all duration-200 hover:scale-[1.02] active:scale-95"
-              style={{
-                color: currentTheme.text.primary,
-                backgroundColor: 'transparent',
-                pointerEvents: 'auto',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor =
-                  currentTheme.glass.cardBackground;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
-              }}
-              title="Power options"
-            >
-              <Power size={18} />
-            </button>
+            <div className="relative">
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setIsPowerDropdownOpen(!isPowerDropdownOpen);
+                }}
+                className="flex items-center justify-center w-10 h-10 rounded-md transition-all duration-200 hover:scale-[1.02] active:scale-95"
+                style={{
+                  color: currentTheme.text.primary,
+                  backgroundColor: 'transparent',
+                  pointerEvents: 'auto',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor =
+                    currentTheme.glass.cardBackground;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }}
+                title="Power options"
+              >
+                <Power size={18} />
+              </button>
+
+              {/* Power Dropdown */}
+              <div
+                className="fixed z-[300]"
+                style={{
+                  visibility: isPowerDropdownOpen ? 'visible' : 'hidden',
+                  bottom: '55px',
+                  right: '20px',
+                }}
+              >
+                <div
+                  className="rounded-md backdrop-blur-xl shadow-2xl overflow-hidden transition-all duration-300 ease-out"
+                  style={{
+                    background:
+                      theme === 'dark'
+                        ? 'rgba(32, 32, 32, 0.85)'
+                        : 'rgba(255, 255, 255, 0.85)',
+                    border: `1px solid ${currentTheme.glass.border}`,
+                    WebkitBackdropFilter: 'blur(30px)',
+                    transform: isPowerDropdownOpen
+                      ? 'translateY(0)'
+                      : 'translateY(20px)',
+                    opacity: isPowerDropdownOpen ? 1 : 0,
+                    pointerEvents: isPowerDropdownOpen ? 'auto' : 'none',
+                    width: '110px',
+                  }}
+                >
+                  {/* Power options */}
+                  <div className="p-1">
+                    <button
+                      onClick={handleRestart}
+                      className="w-full text-center px-2 py-2 text-sm rounded-md hover:bg-opacity-20 transition-colors duration-200"
+                      style={{
+                        color: currentTheme.text.primary,
+                        backgroundColor: 'transparent',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor =
+                          theme === 'dark'
+                            ? 'rgba(255, 255, 255, 0.1)'
+                            : 'rgba(0, 0, 0, 0.1)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                      }}
+                    >
+                      Restart
+                    </button>
+                    <button
+                      onClick={handleShutdown}
+                      className="w-full text-center px-2 py-2 text-sm rounded-md hover:bg-opacity-20 transition-colors duration-200"
+                      style={{
+                        color: currentTheme.text.primary,
+                        backgroundColor: 'transparent',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor =
+                          theme === 'dark'
+                            ? 'rgba(255, 255, 255, 0.1)'
+                            : 'rgba(0, 0, 0, 0.1)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                      }}
+                    >
+                      Shut Down
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
