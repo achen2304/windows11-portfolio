@@ -86,6 +86,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
 
     setTimeout(() => {
       localStorage.clear();
+      window.history.replaceState({}, document.title, window.location.pathname);
       window.location.reload();
     }, 3000);
   };
@@ -105,6 +106,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
   };
 
   const handleWakeUp = () => {
+    window.history.replaceState({}, document.title, window.location.pathname);
     window.location.reload();
   };
 
