@@ -8,9 +8,14 @@ export const taskbarApps: TaskbarApp[] = [
     iconLight: '/app icons/textdark.svg',
   },
   {
-    id: 'about-me',
-    name: 'About',
-    icon: '/app icons/slack.webp',
+    id: 'contact-me',
+    name: 'Contact',
+    icon: '/app icons/outlook.svg',
+  },
+  {
+    id: 'word',
+    name: 'Resume',
+    icon: '/app icons/word.svg',
   },
   {
     id: 'projects',
@@ -18,8 +23,8 @@ export const taskbarApps: TaskbarApp[] = [
     icon: '/app icons/steam.webp',
   },
   {
-    id: 'contact-me',
-    name: 'Contact',
-    icon: '/app icons/outlook.svg',
+    id: 'about-me',
+    name: 'About',
+    icon: '/app icons/slack.webp',
   },
 ];

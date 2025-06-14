@@ -24,6 +24,13 @@ export const startPanelApps: StartApp[] = [
     isPinned: true,
   },
   {
+    id: 'word',
+    name: 'Resume',
+    icon: '/app icons/word.svg',
+    description: 'Resume',
+    isPinned: true,
+  },
+  {
     id: 'contact-me',
     name: 'Contact',
     icon: '/app icons/outlook.svg',

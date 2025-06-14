@@ -8,6 +8,7 @@ import SlackApp from './primary/slack/slack';
 import VSCodeApp from './fun/vscode/vscode';
 import GoogleApp from './fun/google/google';
 import OutlookApp from './primary/outlook/outlook';
+import WordApp from './primary/word/word';
 
 export interface AppDefinition {
   id: string;
@@ -75,6 +76,12 @@ export const availableApps: AppDefinition[] = [
     name: 'Google',
     icon: '/app icons/google.svg',
     component: <GoogleApp />,
+  },
+  {
+    id: 'word',
+    name: 'Word',
+    icon: '/app icons/word.svg',
+    component: <WordApp />,
   },
 ];
 
@@ -149,6 +156,8 @@ export const useAppOpeners = () => {
       openApp('google', options),
     openOutlook: (options?: Parameters<typeof openApp>[1]) =>
       openApp('outlook', options),
+    openWord: (options?: Parameters<typeof openApp>[1]) =>
+      openApp('word', options),
   };
 };
 

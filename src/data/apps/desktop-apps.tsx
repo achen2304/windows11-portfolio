@@ -27,6 +27,12 @@ export const desktopApps: DesktopApp[] = [
     description: 'Gaming Platform',
   },
   {
+    id: 'word',
+    name: 'Resume',
+    icon: '/app icons/word.svg',
+    description: 'Resume',
+  },
+  {
     id: 'contact-me',
     name: 'Contact',
     icon: '/app icons/outlook.svg',

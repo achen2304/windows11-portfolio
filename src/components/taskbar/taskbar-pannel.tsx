@@ -293,10 +293,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
                     Pinned Apps
                   </h3>
                 </div>
-                <div
-                  className="grid grid-cols-4 sm:grid-cols-5 gap-2 sm:gap-4"
-                  style={{ minHeight: '140px' }}
-                >
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-4">
                   {pinnedApps.map((app) => (
                     <button
                       key={app.id}
@@ -308,7 +305,6 @@ const StartPanel: React.FC<StartPanelProps> = ({
                       style={{
                         backgroundColor: 'transparent',
                         color: currentTheme.text.primary,
-                        height: '80px',
                       }}
                       onMouseEnter={handleMouseEnter}
                       onMouseLeave={handleMouseLeave}
@@ -432,18 +428,11 @@ const StartPanel: React.FC<StartPanelProps> = ({
           style={{ background: currentTheme.glass.backgroundDark }}
         >
           <div className="flex items-center justify-between">
-            <button
-              className="flex items-center space-x-3 p-2 rounded-md transition-all duration-200 hover:scale-[1.02] active:scale-95"
+            <div
+              className="flex items-center space-x-3 p-2 rounded-md"
               style={{
                 backgroundColor: 'transparent',
                 color: currentTheme.text.primary,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor =
-                  currentTheme.glass.cardBackground;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
               }}
             >
               <div
@@ -461,8 +450,8 @@ const StartPanel: React.FC<StartPanelProps> = ({
                   height={32}
                 />
               </div>
-              <span className="text-sm font-medium">Profile</span>
-            </button>
+              <span className="text-sm font-medium">Cai Chen</span>
+            </div>
 
             <div className="relative">
               <button
