@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useTheme } from '../../../theme-provider';
 import { themes } from '@/lib/themes';
 import { Download } from 'lucide-react';
@@ -9,7 +9,7 @@ import resume from '@/data/resume';
 export const WordApp: React.FC = () => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
-  const [scale, setScale] = useState<number>(1.2);
+  //   const [scale, setScale] = useState<number>(1.2);
 
   const handleDownload = () => {
     const link = document.createElement('a');
@@ -18,13 +18,13 @@ export const WordApp: React.FC = () => {
     link.click();
   };
 
-  const zoomIn = () => {
-    setScale((prevScale) => Math.min(prevScale + 0.1, 2.0));
-  };
+  //   const zoomIn = () => {
+  //     setScale((prevScale) => Math.min(prevScale + 0.1, 2.0));
+  //   };
 
-  const zoomOut = () => {
-    setScale((prevScale) => Math.max(prevScale - 0.1, 0.5));
-  };
+  //   const zoomOut = () => {
+  //     setScale((prevScale) => Math.max(prevScale - 0.1, 0.5));
+  //   };
 
   return (
     <div
@@ -109,14 +109,11 @@ export const WordApp: React.FC = () => {
 
       {/* Main Content */}
       <div className="flex-1 overflow-auto flex justify-center items-center">
-        <h1 className="w-full h-full text-center mt-10">
-          Resume is under construction, check back in August 2025.
-        </h1>
-        {/* <iframe
+        <iframe
           src={resume.location}
           className="w-full h-full"
           style={{ border: 'none' }}
-        ></iframe> */}
+        ></iframe>
       </div>
     </div>
   );
