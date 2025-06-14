@@ -25,26 +25,22 @@ const DemoContent: React.FC = () => {
     if (windows.length === 0) {
       const timer = setTimeout(() => {
         openAppById('text-editor');
-      }, 3000);
+      }, 3500);
 
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, [windows.length, openAppById]);
 
   const handleDesktopIconClick = (appId: string) => {
-    // Find window with ID matching the appId directly
     const openWindow = windows.find((window) => window.id === appId);
 
     if (openWindow) {
       if (openWindow.isMinimized) {
-        // If window is minimized, restore it instead of closing
         focusAndRestoreWindow(appId);
       } else {
-        // If window is already open and not minimized, just focus it
         focusWindow(appId);
       }
     } else {
-      // If window doesn't exist, open it
       openAppById(appId);
     }
   };
@@ -134,12 +130,48 @@ const HomeContent: React.FC = () => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
   const { openAppById } = useAppOpener();
+  const [fadeIn, setFadeIn] = React.useState(true);
+
+  // Handle fade-in animation
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setFadeIn(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div
       className="min-h-screen relative overflow-hidden"
       style={{ backgroundColor: currentTheme.background }}
     >
+      {/* CSS for fade-in animation */}
+      <style jsx global>{`
+        @keyframes fadeIn {
+          0% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+          }
+        }
+
+        .fade-in-overlay {
+          animation: fadeIn 2s ease-out forwards;
+        }
+      `}</style>
+
+      {/* Black overlay with fade-in animation */}
+      {fadeIn && (
+        <div
+          className="fixed inset-0 pointer-events-none z-[1000]"
+          style={{
+            backgroundColor: 'black',
+            animation: 'fadeIn 2s ease-out forwards',
+          }}
+        />
+      )}
+
       {/* Animated Squares Background covering entire viewport */}
       <div className="fixed inset-0">
         <Squares

@@ -91,7 +91,6 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
     togglePanel('soundboard');
   }, [togglePanel]);
 
-
   const handleAppClick = useCallback(
     (appId: string) => {
       closePanel();
@@ -102,27 +101,9 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
 
   return (
     <>
-      {/* CSS for fade-in animation */}
-      <style jsx global>{`
-        @keyframes fadeIn {
-          0% {
-            opacity: 1;
-          }
-          100% {
-            opacity: 0;
-          }
-        }
+      {/* CSS for fade-in animation - Removed */}
 
-        .fade-in-overlay {
-          animation: fadeIn 2s ease-out forwards;
-        }
-      `}</style>
-
-      {/* Black overlay with fade-in animation */}
-      <div
-        className="fixed inset-0 pointer-events-none z-[1000] fade-in-overlay"
-        style={{ backgroundColor: 'black' }}
-      />
+      {/* Black overlay with fade-in animation - Removed */}
 
       {/* Centralized Backdrop - Only show when any panel is open */}
       {activePanel && (

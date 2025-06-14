@@ -5,7 +5,7 @@ export const startPanelApps: StartApp[] = [
     id: 'text-editor',
     name: '.txt',
     icon: '/app icons/textlight.svg',
-    iconLight: '/app icons/text.svg',
+    iconLight: '/app icons/textdark.svg',
     description: 'Text Editor',
     isPinned: true,
   },

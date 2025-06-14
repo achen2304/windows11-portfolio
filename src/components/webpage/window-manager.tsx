@@ -86,24 +86,29 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
     try {
       const storedWindows = localStorage.getItem('windowStates');
       if (storedWindows) {
-        const parsedWindows: StoredWindowState[] = JSON.parse(storedWindows);
+        // Add a delay to ensure the fade-in animation completes first
+        const loadDelay = setTimeout(() => {
+          const parsedWindows: StoredWindowState[] = JSON.parse(storedWindows);
 
-        parsedWindows.forEach((storedWindow) => {
-          const appId = storedWindow.appId;
-          const appDefinition = availableApps.find((app) => app.id === appId);
+          parsedWindows.forEach((storedWindow) => {
+            const appId = storedWindow.appId;
+            const appDefinition = availableApps.find((app) => app.id === appId);
 
-          if (appDefinition) {
-            openWindow({
-              id: storedWindow.id,
-              title: storedWindow.title,
-              component: appDefinition.component,
-              position: storedWindow.position,
-              size: storedWindow.size,
-              isMaximized: storedWindow.isMaximized,
-              isMinimized: storedWindow.isMinimized,
-            });
-          }
-        });
+            if (appDefinition) {
+              openWindow({
+                id: storedWindow.id,
+                title: storedWindow.title,
+                component: appDefinition.component,
+                position: storedWindow.position,
+                size: storedWindow.size,
+                isMaximized: storedWindow.isMaximized,
+                isMinimized: storedWindow.isMinimized,
+              });
+            }
+          });
+        }, 2500); // Delay loading windows by 2.5 seconds to allow fade-in animation to complete
+
+        return () => clearTimeout(loadDelay);
       }
     } catch (error) {
       console.error('Failed to restore window states:', error);
