@@ -95,7 +95,6 @@ const FriendPanel: React.FC<FriendPanelProps> = ({
           setCurrentlyPlaying(null);
         }
       } else {
-        console.log('No track currently playing');
         setCurrentlyPlaying(null);
       }
     } catch (error) {
@@ -156,7 +155,8 @@ const FriendPanel: React.FC<FriendPanelProps> = ({
     return null;
   }
 
-  const truncateText = (text: string, maxLength: number) => {
+  const truncateText = (text: string | undefined, maxLength: number) => {
+    if (!text) return '';
     if (text.length <= maxLength) return text;
     return text.substring(0, maxLength) + '...';
   };
