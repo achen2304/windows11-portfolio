@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { X, ChevronLeft, Play } from 'lucide-react';
 import { Artist, PlaylistTrack, Playlist } from '../spotify-play-service';
@@ -51,11 +51,74 @@ const FriendPanel: React.FC<FriendPanelProps> = ({
   const spotifyTextSecondary = '#B3B3B3';
   const spotifyGreen = '#1DB954';
 
-  // Get current or fallback track
-  const displayTrack = currentTrack || spotifyData.topTracks?.items?.[0];
-  const displayName = 'Cai Chen';
+  // State for currently playing track
+  const [currentlyPlaying, setCurrentlyPlaying] =
+    useState<PlaylistTrack | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Get current track (what YOU are playing) or fallback track
+  const displayTrack =
+    currentlyPlaying ||
+    currentTrack ||
+    spotifyData.currentTrack ||
+    spotifyData.topTracks?.items?.[0];
+  const displayName = spotifyData.profile?.display_name || 'You';
 
   const spotifyManager = getSpotifyManager();
+
+  // Function to fetch currently playing track
+  const fetchCurrentlyPlaying = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch('/api/spotify?type=current-track');
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data && data.item && data.is_playing && !data.item.is_local) {
+          // Convert the response to PlaylistTrack format
+          const track: PlaylistTrack = {
+            id: data.item.id,
+            name: data.item.name,
+            duration_ms: data.item.duration_ms,
+            explicit: data.item.explicit,
+            artists: data.item.artists,
+            album: {
+              name: data.item.album.name,
+              images: data.item.album.images,
+              uri: data.item.album.uri,
+              id: data.item.album.id,
+            },
+            preview_url: data.item.preview_url,
+            uri: data.item.uri,
+            is_local: data.item.is_local,
+          };
+          setCurrentlyPlaying(track);
+        } else {
+          setCurrentlyPlaying(null);
+        }
+      } else {
+        console.log('No track currently playing');
+        setCurrentlyPlaying(null);
+      }
+    } catch (error) {
+      console.error('Failed to fetch currently playing track:', error);
+      setCurrentlyPlaying(null);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Fetch currently playing track on mount and set up polling
+  useEffect(() => {
+    if (isOpen) {
+      fetchCurrentlyPlaying();
+
+      // Poll every 5 seconds for updates
+      const interval = setInterval(fetchCurrentlyPlaying, 10000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isOpen]);
 
   const handlePlayTrack = async (
     track: PlaylistTrack | AudioTrack,
