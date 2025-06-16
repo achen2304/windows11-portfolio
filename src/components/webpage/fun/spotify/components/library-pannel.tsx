@@ -90,7 +90,7 @@ const LibraryPanel: React.FC<LibraryPanelProps> = ({
             onClick={toggleExpanded}
             className="p-2 rounded-full hover:bg-white/10 transition-colors"
             style={{ color: spotifyTextSecondary }}
-            title="Your Library"
+            title="My Library"
           >
             <BarChart3 size={20} />
           </button>
@@ -171,7 +171,7 @@ const LibraryPanel: React.FC<LibraryPanelProps> = ({
             className="text-lg font-semibold"
             style={{ color: spotifyText }}
           >
-            Your Library
+            My Library
           </span>
         </div>
       </div>

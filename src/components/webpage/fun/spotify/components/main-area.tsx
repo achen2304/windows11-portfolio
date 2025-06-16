@@ -47,15 +47,7 @@ const MainArea: React.FC<MainAreaProps> = ({
 
   const spotifyManager = getSpotifyManager();
 
-  const getTimeOfDay = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) return 'Good morning';
-    if (hour < 17) return 'Good afternoon';
-    return 'Good evening';
-  };
-
   const handlePlayTrack = async (track: PlaylistTrack, context?: string) => {
-
     // Convert Spotify track to AudioTrack format (preview_url not needed for SDK)
     const audioTrack: AudioTrack = {
       id: track.id,
@@ -78,7 +70,6 @@ const MainArea: React.FC<MainAreaProps> = ({
   };
 
   const handlePlayPlaylist = async (playlist: Playlist) => {
-
     try {
       // Fetch playlist tracks from Spotify API
       const response = await fetch(
@@ -191,7 +182,7 @@ const MainArea: React.FC<MainAreaProps> = ({
               className="text-3xl font-bold mb-6"
               style={{ color: spotifyText }}
             >
-              {getTimeOfDay()}
+              Welcome to my Spotify!
             </h1>
 
             {/* Filter Chips */}
@@ -277,7 +268,7 @@ const MainArea: React.FC<MainAreaProps> = ({
           <div className="mb-8">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold" style={{ color: spotifyText }}>
-                Your top artists
+                My top artists
               </h2>
             </div>
             <div className="flex gap-4 overflow-x-auto pb-2">
@@ -347,7 +338,7 @@ const MainArea: React.FC<MainAreaProps> = ({
           <div className="mb-8">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold" style={{ color: spotifyText }}>
-                Your top tracks
+                My top tracks
               </h2>
             </div>
             <div className="flex gap-4 overflow-x-auto pb-2">

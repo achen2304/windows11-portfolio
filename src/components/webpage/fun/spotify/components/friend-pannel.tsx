@@ -2,9 +2,9 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { X, ChevronLeft } from 'lucide-react';
+import { X, ChevronLeft, Play } from 'lucide-react';
 import { Artist, PlaylistTrack, Playlist } from '../spotify-play-service';
-import { AudioTrack } from '../current-song-helper';
+import { AudioTrack, getSpotifyManager } from '../current-song-helper';
 
 interface SpotifyData {
   profile: {
@@ -47,10 +47,49 @@ const FriendPanel: React.FC<FriendPanelProps> = ({
   const spotifyCard = '#181818';
   const spotifyText = '#FFFFFF';
   const spotifyTextSecondary = '#B3B3B3';
+  const spotifyGreen = '#1DB954';
 
   // Get current or fallback track
   const displayTrack = currentTrack || spotifyData.topTracks?.items?.[0];
   const displayName = 'Cai Chen';
+
+  const spotifyManager = getSpotifyManager();
+
+  const handlePlayTrack = async (
+    track: PlaylistTrack | AudioTrack,
+    context?: string
+  ) => {
+    // Convert track to AudioTrack format if it's a PlaylistTrack
+    let audioTrack: AudioTrack;
+
+    if ('album' in track && track.album && 'name' in track.album) {
+      // This is a PlaylistTrack
+      audioTrack = {
+        id: track.id,
+        name: track.name,
+        artists: track.artists,
+        album: {
+          name: track.album.name,
+          images: track.album.images,
+        },
+        preview_url: track.preview_url,
+        duration_ms: track.duration_ms,
+        uri: track.uri || `spotify:track:${track.id}`,
+      };
+    } else {
+      // This is already an AudioTrack
+      audioTrack = track as AudioTrack;
+    }
+
+    try {
+      await spotifyManager.playTrack(audioTrack, context);
+    } catch (error) {
+      console.error('❌ Failed to play track:', error);
+      alert(
+        `Failed to play "${track.name}". Make sure you have Spotify Premium.`
+      );
+    }
+  };
 
   if (!isOpen) {
     return null;
@@ -90,7 +129,7 @@ const FriendPanel: React.FC<FriendPanelProps> = ({
             className="text-base font-semibold"
             style={{ color: spotifyText }}
           >
-            Currently Listening
+            Currently Playing
           </h2>
         </div>
         {!showBackButton && (
@@ -111,38 +150,93 @@ const FriendPanel: React.FC<FriendPanelProps> = ({
       >
         <div className="p-3">
           {displayTrack ? (
-            <div className="flex items-start gap-3">
-              {/* Profile Image */}
+            <div
+              className="flex items-start gap-3 cursor-pointer group"
+              onClick={() => {
+                const album = displayTrack.album as {
+                  name: string;
+                  images?: { url: string }[];
+                  uri?: string;
+                  id?: string;
+                };
+                const albumContext =
+                  album.uri ||
+                  (album.id ? `spotify:album:${album.id}` : undefined);
+                handlePlayTrack(displayTrack, albumContext);
+              }}
+            >
+              {/* Profile Image with Play Button Overlay */}
               <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 relative">
                 {spotifyData.profile?.images?.[0] ? (
-                  <Image
-                    src={spotifyData.profile.images[0].url}
-                    alt={displayName}
-                    width={40}
-                    height={40}
-                    className="w-full h-full object-cover"
-                  />
+                  <>
+                    <Image
+                      src={spotifyData.profile.images[0].url}
+                      alt={displayName}
+                      width={40}
+                      height={40}
+                      className="w-full h-full object-cover transition-all group-hover:brightness-50"
+                    />
+                    {/* Play Button Overlay */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
+                      <button
+                        className="w-6 h-6 rounded-full cursor-pointer flex items-center justify-center hover:scale-105 hover:brightness-110 transition-transform"
+                        style={{ backgroundColor: spotifyGreen }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const album = displayTrack.album as {
+                            name: string;
+                            images?: { url: string }[];
+                            uri?: string;
+                            id?: string;
+                          };
+                          const albumContext =
+                            album.uri ||
+                            (album.id
+                              ? `spotify:album:${album.id}`
+                              : undefined);
+                          handlePlayTrack(displayTrack, albumContext);
+                        }}
+                      >
+                        <Play size={12} fill="#000000" color="#000000" />
+                      </button>
+                    </div>
+                  </>
                 ) : (
                   <div
-                    className="w-full h-full flex items-center justify-center"
+                    className="w-full h-full flex items-center justify-center group-hover:brightness-50 transition-all relative"
                     style={{ backgroundColor: spotifyCard }}
                   >
                     <span style={{ color: spotifyTextSecondary }}>C</span>
+                    {/* Play Button Overlay for fallback */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
+                      <button
+                        className="w-6 h-6 rounded-full flex items-center justify-center hover:scale-105 transition-transform"
+                        style={{ backgroundColor: spotifyGreen }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const album = displayTrack.album as {
+                            name: string;
+                            images?: { url: string }[];
+                            uri?: string;
+                            id?: string;
+                          };
+                          const albumContext =
+                            album.uri ||
+                            (album.id
+                              ? `spotify:album:${album.id}`
+                              : undefined);
+                          handlePlayTrack(displayTrack, albumContext);
+                        }}
+                      >
+                        <Play size={12} fill="#000000" color="#000000" />
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
 
               {/* Activity Info */}
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <span
-                    className="font-medium text-sm"
-                    style={{ color: spotifyText }}
-                  >
-                    {displayName}
-                  </span>
-                </div>
-
                 <div className="mb-2">
                   <div
                     className="text-sm truncate"
