@@ -39,6 +39,13 @@ export const desktopApps: DesktopApp[] = [
     description: 'Outlook-inspired email client',
   },
   {
+    id: 'chatgpt',
+    name: 'ChatGPT',
+    icon: '/app icons/chatgptlight.webp',
+    iconLight: '/app icons/chatgpt.webp',
+    description: 'ChatGPT AI Assistant',
+  },
+  {
     id: 'spotify',
     name: 'Spotify',
     icon: '/app icons/spotify.png',

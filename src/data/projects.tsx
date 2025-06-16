@@ -1,3 +1,4 @@
+// My projects: use google/github links to research more about the project if asked.
 export interface Project {
   name: string;
   created: string;

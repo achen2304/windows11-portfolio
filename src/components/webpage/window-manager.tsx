@@ -106,7 +106,7 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
               });
             }
           });
-        }, 2500); // Delay loading windows by 2.5 seconds to allow fade-in animation to complete
+        }, 900);
 
         return () => clearTimeout(loadDelay);
       }

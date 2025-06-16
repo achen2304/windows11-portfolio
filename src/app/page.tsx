@@ -10,8 +10,8 @@ import {
   useWindowManager,
 } from '@/components/webpage/window-manager';
 import { useAppOpener } from '@/components/webpage/app-openers';
-import { desktopApps } from '@/data/apps/desktop-apps';
-import { taskbarApps } from '@/data/apps/taskbar-apps';
+import { desktopApps } from '@/components/webpage/apps/desktop-apps';
+import { taskbarApps } from '@/components/webpage/apps/taskbar-apps';
 import Image from 'next/image';
 
 // Demo content component that uses the window manager
@@ -22,10 +22,15 @@ const DemoContent: React.FC = () => {
   const { windows, focusAndRestoreWindow, focusWindow } = useWindowManager();
 
   useEffect(() => {
-    if (windows.length === 0) {
+    const storedWindows =
+      typeof window !== 'undefined'
+        ? localStorage.getItem('windowStates')
+        : null;
+
+    if (windows.length === 0 && !storedWindows) {
       const timer = setTimeout(() => {
         openAppById('text-editor');
-      }, 3500);
+      }, 1000);
 
       return () => clearTimeout(timer);
     }
@@ -47,11 +52,11 @@ const DemoContent: React.FC = () => {
 
   return (
     <div
-      className="h-full w-full p-6"
+      className="h-full w-full p-6 relative"
       style={{ minHeight: 'calc(100vh - 48px)' }}
     >
-      {/* Desktop Icons - Vertical flexbox layout */}
-      <div className="flex flex-col flex-wrap h-[calc(100vh-65px)] gap-4 content-start">
+      {/* Desktop Icons - Vertical flexbox layout with fixed positioning */}
+      <div className="flex flex-col flex-wrap fixed top-6 left-6 h-[calc(100vh-65px)] gap-4 content-start z-0">
         {desktopApps.map((app) => (
           <div
             key={app.id}

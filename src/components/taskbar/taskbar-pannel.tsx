@@ -4,7 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { useTheme } from '../theme-provider';
 import { themes } from '@/lib/themes';
 import { StartPanelProps, QuickLink } from './taskbar-types';
-import { startPanelApps, getQuickLinks } from '@/data/apps/taskbar-pannel-apps';
+import {
+  startPanelApps,
+  getQuickLinks,
+} from '@/components/webpage/apps/taskbar-pannel-apps';
 import { Search, Power, ExternalLink, Copy } from 'lucide-react';
 import { useToast } from '@/components/ui/toast';
 import { copyToClipboard } from '@/lib/notification-utils';
@@ -268,7 +271,13 @@ const StartPanel: React.FC<StartPanelProps> = ({
                     onMouseLeave={handleMouseLeave}
                   >
                     <Image
-                      src={app.icon}
+                      src={
+                        theme === 'dark' && app.iconLight !== undefined
+                          ? app.icon || '/app icons/quick links/default.svg'
+                          : app.iconLight ||
+                            app.icon ||
+                            '/app icons/quick links/default.svg'
+                      }
                       alt={app.name}
                       className="w-6 h-6 sm:w-8 sm:h-8 object-contain mb-3"
                       width={32}

@@ -38,6 +38,14 @@ export const startPanelApps: StartApp[] = [
     isPinned: true,
   },
   {
+    id: 'chatgpt',
+    name: 'ChatGPT',
+    icon: '/app icons/chatgptlight.webp',
+    iconLight: '/app icons/chatgpt.webp',
+    description: 'ChatGPT AI Assistant',
+    isPinned: true,
+  },
+  {
     id: 'spotify',
     name: 'Spotify',
     icon: '/app icons/spotify.png',

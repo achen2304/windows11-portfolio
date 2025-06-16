@@ -1,4 +1,4 @@
-// Games I like data
+// games, shows, novels, manga, and other media I like.
 export const favoriteGames = [
   {
     name: 'Elden Ring',

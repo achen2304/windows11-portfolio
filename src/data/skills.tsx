@@ -1,3 +1,5 @@
+// My skills: use google to research more about the skill if asked.
+
 import {
   FaHtml5,
   FaCss3Alt,

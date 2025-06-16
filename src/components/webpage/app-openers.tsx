@@ -10,6 +10,7 @@ import GoogleApp from './fun/google/google';
 import OutlookApp from './primary/outlook/outlook';
 import WordApp from './primary/word/word';
 import SpotifyApp from './fun/spotify/spotify-app';
+import ChatGPTApp from './fun/chatgpt/chatgpt';
 
 export interface AppDefinition {
   id: string;
@@ -82,6 +83,8 @@ export const availableApps: AppDefinition[] = [
     id: 'word',
     name: 'Word',
     icon: '/app icons/word.svg',
+    defaultSize: { width: 800, height: 800 },
+    defaultPosition: { x: 1400, y: 1000 },
     component: <WordApp />,
   },
   {
@@ -90,9 +93,17 @@ export const availableApps: AppDefinition[] = [
     icon: '/app icons/spotify.png',
     component: <SpotifyApp />,
     defaultSize: { width: 900, height: 600 },
-    defaultPosition: { x: 300, y: 150 },
+    defaultPosition: { x: 300, y: 400 },
     category: 'Entertainment',
     description: 'Spotify music player and library',
+  },
+  {
+    id: 'chatgpt',
+    name: 'ChatGPT',
+    icon: '/app icons/chatgpt.webp',
+    defaultSize: { width: 400, height: 500 },
+    defaultPosition: { x: 1400, y: 200 },
+    component: <ChatGPTApp />,
   },
 ];
 

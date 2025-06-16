@@ -1,3 +1,4 @@
+// Soundboard sounds, ignore these
 export interface Sound {
   name: string;
   imgUrl: string;
