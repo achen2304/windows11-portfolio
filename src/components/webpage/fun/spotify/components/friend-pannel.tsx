@@ -32,6 +32,7 @@ interface FriendPanelProps {
   onClose?: () => void;
   showBackButton?: boolean;
   onBack?: () => void;
+  isActive?: boolean;
 }
 
 const FriendPanel: React.FC<FriendPanelProps> = ({
@@ -41,6 +42,7 @@ const FriendPanel: React.FC<FriendPanelProps> = ({
   onClose,
   showBackButton = false,
   onBack,
+  isActive = true,
 }) => {
   // Spotify colors
   const spotifyBg = '#121212';
@@ -237,6 +239,37 @@ const FriendPanel: React.FC<FriendPanelProps> = ({
 
               {/* Activity Info */}
               <div className="flex-1 min-w-0">
+                {/* Online Status */}
+                <div className="flex items-center gap-2 mb-1">
+                  <span
+                    className="font-medium text-sm"
+                    style={{ color: spotifyText }}
+                  >
+                    {displayName}
+                  </span>
+                  {isActive ? (
+                    <div className="flex items-center gap-1">
+                      <div
+                        className="w-2 h-2 rounded-full"
+                        style={{ backgroundColor: spotifyGreen }}
+                      />
+                      <span
+                        className="text-xs pb-0.5"
+                        style={{ color: spotifyGreen }}
+                      >
+                        Active
+                      </span>
+                    </div>
+                  ) : (
+                    <span
+                      className="text-xs pb-0.5"
+                      style={{ color: spotifyTextSecondary }}
+                    >
+                      Not Active
+                    </span>
+                  )}
+                </div>
+
                 <div className="mb-2">
                   <div
                     className="text-sm truncate"
