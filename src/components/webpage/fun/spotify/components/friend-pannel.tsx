@@ -110,7 +110,7 @@ const FriendPanel: React.FC<FriendPanelProps> = ({
       fetchCurrentlyPlaying();
 
       // Poll every 5 seconds for updates
-      const interval = setInterval(fetchCurrentlyPlaying, 10000);
+      const interval = setInterval(fetchCurrentlyPlaying, 100000);
 
       return () => clearInterval(interval);
     }
