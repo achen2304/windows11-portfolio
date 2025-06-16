@@ -99,7 +99,6 @@ const PlaylistArea: React.FC<PlaylistAreaProps> = ({
   };
 
   const handlePlayPlaylist = async () => {
-
     try {
       if (tracks.length > 0) {
         // Play the first available track (no need to check for preview_url with SDK)
@@ -118,7 +117,6 @@ const PlaylistArea: React.FC<PlaylistAreaProps> = ({
           `/api/spotify?type=playlist-tracks&playlist_id=${playlist.id}`
         );
         const data = await response.json();
-
 
         if (data.items && data.items.length > 0) {
           // Play the first available track
