@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useTheme } from '../../../theme-provider';
 import { themes } from '@/lib/themes';
 import { Send, MessageSquare, Trash2 } from 'lucide-react';
@@ -16,7 +16,9 @@ export const ChatGPTApp: React.FC = () => {
   const STORAGE_KEY = 'chatgpt-messages';
 
   // Local storage helpers
-  const saveMessagesToStorage = (messages: any[]) => {
+  const saveMessagesToStorage = (
+    messages: { id: string; role: string; content: string }[]
+  ) => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
     } catch (error) {
@@ -242,10 +244,12 @@ export const ChatGPTApp: React.FC = () => {
                   className="w-8 h-8 rounded-full flex items-center justify-center p-1"
                   style={{ backgroundColor: '#10a37f' }}
                 >
-                  <img
+                  <Image
                     src="/app icons/chatgpt.webp"
                     alt="ChatGPT"
                     className="w-full h-full object-contain"
+                    width={32}
+                    height={32}
                   />
                 </div>
                 <div

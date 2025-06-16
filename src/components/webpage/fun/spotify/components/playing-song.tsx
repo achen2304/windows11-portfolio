@@ -97,7 +97,7 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
       unsubscribePremium();
       unsubscribeReady();
     };
-  }, [isDragging]);
+  }, [isDragging, spotifyManager]);
 
   const handlePlayPause = async () => {
     if (hasTrack && isPremium) {
@@ -188,7 +188,7 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
       document.removeEventListener('mouseup', handleMouseUp);
       document.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [isDragging, duration, isPremium]);
+  }, [isDragging, duration, isPremium, spotifyManager]);
 
   // Close volume panel when clicking outside
   useEffect(() => {
