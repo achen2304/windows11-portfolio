@@ -199,9 +199,7 @@ export class SpotifySDKManager {
         }
       );
 
-      if (playerResponse.ok) {
-        const playerData = await playerResponse.json();
-      } else if (playerResponse.status === 204) {
+      if (playerResponse.status === 204) {
       } else {
         console.error('Failed to get playback state:', playerResponse.status);
       }
@@ -273,7 +271,7 @@ export class SpotifySDKManager {
     });
 
     // Not ready
-    this.player.addListener('not_ready', ({ device_id }) => {
+    this.player.addListener('not_ready', () => {
       this.isInitialized = false;
       this.notifyReadyCallbacks(false);
     });
