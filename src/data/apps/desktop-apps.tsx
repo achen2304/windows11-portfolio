@@ -39,6 +39,12 @@ export const desktopApps: DesktopApp[] = [
     description: 'Outlook-inspired email client',
   },
   {
+    id: 'spotify',
+    name: 'Spotify',
+    icon: '/app icons/spotify.png',
+    description: 'Spotify Music Player',
+  },
+  {
     id: 'vscode',
     name: 'VS Code',
     icon: '/app icons/vscode.svg',
@@ -49,11 +55,5 @@ export const desktopApps: DesktopApp[] = [
     name: 'Google',
     icon: '/app icons/google.svg',
     description: 'Google Search',
-  },
-  {
-    id: 'spotify',
-    name: 'Spotify',
-    icon: '/app icons/spotify.png',
-    description: 'Spotify Music Player',
   },
 ];

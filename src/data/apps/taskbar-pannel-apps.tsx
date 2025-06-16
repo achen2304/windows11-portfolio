@@ -38,6 +38,13 @@ export const startPanelApps: StartApp[] = [
     isPinned: true,
   },
   {
+    id: 'spotify',
+    name: 'Spotify',
+    icon: '/app icons/spotify.png',
+    description: 'Spotify',
+    isPinned: true,
+  },
+  {
     id: 'vscode',
     name: 'VSCode',
     icon: '/app icons/vscode.svg',
