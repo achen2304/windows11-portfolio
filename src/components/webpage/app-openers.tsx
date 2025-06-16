@@ -9,6 +9,7 @@ import VSCodeApp from './fun/vscode/vscode';
 import GoogleApp from './fun/google/google';
 import OutlookApp from './primary/outlook/outlook';
 import WordApp from './primary/word/word';
+import SpotifyApp from './fun/spotify/spotify-app';
 
 export interface AppDefinition {
   id: string;
@@ -82,6 +83,16 @@ export const availableApps: AppDefinition[] = [
     name: 'Word',
     icon: '/app icons/word.svg',
     component: <WordApp />,
+  },
+  {
+    id: 'spotify',
+    name: 'Spotify',
+    icon: '/app icons/spotify.png',
+    component: <SpotifyApp />,
+    defaultSize: { width: 900, height: 600 },
+    defaultPosition: { x: 300, y: 150 },
+    category: 'Entertainment',
+    description: 'Spotify music player and library',
   },
 ];
 
@@ -158,6 +169,8 @@ export const useAppOpeners = () => {
       openApp('outlook', options),
     openWord: (options?: Parameters<typeof openApp>[1]) =>
       openApp('word', options),
+    openSpotify: (options?: Parameters<typeof openApp>[1]) =>
+      openApp('spotify', options),
   };
 };
 

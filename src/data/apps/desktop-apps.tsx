@@ -50,4 +50,10 @@ export const desktopApps: DesktopApp[] = [
     icon: '/app icons/google.svg',
     description: 'Google Search',
   },
+  {
+    id: 'spotify',
+    name: 'Spotify',
+    icon: '/app icons/spotify.png',
+    description: 'Spotify Music Player',
+  },
 ];
