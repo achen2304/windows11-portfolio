@@ -54,7 +54,6 @@ const FriendPanel: React.FC<FriendPanelProps> = ({
   // State for currently playing track
   const [currentlyPlaying, setCurrentlyPlaying] =
     useState<PlaylistTrack | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   // Get current track (what YOU are playing) or fallback track
   const displayTrack =
@@ -69,7 +68,6 @@ const FriendPanel: React.FC<FriendPanelProps> = ({
   // Function to fetch currently playing track
   const fetchCurrentlyPlaying = async () => {
     try {
-      setIsLoading(true);
       const response = await fetch('/api/spotify?type=current-track');
 
       if (response.ok) {
@@ -103,8 +101,6 @@ const FriendPanel: React.FC<FriendPanelProps> = ({
     } catch (error) {
       console.error('Failed to fetch currently playing track:', error);
       setCurrentlyPlaying(null);
-    } finally {
-      setIsLoading(false);
     }
   };
 
