@@ -36,7 +36,7 @@ const PanelHeader = ({ slackTheme }: { slackTheme: SlackTheme }) => (
     }}
   >
     <Image
-      src="/app icons/slack.png"
+      src="/app icons/slack.webp"
       alt="Slack"
       width={20}
       height={20}
