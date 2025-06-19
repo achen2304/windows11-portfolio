@@ -53,6 +53,13 @@ export const startPanelApps: StartApp[] = [
     isPinned: true,
   },
   {
+    id: 'twitter',
+    name: 'Comments',
+    icon: '/app icons/twitter.svg',
+    description: 'Portfolio Comments',
+    isPinned: true,
+  },
+  {
     id: 'vscode',
     name: 'VSCode',
     icon: '/app icons/vscode.svg',

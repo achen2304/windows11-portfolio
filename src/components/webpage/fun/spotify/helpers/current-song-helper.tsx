@@ -82,7 +82,7 @@ export class SpotifySDKManager {
   private volume: number = 0.7;
   private isPlaying: boolean = false;
   private currentTrack: AudioTrack | null = null;
-  private currentContext: string | null = null; // Store playlist/album URI for next/prev
+  private currentContext: string | null = null;
   private isPremium: boolean = false;
   private isInitialized: boolean = false;
   private accessToken: string | null = null;

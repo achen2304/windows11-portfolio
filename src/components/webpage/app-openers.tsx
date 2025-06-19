@@ -11,6 +11,7 @@ import OutlookApp from './primary/outlook/outlook';
 import WordApp from './primary/word/word';
 import SpotifyApp from './fun/spotify/spotify-app';
 import ChatGPTApp from './fun/chatgpt/chatgpt';
+import TwitterApp from './fun/twitter/twitter';
 
 export interface AppDefinition {
   id: string;
@@ -105,9 +106,16 @@ export const availableApps: AppDefinition[] = [
     defaultPosition: { x: 1400, y: 200 },
     component: <ChatGPTApp />,
   },
+  {
+    id: 'comments',
+    name: 'Comments',
+    icon: '/app icons/twitter.webp',
+    defaultSize: { width: 600, height: 500 },
+    defaultPosition: { x: 1000, y: 300 },
+    component: <TwitterApp />,
+  },
 ];
 
-// Hook for opening apps
 export const useAppOpener = () => {
   const { createWindow } = useWindow();
 

@@ -3,9 +3,13 @@
 import React from 'react';
 import Image from 'next/image';
 import { Play } from 'lucide-react';
-import { getSpotifyManager, AudioTrack } from '../current-song-helper';
+import { getSpotifyManager, AudioTrack } from '../helpers/current-song-helper';
 import { useWindowSize } from '@/components/webpage/breakpoints';
-import { Artist, Playlist, PlaylistTrack } from '../spotify-play-service';
+import {
+  Artist,
+  Playlist,
+  PlaylistTrack,
+} from '../helpers/spotify-play-service';
 
 interface SpotifyData {
   profile: {

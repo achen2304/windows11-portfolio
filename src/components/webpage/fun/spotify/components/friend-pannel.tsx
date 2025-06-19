@@ -3,8 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { X, ChevronLeft, Play } from 'lucide-react';
-import { Artist, PlaylistTrack, Playlist } from '../spotify-play-service';
-import { AudioTrack, getSpotifyManager } from '../current-song-helper';
+import {
+  Artist,
+  PlaylistTrack,
+  Playlist,
+} from '../helpers/spotify-play-service';
+import { AudioTrack, getSpotifyManager } from '../helpers/current-song-helper';
 
 interface SpotifyData {
   profile: {

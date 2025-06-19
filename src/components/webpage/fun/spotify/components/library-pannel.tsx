@@ -3,7 +3,11 @@
 import React from 'react';
 import Image from 'next/image';
 import { BarChart3, ChevronLeft } from 'lucide-react';
-import { Artist, PlaylistTrack, Playlist } from '../spotify-play-service';
+import {
+  Artist,
+  PlaylistTrack,
+  Playlist,
+} from '../helpers/spotify-play-service';
 
 interface SpotifyData {
   profile: {

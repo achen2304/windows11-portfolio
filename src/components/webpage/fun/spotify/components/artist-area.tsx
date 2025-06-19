@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Play, Heart, MoreHorizontal } from 'lucide-react';
-import { getSpotifyManager, AudioTrack } from '../current-song-helper';
+import { getSpotifyManager, AudioTrack } from '../helpers/current-song-helper';
 
 interface Artist {
   id: string;
@@ -99,7 +99,6 @@ const ArtistArea: React.FC<ArtistAreaProps> = ({
   };
 
   const handlePlayArtist = async () => {
-
     try {
       // If we have top tracks, play the first one
       if (topTracks.length > 0) {
@@ -131,7 +130,6 @@ const ArtistArea: React.FC<ArtistAreaProps> = ({
   };
 
   const handlePlayAlbum = async (album: Album) => {
-
     try {
       // Fetch album tracks first
       const response = await fetch(

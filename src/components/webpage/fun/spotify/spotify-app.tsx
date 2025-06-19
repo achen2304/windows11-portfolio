@@ -18,8 +18,13 @@ import PlaylistArea from './components/playlist-area';
 import LibraryPanel from './components/library-pannel';
 import FriendPanel from './components/friend-pannel';
 import { IoHome } from 'react-icons/io5';
-import { Artist, PlaylistTrack, Playlist, Album } from './spotify-play-service';
-import { getSpotifyManager, AudioTrack } from './current-song-helper';
+import {
+  Artist,
+  PlaylistTrack,
+  Playlist,
+  Album,
+} from './helpers/spotify-play-service';
+import { getSpotifyManager, AudioTrack } from './helpers/current-song-helper';
 
 interface SpotifyData {
   profile: {
@@ -69,8 +74,8 @@ const SpotifyContent: React.FC = () => {
   const [currentView, setCurrentView] = useState<
     'main' | 'artist' | 'playlist'
   >('main');
-  const [selectedArtist, setSelectedArtist] = useState<any>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
-  const [selectedPlaylist, setSelectedPlaylist] = useState<any>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
+  const [selectedArtist, setSelectedArtist] = useState<any>(null);
+  const [selectedPlaylist, setSelectedPlaylist] = useState<any>(null);
 
   // Handle navigation state changes
   useEffect(() => {
@@ -83,13 +88,13 @@ const SpotifyContent: React.FC = () => {
       currentState.data?.artist
     ) {
       setCurrentView('artist');
-      setSelectedArtist(currentState.data.artist); // eslint-disable-line @typescript-eslint/no-explicit-any
+      setSelectedArtist(currentState.data.artist);
     } else if (
       currentState.id === 'spotify-playlist' &&
       currentState.data?.playlist
     ) {
       setCurrentView('playlist');
-      setSelectedPlaylist(currentState.data.playlist); // eslint-disable-line @typescript-eslint/no-explicit-any
+      setSelectedPlaylist(currentState.data.playlist);
     } else {
       setCurrentView('main');
     }
@@ -227,7 +232,6 @@ const SpotifyContent: React.FC = () => {
     // Set up listeners for current track updates from Spotify SDK
     const spotifyManager = getSpotifyManager();
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleTrackUpdate = (track: any) => {
       setCurrentTrack(track);
     };

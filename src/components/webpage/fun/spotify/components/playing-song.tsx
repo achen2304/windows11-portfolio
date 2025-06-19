@@ -16,7 +16,7 @@ import {
   getSpotifyManager,
   AudioTrack,
   formatTime,
-} from '../current-song-helper';
+} from '../helpers/current-song-helper';
 import { useWindowSize } from '@/components/webpage/breakpoints';
 
 interface PlayingSongProps {

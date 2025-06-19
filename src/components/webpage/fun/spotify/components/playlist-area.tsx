@@ -3,8 +3,8 @@
 import React from 'react';
 import Image from 'next/image';
 import { Play, Clock } from 'lucide-react';
-import { getSpotifyManager, AudioTrack } from '../current-song-helper';
-import { Playlist } from '../spotify-play-service';
+import { getSpotifyManager, AudioTrack } from '../helpers/current-song-helper';
+import { Playlist } from '../helpers/spotify-play-service';
 
 interface Track {
   id: string;

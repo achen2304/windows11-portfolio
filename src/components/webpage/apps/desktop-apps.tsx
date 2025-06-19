@@ -52,6 +52,12 @@ export const desktopApps: DesktopApp[] = [
     description: 'Spotify Music Player',
   },
   {
+    id: 'comments',
+    name: 'Comments',
+    icon: '/app icons/twitter.webp',
+    description: 'Comments',
+  },
+  {
     id: 'vscode',
     name: 'VS Code',
     icon: '/app icons/vscode.svg',
