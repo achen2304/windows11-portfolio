@@ -68,7 +68,7 @@ export const startPanelApps: StartApp[] = [
   {
     id: 'google',
     name: 'Google',
-    icon: '/app icons/google.svg',
+    icon: '/app icons/google.webp',
     isPinned: false,
   },
 ];
