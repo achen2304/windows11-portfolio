@@ -1,0 +1,35 @@
+{
+  "name": "Cai Chen - Full-Stack Software Engineer Portfolio",
+  "short_name": "Cai Chen Portfolio",
+  "description": "Interactive Windows 11-inspired portfolio showcasing full-stack development skills",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "categories": ["developer", "portfolio", "technology"],
+  "icons": [
+    {
+      "src": "/window.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/other/readme-banner.webp",
+      "sizes": "1200x630",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Windows 11 Portfolio Desktop View"
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": []
+}
