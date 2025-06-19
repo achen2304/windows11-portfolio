@@ -53,9 +53,9 @@ export const startPanelApps: StartApp[] = [
     isPinned: true,
   },
   {
-    id: 'twitter',
+    id: 'comments',
     name: 'Comments',
-    icon: '/app icons/twitter.svg',
+    icon: '/app icons/twitter.webp',
     description: 'Portfolio Comments',
     isPinned: true,
   },

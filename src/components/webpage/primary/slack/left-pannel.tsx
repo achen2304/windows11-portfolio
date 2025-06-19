@@ -209,7 +209,7 @@ const QuickLinkItem = ({
         {item.icon && (
           <div className="w-5 h-5 flex items-center justify-center">
             <Image
-              src={item.icon}
+              src="/app icons/slack.webp"
               alt={item.name}
               width={16}
               height={16}
