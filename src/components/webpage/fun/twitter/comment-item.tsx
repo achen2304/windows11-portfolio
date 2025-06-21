@@ -61,9 +61,11 @@ export const CommentItem: React.FC<CommentItemProps> = ({
             <span className="font-bold text-sm" style={{ color: colors.text }}>
               {comment.username}
             </span>
-            <span className="text-sm" style={{ color: colors.textMuted }}>
-              @{comment.handle}
-            </span>
+            {comment.handle && (
+              <span className="text-sm" style={{ color: colors.textMuted }}>
+                @{comment.handle}
+              </span>
+            )}
             <span className="text-sm" style={{ color: colors.textMuted }}>
               ·
             </span>

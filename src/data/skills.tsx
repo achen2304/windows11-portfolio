@@ -25,6 +25,8 @@ import {
   SiRedux,
   SiTypescript,
   SiJavascript,
+  SiDocker,
+  SiN8N,
 } from 'react-icons/si';
 import { TbBrandMysql } from 'react-icons/tb';
 import { BiLogoSpringBoot } from 'react-icons/bi';
@@ -59,6 +61,11 @@ export const skills: Skill[] = [
     type: 'language',
   },
   {
+    name: 'Bash',
+    icon: <SiGnubash />,
+    type: 'language',
+  },
+  {
     name: 'C',
     icon: <SiC />,
     type: 'language',
@@ -73,6 +80,7 @@ export const skills: Skill[] = [
     icon: <FaCss3Alt />,
     type: 'language',
   },
+
   // ----------------Frontend----------------
 
   {
@@ -166,4 +174,6 @@ export const skills: Skill[] = [
   },
   { name: 'Bash', icon: <SiGnubash />, type: 'tools' },
   { name: 'Git', icon: <FaGitAlt />, type: 'tools' },
+  { name: 'Docker', icon: <SiDocker />, type: 'tools' },
+  { name: 'n8n', icon: <SiN8N />, type: 'tools' },
 ];

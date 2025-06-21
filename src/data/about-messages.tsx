@@ -9,7 +9,7 @@ export const MESSAGES = [
   },
   {
     content:
-      'The Major Apps:\n• <strong>.txt</strong>: basic text file\n• <strong>about</strong>: this app! shows some info about me including skills, experience and details of this portfolio site\n• <strong>Projects</strong>: an app to show my projects\n• <strong>Resume</strong>: an app that displays my resume\n• <strong>Outlook</strong>: an contact me forum, in case you want to reach out for a project, or anything else',
+      'The Major Apps:\n• <strong>.txt</strong>: basic text file\n• <strong>about</strong>: this app! shows some info about me including skills, experience and details of this portfolio site\n• <strong>Projects</strong>: an app to show my projects\n• <strong>Resume</strong>: an app that displays my resume\n• <strong>Outlook</strong>: an contact me forum, in case you want to reach out for a project, or anything else\n• <strong>Comments</strong>: a real-time comment section where visitors can leave messages and interact with others',
     time: '9:32 AM',
     user: 'Cai Chen',
     avatar: '/other/profile.webp',

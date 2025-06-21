@@ -169,6 +169,10 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
 
         setAllComments((prevComments) => [newComment, ...prevComments]);
         setDisplayCount(COMMENTS_PER_PAGE);
+        setDisplayedComments((prevDisplayed) => [
+          newComment,
+          ...prevDisplayed.slice(0, COMMENTS_PER_PAGE - 1),
+        ]);
 
         addToast({
           title: 'Posted!',

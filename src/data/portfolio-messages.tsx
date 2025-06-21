@@ -38,6 +38,18 @@ export const PORTFOLIO_MESSAGES = [
   },
   {
     content:
+      '**📄 Word**\n• **Document Viewer** - Clean and modern Word-inspired document viewer.\n• **Resume Display** - Seamless integration for displaying resume in the viewer.\n• **Download Feature** - One-click download functionality for the resume.',
+    time: '11:44 AM',
+    user: 'Cai Chen',
+  },
+  {
+    content:
+      '**📧 Outlook**\n• **Email Interface** - Modern Outlook-inspired email composition interface.\n• **Form Validation** - Real-time validation for email format and required fields.\n• **Error Handling** - Comprehensive error handling with user-friendly notifications.\n• **Toast Notifications** - Informative toast messages for email sending status.',
+    time: '11:40 AM',
+    user: 'Cai Chen',
+  },
+  {
+    content:
       '**🤖 ChatGPT**\n• **AI-Powered Chat** - Interactive chatbot built with Vercel AI SDK and OpenAI GPT-3.5-turbo model.\n• **Portfolio Context** - Smart context system that provides detailed information about my skills, projects, and experience.\n• **Real-time Streaming** - Messages stream in real-time with typing indicators and smooth animations.\n• **Rate Limiting** - Built-in rate limiting to manage API usage and costs.\n• **Dynamic Context Loading** - Efficiently loads only relevant portfolio data based on conversation topics.',
     time: '11:28 AM',
     user: 'Cai Chen',
@@ -46,6 +58,12 @@ export const PORTFOLIO_MESSAGES = [
     content:
       '**🎵 Spotify**\n• **Music Player Interface** - Spotify-inspired music player with album artwork and playback controls.\n• **Playlist Management** - Browse through my playlists with smooth navigation.\n• **Now Playing** - Real-time display of currently playing track with progress indicators.\n• **Interactive Controls** - Functional play, pause, skip, and volume controls with visual feedback.',
     time: '11:32 AM',
+    user: 'Cai Chen',
+  },
+  {
+    content:
+      '**🐦 Comments**\n• **Real-time Comments** - Twitter-inspired interface for visitors to leave comments and interact.\n• **Infinite Scrolling** - Dynamic loading of comments as you scroll with smooth pagination.\n• **Like System** - Interactive like functionality with real-time updates.\n• **Content Moderation** - Built-in profanity filter and character limits.\n• **Sort Options** - Ability to sort comments by date or popularity.',
+    time: '11:36 AM',
     user: 'Cai Chen',
   },
 ];
