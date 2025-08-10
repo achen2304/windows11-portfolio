@@ -86,7 +86,7 @@ const AboutMe: React.FC = () => {
 
         {/* Large rectangle bottom right */}
         <BentoCard
-          src="/other/Collection.jpg"
+          src="/other/collection.jpg"
           alt="Book Collection"
           text="Collection"
           className="col-span-3 row-span-1"
