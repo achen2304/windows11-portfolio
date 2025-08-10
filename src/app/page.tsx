@@ -55,7 +55,6 @@ const DemoContent: React.FC = () => {
       className="h-full w-full p-6 relative"
       style={{ minHeight: 'calc(100vh - 48px)' }}
     >
-      {/* Desktop Icons - Vertical flexbox layout with fixed positioning */}
       <div className="flex flex-col flex-wrap fixed top-6 left-6 h-[calc(100vh-65px)] gap-4 content-start z-0">
         {desktopApps.map((app) => (
           <div
@@ -67,7 +66,6 @@ const DemoContent: React.FC = () => {
               height: '90px',
             }}
           >
-            {/* App Icon */}
             <div className="mb-2 transition-transform duration-200 group-hover:scale-110">
               <Image
                 src={
@@ -90,7 +88,6 @@ const DemoContent: React.FC = () => {
               />
             </div>
 
-            {/* App Name */}
             <span
               className="text-xs font-medium text-center leading-tight px-1 py-0.5 rounded transition-all duration-200"
               style={{
@@ -103,7 +100,6 @@ const DemoContent: React.FC = () => {
         ))}
       </div>
 
-      {/* Copyright notice - Fixed to bottom right, accounting for taskbar */}
       <div className="fixed bottom-0 right-0 mb-[56px] mr-3 text-xs opacity-30 z-10">
         <div style={{ color: currentTheme.text.muted }}>
           @{new Date().getFullYear()} Cai Chen. All rights reserved.
@@ -116,7 +112,6 @@ const DemoContent: React.FC = () => {
 export default function Home() {
   return (
     <WindowManagerProvider>
-      {/* Prevent document expansion during window dragging */}
       <style jsx global>{`
         html,
         body {
@@ -137,7 +132,6 @@ const HomeContent: React.FC = () => {
   const { openAppById } = useAppOpener();
   const [fadeIn, setFadeIn] = React.useState(true);
 
-  // Handle fade-in animation
   React.useEffect(() => {
     const timer = setTimeout(() => {
       setFadeIn(false);
@@ -150,7 +144,6 @@ const HomeContent: React.FC = () => {
       className="min-h-screen relative overflow-hidden"
       style={{ backgroundColor: currentTheme.background }}
     >
-      {/* CSS for fade-in animation */}
       <style jsx global>{`
         @keyframes fadeIn {
           0% {
@@ -166,7 +159,6 @@ const HomeContent: React.FC = () => {
         }
       `}</style>
 
-      {/* Black overlay with fade-in animation */}
       {fadeIn && (
         <div
           className="fixed inset-0 pointer-events-none z-[1000]"
@@ -177,7 +169,6 @@ const HomeContent: React.FC = () => {
         />
       )}
 
-      {/* Animated Squares Background covering entire viewport */}
       <div className="fixed inset-0">
         <Squares
           direction="diagonal"
@@ -194,16 +185,13 @@ const HomeContent: React.FC = () => {
         />
       </div>
 
-      {/* Main Content Area */}
       <div
         className="relative z-10 pb-12"
         style={{ minHeight: 'calc(100vh - 48px)' }}
       >
-        {/* Portfolio Content */}
         <DemoContent />
       </div>
 
-      {/* Windows Taskbar Shell - All panels managed here */}
       <TaskbarShell apps={taskbarApps} onAppClick={openAppById} />
     </div>
   );

@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const SPOTIFY_API_BASE = 'https://api.spotify.com/v1';
 
-// You'll need to set these environment variables
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 const REFRESH_TOKEN = process.env.SPOTIFY_REFRESH_TOKEN;
@@ -43,7 +42,7 @@ async function spotifyRequest(endpoint: string, accessToken: string) {
 
   if (!response.ok) {
     if (response.status === 204) {
-      return null; // No content (e.g., no currently playing track)
+      return null;
     }
     throw new Error(`Spotify API error: ${response.status}`);
   }

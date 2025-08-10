@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-// Separate component that uses useSearchParams
 const ErrorContent = () => {
   const [progress, setProgress] = useState(0);
   const router = useRouter();
@@ -95,7 +94,6 @@ const ErrorContent = () => {
   );
 };
 
-// Main component with Suspense boundary
 export default function NotFound() {
   return (
     <Suspense fallback={<div className="min-h-screen bg-[#0078d7]" />}>

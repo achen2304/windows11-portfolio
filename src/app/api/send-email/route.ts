@@ -8,7 +8,6 @@ export async function POST(request: Request) {
     const { to, from, subject, message } = await request.json();
     console.log('Received email data:', { to, from, subject });
 
-    // Validate required fields
     if (!to || !from || !subject || !message) {
       console.error('Missing required fields');
       return NextResponse.json(
@@ -17,7 +16,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Create HTML content
     const htmlContent = `
       <h2>Email from Outlook App</h2>
       <p><strong>From:</strong> ${from}</p>
@@ -29,22 +27,20 @@ export async function POST(request: Request) {
       </div>
     `;
 
-    // Create transporter with hardcoded Zoho settings
     const transporter = nodemailer.createTransport({
       host: 'smtp.zoho.com',
       port: 465,
-      secure: true, // use SSL
+      secure: true,
       auth: {
-        user: process.env.EMAIL, // replace with your actual Zoho email
-        pass: process.env.APP_PASSWORD, // replace with your actual Zoho app password
+        user: process.env.EMAIL,
+        pass: process.env.APP_PASSWORD,
       },
     });
 
-    // Configure mail options
     const mailOptions = {
-      from: process.env.EMAIL, // must use the authenticated email
+      from: process.env.EMAIL,
       to: to,
-      replyTo: from, // set the sender's email as reply-to
+      replyTo: from,
       subject: subject,
       text: message,
       html: htmlContent,

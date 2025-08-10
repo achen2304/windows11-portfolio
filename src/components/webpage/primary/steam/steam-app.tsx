@@ -147,7 +147,6 @@ const SteamContent: React.FC = () => {
   );
 };
 
-// Inner component that uses navigation context
 const SteamAppContent: React.FC = () => {
   const contentRef = useRef<HTMLDivElement>(null);
 

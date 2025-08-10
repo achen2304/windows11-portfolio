@@ -179,7 +179,6 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
 
                 {/* Window state indicators */}
                 {(() => {
-                  // Find window that starts with the app ID (to handle unique window IDs)
                   const openWindow = windows.find((window) =>
                     window.id.startsWith(app.id)
                   );
@@ -187,7 +186,6 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
                   const isWindowActive =
                     openWindow?.isActive && !openWindow?.isMinimized;
 
-                  // Active/focused window - shorter/longer line at bottom
                   if (isWindowActive) {
                     return (
                       <div

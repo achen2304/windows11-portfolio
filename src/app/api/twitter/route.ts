@@ -155,7 +155,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { username, handle, content } = body;
 
-    // Validation
     if (!username || !content) {
       return NextResponse.json(
         { error: 'Username and content are required' },

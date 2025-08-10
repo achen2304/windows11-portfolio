@@ -1,7 +1,6 @@
 // Define theme type to match theme-provider
 export type Theme = 'dark' | 'light';
 
-// Universal theme object with optional properties for flexibility
 export interface ThemeObject {
   text: {
     primary: string;
@@ -33,7 +32,6 @@ export interface ThemeObject {
   [key: string]: unknown;
 }
 
-// Steam app specific theme properties
 export interface SteamTheme {
   content: string;
   card: string;
@@ -49,7 +47,6 @@ export interface SteamTheme {
   [key: string]: string;
 }
 
-// Slack app specific theme properties
 export interface SlackTheme {
   background: string;
   sidebarBackground: string;

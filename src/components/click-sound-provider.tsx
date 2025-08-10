@@ -39,10 +39,6 @@ const clickSound = new Howl({
 
 let globalVolume = 0.3;
 
-/**
- * Provider component that sets up global click sounds
- * This provider automatically attaches click sounds to all interactive elements
- */
 export function ClickSoundProvider({
   children,
 }: {
@@ -121,7 +117,6 @@ export function ClickSoundProvider({
     return null;
   };
 
-  // Toggle sound on/off
   const toggleSound = () => {
     setSoundEnabled((prev) => !prev);
   };
@@ -156,7 +151,6 @@ export function ClickSoundProvider({
   );
 }
 
-// Hook to access sound settings
 export function useClickSound() {
   return useContext(ClickSoundContext);
 }

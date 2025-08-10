@@ -58,7 +58,6 @@ const MediaList: React.FC = () => {
   ) as MediaType[];
   const filteredItems = favoriteGames.filter((item) => item.type === activeTab);
 
-  // Determine grid columns based on breakpoints
   const getGridCols = () => {
     if (isXs || isSm) return 'grid-cols-1';
     if (isMd) return 'grid-cols-2';

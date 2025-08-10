@@ -12,10 +12,8 @@ export const ChatGPTApp: React.FC = () => {
   const currentTheme = themes[theme as keyof typeof themes];
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Storage configuration
   const STORAGE_KEY = 'chatgpt-messages';
 
-  // Local storage helpers
   const saveMessagesToStorage = (
     messages: { id: string; role: string; content: string }[]
   ) => {
@@ -58,7 +56,6 @@ export const ChatGPTApp: React.FC = () => {
     api: '/api/chat',
     initialMessages: loadMessagesFromStorage(),
     onFinish: (message) => {
-      // Save updated messages to localStorage after each response
       const updatedMessages = [
         ...messages,
         { id: Date.now().toString(), role: 'user', content: input },
@@ -83,7 +80,6 @@ export const ChatGPTApp: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
-  // Save messages to localStorage whenever messages change
   useEffect(() => {
     if (messages.length > 0) {
       saveMessagesToStorage(messages);

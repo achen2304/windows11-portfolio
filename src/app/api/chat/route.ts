@@ -77,7 +77,6 @@ function buildDynamicContext(userMessage: string): string {
   const message = userMessage.toLowerCase();
   let context = getBaseContext();
 
-  // Add skills data if asked about technologies
   const skillKeywords = [
     'skill',
     'technology',
@@ -94,7 +93,6 @@ function buildDynamicContext(userMessage: string): string {
     context += `\n\nNote: Direct users to the "About" app for an interactive skills overview.`;
   }
 
-  // Add projects data if asked about projects or specific technologies
   const projectKeywords = ['project', 'built', 'created', 'work', 'portfolio'];
   if (
     projectKeywords.some((keyword) => message.includes(keyword)) ||
@@ -108,7 +106,6 @@ function buildDynamicContext(userMessage: string): string {
     context += `\n\nNote: Direct users to the "Projects" app for interactive demos and detailed technical information.`;
   }
 
-  // Add experience data if asked about work or experience
   const workKeywords = ['experience', 'work', 'job', 'dwolla', 'intern'];
   if (workKeywords.some((keyword) => message.includes(keyword))) {
     context += `\n\nComplete Experience Data:\n${JSON.stringify(
@@ -119,7 +116,6 @@ function buildDynamicContext(userMessage: string): string {
     context += `\n\nNote: Direct users to the "About" app for detailed work history and the "Outlook" app for professional networking.`;
   }
 
-  // Add personal background data if asked about background/about
   const aboutKeywords = [
     'about',
     'background',
@@ -136,7 +132,6 @@ function buildDynamicContext(userMessage: string): string {
     context += `\n\nNote: Direct users to the "About" app for a complete personal and professional overview.`;
   }
 
-  // Add hobbies data if asked about interests/hobbies/games/shows
   const hobbyKeywords = [
     'hobby',
     'hobbies',
@@ -157,7 +152,6 @@ function buildDynamicContext(userMessage: string): string {
     context += `\n\nNote: Direct users to the "Steam" app for gaming interests and the "Spotify" app for music preferences.`;
   }
 
-  // Add portfolio app info if asked about specific apps or features
   const appKeywords = [
     'app',
     'apps',
@@ -212,7 +206,6 @@ function buildDynamicContext(userMessage: string): string {
 
 export async function POST(req: NextRequest) {
   try {
-    // Rate limiting check
     const clientIP = getClientIP(req);
     if (isRateLimited(clientIP)) {
       return new Response(
@@ -229,7 +222,6 @@ export async function POST(req: NextRequest) {
 
     const { messages } = await req.json();
 
-    // Validate messages array
     if (!Array.isArray(messages) || messages.length === 0) {
       return new Response(
         JSON.stringify({ error: 'Invalid messages format' }),
@@ -240,7 +232,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Get the last user message to build dynamic context
     const lastMessage = messages[messages.length - 1]?.content || '';
     const contextualSystemPrompt = buildDynamicContext(lastMessage);
 
@@ -248,8 +239,8 @@ export async function POST(req: NextRequest) {
       model: openai('gpt-3.5-turbo'),
       system: contextualSystemPrompt,
       messages: convertToCoreMessages(messages),
-      maxTokens: 400, // Limit response length to control costs
-      temperature: 0.7, // Balanced creativity
+      maxTokens: 400,
+      temperature: 0.7,
     });
 
     return result.toDataStreamResponse();

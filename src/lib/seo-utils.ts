@@ -1,10 +1,8 @@
 import { Metadata } from 'next';
 
-// Base URL for the site
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || 'https://caichen.dev';
 
-// Default metadata that can be shared across pages
 export const defaultMetadata = {
   siteName: 'Cai Chen Portfolio',
   author: 'Cai Chen',
@@ -14,7 +12,6 @@ export const defaultMetadata = {
   profileImage: '/other/profile.webp',
 };
 
-// Generate metadata for specific pages
 export function generatePageMetadata({
   title,
   description,
@@ -90,7 +87,6 @@ export function generatePageMetadata({
   };
 }
 
-// Generate structured data for a person (portfolio owner)
 export function generatePersonStructuredData() {
   return {
     '@context': 'https://schema.org',
@@ -136,7 +132,6 @@ export function generatePersonStructuredData() {
   };
 }
 
-// Generate structured data for a portfolio website
 export function generateWebsiteStructuredData() {
   return {
     '@context': 'https://schema.org',
@@ -158,7 +153,6 @@ export function generateWebsiteStructuredData() {
   };
 }
 
-// Generate structured data for projects/portfolio items
 export function generateCreativeWorkStructuredData(
   title: string,
   description: string,

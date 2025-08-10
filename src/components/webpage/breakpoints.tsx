@@ -2,17 +2,15 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 
-// Size breakpoints similar to Windows UI
 export type WindowSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export interface UseWindowSizeOptions {
-  // Default breakpoints, can be overridden
   breakpoints?: {
-    xs: number; // Extra small
-    sm: number; // Small
-    md: number; // Medium
-    lg: number; // Large
-    xl: number; // Extra large
+    xs: number;
+    sm: number;
+    md: number;
+    lg: number;
+    xl: number;
   };
 }
 
@@ -27,21 +25,18 @@ export interface WindowSizeContextType {
   isXl: boolean;
 }
 
-// Default breakpoints in pixels
 const DEFAULT_BREAKPOINTS = {
-  xs: 400, // Extra small windows
-  sm: 550, // Small windows
-  md: 800, // Medium windows
-  lg: 1000, // Large windows
-  xl: 1200, // Extra large windows
+  xs: 400,
+  sm: 550,
+  md: 800,
+  lg: 1000,
+  xl: 1200,
 };
 
-// Create context for window size
 const WindowSizeContext = React.createContext<
   WindowSizeContextType | undefined
 >(undefined);
 
-// Hook to use window size within components
 export const useWindowSize = (): WindowSizeContextType => {
   const context = React.useContext(WindowSizeContext);
   if (!context) {
@@ -56,7 +51,6 @@ export interface WindowSizeProviderProps {
   options?: UseWindowSizeOptions;
 }
 
-// Provider component
 export const WindowSizeProvider: React.FC<WindowSizeProviderProps> = ({
   children,
   containerRef,
@@ -67,7 +61,6 @@ export const WindowSizeProvider: React.FC<WindowSizeProviderProps> = ({
     ...(options.breakpoints || {}),
   };
 
-  // Initialize with default values
   const [dimensions, setDimensions] = useState<{
     width: number;
     height: number;
@@ -82,19 +75,15 @@ export const WindowSizeProvider: React.FC<WindowSizeProviderProps> = ({
 
   const breakpointsRef = useRef(breakpoints);
 
-  const getWindowSize = useCallback(
-    (width: number): WindowSize => {
-      const { xs, sm, md, lg } = breakpointsRef.current;
-      if (width < xs) return 'xs';
-      if (width < sm) return 'sm';
-      if (width < md) return 'md';
-      if (width < lg) return 'lg';
-      return 'xl';
-    },
-    [] 
-  );
+  const getWindowSize = useCallback((width: number): WindowSize => {
+    const { xs, sm, md, lg } = breakpointsRef.current;
+    if (width < xs) return 'xs';
+    if (width < sm) return 'sm';
+    if (width < md) return 'md';
+    if (width < lg) return 'lg';
+    return 'xl';
+  }, []);
 
-  // Update dimensions when container size changes
   const updateDimensions = useCallback(() => {
     if (containerRef?.current) {
       const { offsetWidth, offsetHeight } = containerRef.current;
@@ -137,7 +126,7 @@ export const WindowSizeProvider: React.FC<WindowSizeProviderProps> = ({
         });
       }
     }
-  }, [containerRef, getWindowSize]); 
+  }, [containerRef, getWindowSize]);
 
   useEffect(() => {
     breakpointsRef.current = {

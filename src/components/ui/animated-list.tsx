@@ -59,9 +59,7 @@ export const AnimatedList = React.memo(
       >
         <AnimatePresence>
           {itemsToShow.map((item, idx) => {
-            // Get original key or create one based on index
             const originalKey = (item as React.ReactElement).key;
-            // Create a composite key with the index to ensure uniqueness
             const uniqueKey = `${originalKey || ''}-${idx}`;
 
             return <AnimatedListItem key={uniqueKey}>{item}</AnimatedListItem>;

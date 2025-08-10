@@ -123,7 +123,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Structured Data for SEO */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -134,12 +133,10 @@ export default function RootLayout({
           }}
         />
 
-        {/* Additional Meta Tags */}
         <meta name="format-detection" content="telephone=no" />
         <meta name="referrer" content="origin-when-cross-origin" />
         <meta name="color-scheme" content="dark light" />
 
-        {/* Preconnect to external domains for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -147,13 +144,11 @@ export default function RootLayout({
           crossOrigin=""
         />
 
-        {/* Favicon and App Icons */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/window.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/window.svg" />
         <link rel="manifest" href="/manifest.json" />
 
-        {/* Google Analytics */}
         <Analytics />
       </head>
       <body

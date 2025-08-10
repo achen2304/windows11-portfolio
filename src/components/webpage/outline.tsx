@@ -78,7 +78,6 @@ const AppOutline: React.FC<AppOutlineProps> = ({
     ),
   };
 
-  // Ensure initial position is within viewport
   const constrainedInitialPosition = {
     x: Math.min(
       Math.max(0, initialPosition.x),
@@ -124,11 +123,9 @@ const AppOutline: React.FC<AppOutlineProps> = ({
     }
   }, [isActive, currentTheme.glass.backgroundDark, theme]);
 
-  // Maximized window
   if (isMaximized) {
     return (
       <>
-        {/* Animation Styles for Maximized Window */}
         <style jsx>{`
           @keyframes windowOpen {
             from {
@@ -227,7 +224,6 @@ const AppOutline: React.FC<AppOutlineProps> = ({
           }}
           onClick={handleWindowClick}
         >
-          {/* Header */}
           <div
             className="flex items-center justify-between px-4 py-2 select-none"
             style={{
@@ -243,7 +239,6 @@ const AppOutline: React.FC<AppOutlineProps> = ({
               {title}
             </div>
 
-            {/* Window Controls */}
             <div className="flex items-center space-x-1">
               {onMinimize && (
                 <button
@@ -299,7 +294,6 @@ const AppOutline: React.FC<AppOutlineProps> = ({
             </div>
           </div>
 
-          {/* Content Area */}
           <div
             className="overflow-auto custom-scrollbar"
             style={{
@@ -316,7 +310,6 @@ const AppOutline: React.FC<AppOutlineProps> = ({
 
   return (
     <>
-      {/* Custom Scrollbar Styles and Window Animations */}
       <style jsx>{`
         @keyframes windowOpen {
           from {
@@ -421,7 +414,6 @@ const AppOutline: React.FC<AppOutlineProps> = ({
             : 'rgba(0, 0, 0, 0.05)'};
         }
 
-        /* Firefox scrollbar */
         .custom-scrollbar {
           scrollbar-width: thin;
           scrollbar-color: ${theme === 'dark'
@@ -539,7 +531,6 @@ const AppOutline: React.FC<AppOutlineProps> = ({
               isOpening || isMinimizing || isReopening ? 0 : isClosing ? 0 : 1,
           }}
         >
-          {/* Header - Draggable */}
           <div
             className="flex items-center justify-between px-4 py-2 cursor-move select-none"
             style={{
@@ -555,7 +546,6 @@ const AppOutline: React.FC<AppOutlineProps> = ({
               {title}
             </div>
 
-            {/* Window Controls */}
             <div className="not-draggable flex items-center space-x-1 pointer-events-auto">
               {onMinimize && (
                 <button
@@ -611,7 +601,6 @@ const AppOutline: React.FC<AppOutlineProps> = ({
             </div>
           </div>
 
-          {/* Content Area */}
           <div
             className="window-content relative overflow-auto custom-scrollbar"
             style={{

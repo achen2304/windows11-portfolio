@@ -35,9 +35,7 @@ export const themes = {
       radial:
         'radial-gradient(circle at 50% 50%, rgba(17, 17, 17, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%)',
     },
-    // Steam-specific theme colors
     steam: {
-      // Main Steam color scheme
       background: '#1b2838',
       header: '#171a21',
       sidebar: '#1a2940',
@@ -46,9 +44,9 @@ export const themes = {
       card: '#16202d',
       cardHover: '#1c3a5d',
       divider: '#2d4a67',
-      highlight: '#66c0f4', // Steam blue
-      green: '#5c7e10', // Steam green
-      accent: '#1a9fff', // Light blue accent
+      highlight: '#66c0f4',
+      green: '#5c7e10',
+      accent: '#1a9fff',
       buttonGradientStart: '#75b022',
       buttonGradientEnd: '#588a1b',
       navSelected: '#66c0f4',
@@ -60,7 +58,6 @@ export const themes = {
       textSecondary: '#8f98a0',
       priceBg: '#344654',
     },
-    // Slack-specific theme colors
     slack: {
       background: '#1a1d21',
       sidebarBackground: '#19171D',
@@ -73,9 +70,9 @@ export const themes = {
       divider: '#383838',
       textPrimary: '#D1D2D3',
       textSecondary: '#ABABAD',
-      accent: '#8A268C', // Slack purple
+      accent: '#8A268C',
       mentionBadge: '#E01E5A',
-      buttonPrimary: '#007a5a', // Slack green
+      buttonPrimary: '#007a5a',
       welcomeBackground: '#222529',
       threadBackground: '#222529',
       searchBackground: '#222529',
@@ -119,9 +116,7 @@ export const themes = {
       radial:
         'radial-gradient(circle at 50% 50%, rgba(248, 249, 250, 0.4) 0%, rgba(229, 229, 229, 0.8) 100%)',
     },
-    // Steam-specific theme colors (same as dark mode for consistent Steam look)
     steam: {
-      // Main Steam color scheme
       background: '#1b2838',
       header: '#171a21',
       sidebar: '#1a2940',
@@ -130,9 +125,9 @@ export const themes = {
       card: '#16202d',
       cardHover: '#1c3a5d',
       divider: '#2d4a67',
-      highlight: '#66c0f4', // Steam blue
-      green: '#5c7e10', // Steam green
-      accent: '#1a9fff', // Light blue accent
+      highlight: '#66c0f4',
+      green: '#5c7e10',
+      accent: '#1a9fff',
       buttonGradientStart: '#75b022',
       buttonGradientEnd: '#588a1b',
       navSelected: '#66c0f4',
@@ -144,7 +139,6 @@ export const themes = {
       textSecondary: '#8f98a0',
       priceBg: '#344654',
     },
-    // Slack-specific theme colors for light mode
     slack: {
       background: '#FFFFFF',
       sidebarBackground: '#4A154B',

@@ -26,13 +26,9 @@ const notifyListeners = () => {
 };
 
 export const notificationUtils = {
-  // Add a notification with duplicate prevention
   addNotification: (notification: Omit<Notification, 'id' | 'timestamp'>) => {
-    // Check for duplicates based on multiple criteria
     const now = new Date();
-    // Find any recent duplicate within the last 5 minutes
     const recentDuplicate = notificationStore.find((n) => {
-      // Otherwise use standard title + type matching
       return (
         n.title === notification.title &&
         n.type === notification.type &&
@@ -41,11 +37,10 @@ export const notificationUtils = {
     });
 
     if (recentDuplicate) {
-      // If this notification has the fromToast flag, mark the existing one
       if (notification.fromToast) {
         recentDuplicate.fromToast = true;
       }
-      return recentDuplicate.id; // Return existing ID instead of creating duplicate
+      return recentDuplicate.id;
     }
 
     const id = Math.random().toString(36).substr(2, 9);
@@ -55,9 +50,8 @@ export const notificationUtils = {
       timestamp: now,
     };
 
-    notificationStore.unshift(newNotification); // Add to beginning
+    notificationStore.unshift(newNotification);
 
-    // Keep only last 10 notifications
     if (notificationStore.length > 10) {
       notificationStore = notificationStore.slice(0, 10);
     }
@@ -66,22 +60,18 @@ export const notificationUtils = {
     return id;
   },
 
-  // Get all notifications
   getNotifications: () => [...notificationStore],
 
-  // Remove notification
   removeNotification: (id: string) => {
     notificationStore = notificationStore.filter((n) => n.id !== id);
     notifyListeners();
   },
 
-  // Clear all notifications
   clearAll: () => {
     notificationStore = [];
     notifyListeners();
   },
 
-  // Subscribe to changes
   subscribe: (listener: () => void) => {
     listeners.push(listener);
     return () => {
@@ -98,7 +88,6 @@ interface ToastData {
   notification?: boolean;
 }
 
-// Copy utility that creates both toast and notification
 export const copyToClipboard = async (
   text: string,
   title: string = 'Copied!',
@@ -107,7 +96,6 @@ export const copyToClipboard = async (
   try {
     await navigator.clipboard.writeText(text);
 
-    // For toast-only notification (no duplication)
     addToast({
       title: title,
       description: `${text} copied to clipboard`,
@@ -118,7 +106,6 @@ export const copyToClipboard = async (
 
     return true;
   } catch {
-    // For toast-only error notification (no duplication)
     addToast({
       title: 'Copy failed',
       description: 'Unable to copy to clipboard',

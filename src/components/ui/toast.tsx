@@ -22,7 +22,6 @@ interface ToastContextType {
 
 const ToastContext = createContext<ToastContextType | null>(null);
 
-// Define consistent icon size and styling
 const iconSize = 18;
 const iconStyle = { flexShrink: 0 };
 
@@ -50,7 +49,6 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         });
       }
 
-      // Create a wrapper for the description with stronger color
       const descriptionEl = toastProps.description ? (
         <div
           style={{
@@ -63,7 +61,6 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         </div>
       ) : undefined;
 
-      // Always show the toast with Sonner
       const toastOptions = {
         duration: toastProps.duration || 3000,
         id: Math.random().toString(36).substr(2, 9),
@@ -90,7 +87,6 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         className: 'backdrop-blur-xl shadow-lg',
       };
 
-      // Use the appropriate Sonner toast type
       if (toastProps.type === 'success') {
         toast.success(toastProps.title, {
           description: descriptionEl,

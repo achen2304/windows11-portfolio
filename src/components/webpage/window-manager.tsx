@@ -64,7 +64,6 @@ interface WindowManagerProviderProps {
   children: React.ReactNode;
 }
 
-// Type for stored window state
 interface StoredWindowState {
   id: string;
   title: string;
@@ -81,12 +80,10 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
   const [windows, setWindows] = useState<WindowState[]>([]);
   const [nextZIndex, setNextZIndex] = useState(100);
 
-  // Load windows from localStorage on mount
   useEffect(() => {
     try {
       const storedWindows = localStorage.getItem('windowStates');
       if (storedWindows) {
-        // Add a delay to ensure the fade-in animation completes first
         const loadDelay = setTimeout(() => {
           const parsedWindows: StoredWindowState[] = JSON.parse(storedWindows);
 

@@ -18,7 +18,6 @@ export const TextEditorApp: React.FC = () => {
   const { closeWindow, windows } = useWindowManager();
   const { openAppById } = useAppOpener();
 
-  // Load content from local storage if available
   const getInitialContent = () => {
     if (typeof window !== 'undefined') {
       const savedContent = localStorage.getItem('notepad-content');
@@ -31,30 +30,23 @@ export const TextEditorApp: React.FC = () => {
   const [lineCol, setLineCol] = useState({ line: 1, col: 1 });
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Dropdown menu state
   const [activeMenu, setActiveMenu] = useState<'file' | 'edit' | null>(null);
 
-  // Handler for new document (close and reopen)
   const handleNewDocumentAction = () => {
-    // Find the current window ID that starts with text-editor
     const textEditorWindow = windows.find((window: WindowState) =>
       window.id.startsWith('text-editor')
     );
 
     if (textEditorWindow) {
-      // First close the current window
       closeWindow(textEditorWindow.id);
 
-      // Then open a new one after a small delay
       setTimeout(() => {
         openAppById('text-editor');
       }, 100);
     }
   };
 
-  // Handler for exiting
   const handleExit = () => {
-    // Find the current window ID that starts with text-editor
     const textEditorWindow = windows.find((window: WindowState) =>
       window.id.startsWith('text-editor')
     );

@@ -19,7 +19,6 @@ interface TaskbarShellProps {
   className?: string;
 }
 
-// Create a wrapped version that uses searchParams inside Suspense
 const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
   apps = [],
   onAppClick = () => {},
@@ -29,7 +28,6 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
   const searchParams = useSearchParams();
   const [activePanels, setActivePanels] = useState<Set<PanelType>>(new Set());
 
-  // Get active panel from URL params
   const activePanelParam = searchParams.get('panel');
   const activePanel: PanelType =
     activePanelParam &&
@@ -39,7 +37,6 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
       ? (activePanelParam as PanelType)
       : null;
 
-  // Update activePanels set when URL changes
   useEffect(() => {
     if (
       activePanel &&
@@ -51,7 +48,6 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
     }
   }, [activePanel]);
 
-  // Panel management functions
   const openPanel = useCallback(
     (panelType: Exclude<PanelType, null>) => {
       const params = new URLSearchParams(searchParams.toString());
@@ -104,11 +100,6 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
 
   return (
     <>
-      {/* CSS for fade-in animation - Removed */}
-
-      {/* Black overlay with fade-in animation - Removed */}
-
-      {/* Centralized Backdrop - Only show when any panel is open */}
       {activePanel && (
         <div
           className="fixed inset-0 z-[150]"
@@ -119,12 +110,11 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
           }}
           style={{
             pointerEvents: 'auto',
-            background: 'transparent', // Invisible backdrop
+            background: 'transparent',
           }}
         />
       )}
 
-      {/* Main Taskbar */}
       <Taskbar
         apps={apps}
         onAppClick={handleAppClick}
@@ -136,7 +126,6 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
         className={className}
       />
 
-      {/* Start Panel */}
       <StartPanel
         isOpen={activePanel === 'start'}
         onClose={closePanel}
@@ -145,19 +134,14 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
         onAppClick={handleAppClick}
       />
 
-      {/* System Panel */}
       <SystemPanel isOpen={activePanel === 'system'} onClose={closePanel} />
 
-      {/* Calendar Panel */}
       <CalendarPanel isOpen={activePanel === 'calendar'} onClose={closePanel} />
 
-      {/* Soundboard Panel */}
       <SoundboardPanel
         isOpen={activePanel === 'soundboard'}
         onClose={closePanel}
       />
-
-      {/* Power Panel */}
     </>
   );
 };
