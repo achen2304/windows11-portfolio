@@ -95,8 +95,8 @@ const AppOutline: React.FC<AppOutlineProps> = ({
     const viewportHeight = window.innerHeight;
     const taskbarHeight = 48;
 
-    let newPosition = { ...position };
-    let newSize = { ...size };
+    const newPosition = { ...position };
+    const newSize = { ...size };
     let hasChanged = false;
 
     // Check if window extends beyond right edge
