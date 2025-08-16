@@ -41,6 +41,8 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.7);
   const [showVolumePanel, setShowVolumePanel] = useState(false);
+  const [isVolumeHovered, setIsVolumeHovered] = useState(false);
+  const [isVolumeInteracting, setIsVolumeInteracting] = useState(false);
 
   const [progress, setProgress] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -50,6 +52,7 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
   const spotifyManager = getSpotifyManager();
   const progressBarRef = useRef<HTMLDivElement>(null);
   const volumePanelRef = useRef<HTMLDivElement>(null);
+  const volumeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Spotify colors
   const spotifyGreen = '#1DB954';
@@ -100,6 +103,11 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
       unsubscribeTrack();
       unsubscribePremium();
       unsubscribeReady();
+      
+      // Clear volume timeout on cleanup
+      if (volumeTimeoutRef.current) {
+        clearTimeout(volumeTimeoutRef.current);
+      }
     };
   }, [isDragging, spotifyManager]);
 
@@ -125,6 +133,34 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
     const clampedVolume = Math.max(0, Math.min(1, newVolume));
     setVolume(clampedVolume);
     await spotifyManager.setVolume(clampedVolume);
+    
+    // Show volume interaction state
+    setIsVolumeInteracting(true);
+    
+    // Clear existing timeout
+    if (volumeTimeoutRef.current) {
+      clearTimeout(volumeTimeoutRef.current);
+    }
+    
+    // Set new timeout to hide after 3 seconds
+    volumeTimeoutRef.current = setTimeout(() => {
+      setIsVolumeInteracting(false);
+      setIsVolumeHovered(false);
+    }, 3000);
+  };
+
+  const handleVolumeMouseEnter = () => {
+    setIsVolumeHovered(true);
+    if (volumeTimeoutRef.current) {
+      clearTimeout(volumeTimeoutRef.current);
+      volumeTimeoutRef.current = null;
+    }
+  };
+
+  const handleVolumeMouseLeave = () => {
+    if (!isVolumeInteracting) {
+      setIsVolumeHovered(false);
+    }
   };
 
   const handleProgressClick = async (e: React.MouseEvent) => {
@@ -217,10 +253,11 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
   // Premium warning component
   const PremiumWarning = () => (
     <div
-      className={`relative h-20 border-t flex items-center justify-center flex-shrink-0 ${className}`}
+      className={`fixed bottom-0 left-0 right-0 h-20 border-t flex items-center justify-center ${className}`}
       style={{
         backgroundColor: spotifyCard,
         borderColor: '#282828',
+        zIndex: 1000,
       }}
     >
       <div className="flex items-center gap-3">
@@ -248,10 +285,11 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
   if (!isPlayerReady) {
     return (
       <div
-        className={`relative h-20 border-t flex items-center justify-center flex-shrink-0 ${className}`}
+        className={`fixed bottom-0 left-0 right-0 h-20 border-t flex items-center justify-center ${className}`}
         style={{
           backgroundColor: spotifyCard,
           borderColor: '#282828',
+          zIndex: 1000,
         }}
       >
         <div className="flex items-center gap-3">
@@ -275,10 +313,11 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
 
   return (
     <div
-      className={`relative h-20 border-t flex items-center flex-shrink-0 ${className}`}
+      className={`fixed bottom-0 left-0 right-0 h-20 border-t flex items-center ${className}`}
       style={{
         backgroundColor: spotifyCard,
         borderColor: '#282828',
+        zIndex: 1000,
       }}
     >
       {/* Left section - Track info */}
@@ -418,7 +457,7 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
             {/* Volume Panel - appears above */}
             {showVolumePanel && (
               <div
-                className="absolute top-0 right-0 transform -translate-y-full mb-2 p-4 rounded-lg shadow-xl border"
+                className="absolute bottom-full right-0 mb-2 p-4 rounded-lg shadow-xl border"
                 style={{
                   backgroundColor: spotifyCard,
                   borderColor: '#282828',
@@ -455,22 +494,38 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
                       )}
                     </button>
 
-                    <input
-                      type="range"
-                      min="0"
-                      max="1"
-                      step="0.01"
-                      value={volume}
-                      onChange={(e) =>
-                        handleVolumeChange(parseFloat(e.target.value))
-                      }
-                      className="flex-1 h-1 rounded-lg appearance-none cursor-pointer"
-                      style={{
-                        background: `linear-gradient(to right, ${currentTheme.soundKnob} 0%, ${currentTheme.soundKnob} ${
-                          volume * 100
-                        }%, #4D4D4D ${volume * 100}%, #4D4D4D 100%)`,
-                      }}
-                    />
+                    <div
+                      className="flex-1 relative"
+                      onMouseEnter={handleVolumeMouseEnter}
+                      onMouseLeave={handleVolumeMouseLeave}
+                    >
+                      <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value={volume}
+                        onChange={(e) =>
+                          handleVolumeChange(parseFloat(e.target.value))
+                        }
+                        className={`w-full h-1 rounded-lg appearance-none cursor-pointer transition-all duration-300 spotify-volume-slider ${
+                          isVolumeHovered || isVolumeInteracting ? 'active' : ''
+                        }`}
+                        style={{
+                          background: `linear-gradient(to right, ${
+                            isVolumeHovered || isVolumeInteracting ? spotifyGreen : currentTheme.soundKnob
+                          } 0%, ${
+                            isVolumeHovered || isVolumeInteracting ? spotifyGreen : currentTheme.soundKnob
+                          } ${
+                            volume * 100
+                          }%, #4D4D4D ${volume * 100}%, #4D4D4D 100%)`,
+                          // Hide knob initially, show on hover/interaction
+                          WebkitAppearance: 'none',
+                          appearance: 'none',
+                        }}
+                        onMouseDown={() => setIsVolumeInteracting(true)}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -481,27 +536,43 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
           <div className="flex items-center gap-2">
             <button
               onClick={toggleMute}
-              className="text-gray-400 hover:text-white transition-colors cursor-pointer"
+              className="text-gray-400 mb-2 hover:text-white transition-colors cursor-pointer"
               style={{ color: spotifyTextSecondary }}
               title={volume === 0 ? 'Unmute' : 'Mute'}
             >
               {volume === 0 ? <VolumeX size={16} /> : <Volume2 size={16} />}
             </button>
 
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={volume}
-              onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
-              className="w-24 h-1 rounded-lg appearance-none cursor-pointer"
-              style={{
-                background: `linear-gradient(to right, ${currentTheme.soundKnob} 0%, ${currentTheme.soundKnob} ${
-                  volume * 100
-                }%, #4D4D4D ${volume * 100}%, #4D4D4D 100%)`,
-              }}
-            />
+            <div
+              className="relative transform -translate-y-2"
+              onMouseEnter={handleVolumeMouseEnter}
+              onMouseLeave={handleVolumeMouseLeave}
+            >
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value={volume}
+                onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
+                className={`w-24 h-1 rounded-lg appearance-none cursor-pointer transition-all duration-300 spotify-volume-slider ${
+                  isVolumeHovered || isVolumeInteracting ? 'active' : ''
+                }`}
+                style={{
+                  background: `linear-gradient(to right, ${
+                    isVolumeHovered || isVolumeInteracting ? spotifyGreen : currentTheme.soundKnob
+                  } 0%, ${
+                    isVolumeHovered || isVolumeInteracting ? spotifyGreen : currentTheme.soundKnob
+                  } ${
+                    volume * 100
+                  }%, #4D4D4D ${volume * 100}%, #4D4D4D 100%)`,
+                  // Hide knob initially, show on hover/interaction
+                  WebkitAppearance: 'none',
+                  appearance: 'none',
+                }}
+                onMouseDown={() => setIsVolumeInteracting(true)}
+              />
+            </div>
           </div>
         )}
       </div>
