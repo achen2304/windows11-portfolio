@@ -17,7 +17,7 @@ const Portfolio: React.FC = () => {
   // Create clickable Projects content
   const projectsContent = (
     <span>
-      To see all of my projects, please visit my{' '}
+      Due the the amount of projects I have, I have created a separate{' '}
       <button
         onClick={(e) => {
           e.preventDefault();
@@ -41,7 +41,9 @@ const Portfolio: React.FC = () => {
       >
         Projects
       </button>{' '}
-      app.  
+      app :)
+      <br />
+      (and it was a lot of fun to make!)
     </span>
   );
 
