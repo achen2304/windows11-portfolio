@@ -22,15 +22,22 @@ const DemoContent: React.FC = () => {
   const { windows, focusAndRestoreWindow, focusWindow } = useWindowManager();
 
   useEffect(() => {
-    const storedWindows =
-      typeof window !== 'undefined'
-        ? localStorage.getItem('windowStates')
-        : null;
+    const isFirstVisit = () => {
+      if (typeof window === 'undefined') return false;
+      
+      const hasVisited = localStorage.getItem('hasVisited');
+      const storedWindows = localStorage.getItem('windowStates');
+      
+      return !hasVisited && !storedWindows && windows.length === 0;
+    };
 
-    if (windows.length === 0 && !storedWindows) {
+    if (isFirstVisit()) {
       const timer = setTimeout(() => {
-        openAppById('text-editor');
-      }, 1000);
+        openAppById('about-me');
+        
+        // Mark as visited
+        localStorage.setItem('hasVisited', 'true');
+      }, 1500);
 
       return () => clearTimeout(timer);
     }

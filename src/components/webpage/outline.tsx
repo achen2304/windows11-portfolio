@@ -4,18 +4,7 @@ import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { useTheme } from '../theme-provider';
 import { themes } from '@/lib/themes';
 import { X, Maximize2, Minimize2, Minus } from 'lucide-react';
-import { Rnd } from 'react-rnd';
 
-const handleStyles = {
-  bottom: { cursor: 'ns-resize' },
-  bottomLeft: { cursor: 'nesw-resize' },
-  bottomRight: { cursor: 'nwse-resize' },
-  left: { cursor: 'ew-resize' },
-  right: { cursor: 'ew-resize' },
-  top: { cursor: 'ns-resize' },
-  topLeft: { cursor: 'nwse-resize' },
-  topRight: { cursor: 'nesw-resize' },
-};
 
 interface AppOutlineProps {
   title: string;
@@ -95,6 +84,116 @@ const AppOutline: React.FC<AppOutlineProps> = ({
   const [isResizing, setIsResizing] = useState(false);
 
   const windowRef = useRef<HTMLDivElement>(null);
+  const dragRef = useRef<HTMLDivElement>(null);
+  const resizeRef = useRef<HTMLDivElement>(null);
+
+  // Handle dragging (mouse and touch)
+  const handleDragStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    if (!dragRef.current?.contains(e.target as Node)) return;
+
+    setIsDragging(true);
+    onFocus?.();
+    
+    const rect = windowRef.current?.getBoundingClientRect();
+    if (!rect) return;
+
+    // Handle both mouse and touch events
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+
+    const offsetX = clientX - rect.left;
+    const offsetY = clientY - rect.top;
+
+    const handleDragMove = (e: MouseEvent | TouchEvent) => {
+      e.preventDefault(); // Prevent scrolling on touch devices
+
+      const currentX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+      const currentY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+
+      const newX = currentX - offsetX;
+      const newY = currentY - offsetY;
+
+      // Keep window within viewport bounds
+      const maxX = window.innerWidth - size.width;
+      const maxY = window.innerHeight - size.height - 48; // Account for taskbar
+
+      const newPosition = {
+        x: Math.max(0, Math.min(newX, maxX)),
+        y: Math.max(0, Math.min(newY, maxY)),
+      };
+
+      setPosition(newPosition);
+      onPositionChange?.(newPosition);
+    };
+
+    const handleDragEnd = () => {
+      setIsDragging(false);
+      // Remove both mouse and touch event listeners
+      document.removeEventListener('mousemove', handleDragMove);
+      document.removeEventListener('mouseup', handleDragEnd);
+      document.removeEventListener('touchmove', handleDragMove);
+      document.removeEventListener('touchend', handleDragEnd);
+    };
+
+    // Add both mouse and touch event listeners
+    document.addEventListener('mousemove', handleDragMove);
+    document.addEventListener('mouseup', handleDragEnd);
+    document.addEventListener('touchmove', handleDragMove, { passive: false });
+    document.addEventListener('touchend', handleDragEnd);
+  }, [size, onFocus, onPositionChange]);
+
+  // Handle resizing (mouse and touch)
+  const handleResizeStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    if (!resizeRef.current?.contains(e.target as Node)) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    setIsResizing(true);
+
+    // Handle both mouse and touch events
+    const startX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const startY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    const startWidth = size.width;
+    const startHeight = size.height;
+
+    const handleResizeMove = (e: MouseEvent | TouchEvent) => {
+      e.preventDefault();
+
+      const currentX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+      const currentY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+
+      const newWidth = Math.max(minWidth, startWidth + (currentX - startX));
+      const newHeight = Math.max(minHeight, startHeight + (currentY - startY));
+
+      // Keep window within viewport bounds
+      const maxWidth = window.innerWidth - position.x;
+      const maxHeight = window.innerHeight - position.y - 48;
+
+      const newSize = {
+        width: Math.min(newWidth, maxWidth),
+        height: Math.min(newHeight, maxHeight)
+      };
+
+      setSize(newSize);
+      onSizeChange?.(newSize);
+    };
+
+    const handleResizeEnd = () => {
+      setIsResizing(false);
+      // Remove both mouse and touch event listeners
+      document.removeEventListener('mousemove', handleResizeMove);
+      document.removeEventListener('mouseup', handleResizeEnd);
+      document.removeEventListener('touchmove', handleResizeMove);
+      document.removeEventListener('touchend', handleResizeEnd);
+    };
+
+    // Add both mouse and touch event listeners
+    document.addEventListener('mousemove', handleResizeMove);
+    document.addEventListener('mouseup', handleResizeEnd);
+    document.addEventListener('touchmove', handleResizeMove, { passive: false });
+    document.addEventListener('touchend', handleResizeEnd);
+  }, [size, position, minWidth, minHeight, onSizeChange]);
 
   useEffect(() => {
     if (isOpening) {
@@ -422,80 +521,22 @@ const AppOutline: React.FC<AppOutlineProps> = ({
         }
       `}</style>
 
-      <Rnd
-        bounds="body"
-        cancel=".not-draggable, .window-content"
-        onDragStart={() => {
-          setIsDragging(true);
-          onFocus?.();
-        }}
-        onDragStop={(e, d) => {
-          setIsDragging(false);
-
-          const viewportWidth = window.innerWidth;
-          const viewportHeight = window.innerHeight;
-
-          const adjustedSize = { ...size };
-          if (d.x + size.width > viewportWidth - 20) {
-            adjustedSize.width = Math.max(minWidth, viewportWidth - d.x - 20);
-          }
-          if (d.y + size.height > viewportHeight - 68) {
-            adjustedSize.height = Math.max(
-              minHeight,
-              viewportHeight - d.y - 68
-            );
-          }
-
-          if (
-            adjustedSize.width !== size.width ||
-            adjustedSize.height !== size.height
-          ) {
-            setSize(adjustedSize);
-            onSizeChange?.(adjustedSize);
-          }
-
-          const newPosition = { x: d.x, y: d.y };
-          setPosition(newPosition);
-          onPositionChange?.(newPosition);
-        }}
-        onResize={(e, direction, ref, delta, pos) => {
-          setIsResizing(true);
-
-          const newSize = {
-            width: Math.min(ref.offsetWidth, window.innerWidth - 40),
-            height: Math.min(ref.offsetHeight, window.innerHeight - 88),
-          };
-
-          const newPosition = {
-            x: Math.min(Math.max(0, pos.x), window.innerWidth - newSize.width),
-            y: Math.min(
-              Math.max(0, pos.y),
-              window.innerHeight - newSize.height - 48
-            ),
-          };
-
-          setSize(newSize);
-          setPosition(newPosition);
-          onSizeChange?.(newSize);
-          onPositionChange?.(newPosition);
-        }}
-        onResizeStop={() => {
-          setIsResizing(false);
-        }}
-        size={size}
-        position={position}
-        minWidth={minWidth}
-        minHeight={minHeight}
-        className={`${
+      <div
+        className={`fixed ${
           isDragging || isResizing ? '' : 'transition-all duration-200 ease-out'
         } ${className}`}
         style={{
+          left: position.x,
+          top: position.y,
+          width: size.width,
+          height: size.height,
           zIndex: isDragging || isResizing ? 999 : style?.zIndex || 50,
-          cursor: 'default',
+          cursor: isDragging ? 'grabbing' : isResizing ? 'nw-resize' : 'default',
           ...style,
         }}
-        resizeHandleStyles={handleStyles}
         onClick={handleWindowClick}
+        onMouseDown={handleDragStart}
+        onTouchStart={handleDragStart}
       >
         <div
           ref={windowRef}
@@ -532,7 +573,8 @@ const AppOutline: React.FC<AppOutlineProps> = ({
           }}
         >
           <div
-            className="flex items-center justify-between px-4 py-2 cursor-move select-none"
+            ref={dragRef}
+            className="flex items-center justify-between px-4 py-2 cursor-grab active:cursor-grabbing select-none"
             style={{
               background: getHeaderBackground(),
               borderBottom: `1px solid ${currentTheme.glass.border}`,
@@ -610,8 +652,22 @@ const AppOutline: React.FC<AppOutlineProps> = ({
           >
             {children}
           </div>
+
+          {/* Resize Handle */}
+          <div
+            ref={resizeRef}
+            className="absolute bottom-0 right-0 w-4 h-4 cursor-nw-resize"
+            onMouseDown={handleResizeStart}
+            onTouchStart={handleResizeStart}
+            style={{
+              background:
+                'linear-gradient(-45deg, transparent 0%, transparent 30%, currentColor 30%, currentColor 35%, transparent 35%, transparent 65%, currentColor 65%, currentColor 70%, transparent 70%)',
+              color: theme === 'dark' ? 'rgb(156 163 175)' : 'rgb(107 114 128)',
+            }}
+            title="Drag to resize"
+          />
         </div>
-      </Rnd>
+      </div>
     </>
   );
 };

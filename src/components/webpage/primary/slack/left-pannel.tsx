@@ -11,7 +11,7 @@ import { QuickLink } from '@/components/taskbar/taskbar-types';
 import { useToast } from '@/components/ui/toast';
 
 // Type for the channel
-type Channel = 'general' | 'skills' | 'experience' | 'portfolio';
+type Channel = 'general' | 'skills' | 'experience' | 'projects' | 'portfolio';
 
 // Props for the LeftPanel component
 export interface LeftPanelProps {

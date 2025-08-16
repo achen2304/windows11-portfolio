@@ -3,6 +3,7 @@ import { SlackTheme } from '@/components/types/system-types';
 
 interface ExperienceItemProps {
   company: string;
+  companyUrl?: string;
   position: string;
   period: string;
   description: string[];
@@ -11,6 +12,7 @@ interface ExperienceItemProps {
 
 const ExperienceItem: React.FC<ExperienceItemProps> = ({
   company,
+  companyUrl,
   position,
   period,
   description,
@@ -36,8 +38,20 @@ const ExperienceItem: React.FC<ExperienceItemProps> = ({
             {period}
           </span>
         </div>
-        <div className="text-sm" style={{ color: theme.accent }}>
-          {company}
+        <div className="text-sm">
+          {companyUrl ? (
+            <a
+              href={companyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline transition-all duration-200"
+              style={{ color: theme.accent }}
+            >
+              {company}
+            </a>
+          ) : (
+            <span style={{ color: theme.accent }}>{company}</span>
+          )}
         </div>
       </div>
       <ul className="space-y-1 pl-4 list-disc">

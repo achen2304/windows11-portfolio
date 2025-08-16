@@ -23,6 +23,7 @@ const ExperienceList = ({ slackTheme }: { slackTheme: SlackTheme }) => (
         <ExperienceItem
           key={index}
           company={exp.company}
+          companyUrl={exp.companyUrl}
           position={exp.position}
           period={exp.period}
           description={exp.description}
