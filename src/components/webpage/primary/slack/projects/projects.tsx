@@ -12,7 +12,7 @@ const Portfolio: React.FC = () => {
   const currentTheme = themes[theme as keyof typeof themes];
   const slackTheme = currentTheme.slack as SlackTheme;
   const { openAppById } = useAppOpener();
-  const { windows, focusAndRestoreWindow, focusWindow, openWindow } = useWindowManager();
+  const { windows, focusAndRestoreWindow} = useWindowManager();
 
   // Create clickable Projects content
   const projectsContent = (
