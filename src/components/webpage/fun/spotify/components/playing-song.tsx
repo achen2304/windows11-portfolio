@@ -18,6 +18,8 @@ import {
   formatTime,
 } from '../helpers/current-song-helper';
 import { useWindowSize } from '@/components/webpage/breakpoints';
+import { useTheme } from '@/components/theme-provider';
+import { themes } from '@/lib/themes';
 
 interface PlayingSongProps {
   currentTrack?: AudioTrack | null;
@@ -29,6 +31,8 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
   className = '',
 }) => {
   const { isXs, isSm } = useWindowSize();
+  const { theme } = useTheme();
+  const currentTheme = themes[theme as keyof typeof themes];
   const [currentTrack, setCurrentTrack] = useState<AudioTrack | null>(
     propCurrentTrack || null
   );
@@ -213,11 +217,10 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
   // Premium warning component
   const PremiumWarning = () => (
     <div
-      className={`fixed bottom-0 left-0 right-0 h-20 border-t flex items-center justify-center ${className}`}
+      className={`relative h-20 border-t flex items-center justify-center flex-shrink-0 ${className}`}
       style={{
         backgroundColor: spotifyCard,
         borderColor: '#282828',
-        zIndex: 1000,
       }}
     >
       <div className="flex items-center gap-3">
@@ -245,11 +248,10 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
   if (!isPlayerReady) {
     return (
       <div
-        className={`fixed bottom-0 left-0 right-0 h-20 border-t flex items-center justify-center ${className}`}
+        className={`relative h-20 border-t flex items-center justify-center flex-shrink-0 ${className}`}
         style={{
           backgroundColor: spotifyCard,
           borderColor: '#282828',
-          zIndex: 1000,
         }}
       >
         <div className="flex items-center gap-3">
@@ -273,11 +275,10 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
 
   return (
     <div
-      className={`fixed bottom-0 left-0 right-0 h-20 border-t flex items-center ${className}`}
+      className={`relative h-20 border-t flex items-center flex-shrink-0 ${className}`}
       style={{
         backgroundColor: spotifyCard,
         borderColor: '#282828',
-        zIndex: 1000,
       }}
     >
       {/* Left section - Track info */}
@@ -417,11 +418,12 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
             {/* Volume Panel - appears above */}
             {showVolumePanel && (
               <div
-                className="absolute bottom-full right-0 mb-2 p-4 rounded-lg shadow-xl border"
+                className="absolute top-0 right-0 transform -translate-y-full mb-2 p-4 rounded-lg shadow-xl border"
                 style={{
                   backgroundColor: spotifyCard,
                   borderColor: '#282828',
                   minWidth: '200px',
+                  zIndex: 10,
                 }}
               >
                 <div className="flex flex-col gap-3">
@@ -464,7 +466,7 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
                       }
                       className="flex-1 h-1 rounded-lg appearance-none cursor-pointer"
                       style={{
-                        background: `linear-gradient(to right, ${spotifyGreen} 0%, ${spotifyGreen} ${
+                        background: `linear-gradient(to right, ${currentTheme.soundKnob} 0%, ${currentTheme.soundKnob} ${
                           volume * 100
                         }%, #4D4D4D ${volume * 100}%, #4D4D4D 100%)`,
                       }}
@@ -495,7 +497,7 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
               onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
               className="w-24 h-1 rounded-lg appearance-none cursor-pointer"
               style={{
-                background: `linear-gradient(to right, ${spotifyGreen} 0%, ${spotifyGreen} ${
+                background: `linear-gradient(to right, ${currentTheme.soundKnob} 0%, ${currentTheme.soundKnob} ${
                   volume * 100
                 }%, #4D4D4D ${volume * 100}%, #4D4D4D 100%)`,
               }}

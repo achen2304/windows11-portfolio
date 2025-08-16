@@ -325,6 +325,7 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
                 backgroundColor: showCompose ? colors.blue : `${colors.blue}15`,
                 color: showCompose ? 'white' : colors.blue,
                 boxShadow: showCompose ? `0 2px 8px ${colors.blue}40` : 'none',
+                cursor: 'pointer',
               }}
               title={showCompose ? 'Close compose' : 'Write comment'}
             >
@@ -461,6 +462,10 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
                   className="px-4 py-1 rounded-full font-bold text-white text-sm disabled:opacity-50"
                   style={{
                     backgroundColor: colors.blue,
+                    cursor:
+                      posting || !username.trim() || !content.trim()
+                        ? 'not-allowed'
+                        : 'pointer',
                     opacity:
                       posting || !username.trim() || !content.trim() ? 0.5 : 1,
                   }}

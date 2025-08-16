@@ -31,6 +31,7 @@ export const themes = {
       borderActive: 'rgba(0, 120, 212, 0.3)',
     },
     divider: 'rgba(255, 255, 255, 0.1)',
+    soundKnob: '#6b7280',
     gradient: {
       radial:
         'radial-gradient(circle at 50% 50%, rgba(17, 17, 17, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%)',
@@ -112,6 +113,7 @@ export const themes = {
       borderActive: 'rgba(0, 120, 212, 0.3)',
     },
     divider: 'rgba(17, 17, 17, 0.1)',
+    soundKnob: '#6b7280',
     gradient: {
       radial:
         'radial-gradient(circle at 50% 50%, rgba(248, 249, 250, 0.4) 0%, rgba(229, 229, 229, 0.8) 100%)',
