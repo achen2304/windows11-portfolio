@@ -87,6 +87,82 @@ const AppOutline: React.FC<AppOutlineProps> = ({
   const dragRef = useRef<HTMLDivElement>(null);
   const resizeRef = useRef<HTMLDivElement>(null);
 
+  // Auto-resize and reposition when viewport changes
+  const constrainWindowToViewport = useCallback(() => {
+    if (typeof window === 'undefined') return;
+
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const taskbarHeight = 48;
+
+    let newPosition = { ...position };
+    let newSize = { ...size };
+    let hasChanged = false;
+
+    // Check if window extends beyond right edge
+    if (position.x + size.width > viewportWidth) {
+      if (size.width > viewportWidth - 20) {
+        // Resize if window is wider than viewport
+        newSize.width = Math.max(minWidth, viewportWidth - 20);
+        newPosition.x = 10;
+        hasChanged = true;
+      } else {
+        // Just reposition
+        newPosition.x = Math.max(0, viewportWidth - size.width - 10);
+        hasChanged = true;
+      }
+    }
+
+    // Check if window extends beyond bottom edge
+    if (position.y + size.height > viewportHeight - taskbarHeight) {
+      if (size.height > viewportHeight - taskbarHeight - 20) {
+        // Resize if window is taller than viewport
+        newSize.height = Math.max(minHeight, viewportHeight - taskbarHeight - 20);
+        newPosition.y = 10;
+        hasChanged = true;
+      } else {
+        // Just reposition
+        newPosition.y = Math.max(0, viewportHeight - size.height - taskbarHeight - 10);
+        hasChanged = true;
+      }
+    }
+
+    // Check if window is completely off-screen (left or top)
+    if (position.x < -size.width + 100) {
+      // Keep at least 100px visible from the right edge
+      newPosition.x = -size.width + 100;
+      hasChanged = true;
+    }
+
+    if (position.y < 0) {
+      newPosition.y = 10;
+      hasChanged = true;
+    }
+
+    if (hasChanged) {
+      setPosition(newPosition);
+      setSize(newSize);
+      onPositionChange?.(newPosition);
+      onSizeChange?.(newSize);
+    }
+  }, [position, size, minWidth, minHeight, onPositionChange, onSizeChange]);
+
+  // Listen for viewport resize
+  useEffect(() => {
+    const handleResize = () => {
+      constrainWindowToViewport();
+    };
+
+    window.addEventListener('resize', handleResize);
+    
+    // Also run on mount to fix any initially out-of-bounds windows
+    constrainWindowToViewport();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [constrainWindowToViewport]);
+
   // Handle dragging (mouse and touch)
   const handleDragStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {
     if (!dragRef.current?.contains(e.target as Node)) return;
