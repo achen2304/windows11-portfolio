@@ -48,7 +48,7 @@ const SkillsMessageContent = ({ slackTheme }: { slackTheme: SlackTheme }) => {
         className="text-sm mt-1 mb-4"
         style={{ color: slackTheme.textPrimary }}
       >
-        Here are some of the technologies I'm familiar with:
+        Here are some of the technologies I&apos;m familiar with:
       </div>
 
       <div
