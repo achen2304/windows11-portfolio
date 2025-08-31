@@ -48,7 +48,7 @@ const SkillsMessageContent = ({ slackTheme }: { slackTheme: SlackTheme }) => {
         className="text-sm mt-1 mb-4"
         style={{ color: slackTheme.textPrimary }}
       >
-        My technical skills span multiple domains of software development:
+        Here are some of the technologies I'm familiar with:
       </div>
 
       <div
@@ -125,7 +125,7 @@ const SkillsChannel: React.FC = () => {
         </div>
 
         <Message
-          content="I'm always looking to expand my skill set and learn new technologies. Currently, I'm focusing on improving my knowledge of cloud infrastructure and serverless architectures."
+          content="Checkout my resume for the skills I'm most confident in, but I'm always looking to expand my skill set and learn new technologies. Currently, I'm focusing on improving my knowledge of cloud infrastructure and serverless architectures."
           user="Cai Chen"
           timestamp="10:20 AM"
           avatar="/other/profile.webp"

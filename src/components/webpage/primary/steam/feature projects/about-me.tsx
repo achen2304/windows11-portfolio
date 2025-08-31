@@ -64,7 +64,7 @@ const AboutMe: React.FC = () => {
         <BentoCard
           src="/other/setup.webp"
           alt="Setup"
-          text="Home Setup"
+          text="Setup"
           className="col-span-3 row-span-1"
         />
 
@@ -88,7 +88,7 @@ const AboutMe: React.FC = () => {
         <BentoCard
           src="/other/collection.jpg"
           alt="Book Collection"
-          text="Collection"
+          text="Mini Collection"
           className="col-span-3 row-span-1"
         />
       </BentoGrid>
