@@ -125,7 +125,7 @@ const SkillsChannel: React.FC = () => {
         </div>
 
         <Message
-          content="Checkout my resume for the skills I'm most confident in, but I'm always looking to expand my skill set and learn new technologies. Currently, I'm focusing on improving my knowledge of cloud infrastructure and serverless architectures."
+          content="Checkout my resume for the skills I&apos;m most confident in, but I'm always looking to expand my skill set and learn new technologies. Currently, I'm focusing on improving my knowledge of cloud infrastructure and serverless architectures."
           user="Cai Chen"
           timestamp="10:20 AM"
           avatar="/other/profile.webp"
