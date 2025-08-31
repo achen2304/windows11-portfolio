@@ -36,7 +36,7 @@
     "react-resizable": "^3.0.5",
     "react-rnd": "^10.5.2",
     "sonner": "^2.0.5",
-    "tailwind-merge": "^3.3.0"
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
