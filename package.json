@@ -14,7 +14,7 @@
     "@radix-ui/react-tooltip": "^1.2.7",
     "@types/nodemailer": "^6.4.17",
     "@types/react-resizable": "^3.0.8",
-    "@types/react-rnd": "^7.4.4",
+    "@types/react-rnd": "^8.0.0",
     "ai": "^4.3.16",
     "bad-words": "^4.0.0",
     "class-variance-authority": "^0.7.1",
