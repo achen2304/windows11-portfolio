@@ -42,7 +42,7 @@
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/howler": "^2.2.12",
-    "@types/moment": "^2.11.29",
+    "@types/moment": "^2.13.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
