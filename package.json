@@ -43,7 +43,7 @@
     "@tailwindcss/postcss": "^4",
     "@types/howler": "^2.2.12",
     "@types/moment": "^2.11.29",
-    "@types/node": "^20",
+    "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
