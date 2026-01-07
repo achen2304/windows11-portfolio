@@ -4,7 +4,7 @@ import { themes } from '@/lib/themes';
 import { SlackTheme } from '@/components/types/system-types';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { getQuickLinks } from '@/components/webpage/apps/taskbar-pannel-apps';
+import { getQuickLinks } from '@/components/webpage/apps/apps';
 import { ExternalLink, Copy } from 'lucide-react';
 import { copyToClipboard } from '@/lib/notification-utils';
 import { QuickLink } from '@/components/taskbar/taskbar-types';

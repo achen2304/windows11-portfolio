@@ -10,8 +10,7 @@ import {
   useWindowManager,
 } from '@/components/webpage/window-manager';
 import { useAppOpener } from '@/components/webpage/app-openers';
-import { desktopApps } from '@/components/webpage/apps/desktop-apps';
-import { taskbarApps } from '@/components/webpage/apps/taskbar-apps';
+import { desktopApps, taskbarApps } from '@/components/webpage/apps/apps';
 import Image from 'next/image';
 
 // Demo content component that uses the window manager
