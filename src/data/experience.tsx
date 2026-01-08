@@ -1,6 +1,15 @@
 // My professional experiences: use google to research more about the company if asked.
 export const EXPERIENCES = [
   {
+    company: 'Todd Agriscience',
+    companyUrl: 'https://toddagriscience.com',
+    position: 'Associate Software Engineer',
+    period: 'Aug 2025 - Present',
+    description: [
+      'Spearheading the development of a new web application for Todd Agriscience, leveraging modern web technologies and best practices to create a seamless and efficient user experience.',
+    ],
+  },
+  {
     company: 'Dwolla',
     companyUrl: 'https://dwolla.com',
     position: 'Software Engineering Intern',
