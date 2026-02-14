@@ -7,6 +7,12 @@ export const MESSAGES = [
     avatar: "/other/profile.webp",
   },
   {
+    content: "My career objective is to break into tech and be able to learn enough about the industry, through professional experience and personally learning.\n Eventually I want to take on a meaningful technical role, such as a principal engineer or tech lead.\n",
+    time: "9:32 AM",
+    user: "Cai Chen",
+    avatar: "/other/profile.webp",
+  },
+  {
     content: "To know more about me, click the other channels on the left navbar, or < button if you&apos;re on mobile! I would recommend moving to the Projects app & exploring more after that!\n",
     time: "9:32 AM",
     user: "Cai Chen",
