@@ -4,10 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useTheme } from '../theme-provider';
 import { themes } from '@/lib/themes';
 import { StartPanelProps, QuickLink } from './taskbar-types';
-import {
-  startPanelApps,
-  getQuickLinks,
-} from '@/components/webpage/apps/taskbar-pannel-apps';
+import { startPanelApps, getQuickLinks } from '@/components/webpage/apps/apps';
 import { Search, Power, ExternalLink, Copy } from 'lucide-react';
 import { useToast } from '@/components/ui/toast';
 import { copyToClipboard } from '@/lib/notification-utils';
