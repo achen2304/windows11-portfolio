@@ -17,7 +17,7 @@ import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Type for the channel
-type Channel = 'general' | 'skills' | 'experience' | 'projects' | 'portfolio';
+type Channel = 'general' | 'skills' | 'experience' | 'reflections' | 'projects' | 'portfolio';
 
 // Channel configuration
 const CHANNELS = [
@@ -42,6 +42,11 @@ const CHANNELS = [
     notificationCount: 0,
   },
   {
+    id: 'reflections' as Channel,
+    name: 'reflections',
+    notificationCount: 0,
+  },
+  {
     id: 'portfolio' as Channel,
     name: 'portfolio',
     notificationCount: 0,
@@ -53,6 +58,7 @@ const ChannelComponents = {
   general: dynamic(() => import('./general/general'), { ssr: false }),
   skills: dynamic(() => import('./skills/skills'), { ssr: false }),
   experience: dynamic(() => import('./experience/experience'), { ssr: false }),
+  reflections: dynamic(() => import('./reflections/reflections'), { ssr: false }),
   portfolio: dynamic(() => import('./portfolio/portfolio'), { ssr: false }),
   projects: dynamic(() => import('./projects/projects'), { ssr: false }),
 };
