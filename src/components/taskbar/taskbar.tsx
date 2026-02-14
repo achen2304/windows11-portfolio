@@ -16,6 +16,9 @@ import {
   BatteryMedium,
 } from 'lucide-react';
 import Image from 'next/image';
+import { getQuickLinks } from '@/components/webpage/apps/apps';
+import { useToast } from '@/components/ui/toast';
+import { copyToClipboard } from '@/lib/notification-utils';
 
 interface TaskbarComponentProps extends TaskbarProps {
   onSystemTrayClick?: () => void;
@@ -43,6 +46,8 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
   const [isSpinning, setIsSpinning] = useState(false);
   const { windows, focusWindow, minimizeWindow, focusAndRestoreWindow } =
     useWindowManager();
+  const { addToast } = useToast();
+  const quickLinks = getQuickLinks(theme);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -85,6 +90,19 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
       onAppClick,
       focusAndRestoreWindow
     );
+  };
+
+  const handleQuickLinkClick = async (item: (typeof quickLinks)[0]) => {
+    if (item.url) {
+      if (item.type === 'copy' && item.url.startsWith('mailto:')) {
+        const email = item.url.replace('mailto:', '');
+        await copyToClipboard(email, 'Email copied!', addToast);
+      } else if (item.newTab === true) {
+        window.open(item.url, '_blank');
+      } else {
+        window.location.href = item.url;
+      }
+    }
   };
 
   return (
@@ -135,8 +153,8 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
             </div>
           </button>
 
-          {/* App Icons - Hide on small screens */}
-          <div className="hidden sm:flex items-center ml-2 space-x-1 gap-1">
+          {/* App Icons - Hide on medium and smaller screens */}
+          <div className="hidden md:flex items-center ml-2 space-x-1 gap-1">
             {apps.map((app) => (
               <button
                 key={app.id}
@@ -247,6 +265,42 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
           >
             <ChevronUp size={14} />
           </button>
+
+          {/* Quick Links */}
+          <div className="flex items-center">
+            {quickLinks.map((link) => (
+              <button
+                key={link.id}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleQuickLinkClick(link);
+                }}
+                className="flex items-center justify-center w-10 h-10 rounded transition-colors duration-200 cursor-pointer"
+                style={{
+                  color: currentTheme.text.primary,
+                  pointerEvents: 'auto',
+                }}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                title={link.name}
+              >
+                <Image
+                  src={
+                    theme === 'dark' && link.iconLight
+                      ? link.icon || '/app icons/quick links/default.svg'
+                      : link.iconLight ||
+                        link.icon ||
+                        '/app icons/quick links/default.svg'
+                  }
+                  alt={link.name}
+                  className="w-5 h-5 object-contain pointer-events-none"
+                  width={20}
+                  height={20}
+                />
+              </button>
+            ))}
+          </div>
 
           {/* Theme Toggle Button */}
           <button

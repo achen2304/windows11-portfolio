@@ -18,7 +18,7 @@ const SoundboardPanel: React.FC<SoundboardPanelProps> = ({
 
   return (
     <div
-      className="fixed bottom-14 right-39 z-[200]"
+      className="fixed bottom-14 right-69 z-[200]"
       style={{
         visibility: isOpen ? 'visible' : 'hidden',
       }}

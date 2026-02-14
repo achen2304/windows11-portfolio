@@ -3,10 +3,7 @@
 import React, { useCallback, useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { TaskbarApp, PanelType } from './taskbar-types';
-import {
-  startPanelApps,
-  quickLinks,
-} from '@/components/webpage/apps/taskbar-pannel-apps';
+import { startPanelApps, quickLinks } from '@/components/webpage/apps/apps';
 import Taskbar from './taskbar';
 import StartPanel from './taskbar-pannel';
 import CalendarPanel from './calendar-pannel';
