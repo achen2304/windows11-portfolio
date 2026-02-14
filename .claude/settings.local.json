@@ -12,7 +12,8 @@
       "Bash(npm install:*)",
       "Bash(npm audit fix:*)",
       "Bash(npm run build:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(npm update:*)"
     ]
   }
 }
