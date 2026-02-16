@@ -31,7 +31,7 @@
     "react-draggable": "^4.5.0",
     "react-icons": "^5.5.0",
     "sonner": "^2.0.7",
-    "tailwind-merge": "^3.4.0"
+    "tailwind-merge": "^3.4.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.3",
