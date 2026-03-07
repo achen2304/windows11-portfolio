@@ -8,6 +8,13 @@ export const EXPERIENCES = [
     description: ["Spearheading the development of a new web application for Todd Agriscience, leveraging modern web technologies and best practices to create a seamless and efficient user experience."],
   },
   {
+    company: "Chardle",
+    companyUrl: "https://chardle.com",
+    position: "Founder",
+    period: "Feb 2025 - Present",
+    description: ["Founded, developed, and deployed Chardle. More information can be found in the Projects section."],
+  },
+  {
     company: "Dwolla",
     companyUrl: "https://dwolla.com",
     position: "Software Engineering Intern",

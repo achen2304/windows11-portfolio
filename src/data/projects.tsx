@@ -19,7 +19,7 @@ export const projects: Project[] = [
     created: "Feb 2025",
     updated: "Today",
     d1: "Daily Character Guessing Game",
-    d2: "A full-stack web game built with Next.js/Tailwind CSS, Supabase, and Express.js/MongoDB with over 100,000 monthly users. The game itself is similar to Wordle, but instead of guessing a word, you're guessing the daily character from a show/movie. Includes multiple game modes such as real-time multiplayer, and guess based off the Image",
+    d2: "A full-stack web game built with Next.js/Tailwind CSS, Supabase, and Express.js/AWS with over 100,000 monthly users. The game itself is similar to Wordle, but instead of guessing a word, you're guessing the daily character from a show/movie. Includes multiple game modes such as real-time multiplayer, and guess based off the Image",
     d3: "Researched, designed, developed, and deployed the app across all platforms and services, ensuring cross-platform compatibility and seamless user experience. Scaled the application to handle 100,000+ monthly users with a robust backend and database architecture, while also keeping costs low",
     image: "chardle.webp",
     link: "https://chardle.com",
