@@ -106,6 +106,18 @@ const FeaturedProjects: React.FC = () => {
             steamTheme={steamTheme}
             onProjectClick={handleProjectClick}
           />
+          <div className="flex justify-center">
+            <button
+              onClick={() => navigate('steam-app', { tab: 'all' })}
+              className="px-6 py-1 text-sm font-medium cursor-pointer rounded transition-all duration-200 hover:scale-[1.05] hover:opacity-90 disabled:opacity-50"
+              style={{
+                backgroundColor: steamTheme.sidebarHover,
+                color: steamTheme.textPrimary,
+              }}
+            >
+              Browse All Projects
+            </button>
+          </div>
         </div>
 
         <div className="w-full mt-10">
