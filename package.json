@@ -34,7 +34,7 @@
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.3",
+    "@eslint/eslintrc": "^3.3.5",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/howler": "^2.2.12",
     "@types/moment": "^2.11.29",
