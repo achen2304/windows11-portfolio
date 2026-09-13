@@ -18,7 +18,7 @@ export const OutlookApp: React.FC = () => {
   const [subjectError, setSubjectError] = useState<string>('');
   const [messageError, setMessageError] = useState<string>('');
 
-  const toEmail = 'cai@czchen.dev';
+  const toEmail = 'czchen2304@gmail.com';
   const fromEmailRef = useRef<HTMLInputElement>(null);
 
   // Email validation regex
