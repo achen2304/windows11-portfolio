@@ -187,7 +187,7 @@ export async function GET(request: NextRequest) {
     console.error('Spotify API error:', error);
     return NextResponse.json(
       {
-        error: 'Failed to fetch Spotify data',
+        error: 'Due to me no longer having spotify premium, I no longer have access to the SDK player or any functionality.',
         details: error instanceof Error ? error.message : 'Unknown error',
       },
       { status: 500 }

@@ -261,7 +261,7 @@ const SpotifyContent: React.FC = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to fetch Spotify data');
+        throw new Error(data.error || 'Due to me no longer having spotify premium, I no longer have access to the SDK player or any functionality.');
       }
 
       setSpotifyData(data);
