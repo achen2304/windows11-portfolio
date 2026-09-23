@@ -1,41 +1,60 @@
 // games, shows, novels, manga, and other media I like.
 export const favoriteGames = [
   {
-    name: "Elden Ring",
+    name: 'Elden Ring',
     image:
-      "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1245620/header.jpg?t=1748630546",
-    description: "I can aura farm in this game.",
-    tags: ["RPG", "Open World", "Souls-like", "Dark Fantasy"],
-    type: "games",
-    link: "https://en.bandainamcoent.eu/elden-ring/elden-ring",
-  },
-  {
-    name: "Terraria",
-    image:
-      "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/105600/header.jpg?t=1731252354",
-    description: "Terraira boss fights and music >",
-    tags: ["Survival", "Sandbox", "2D", "Open World Survival Craft"],
-    type: "games",
-    link: "https://www.terraria.org/",
-  },
-  {
-    name: "Rainbow Six Siege",
-    image:
-      "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/359550/577527b79a51f0616e5b28b72849419de40ee551/header.jpg?t=1749598235",
-    description: "Have it play it with friends.",
-    tags: ["FPS", "Tactical", "PvP", "Multiplayer"],
-    type: "games",
-    link: "https://www.ubisoft.com/en-us/game/rainbow-six/siege",
-  },
-  {
-    name: "League of Legends",
-    image:
-      "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/d07912c88cdcd3c15298e88cedd2bb801528a305-1680x560.jpg?auto=format&fit=fill&q=80&h=560",
+      'https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1245620/header.jpg?t=1748630546',
     description:
-      "Love-Hate Relationship with this game, but TFT is consistently good.",
-    tags: ["MOBA", "PvP", "Multiplayer", "Strategy"],
-    type: "games",
-    link: "https://www.leagueoflegends.com",
+      'I can aura farm in this game.',
+    tags: ['RPG', 'Open World', 'Souls-like', 'Dark Fantasy'],
+    type: 'games',
+    link: 'https://en.bandainamcoent.eu/elden-ring/elden-ring',
+  },
+  {
+    name: 'Terraria',
+    image:
+      'https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/105600/header.jpg?t=1731252354',
+    description: 'Terraira boss fights and music >',
+    tags: ['Survival', 'Sandbox', '2D', 'Open World Survival Craft'],
+    type: 'games',
+    link: 'https://www.terraria.org/',
+  },
+  {
+    name: 'Rainbow Six Siege',
+    image:
+      'https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/359550/577527b79a51f0616e5b28b72849419de40ee551/header.jpg?t=1749598235',
+    description: 'Have it play it with friends.',
+    tags: ['FPS', 'Tactical', 'PvP', 'Multiplayer'],
+    type: 'games',
+    link: 'https://www.ubisoft.com/en-us/game/rainbow-six/siege',
+  },
+  {
+    name: 'League of Legends',
+    image:
+      'https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/d07912c88cdcd3c15298e88cedd2bb801528a305-1680x560.jpg?auto=format&fit=fill&q=80&h=560',
+    description:
+      'Love-Hate Relationship with this game, but TFT is consistently good.',
+    tags: ['MOBA', 'PvP', 'Multiplayer', 'Strategy'],
+    type: 'games',
+    link: 'https://www.leagueoflegends.com',
+  },
+  {
+    name: 'Rimworld',
+    image:"https://rimworldgame.com/images/screens/rimworld-boreal.jpg",
+    description:
+      'uhhh totally don\'t commit warcrimes in thie game.',
+    tags: ['Colony Sim', 'Sandbox', 'Strategy', 'Survival'],
+    type: 'games',
+    link: 'https://rimworldgame.com/',
+  },
+  {
+    name: 'Minecraft',
+    image:"https://store-images.s-microsoft.com/image/apps.60323.14294656681058683.4d17bdd8-7026-429a-846f-cf7836bc9e56.a69e6905-8926-4a48-b243-14a039b97aae?mode=scale&q=90&h=1080&w=1920&format=jpg",
+    description:
+      'We mine, then we craft. Mods are sick btw.',
+    tags: ['Sandbox', 'Survival', 'Adventure'],
+    type: 'games',
+    link: 'https://www.minecraft.net/en-us',
   },
   {
     name: "One Piece",
@@ -96,21 +115,30 @@ export const favoriteGames = [
     link: "https://www.imdb.com/title/tt0903747/",
   },
   {
-    name: "Marvel Cinematic Universe",
-    image: "https://images.chardle.com/backgrounds/mcu.webp",
-    description: "Top movie gotta be Iron man 1 or Infinity War",
-    tags: ["Superhero", "Action", "Adventure"],
-    type: "western",
-    link: "https://www.marvel.com/movies",
+    name: 'Marvel Cinematic Universe',
+    image:
+      'https://images.chardle.com/backgrounds/mcu.webp',
+    description: 'Top movie gotta be Iron man 1 or Infinity War',
+    tags: ['Superhero', 'Action', 'Adventure'],
+    type: 'western',
+    link: 'https://www.marvel.com/movies',
   },
   {
-    name: "Severance",
+    name: 'Severance',
     image:
-      "https://m.media-amazon.com/images/M/MV5BNGNlYjM3NjktMDc2MS00NDMxLTljNDQtNmY5MzAwYzExNzI0XkEyXkFqcGc@._V1_QL75_UX820_.jpg",
-    description: "I alr forgot.",
-    tags: ["Drama", "Thriller"],
-    type: "western",
-    link: "https://www.imdb.com/title/tt11138512/",
+      'https://m.media-amazon.com/images/M/MV5BNGNlYjM3NjktMDc2MS00NDMxLTljNDQtNmY5MzAwYzExNzI0XkEyXkFqcGc@._V1_QL75_UX820_.jpg',
+    description: 'I alr forgot.',
+    tags: ['Drama', 'Thriller'],
+    type: 'western',
+    link: 'https://www.imdb.com/title/tt11138512/',
+  },
+  {
+    name: 'Shadow Slave',
+    image:'https://static.wikia.nocookie.net/shadowslave/images/c/c8/Mask-wallpaper_2_2.jpg/revision/latest/scale-to-width-down/670?cb=20230507051241',
+    description: 'Super fun fantasy read.',
+    tags: ['Fantasy', 'Action', 'Adventure'],
+    type: 'western',
+    link: 'https://www.imdb.com/title/tt11138512/',
   },
   {
     name: "Percy Jackson/Heroes of Olympus",
