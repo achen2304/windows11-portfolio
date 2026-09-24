@@ -309,13 +309,13 @@ const SpotifyContent: React.FC = () => {
           <p className="mb-4" style={{ color: spotifyText }}>
             {error}
           </p>
-          <button
+          {/* <button
             onClick={fetchSpotifyData}
             className="px-4 py-2 rounded-full font-semibold transition-colors hover:scale-105"
             style={{ backgroundColor: spotifyGreen, color: "black" }}
           >
             Try Again
-          </button>
+          </button> */}
         </div>
       </div>
     );
