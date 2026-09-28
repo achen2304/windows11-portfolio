@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import {
   Wifi,
   Bluetooth,
@@ -11,9 +11,9 @@ import {
   BluetoothOff,
   Volume2,
   VolumeX,
-} from 'lucide-react';
+} from "lucide-react";
 
-type Theme = 'dark' | 'light';
+type Theme = "dark" | "light";
 
 interface ThemeObject {
   text: {
@@ -67,19 +67,19 @@ const QuickActions = ({
   // Apply night light filter when enabled
   useEffect(() => {
     const rootElement = document.documentElement;
-    const currentFilter = rootElement.style.filter || '';
+    const currentFilter = rootElement.style.filter || "";
 
     const brightnessFilter = currentFilter.match(/brightness\([^)]+\)/);
     const brightnessValue = brightnessFilter
       ? brightnessFilter[0]
-      : 'brightness(1)';
+      : "brightness(1)";
 
     if (nightLightEnabled) {
       rootElement.style.filter = `${brightnessValue} sepia(20%) contrast(0.95)`;
     } else if (brightnessFilter) {
       rootElement.style.filter = brightnessValue;
     } else {
-      rootElement.style.filter = '';
+      rootElement.style.filter = "";
     }
   }, [nightLightEnabled]);
 
@@ -93,7 +93,7 @@ const QuickActions = ({
   };
 
   const handleNightLightClick = () => {
-    setClickedButton('night');
+    setClickedButton("night");
     setIsSpinning?.(true);
 
     setTimeout(() => {
@@ -104,7 +104,7 @@ const QuickActions = ({
   };
 
   const handleWifiClick = () => {
-    setClickedButton('wifi');
+    setClickedButton("wifi");
     setIsWifiAnimating(true);
 
     setTimeout(() => {
@@ -115,7 +115,7 @@ const QuickActions = ({
   };
 
   const handleBluetoothClick = () => {
-    setClickedButton('bluetooth');
+    setClickedButton("bluetooth");
     setIsBluetoothAnimating(true);
 
     setTimeout(() => {
@@ -126,7 +126,7 @@ const QuickActions = ({
   };
 
   const handleAirplaneClick = () => {
-    setClickedButton('airplane');
+    setClickedButton("airplane");
     setIsAirplaneFlyingOut(true);
 
     setTimeout(() => {
@@ -137,7 +137,7 @@ const QuickActions = ({
   };
 
   const handleSoundToggle = () => {
-    setClickedButton('sound');
+    setClickedButton("sound");
     toggleSound();
 
     setTimeout(() => {
@@ -147,49 +147,49 @@ const QuickActions = ({
 
   const quickActions: QuickAction[] = [
     {
-      id: 'wifi',
+      id: "wifi",
       icon: wifiEnabled ? <Wifi size={20} /> : <WifiOff size={20} />,
-      label: 'Wi-Fi',
+      label: "Wi-Fi",
       isActive: wifiEnabled,
       onClick: handleWifiClick,
     },
     {
-      id: 'bluetooth',
+      id: "bluetooth",
       icon: bluetoothEnabled ? (
         <Bluetooth size={20} />
       ) : (
         <BluetoothOff size={20} />
       ),
-      label: 'Bluetooth',
+      label: "Bluetooth",
       isActive: bluetoothEnabled,
       onClick: handleBluetoothClick,
     },
     {
-      id: 'airplane',
+      id: "airplane",
       icon: <Plane size={20} />,
-      label: 'Airplane mode',
+      label: "Airplane mode",
       isActive: airplaneMode,
       onClick: handleAirplaneClick,
     },
     {
-      id: 'energy',
+      id: "energy",
       icon: <BatteryCharging size={20} />,
-      label: 'Energy saver',
+      label: "Energy saver",
       isActive: energySaver,
       onClick: () =>
-        handleButtonClick('energy', () => setEnergySaver(!energySaver)),
+        handleButtonClick("energy", () => setEnergySaver(!energySaver)),
     },
     {
-      id: 'night',
+      id: "night",
       icon: <Moon size={20} />,
-      label: 'Night light',
+      label: "Night light",
       isActive: nightLightEnabled,
       onClick: handleNightLightClick,
     },
     {
-      id: 'sound',
+      id: "sound",
       icon: soundEnabled ? <Volume2 size={20} /> : <VolumeX size={20} />,
-      label: 'Sound',
+      label: "Sound",
       isActive: soundEnabled,
       onClick: handleSoundToggle,
     },
@@ -205,14 +205,14 @@ const QuickActions = ({
               className="relative p-3 rounded-md transition-all duration-200 flex items-center justify-center hover:scale-[1.02] active:scale-95 w-full"
               style={{
                 backgroundColor: action.isActive
-                  ? '#0078d4'
+                  ? "#0078d4"
                   : currentTheme.glass.cardBackground,
-                color: action.isActive ? '#ffffff' : currentTheme.text.primary,
-                height: '48px',
+                color: action.isActive ? "#ffffff" : currentTheme.text.primary,
+                height: "48px",
                 border: action.isActive
-                  ? '1px solid rgba(0, 120, 212, 0.3)'
+                  ? "1px solid rgba(0, 120, 212, 0.3)"
                   : `1px solid ${currentTheme.glass.border}`,
-                cursor: 'pointer',
+                cursor: "pointer",
               }}
               onMouseEnter={(e) => {
                 if (!action.isActive) {
@@ -231,51 +231,51 @@ const QuickActions = ({
                 style={{
                   opacity: 0.9,
                   transform:
-                    clickedButton === action.id ? 'scale(1.2)' : 'scale(1)',
-                  transition: 'transform 0.2s ease-out',
+                    clickedButton === action.id ? "scale(1.2)" : "scale(1)",
+                  transition: "transform 0.2s ease-out",
                 }}
               >
-                {action.id === 'night' ? (
+                {action.id === "night" ? (
                   <div
                     className="transition-transform duration-300 ease-in-out pointer-events-none"
                     style={{
-                      transform: isSpinning ? 'rotate(180deg)' : 'rotate(0deg)',
+                      transform: isSpinning ? "rotate(180deg)" : "rotate(0deg)",
                     }}
                   >
                     {action.icon}
                   </div>
-                ) : action.id === 'wifi' ? (
+                ) : action.id === "wifi" ? (
                   <div
                     className="transition-all duration-200 ease-in-out"
                     style={{
                       opacity: isWifiAnimating ? 0.3 : 1,
-                      transform: isWifiAnimating ? 'scale(0.8)' : 'scale(1)',
+                      transform: isWifiAnimating ? "scale(0.8)" : "scale(1)",
                     }}
                   >
                     {action.icon}
                   </div>
-                ) : action.id === 'bluetooth' ? (
+                ) : action.id === "bluetooth" ? (
                   <div
                     className="transition-all duration-200 ease-in-out"
                     style={{
                       opacity: isBluetoothAnimating ? 0.3 : 1,
                       transform: isBluetoothAnimating
-                        ? 'scale(0.8)'
-                        : 'scale(1)',
+                        ? "scale(0.8)"
+                        : "scale(1)",
                     }}
                   >
                     {action.icon}
                   </div>
-                ) : action.id === 'airplane' ? (
+                ) : action.id === "airplane" ? (
                   <div
                     style={{
                       transform: isAirplaneFlyingOut
-                        ? 'translateX(40px) translateY(-20px) rotate(25deg) scale(0.6)'
-                        : 'none',
+                        ? "translateX(40px) translateY(-20px) rotate(25deg) scale(0.6)"
+                        : "none",
                       opacity: isAirplaneFlyingOut ? 0 : 1,
                       transition: isAirplaneFlyingOut
-                        ? 'all 400ms ease-in-out'
-                        : 'opacity 150ms ease-in-out 200ms',
+                        ? "all 400ms ease-in-out"
+                        : "opacity 150ms ease-in-out 200ms",
                     }}
                   >
                     {action.icon}

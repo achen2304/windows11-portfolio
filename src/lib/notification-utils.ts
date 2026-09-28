@@ -2,7 +2,7 @@ export interface Notification {
   id: string;
   title: string;
   description?: string;
-  type: 'success' | 'error' | 'info' | 'copy';
+  type: "success" | "error" | "info" | "copy";
   timestamp: Date;
   data?: Record<string, unknown>; // For storing additional data like copied text
   fromToast?: boolean; // Flag to indicate if this notification came from a toast
@@ -11,7 +11,7 @@ export interface Notification {
 export interface NotificationStore {
   notifications: Notification[];
   addNotification: (
-    notification: Omit<Notification, 'id' | 'timestamp'>
+    notification: Omit<Notification, "id" | "timestamp">,
   ) => void;
   removeNotification: (id: string) => void;
   clearAll: () => void;
@@ -26,7 +26,7 @@ const notifyListeners = () => {
 };
 
 export const notificationUtils = {
-  addNotification: (notification: Omit<Notification, 'id' | 'timestamp'>) => {
+  addNotification: (notification: Omit<Notification, "id" | "timestamp">) => {
     const now = new Date();
     const recentDuplicate = notificationStore.find((n) => {
       return (
@@ -83,15 +83,15 @@ export const notificationUtils = {
 interface ToastData {
   title: string;
   description?: string;
-  type: 'success' | 'error' | 'info';
+  type: "success" | "error" | "info";
   duration?: number;
   notification?: boolean;
 }
 
 export const copyToClipboard = async (
   text: string,
-  title: string = 'Copied!',
-  addToast: (toast: ToastData) => void
+  title: string = "Copied!",
+  addToast: (toast: ToastData) => void,
 ) => {
   try {
     await navigator.clipboard.writeText(text);
@@ -99,7 +99,7 @@ export const copyToClipboard = async (
     addToast({
       title: title,
       description: `${text} copied to clipboard`,
-      type: 'success',
+      type: "success",
       duration: 4000,
       notification: true,
     });
@@ -107,9 +107,9 @@ export const copyToClipboard = async (
     return true;
   } catch {
     addToast({
-      title: 'Copy failed',
-      description: 'Unable to copy to clipboard',
-      type: 'error',
+      title: "Copy failed",
+      description: "Unable to copy to clipboard",
+      type: "error",
       duration: 4000,
     });
 

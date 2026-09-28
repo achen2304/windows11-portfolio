@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useTheme } from '../../../theme-provider';
-import { themes } from '@/lib/themes';
+import React from "react";
+import { useTheme } from "../../../theme-provider";
+import { themes } from "@/lib/themes";
 
 const VSCodeApp: React.FC = () => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
 
-  const githubRepoUrl = 'https://github1s.com/achen2304/windows11-portfolio';
+  const githubRepoUrl = "https://github1s.com/achen2304/windows11-portfolio";
 
   return (
     <div

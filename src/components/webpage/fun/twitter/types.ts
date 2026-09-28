@@ -11,4 +11,4 @@ export interface CommentWithStringId {
   likes: number;
 }
 
-export type SortOption = 'date' | 'likes';
+export type SortOption = "date" | "likes";

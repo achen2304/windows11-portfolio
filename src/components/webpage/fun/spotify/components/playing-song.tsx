@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
+import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import {
   Play,
   Pause,
@@ -11,15 +11,15 @@ import {
   VolumeX,
   ListMusic,
   AlertCircle,
-} from 'lucide-react';
+} from "lucide-react";
 import {
   getSpotifyManager,
   AudioTrack,
   formatTime,
-} from '../helpers/current-song-helper';
-import { useWindowSize } from '@/components/webpage/breakpoints';
-import { useTheme } from '@/components/theme-provider';
-import { themes } from '@/lib/themes';
+} from "../helpers/current-song-helper";
+import { useWindowSize } from "@/components/webpage/breakpoints";
+import { useTheme } from "@/components/theme-provider";
+import { themes } from "@/lib/themes";
 
 interface PlayingSongProps {
   currentTrack?: AudioTrack | null;
@@ -28,13 +28,13 @@ interface PlayingSongProps {
 
 const PlayingSong: React.FC<PlayingSongProps> = ({
   currentTrack: propCurrentTrack,
-  className = '',
+  className = "",
 }) => {
   const { isXs, isSm } = useWindowSize();
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
   const [currentTrack, setCurrentTrack] = useState<AudioTrack | null>(
-    propCurrentTrack || null
+    propCurrentTrack || null,
   );
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -55,11 +55,11 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
   const volumeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Spotify colors
-  const spotifyGreen = '#1DB954';
-  const spotifyCard = '#181818';
-  const spotifyText = '#FFFFFF';
-  const spotifyTextSecondary = '#B3B3B3';
-  const spotifyRed = '#E22134';
+  const spotifyGreen = "#1DB954";
+  const spotifyCard = "#181818";
+  const spotifyText = "#FFFFFF";
+  const spotifyTextSecondary = "#B3B3B3";
+  const spotifyRed = "#E22134";
 
   useEffect(() => {
     // Set initial volume
@@ -103,7 +103,7 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
       unsubscribeTrack();
       unsubscribePremium();
       unsubscribeReady();
-      
+
       // Clear volume timeout on cleanup
       if (volumeTimeoutRef.current) {
         clearTimeout(volumeTimeoutRef.current);
@@ -133,15 +133,15 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
     const clampedVolume = Math.max(0, Math.min(1, newVolume));
     setVolume(clampedVolume);
     await spotifyManager.setVolume(clampedVolume);
-    
+
     // Show volume interaction state
     setIsVolumeInteracting(true);
-    
+
     // Clear existing timeout
     if (volumeTimeoutRef.current) {
       clearTimeout(volumeTimeoutRef.current);
     }
-    
+
     // Set new timeout to hide after 3 seconds
     volumeTimeoutRef.current = setTimeout(() => {
       setIsVolumeInteracting(false);
@@ -220,13 +220,13 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
     };
 
     if (isDragging) {
-      document.addEventListener('mouseup', handleMouseUp);
-      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener("mousemove", handleMouseMove);
     }
 
     return () => {
-      document.removeEventListener('mouseup', handleMouseUp);
-      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("mousemove", handleMouseMove);
     };
   }, [isDragging, duration, isPremium, spotifyManager]);
 
@@ -242,11 +242,11 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
     };
 
     if (showVolumePanel) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showVolumePanel]);
 
@@ -256,7 +256,7 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
       className={`fixed bottom-0 left-0 right-0 h-20 border-t flex items-center justify-center ${className}`}
       style={{
         backgroundColor: spotifyCard,
-        borderColor: '#282828',
+        borderColor: "#282828",
         zIndex: 1000,
       }}
     >
@@ -288,7 +288,7 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
         className={`fixed bottom-0 left-0 right-0 h-20 border-t flex items-center justify-center ${className}`}
         style={{
           backgroundColor: spotifyCard,
-          borderColor: '#282828',
+          borderColor: "#282828",
           zIndex: 1000,
         }}
       >
@@ -297,7 +297,7 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
             className="animate-spin rounded-full h-4 w-4 border-2 border-b-transparent"
             style={{
               borderColor: spotifyGreen,
-              borderBottomColor: 'transparent',
+              borderBottomColor: "transparent",
             }}
           />
           <p className="text-sm" style={{ color: spotifyTextSecondary }}>
@@ -316,7 +316,7 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
       className={`fixed bottom-0 left-0 right-0 h-20 border-t flex items-center ${className}`}
       style={{
         backgroundColor: spotifyCard,
-        borderColor: '#282828',
+        borderColor: "#282828",
         zIndex: 1000,
       }}
     >
@@ -336,7 +336,7 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
               ) : (
                 <div
                   className="w-full h-full flex items-center justify-center"
-                  style={{ backgroundColor: '#333' }}
+                  style={{ backgroundColor: "#333" }}
                 >
                   <ListMusic
                     size={24}
@@ -356,7 +356,7 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
                 className="text-xs truncate hover:underline cursor-pointer"
                 style={{ color: spotifyTextSecondary }}
               >
-                {currentTrack!.artists.map((artist) => artist.name).join(', ')}
+                {currentTrack!.artists.map((artist) => artist.name).join(", ")}
               </p>
             </div>
           </>
@@ -383,11 +383,11 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
             onClick={handlePlayPause}
             className="p-2 rounded-full hover:scale-105 hover:brightness-110 transition-transform disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:brightness-100 cursor-pointer"
             style={{
-              backgroundColor: hasTrack ? spotifyGreen : '#535353',
-              color: '#000',
+              backgroundColor: hasTrack ? spotifyGreen : "#535353",
+              color: "#000",
             }}
             disabled={!hasTrack}
-            title={isPlaying ? 'Pause' : 'Play'}
+            title={isPlaying ? "Pause" : "Play"}
           >
             {isPlaying ? <Pause size={16} /> : <Play size={16} />}
           </button>
@@ -408,14 +408,14 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
             className="text-xs tabular-nums"
             style={{ color: spotifyTextSecondary }}
           >
-            {hasTrack ? formatTime(currentTime) : '0:00'}
+            {hasTrack ? formatTime(currentTime) : "0:00"}
           </span>
           <div
             ref={progressBarRef}
             className={`flex-1 h-1 rounded-full group ${
-              hasTrack ? 'cursor-pointer' : 'cursor-default'
+              hasTrack ? "cursor-pointer" : "cursor-default"
             }`}
-            style={{ backgroundColor: '#4D4D4D' }}
+            style={{ backgroundColor: "#4D4D4D" }}
             onMouseDown={hasTrack ? handleProgressMouseDown : undefined}
             onMouseMove={hasTrack ? handleProgressMouseMove : undefined}
             onMouseUp={hasTrack ? handleProgressMouseUp : undefined}
@@ -423,7 +423,7 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
             <div
               className="h-full rounded-full transition-all group-hover:bg-green-400"
               style={{
-                backgroundColor: hasTrack ? spotifyGreen : '#535353',
+                backgroundColor: hasTrack ? spotifyGreen : "#535353",
                 width: `${hasTrack ? progress * 100 : 0}%`,
               }}
             />
@@ -432,7 +432,7 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
             className="text-xs tabular-nums"
             style={{ color: spotifyTextSecondary }}
           >
-            {hasTrack ? formatTime(duration) : '0:00'}
+            {hasTrack ? formatTime(duration) : "0:00"}
           </span>
         </div>
       </div>
@@ -460,8 +460,8 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
                 className="absolute bottom-full right-0 mb-2 p-4 rounded-lg shadow-xl border"
                 style={{
                   backgroundColor: spotifyCard,
-                  borderColor: '#282828',
-                  minWidth: '200px',
+                  borderColor: "#282828",
+                  minWidth: "200px",
                   zIndex: 10,
                 }}
               >
@@ -509,19 +509,23 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
                           handleVolumeChange(parseFloat(e.target.value))
                         }
                         className={`w-full h-1 rounded-lg appearance-none cursor-pointer transition-all duration-300 spotify-volume-slider ${
-                          isVolumeHovered || isVolumeInteracting ? 'active' : ''
+                          isVolumeHovered || isVolumeInteracting ? "active" : ""
                         }`}
                         style={{
                           background: `linear-gradient(to right, ${
-                            isVolumeHovered || isVolumeInteracting ? spotifyGreen : currentTheme.soundKnob
+                            isVolumeHovered || isVolumeInteracting
+                              ? spotifyGreen
+                              : currentTheme.soundKnob
                           } 0%, ${
-                            isVolumeHovered || isVolumeInteracting ? spotifyGreen : currentTheme.soundKnob
+                            isVolumeHovered || isVolumeInteracting
+                              ? spotifyGreen
+                              : currentTheme.soundKnob
                           } ${
                             volume * 100
                           }%, #4D4D4D ${volume * 100}%, #4D4D4D 100%)`,
                           // Hide knob initially, show on hover/interaction
-                          WebkitAppearance: 'none',
-                          appearance: 'none',
+                          WebkitAppearance: "none",
+                          appearance: "none",
                         }}
                         onMouseDown={() => setIsVolumeInteracting(true)}
                       />
@@ -538,7 +542,7 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
               onClick={toggleMute}
               className="text-gray-400 mb-2 hover:text-white transition-colors cursor-pointer"
               style={{ color: spotifyTextSecondary }}
-              title={volume === 0 ? 'Unmute' : 'Mute'}
+              title={volume === 0 ? "Unmute" : "Mute"}
             >
               {volume === 0 ? <VolumeX size={16} /> : <Volume2 size={16} />}
             </button>
@@ -556,19 +560,21 @@ const PlayingSong: React.FC<PlayingSongProps> = ({
                 value={volume}
                 onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
                 className={`w-24 h-1 rounded-lg appearance-none cursor-pointer transition-all duration-300 spotify-volume-slider ${
-                  isVolumeHovered || isVolumeInteracting ? 'active' : ''
+                  isVolumeHovered || isVolumeInteracting ? "active" : ""
                 }`}
                 style={{
                   background: `linear-gradient(to right, ${
-                    isVolumeHovered || isVolumeInteracting ? spotifyGreen : currentTheme.soundKnob
+                    isVolumeHovered || isVolumeInteracting
+                      ? spotifyGreen
+                      : currentTheme.soundKnob
                   } 0%, ${
-                    isVolumeHovered || isVolumeInteracting ? spotifyGreen : currentTheme.soundKnob
-                  } ${
-                    volume * 100
-                  }%, #4D4D4D ${volume * 100}%, #4D4D4D 100%)`,
+                    isVolumeHovered || isVolumeInteracting
+                      ? spotifyGreen
+                      : currentTheme.soundKnob
+                  } ${volume * 100}%, #4D4D4D ${volume * 100}%, #4D4D4D 100%)`,
                   // Hide knob initially, show on hover/interaction
-                  WebkitAppearance: 'none',
-                  appearance: 'none',
+                  WebkitAppearance: "none",
+                  appearance: "none",
                 }}
                 onMouseDown={() => setIsVolumeInteracting(true)}
               />

@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { useTheme } from '../../theme-provider';
-import { themes } from '@/lib/themes';
-import { SystemPanelProps } from '../taskbar-types';
-import { useClickSound } from '../../click-sound-provider';
-import QuickActions from './quick-actions';
-import BrightnessControl from './brightness-control';
-import VolumeControl from './volume-control';
-import BatteryStatus from './battery-status';
+import React, { useState, useEffect } from "react";
+import { useTheme } from "../../theme-provider";
+import { themes } from "@/lib/themes";
+import { SystemPanelProps } from "../taskbar-types";
+import { useClickSound } from "../../click-sound-provider";
+import QuickActions from "./quick-actions";
+import BrightnessControl from "./brightness-control";
+import VolumeControl from "./volume-control";
+import BatteryStatus from "./battery-status";
 
 // Define the theme type to match the theme-provider type
-type Theme = 'dark' | 'light';
+type Theme = "dark" | "light";
 
 /**
  * System Panel component for Windows 11 style quick settings
@@ -20,7 +20,7 @@ const SystemPanel: React.FC<SystemPanelProps> = ({
   isOpen,
   batteryInfo,
   onVolumeChange = () => {},
-  className = '',
+  className = "",
 }) => {
   const { theme, setTheme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
@@ -35,7 +35,7 @@ const SystemPanel: React.FC<SystemPanelProps> = ({
       try {
         setVolume(volume);
       } catch (error) {
-        console.error('Failed to set initial click volume:', error);
+        console.error("Failed to set initial click volume:", error);
       }
     }
   }, [isOpen, setVolume, volume]);
@@ -59,11 +59,11 @@ const SystemPanel: React.FC<SystemPanelProps> = ({
         style={{
           background: currentTheme.glass.background,
           border: `1px solid ${currentTheme.glass.border}`,
-          WebkitBackdropFilter: 'blur(30px)',
-          transform: isOpen ? 'translateY(0)' : 'translateY(calc(100%))',
+          WebkitBackdropFilter: "blur(30px)",
+          transform: isOpen ? "translateY(0)" : "translateY(calc(100%))",
           opacity: isOpen ? 1 : 0,
-          pointerEvents: isOpen ? 'auto' : 'none',
-          visibility: isOpen ? 'visible' : 'hidden',
+          pointerEvents: isOpen ? "auto" : "none",
+          visibility: isOpen ? "visible" : "hidden",
         }}
       >
         {/* Custom Slider Styles */}

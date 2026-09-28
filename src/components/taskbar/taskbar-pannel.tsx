@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { useTheme } from '../theme-provider';
-import { themes } from '@/lib/themes';
-import { StartPanelProps, QuickLink } from './taskbar-types';
-import { startPanelApps, getQuickLinks } from '@/components/webpage/apps/apps';
-import { Search, Power, ExternalLink, Copy } from 'lucide-react';
-import { useToast } from '@/components/ui/toast';
-import { copyToClipboard } from '@/lib/notification-utils';
-import { useWindowManager } from '../webpage/window-manager';
-import { handleAppClick } from '@/lib/window-utils';
-import Image from 'next/image';
+import React, { useState, useEffect } from "react";
+import { useTheme } from "../theme-provider";
+import { themes } from "@/lib/themes";
+import { StartPanelProps, QuickLink } from "./taskbar-types";
+import { startPanelApps, getQuickLinks } from "@/components/webpage/apps/apps";
+import { Search, Power, ExternalLink, Copy } from "lucide-react";
+import { useToast } from "@/components/ui/toast";
+import { copyToClipboard } from "@/lib/notification-utils";
+import { useWindowManager } from "../webpage/window-manager";
+import { handleAppClick } from "@/lib/window-utils";
+import Image from "next/image";
 
 const StartPanel: React.FC<StartPanelProps> = ({
   isOpen,
@@ -18,7 +18,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
   apps = [],
   quickLinks = [],
   onAppClick = () => {},
-  className = '',
+  className = "",
 }) => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
@@ -26,8 +26,8 @@ const StartPanel: React.FC<StartPanelProps> = ({
   const { windows, focusWindow, minimizeWindow, focusAndRestoreWindow } =
     useWindowManager();
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [maxPanelHeight, setMaxPanelHeight] = useState('80vh');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [maxPanelHeight, setMaxPanelHeight] = useState("80vh");
   const [isPowerDropdownOpen, setIsPowerDropdownOpen] = useState(false);
   const [isShuttingDown, setIsShuttingDown] = useState(false);
   const [isRestarting, setIsRestarting] = useState(false);
@@ -41,8 +41,8 @@ const StartPanel: React.FC<StartPanelProps> = ({
     };
 
     updateMaxHeight();
-    window.addEventListener('resize', updateMaxHeight);
-    return () => window.removeEventListener('resize', updateMaxHeight);
+    window.addEventListener("resize", updateMaxHeight);
+    return () => window.removeEventListener("resize", updateMaxHeight);
   }, []);
 
   const allApps = apps.length > 0 ? apps : startPanelApps;
@@ -62,11 +62,11 @@ const StartPanel: React.FC<StartPanelProps> = ({
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.style.backgroundColor =
-      theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+      theme === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)";
   };
 
   const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.currentTarget.style.backgroundColor = 'transparent';
+    e.currentTarget.style.backgroundColor = "transparent";
   };
 
   const handleStartPanelAppClick = (appId: string) => {
@@ -76,7 +76,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
       focusWindow,
       minimizeWindow,
       onAppClick,
-      focusAndRestoreWindow
+      focusAndRestoreWindow,
     );
   };
 
@@ -120,16 +120,16 @@ const StartPanel: React.FC<StartPanelProps> = ({
         }
 
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: ${theme === 'dark'
-            ? 'rgba(255, 255, 255, 0.05)'
-            : 'rgba(0, 0, 0, 0.05)'};
+          background: ${theme === "dark"
+            ? "rgba(255, 255, 255, 0.05)"
+            : "rgba(0, 0, 0, 0.05)"};
           border-radius: 4px;
         }
 
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: ${theme === 'dark'
-            ? 'rgba(255, 255, 255, 0.2)'
-            : 'rgba(0, 0, 0, 0.2)'};
+          background: ${theme === "dark"
+            ? "rgba(255, 255, 255, 0.2)"
+            : "rgba(0, 0, 0, 0.2)"};
           border-radius: 4px;
           border: 2px solid transparent;
           background-clip: content-box;
@@ -137,31 +137,31 @@ const StartPanel: React.FC<StartPanelProps> = ({
         }
 
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: ${theme === 'dark'
-            ? 'rgba(255, 255, 255, 0.35)'
-            : 'rgba(0, 0, 0, 0.35)'};
+          background: ${theme === "dark"
+            ? "rgba(255, 255, 255, 0.35)"
+            : "rgba(0, 0, 0, 0.35)"};
           background-clip: content-box;
         }
 
         .custom-scrollbar::-webkit-scrollbar-thumb:active {
-          background: ${theme === 'dark'
-            ? 'rgba(255, 255, 255, 0.5)'
-            : 'rgba(0, 0, 0, 0.5)'};
+          background: ${theme === "dark"
+            ? "rgba(255, 255, 255, 0.5)"
+            : "rgba(0, 0, 0, 0.5)"};
           background-clip: content-box;
         }
 
         .custom-scrollbar::-webkit-scrollbar-corner {
-          background: ${theme === 'dark'
-            ? 'rgba(255, 255, 255, 0.05)'
-            : 'rgba(0, 0, 0, 0.05)'};
+          background: ${theme === "dark"
+            ? "rgba(255, 255, 255, 0.05)"
+            : "rgba(0, 0, 0, 0.05)"};
         }
 
         /* Firefox scrollbar */
         .custom-scrollbar {
           scrollbar-width: thin;
-          scrollbar-color: ${theme === 'dark'
-            ? 'rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05)'
-            : 'rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.05)'};
+          scrollbar-color: ${theme === "dark"
+            ? "rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05)"
+            : "rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.05)"};
         }
       `}</style>
 
@@ -169,8 +169,8 @@ const StartPanel: React.FC<StartPanelProps> = ({
         <div
           className="fixed inset-0 z-[1000] flex items-center justify-center"
           style={{
-            backgroundColor: 'black',
-            transition: 'opacity 2s ease-in-out',
+            backgroundColor: "black",
+            transition: "opacity 2s ease-in-out",
             opacity: 1,
           }}
         >
@@ -181,7 +181,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
               </div>
             </div>
             <p className="text-white text-lg">
-              {isRestarting ? 'Restarting...' : 'Shutting down...'}
+              {isRestarting ? "Restarting..." : "Shutting down..."}
             </p>
           </div>
         </div>
@@ -207,13 +207,13 @@ const StartPanel: React.FC<StartPanelProps> = ({
         style={{
           background: currentTheme.glass.background,
           border: `1px solid ${currentTheme.glass.border}`,
-          WebkitBackdropFilter: 'blur(30px)',
-          transform: isOpen ? 'translateY(0)' : 'translateY(calc(100%))',
+          WebkitBackdropFilter: "blur(30px)",
+          transform: isOpen ? "translateY(0)" : "translateY(calc(100%))",
           opacity: isOpen ? 1 : 0,
-          pointerEvents: isOpen ? 'auto' : 'none',
-          visibility: isOpen ? 'visible' : 'hidden',
+          pointerEvents: isOpen ? "auto" : "none",
+          visibility: isOpen ? "visible" : "hidden",
           maxHeight: maxPanelHeight,
-          overflowY: 'auto',
+          overflowY: "auto",
         }}
       >
         {/* Search Bar */}
@@ -260,20 +260,20 @@ const StartPanel: React.FC<StartPanelProps> = ({
                     }}
                     className="flex flex-col items-center p-4 rounded-lg transition-colors duration-200"
                     style={{
-                      backgroundColor: 'transparent',
+                      backgroundColor: "transparent",
                       color: currentTheme.text.primary,
-                      height: '100px',
+                      height: "100px",
                     }}
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                   >
                     <Image
                       src={
-                        theme === 'dark' && app.iconLight !== undefined
-                          ? app.icon || '/app icons/quick links/default.svg'
+                        theme === "dark" && app.iconLight !== undefined
+                          ? app.icon || "/app icons/quick links/default.svg"
                           : app.iconLight ||
                             app.icon ||
-                            '/app icons/quick links/default.svg'
+                            "/app icons/quick links/default.svg"
                       }
                       alt={app.name}
                       className="w-6 h-6 sm:w-8 sm:h-8 object-contain mb-3"
@@ -309,7 +309,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
                       }}
                       className="flex flex-col items-center p-2 sm:p-4 cursor-pointer rounded-lg transition-colors duration-200"
                       style={{
-                        backgroundColor: 'transparent',
+                        backgroundColor: "transparent",
                         color: currentTheme.text.primary,
                       }}
                       onMouseEnter={handleMouseEnter}
@@ -317,11 +317,11 @@ const StartPanel: React.FC<StartPanelProps> = ({
                     >
                       <Image
                         src={
-                          theme === 'dark' && app.iconLight !== undefined
-                            ? app.icon || '/app icons/quick links/default.svg'
+                          theme === "dark" && app.iconLight !== undefined
+                            ? app.icon || "/app icons/quick links/default.svg"
                             : app.iconLight ||
                               app.icon ||
-                              '/app icons/quick links/default.svg'
+                              "/app icons/quick links/default.svg"
                         }
                         alt={app.name}
                         className="w-6 h-6 sm:w-8 sm:h-8 object-contain mb-2 sm:mb-3"
@@ -348,36 +348,36 @@ const StartPanel: React.FC<StartPanelProps> = ({
                 </div>
                 <div
                   className="grid grid-cols-3 gap-2 sm:gap-3"
-                  style={{ minHeight: '100px' }}
+                  style={{ minHeight: "100px" }}
                 >
                   {allQuickLinks.slice(0, 6).map((item: QuickLink) => (
                     <button
                       key={item.id}
                       className="flex items-center space-x-2 sm:space-x-3 p-2 sm:p-4 px-4 rounded-lg text-left transition-colors duration-200 cursor-pointer"
                       style={{
-                        backgroundColor: 'transparent',
+                        backgroundColor: "transparent",
                         color: currentTheme.text.primary,
-                        height: '48px',
+                        height: "48px",
                       }}
                       onClick={async () => {
                         if (item.url) {
                           if (
-                            item.type === 'copy' &&
+                            item.type === "copy" &&
                             item.url &&
-                            item.url.startsWith('mailto:')
+                            item.url.startsWith("mailto:")
                           ) {
-                            const email = item.url.replace('mailto:', '');
+                            const email = item.url.replace("mailto:", "");
                             const success = await copyToClipboard(
                               email,
-                              'Email copied!',
-                              addToast
+                              "Email copied!",
+                              addToast,
                             );
 
                             if (!success) {
                               if (item.url) window.location.href = item.url;
                             }
                           } else if (item.newTab === true) {
-                            window.open(item.url, '_blank');
+                            window.open(item.url, "_blank");
                           } else {
                             window.location.href = item.url;
                           }
@@ -388,11 +388,11 @@ const StartPanel: React.FC<StartPanelProps> = ({
                     >
                       <Image
                         src={
-                          theme === 'dark' && item.iconLight !== undefined
-                            ? item.icon || '/app icons/quick links/default.svg'
+                          theme === "dark" && item.iconLight !== undefined
+                            ? item.icon || "/app icons/quick links/default.svg"
                             : item.iconLight ||
                               item.icon ||
-                              '/app icons/quick links/default.svg'
+                              "/app icons/quick links/default.svg"
                         }
                         alt={item.name}
                         className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
@@ -408,9 +408,9 @@ const StartPanel: React.FC<StartPanelProps> = ({
                           style={{ color: currentTheme.text.muted }}
                         >
                           <span>
-                            {item.type === 'copy' ? 'Copy' : 'New Tab'}
+                            {item.type === "copy" ? "Copy" : "New Tab"}
                           </span>
-                          {item.type === 'copy' ? (
+                          {item.type === "copy" ? (
                             <Copy size={10} />
                           ) : (
                             <ExternalLink size={10} />
@@ -437,7 +437,7 @@ const StartPanel: React.FC<StartPanelProps> = ({
             <div
               className="flex items-center space-x-3 p-2 rounded-md"
               style={{
-                backgroundColor: 'transparent',
+                backgroundColor: "transparent",
                 color: currentTheme.text.primary,
               }}
             >
@@ -469,15 +469,15 @@ const StartPanel: React.FC<StartPanelProps> = ({
                 className="flex items-center justify-center w-10 h-10 rounded-md transition-all duration-200 hover:scale-[1.02] active:scale-95"
                 style={{
                   color: currentTheme.text.primary,
-                  backgroundColor: 'transparent',
-                  pointerEvents: 'auto',
+                  backgroundColor: "transparent",
+                  pointerEvents: "auto",
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor =
                     currentTheme.glass.cardBackground;
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.backgroundColor = "transparent";
                 }}
                 title="Power options"
               >
@@ -488,26 +488,26 @@ const StartPanel: React.FC<StartPanelProps> = ({
               <div
                 className="fixed z-[300]"
                 style={{
-                  visibility: isPowerDropdownOpen ? 'visible' : 'hidden',
-                  bottom: '55px',
-                  right: '20px',
+                  visibility: isPowerDropdownOpen ? "visible" : "hidden",
+                  bottom: "55px",
+                  right: "20px",
                 }}
               >
                 <div
                   className="rounded-md backdrop-blur-xl shadow-2xl overflow-hidden transition-all duration-300 ease-out"
                   style={{
                     background:
-                      theme === 'dark'
-                        ? 'rgba(32, 32, 32, 0.85)'
-                        : 'rgba(255, 255, 255, 0.85)',
+                      theme === "dark"
+                        ? "rgba(32, 32, 32, 0.85)"
+                        : "rgba(255, 255, 255, 0.85)",
                     border: `1px solid ${currentTheme.glass.border}`,
-                    WebkitBackdropFilter: 'blur(30px)',
+                    WebkitBackdropFilter: "blur(30px)",
                     transform: isPowerDropdownOpen
-                      ? 'translateY(0)'
-                      : 'translateY(20px)',
+                      ? "translateY(0)"
+                      : "translateY(20px)",
                     opacity: isPowerDropdownOpen ? 1 : 0,
-                    pointerEvents: isPowerDropdownOpen ? 'auto' : 'none',
-                    width: '110px',
+                    pointerEvents: isPowerDropdownOpen ? "auto" : "none",
+                    width: "110px",
                   }}
                 >
                   {/* Power options */}
@@ -517,16 +517,16 @@ const StartPanel: React.FC<StartPanelProps> = ({
                       className="w-full text-center px-2 py-2 text-sm rounded-md hover:bg-opacity-20 transition-colors duration-200"
                       style={{
                         color: currentTheme.text.primary,
-                        backgroundColor: 'transparent',
+                        backgroundColor: "transparent",
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.backgroundColor =
-                          theme === 'dark'
-                            ? 'rgba(255, 255, 255, 0.1)'
-                            : 'rgba(0, 0, 0, 0.1)';
+                          theme === "dark"
+                            ? "rgba(255, 255, 255, 0.1)"
+                            : "rgba(0, 0, 0, 0.1)";
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'transparent';
+                        e.currentTarget.style.backgroundColor = "transparent";
                       }}
                     >
                       Restart
@@ -536,16 +536,16 @@ const StartPanel: React.FC<StartPanelProps> = ({
                       className="w-full text-center px-2 py-2 text-sm rounded-md hover:bg-opacity-20 transition-colors duration-200"
                       style={{
                         color: currentTheme.text.primary,
-                        backgroundColor: 'transparent',
+                        backgroundColor: "transparent",
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.backgroundColor =
-                          theme === 'dark'
-                            ? 'rgba(255, 255, 255, 0.1)'
-                            : 'rgba(0, 0, 0, 0.1)';
+                          theme === "dark"
+                            ? "rgba(255, 255, 255, 0.1)"
+                            : "rgba(0, 0, 0, 0.1)";
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'transparent';
+                        e.currentTarget.style.backgroundColor = "transparent";
                       }}
                     >
                       Shut Down

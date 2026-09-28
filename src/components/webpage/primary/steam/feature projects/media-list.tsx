@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { favoriteGames } from '@/data/hobbies';
-import { useWindowSize } from '@/components/webpage/breakpoints';
-import { cn } from '@/lib/utils';
-import Image from 'next/image';
-import Link from 'next/link';
+import React, { useState } from "react";
+import { favoriteGames } from "@/data/hobbies";
+import { useWindowSize } from "@/components/webpage/breakpoints";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
 
-type MediaType = 'games' | 'westerns' | 'eastern' | 'novels';
+type MediaType = "games" | "westerns" | "eastern" | "novels";
 
 const MediaCard: React.FC<{ item: (typeof favoriteGames)[0] }> = ({ item }) => (
-  <Link href={item.link || ''} target="_blank">
+  <Link href={item.link || ""} target="_blank">
     <div className="group bg-[#16202D] hover:bg-[#1B2838] transition-colors cursor-pointer rounded-lg overflow-hidden">
       <div className="relative w-full h-[180px]">
         <Image
@@ -52,16 +52,16 @@ const MediaCard: React.FC<{ item: (typeof favoriteGames)[0] }> = ({ item }) => (
 
 const MediaList: React.FC = () => {
   const { isXs, isSm, isMd } = useWindowSize();
-  const [activeTab, setActiveTab] = useState<MediaType>('games');
+  const [activeTab, setActiveTab] = useState<MediaType>("games");
   const types = Array.from(
-    new Set(favoriteGames.map((item) => item.type))
+    new Set(favoriteGames.map((item) => item.type)),
   ) as MediaType[];
   const filteredItems = favoriteGames.filter((item) => item.type === activeTab);
 
   const getGridCols = () => {
-    if (isXs || isSm) return 'grid-cols-1';
-    if (isMd) return 'grid-cols-2';
-    return 'grid-cols-3';
+    if (isXs || isSm) return "grid-cols-1";
+    if (isMd) return "grid-cols-2";
+    return "grid-cols-3";
   };
 
   return (
@@ -73,9 +73,9 @@ const MediaList: React.FC = () => {
             key={type}
             onClick={() => setActiveTab(type)}
             className={cn(
-              'uppercase font-medium whitespace-nowrap text-sm px-3 py-2 transition-all cursor-pointer',
-              'hover:text-white relative',
-              activeTab === type ? 'text-white' : 'text-[#66c0f4]'
+              "uppercase font-medium whitespace-nowrap text-sm px-3 py-2 transition-all cursor-pointer",
+              "hover:text-white relative",
+              activeTab === type ? "text-white" : "text-[#66c0f4]",
             )}
           >
             {type}
@@ -87,7 +87,7 @@ const MediaList: React.FC = () => {
       </div>
 
       {/* Grid Layout */}
-      <div className={cn('grid gap-3 p-2 md:p-4', getGridCols())}>
+      <div className={cn("grid gap-3 p-2 md:p-4", getGridCols())}>
         {filteredItems.map((item) => (
           <MediaCard key={item.name} item={item} />
         ))}

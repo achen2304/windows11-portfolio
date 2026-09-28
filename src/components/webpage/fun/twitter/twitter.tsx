@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useTheme } from '../../../theme-provider';
-import { themes } from '@/lib/themes';
-import { useToast } from '@/components/ui/toast';
-import { FaTwitter, FaPenNib, FaTimes } from 'react-icons/fa';
-import { Filter } from 'bad-words';
-import { useWindowSize, WindowSizeProvider } from '../../breakpoints';
-import { TwitterAppProps, CommentWithStringId, SortOption } from './types';
-import { generateUserColor } from './utils';
-import { CommentItem } from './comment-item';
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useTheme } from "../../../theme-provider";
+import { themes } from "@/lib/themes";
+import { useToast } from "@/components/ui/toast";
+import { FaTwitter, FaPenNib, FaTimes } from "react-icons/fa";
+import { Filter } from "bad-words";
+import { useWindowSize, WindowSizeProvider } from "../../breakpoints";
+import { TwitterAppProps, CommentWithStringId, SortOption } from "./types";
+import { generateUserColor } from "./utils";
+import { CommentItem } from "./comment-item";
 
-const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
+const TwitterContent: React.FC<TwitterAppProps> = ({ className = "" }) => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
   const { addToast } = useToast();
@@ -25,16 +25,16 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
   >([]); // Comments currently shown
   const [loading, setLoading] = useState(true);
   const [posting, setPosting] = useState(false);
-  const [username, setUsername] = useState('');
-  const [handle, setHandle] = useState('');
-  const [content, setContent] = useState('');
+  const [username, setUsername] = useState("");
+  const [handle, setHandle] = useState("");
+  const [content, setContent] = useState("");
   const [likedComments, setLikedComments] = useState<Set<string>>(new Set());
-  const [sortBy, setSortBy] = useState<SortOption>('date');
+  const [sortBy, setSortBy] = useState<SortOption>("date");
   const [displayCount, setDisplayCount] = useState(20);
   const COMMENTS_PER_PAGE = 20;
 
-  const [usernameError, setUsernameError] = useState('');
-  const [contentError, setContentError] = useState('');
+  const [usernameError, setUsernameError] = useState("");
+  const [contentError, setContentError] = useState("");
 
   const [showCompose, setShowCompose] = useState(true);
 
@@ -45,18 +45,18 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
   const fetchAllComments = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/twitter?limit=1000');
+      const response = await fetch("/api/twitter?limit=1000");
       const data = await response.json();
 
       if (data.comments) {
         setAllComments(data.comments);
       }
     } catch (error) {
-      console.error('Error fetching comments:', error);
+      console.error("Error fetching comments:", error);
       addToast({
-        title: 'Error loading comments',
-        description: 'Please try refreshing the page',
-        type: 'error',
+        title: "Error loading comments",
+        description: "Please try refreshing the page",
+        type: "error",
       });
     } finally {
       setLoading(false);
@@ -66,7 +66,7 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
   const sortAndDisplayComments = useCallback(() => {
     const sortedComments = [...allComments];
 
-    if (sortBy === 'likes') {
+    if (sortBy === "likes") {
       sortedComments.sort((a, b) => {
         if (b.likes !== a.likes) {
           return b.likes - a.likes;
@@ -78,7 +78,7 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
     } else {
       sortedComments.sort(
         (a, b) =>
-          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
       );
     }
 
@@ -108,47 +108,47 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
   useEffect(() => {
     const scrollElement = scrollRef.current;
     if (scrollElement) {
-      scrollElement.addEventListener('scroll', handleScroll);
-      return () => scrollElement.removeEventListener('scroll', handleScroll);
+      scrollElement.addEventListener("scroll", handleScroll);
+      return () => scrollElement.removeEventListener("scroll", handleScroll);
     }
   }, [handleScroll]);
 
   const postComment = async () => {
-    setUsernameError('');
-    setContentError('');
+    setUsernameError("");
+    setContentError("");
 
     if (!username.trim()) {
-      setUsernameError('Please provide your name');
+      setUsernameError("Please provide your name");
       return;
     }
 
     if (!content.trim()) {
-      setContentError('Please provide a message');
+      setContentError("Please provide a message");
       return;
     }
 
     if (content.length > 280) {
-      setContentError('Please keep your message under 280 characters');
+      setContentError("Please keep your message under 280 characters");
       return;
     }
 
     if (filter.isProfane(content)) {
       setContentError(
-        'Your message contains inappropriate language. Please revise and try again'
+        "Your message contains inappropriate language. Please revise and try again",
       );
       return;
     }
 
     setPosting(true);
     try {
-      const response = await fetch('/api/twitter', {
-        method: 'POST',
+      const response = await fetch("/api/twitter", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username: username.trim(),
-          handle: handle.trim() || '',
+          handle: handle.trim() || "",
           content: content.trim(),
         }),
       });
@@ -156,12 +156,12 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
       const data = await response.json();
 
       if (response.ok) {
-        setContent('');
+        setContent("");
 
         const newComment = {
           _id: data.comment._id,
           username: username.trim(),
-          handle: handle.trim() || '',
+          handle: handle.trim() || "",
           content: content.trim(),
           timestamp: new Date().toISOString(),
           likes: 0,
@@ -175,20 +175,20 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
         ]);
 
         addToast({
-          title: 'Posted!',
-          description: 'Your comment has been posted',
-          type: 'success',
+          title: "Posted!",
+          description: "Your comment has been posted",
+          type: "success",
         });
       } else {
-        throw new Error(data.error || 'Failed to post comment');
+        throw new Error(data.error || "Failed to post comment");
       }
     } catch (error) {
-      console.error('Error posting comment:', error);
+      console.error("Error posting comment:", error);
       addToast({
-        title: 'Error posting comment',
+        title: "Error posting comment",
         description:
-          error instanceof Error ? error.message : 'Please try again',
-        type: 'error',
+          error instanceof Error ? error.message : "Please try again",
+        type: "error",
       });
     } finally {
       setPosting(false);
@@ -197,12 +197,12 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
 
   const toggleLike = async (commentId: string, isLiked: boolean) => {
     try {
-      const action = isLiked ? 'unlike' : 'like';
+      const action = isLiked ? "unlike" : "like";
       const response = await fetch(
         `/api/twitter?id=${commentId}&action=${action}`,
         {
-          method: 'PUT',
-        }
+          method: "PUT",
+        },
       );
 
       if (response.ok) {
@@ -218,12 +218,12 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
           prevComments.map((comment) =>
             comment._id === commentId
               ? { ...comment, likes: comment.likes + (isLiked ? -1 : 1) }
-              : comment
-          )
+              : comment,
+          ),
         );
       }
     } catch (error) {
-      console.error('Error toggling like:', error);
+      console.error("Error toggling like:", error);
     }
   };
 
@@ -234,8 +234,8 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
     textSecondary: currentTheme.text.secondary,
     textMuted: currentTheme.text.muted,
     hover: currentTheme.button.backgroundHover,
-    blue: '#1d9bf0',
-    red: '#f91880',
+    blue: "#1d9bf0",
+    red: "#f91880",
     inputBackground: currentTheme.glass.background,
   };
 
@@ -247,7 +247,7 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
       {/* Header */}
       <div
         className={`${
-          isSmallScreen ? 'px-3 py-2' : 'px-4 py-3'
+          isSmallScreen ? "px-3 py-2" : "px-4 py-3"
         } border-b sticky top-0 backdrop-blur-md z-10`}
         style={{
           borderColor: colors.border,
@@ -262,14 +262,14 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
               style={{ backgroundColor: `${colors.blue}15` }}
             >
               <FaTwitter
-                className={`${isSmallScreen ? 'w-4 h-4' : 'w-5 h-5'}`}
+                className={`${isSmallScreen ? "w-4 h-4" : "w-5 h-5"}`}
                 style={{ color: colors.blue }}
               />
             </div>
             <div>
               <h1
                 className={`${
-                  isSmallScreen ? 'text-sm' : 'text-lg'
+                  isSmallScreen ? "text-sm" : "text-lg"
                 } font-bold leading-tight`}
                 style={{ color: colors.text }}
               >
@@ -285,13 +285,13 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as SortOption)}
                 className={`${
-                  isSmallScreen ? 'px-2 py-1 text-sm' : 'px-3 py-1.5 text-sm'
+                  isSmallScreen ? "px-2 py-1 text-sm" : "px-3 py-1.5 text-sm"
                 } rounded-full border appearance-none cursor-pointer transition-all hover:shadow-sm`}
                 style={{
                   backgroundColor: colors.inputBackground,
                   borderColor: colors.border,
                   color: colors.text,
-                  paddingRight: isSmallScreen ? '20px' : '24px',
+                  paddingRight: isSmallScreen ? "20px" : "24px",
                 }}
               >
                 <option value="date">Latest</option>
@@ -319,23 +319,23 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
             <button
               onClick={() => setShowCompose(!showCompose)}
               className={`${
-                isSmallScreen ? 'p-1.5' : 'p-2'
+                isSmallScreen ? "p-1.5" : "p-2"
               } rounded-full transition-all duration-200 hover:scale-105 active:scale-95`}
               style={{
                 backgroundColor: showCompose ? colors.blue : `${colors.blue}15`,
-                color: showCompose ? 'white' : colors.blue,
-                boxShadow: showCompose ? `0 2px 8px ${colors.blue}40` : 'none',
-                cursor: 'pointer',
+                color: showCompose ? "white" : colors.blue,
+                boxShadow: showCompose ? `0 2px 8px ${colors.blue}40` : "none",
+                cursor: "pointer",
               }}
-              title={showCompose ? 'Close compose' : 'Write comment'}
+              title={showCompose ? "Close compose" : "Write comment"}
             >
               {showCompose ? (
                 <FaTimes
-                  className={`${isSmallScreen ? 'w-3 h-3' : 'w-4 h-4'}`}
+                  className={`${isSmallScreen ? "w-3 h-3" : "w-4 h-4"}`}
                 />
               ) : (
                 <FaPenNib
-                  className={`${isSmallScreen ? 'w-3 h-3' : 'w-4 h-4'}`}
+                  className={`${isSmallScreen ? "w-3 h-3" : "w-4 h-4"}`}
                 />
               )}
             </button>
@@ -346,14 +346,14 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
       {/* Compose Tweet */}
       {showCompose && (
         <div
-          className={`${isSmallScreen ? 'p-2' : 'p-4'} border-b`}
+          className={`${isSmallScreen ? "p-2" : "p-4"} border-b`}
           style={{ borderColor: colors.border }}
         >
-          <div className={`flex ${isSmallScreen ? 'space-x-2' : 'space-x-3'}`}>
+          <div className={`flex ${isSmallScreen ? "space-x-2" : "space-x-3"}`}>
             {/* Avatar */}
             <div
               className={`${
-                isSmallScreen ? 'w-10 h-10' : 'w-12 h-12'
+                isSmallScreen ? "w-10 h-10" : "w-12 h-12"
               } rounded-full flex items-center justify-center text-white font-bold`}
               style={{
                 backgroundColor: username
@@ -361,7 +361,7 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
                   : colors.blue,
               }}
             >
-              {username ? username.charAt(0).toUpperCase() : '?'}
+              {username ? username.charAt(0).toUpperCase() : "?"}
             </div>
 
             {/* Compose */}
@@ -369,7 +369,7 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
               {/* User Info */}
               <div
                 className={`${
-                  isSmallScreen ? 'flex flex-col space-y-2' : 'flex space-x-2'
+                  isSmallScreen ? "flex flex-col space-y-2" : "flex space-x-2"
                 } mb-3`}
               >
                 <div className="flex-1">
@@ -379,14 +379,14 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
                     value={username}
                     onChange={(e) => {
                       setUsername(e.target.value);
-                      if (usernameError) setUsernameError('');
+                      if (usernameError) setUsernameError("");
                     }}
                     className={`w-full px-3 py-2 border rounded-lg text-sm ${
-                      usernameError ? 'border-red-500' : ''
+                      usernameError ? "border-red-500" : ""
                     }`}
                     style={{
                       backgroundColor: colors.inputBackground,
-                      borderColor: usernameError ? '#ef4444' : colors.border,
+                      borderColor: usernameError ? "#ef4444" : colors.border,
                       color: colors.text,
                     }}
                     maxLength={50}
@@ -395,7 +395,7 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
                     <div
                       className="text-sm mt-1"
                       style={{
-                        color: theme === 'dark' ? '#ef4444' : '#dc2626',
+                        color: theme === "dark" ? "#ef4444" : "#dc2626",
                       }}
                     >
                       {usernameError}
@@ -407,7 +407,7 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
                   placeholder="@handle (optional)"
                   value={handle}
                   onChange={(e) =>
-                    setHandle(e.target.value.replace(/[^a-zA-Z0-9_]/g, ''))
+                    setHandle(e.target.value.replace(/[^a-zA-Z0-9_]/g, ""))
                   }
                   className="flex-1 px-3 py-2 border rounded-lg text-sm"
                   style={{
@@ -426,16 +426,16 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
                   value={content}
                   onChange={(e) => {
                     setContent(e.target.value);
-                    if (contentError) setContentError('');
+                    if (contentError) setContentError("");
                   }}
                   className={`w-full p-3 border rounded-lg resize-none ${
-                    isSmallScreen ? 'text-sm' : 'text-md'
-                  } ${contentError ? 'border-red-500' : ''}`}
+                    isSmallScreen ? "text-sm" : "text-md"
+                  } ${contentError ? "border-red-500" : ""}`}
                   style={{
                     backgroundColor: colors.inputBackground,
-                    borderColor: contentError ? '#ef4444' : colors.border,
+                    borderColor: contentError ? "#ef4444" : colors.border,
                     color: colors.text,
-                    minHeight: '80px',
+                    minHeight: "80px",
                   }}
                   maxLength={280}
                 />
@@ -443,7 +443,7 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
                   <div
                     className="text-sm mt-1"
                     style={{
-                      color: theme === 'dark' ? '#ef4444' : '#dc2626',
+                      color: theme === "dark" ? "#ef4444" : "#dc2626",
                     }}
                   >
                     {contentError}
@@ -464,13 +464,13 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
                     backgroundColor: colors.blue,
                     cursor:
                       posting || !username.trim() || !content.trim()
-                        ? 'not-allowed'
-                        : 'pointer',
+                        ? "not-allowed"
+                        : "pointer",
                     opacity:
                       posting || !username.trim() || !content.trim() ? 0.5 : 1,
                   }}
                 >
-                  {posting ? 'Posting...' : 'Post'}
+                  {posting ? "Posting..." : "Post"}
                 </button>
               </div>
             </div>
@@ -482,7 +482,7 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
       <div
         ref={scrollRef}
         className="flex-1 overflow-y-auto"
-        style={{ scrollBehavior: 'smooth' }}
+        style={{ scrollBehavior: "smooth" }}
       >
         {loading ? (
           <div className="p-8 text-center">
@@ -497,7 +497,7 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
         ) : displayedComments.length === 0 ? (
           <div className="p-8 text-center">
             <p
-              className={`${isSmallScreen ? 'text-sm' : 'text-lg'}`}
+              className={`${isSmallScreen ? "text-sm" : "text-lg"}`}
               style={{ color: colors.text }}
             >
               No comments yet
@@ -532,7 +532,7 @@ const TwitterContent: React.FC<TwitterAppProps> = ({ className = '' }) => {
   );
 };
 
-const TwitterApp: React.FC<TwitterAppProps> = ({ className = '' }) => {
+const TwitterApp: React.FC<TwitterAppProps> = ({ className = "" }) => {
   const contentRef = React.useRef<HTMLDivElement>(null);
 
   return (

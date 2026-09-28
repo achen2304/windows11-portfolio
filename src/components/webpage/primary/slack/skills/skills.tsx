@@ -1,45 +1,48 @@
-import React, { useMemo } from 'react';
-import { useTheme } from '../../../../theme-provider';
-import { themes } from '@/lib/themes';
-import { SlackTheme } from '@/components/types/system-types';
-import SkillCategory from './skill-category';
-import Message from '../message';
-import WelcomeBanner from '../common/WelcomeBanner';
-import ProfileImage from '../common/ProfileImage';
-import { skills as allSkills } from '@/data/skills';
+import React, { useMemo } from "react";
+import { useTheme } from "../../../../theme-provider";
+import { themes } from "@/lib/themes";
+import { SlackTheme } from "@/components/types/system-types";
+import SkillCategory from "./skill-category";
+import Message from "../message";
+import WelcomeBanner from "../common/WelcomeBanner";
+import ProfileImage from "../common/ProfileImage";
+import { skills as allSkills } from "@/data/skills";
 
 const SkillsMessageContent = ({ slackTheme }: { slackTheme: SlackTheme }) => {
   const skillsByCategory = useMemo(() => {
-    const groupedSkills = allSkills.reduce((acc, skill) => {
-      const type = skill.type;
-      if (!acc[type]) {
-        acc[type] = [];
-      }
+    const groupedSkills = allSkills.reduce(
+      (acc, skill) => {
+        const type = skill.type;
+        if (!acc[type]) {
+          acc[type] = [];
+        }
 
-      acc[type].push({
-        name: skill.name,
-      });
+        acc[type].push({
+          name: skill.name,
+        });
 
-      return acc;
-    }, {} as Record<string, { name: string }[]>);
+        return acc;
+      },
+      {} as Record<string, { name: string }[]>,
+    );
 
     return groupedSkills;
   }, []);
 
   const categoryTitles = {
-    language: 'Programming Languages',
-    frontend: 'Frontend Development',
-    backend: 'Backend Development',
-    database: 'Database & Cloud',
-    tools: 'DevOps & Tools',
+    language: "Programming Languages",
+    frontend: "Frontend Development",
+    backend: "Backend Development",
+    database: "Database & Cloud",
+    tools: "DevOps & Tools",
   };
 
   const categoryOrder = [
-    'language',
-    'frontend',
-    'backend',
-    'database',
-    'tools',
+    "language",
+    "frontend",
+    "backend",
+    "database",
+    "tools",
   ];
 
   return (
@@ -100,7 +103,7 @@ const SkillsChannel: React.FC = () => {
             e.currentTarget.style.background = slackTheme.messageBackground;
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'transparent';
+            e.currentTarget.style.background = "transparent";
           }}
         >
           <ProfileImage src="/other/profile.webp" alt="Cai Chen" />
@@ -125,7 +128,7 @@ const SkillsChannel: React.FC = () => {
         </div>
 
         <Message
-          content="Checkout my resume for the skills I&apos;m most confident in, but I'm always looking to expand my skill set and learn new technologies. Currently, I'm focusing on improving my knowledge of cloud infrastructure and serverless architectures."
+          content="Checkout my resume for the skills I'm most confident in, but I'm always looking to expand my skill set and learn new technologies. Currently, I'm focusing on improving my knowledge of cloud infrastructure and serverless architectures."
           user="Cai Chen"
           timestamp="10:20 AM"
           avatar="/other/profile.webp"

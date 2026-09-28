@@ -1,7 +1,7 @@
-import React from 'react';
-import Image from 'next/image';
-import { useWindowSize } from '@/components/webpage/breakpoints';
-import { cn } from '@/lib/utils';
+import React from "react";
+import Image from "next/image";
+import { useWindowSize } from "@/components/webpage/breakpoints";
+import { cn } from "@/lib/utils";
 
 interface BentoGridProps {
   children: React.ReactNode;
@@ -9,7 +9,7 @@ interface BentoGridProps {
 }
 
 const BentoGrid: React.FC<BentoGridProps> = ({ children, className }) => {
-  return <div className={cn('grid w-full gap-4', className)}>{children}</div>;
+  return <div className={cn("grid w-full gap-4", className)}>{children}</div>;
 };
 
 interface BentoCardProps {
@@ -23,10 +23,10 @@ const BentoCard: React.FC<BentoCardProps> = ({ src, alt, text, className }) => {
   return (
     <div
       className={cn(
-        'group relative overflow-hidden rounded-xl',
-        'bg-white dark:bg-black',
-        'transform-gpu dark:[border:1px_solid_rgba(255,255,255,.1)]',
-        className
+        "group relative overflow-hidden rounded-xl",
+        "bg-white dark:bg-black",
+        "transform-gpu dark:[border:1px_solid_rgba(255,255,255,.1)]",
+        className,
       )}
     >
       <div className="relative w-full h-full">
@@ -56,8 +56,8 @@ const AboutMe: React.FC = () => {
     <div className="w-full max-w-6xl mx-auto px-4">
       <BentoGrid
         className={cn(
-          'grid-cols-4',
-          isMobileView ? 'auto-rows-[200px] gap-3' : 'auto-rows-[250px] gap-4'
+          "grid-cols-4",
+          isMobileView ? "auto-rows-[200px] gap-3" : "auto-rows-[250px] gap-4",
         )}
       >
         {/* Large rectangle on top */}

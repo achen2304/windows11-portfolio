@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import moment from 'moment';
-import { useTheme } from '../theme-provider';
-import { themes } from '@/lib/themes';
-import { CalendarPanelProps } from './taskbar-types';
-import { ChevronUp, ChevronDown, Check, X, Info } from 'lucide-react';
-import { notificationUtils } from '@/lib/notification-utils';
-import { Notification } from '@/lib/notification-utils';
-import { ThemeObject } from '@/components/types/system-types';
+import React, { useState, useEffect } from "react";
+import moment from "moment";
+import { useTheme } from "../theme-provider";
+import { themes } from "@/lib/themes";
+import { CalendarPanelProps } from "./taskbar-types";
+import { ChevronUp, ChevronDown, Check, X, Info } from "lucide-react";
+import { notificationUtils } from "@/lib/notification-utils";
+import { Notification } from "@/lib/notification-utils";
+import { ThemeObject } from "@/components/types/system-types";
 
 const CalendarPanel: React.FC<CalendarPanelProps> = ({
   isOpen,
   onDateSelect = () => {},
-  className = '',
+  className = "",
 }) => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
@@ -21,7 +21,7 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [storeNotifications, setStoreNotifications] = useState(
-    notificationUtils.getNotifications()
+    notificationUtils.getNotifications(),
   );
 
   useEffect(() => {
@@ -36,9 +36,9 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
     onDateSelect(date);
   };
 
-  const navigateMonth = (direction: 'prev' | 'next') => {
+  const navigateMonth = (direction: "prev" | "next") => {
     const newMonth = new Date(currentMonth);
-    if (direction === 'prev') {
+    if (direction === "prev") {
       newMonth.setMonth(newMonth.getMonth() - 1);
     } else {
       newMonth.setMonth(newMonth.getMonth() + 1);
@@ -105,21 +105,21 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
   };
 
   const monthNames = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
 
-  const dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+  const dayNames = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
   const days = getDaysInMonth();
 
   return (
@@ -131,16 +131,16 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
         }
 
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: ${theme === 'dark'
-            ? 'rgba(255, 255, 255, 0.05)'
-            : 'rgba(0, 0, 0, 0.05)'};
+          background: ${theme === "dark"
+            ? "rgba(255, 255, 255, 0.05)"
+            : "rgba(0, 0, 0, 0.05)"};
           border-radius: 4px;
         }
 
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: ${theme === 'dark'
-            ? 'rgba(255, 255, 255, 0.2)'
-            : 'rgba(0, 0, 0, 0.2)'};
+          background: ${theme === "dark"
+            ? "rgba(255, 255, 255, 0.2)"
+            : "rgba(0, 0, 0, 0.2)"};
           border-radius: 4px;
           border: 2px solid transparent;
           background-clip: content-box;
@@ -148,31 +148,31 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
         }
 
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: ${theme === 'dark'
-            ? 'rgba(255, 255, 255, 0.35)'
-            : 'rgba(0, 0, 0, 0.35)'};
+          background: ${theme === "dark"
+            ? "rgba(255, 255, 255, 0.35)"
+            : "rgba(0, 0, 0, 0.35)"};
           background-clip: content-box;
         }
 
         .custom-scrollbar::-webkit-scrollbar-thumb:active {
-          background: ${theme === 'dark'
-            ? 'rgba(255, 255, 255, 0.5)'
-            : 'rgba(0, 0, 0, 0.5)'};
+          background: ${theme === "dark"
+            ? "rgba(255, 255, 255, 0.5)"
+            : "rgba(0, 0, 0, 0.5)"};
           background-clip: content-box;
         }
 
         .custom-scrollbar::-webkit-scrollbar-corner {
-          background: ${theme === 'dark'
-            ? 'rgba(255, 255, 255, 0.05)'
-            : 'rgba(0, 0, 0, 0.05)'};
+          background: ${theme === "dark"
+            ? "rgba(255, 255, 255, 0.05)"
+            : "rgba(0, 0, 0, 0.05)"};
         }
 
         /* Firefox scrollbar */
         .custom-scrollbar {
           scrollbar-width: thin;
-          scrollbar-color: ${theme === 'dark'
-            ? 'rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05)'
-            : 'rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.05)'};
+          scrollbar-color: ${theme === "dark"
+            ? "rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05)"
+            : "rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.05)"};
         }
       `}</style>
 
@@ -180,7 +180,7 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
       <div
         className="fixed bottom-14 right-2 z-[200] w-80 space-y-2"
         style={{
-          visibility: isOpen ? 'visible' : 'hidden',
+          visibility: isOpen ? "visible" : "hidden",
         }}
       >
         {/* Notifications Card */}
@@ -189,12 +189,12 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
           style={{
             background: currentTheme.glass.background,
             border: `1px solid ${currentTheme.glass.border}`,
-            WebkitBackdropFilter: 'blur(30px)',
+            WebkitBackdropFilter: "blur(30px)",
             transform: isOpen
-              ? 'translateX(0)'
-              : 'translateX(calc(100% + 1rem))',
+              ? "translateX(0)"
+              : "translateX(calc(100% + 1rem))",
             opacity: isOpen ? 1 : 0,
-            pointerEvents: isOpen ? 'auto' : 'none',
+            pointerEvents: isOpen ? "auto" : "none",
           }}
         >
           <div className="p-4">
@@ -223,8 +223,8 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
                   {storeNotifications
                     .filter((notification, index, self) => {
                       const isEmailNotification =
-                        notification.type === 'copy' &&
-                        notification.description?.includes('@');
+                        notification.type === "copy" &&
+                        notification.description?.includes("@");
 
                       if (!isEmailNotification) {
                         return true;
@@ -232,7 +232,7 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
 
                       return (
                         self.findIndex(
-                          (n) => n.description === notification.description
+                          (n) => n.description === notification.description,
                         ) === index
                       );
                     })
@@ -259,13 +259,13 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
           style={{
             background: currentTheme.glass.background,
             border: `1px solid ${currentTheme.glass.border}`,
-            WebkitBackdropFilter: 'blur(30px)',
+            WebkitBackdropFilter: "blur(30px)",
             transform: isOpen
-              ? 'translateX(0)'
-              : 'translateX(calc(100% + 1rem))',
+              ? "translateX(0)"
+              : "translateX(calc(100% + 1rem))",
             opacity: isOpen ? 1 : 0,
-            transitionDelay: isOpen ? '100ms' : '0ms',
-            pointerEvents: isOpen ? 'auto' : 'none',
+            transitionDelay: isOpen ? "100ms" : "0ms",
+            pointerEvents: isOpen ? "auto" : "none",
           }}
         >
           {/* Date Header */}
@@ -282,7 +282,7 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
                   className="text-sm font-medium"
                   style={{ color: currentTheme.text.primary }}
                 >
-                  {moment().format('dddd, MMMM D')}
+                  {moment().format("dddd, MMMM D")}
                 </span>
               </div>
             </div>
@@ -296,12 +296,12 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
                 className="text-sm font-medium"
                 style={{ color: currentTheme.text.primary }}
               >
-                {monthNames[currentMonth.getMonth()]}{' '}
+                {monthNames[currentMonth.getMonth()]}{" "}
                 {currentMonth.getFullYear()}
               </span>
               <div className="flex items-center space-x-1">
                 <button
-                  onClick={() => navigateMonth('prev')}
+                  onClick={() => navigateMonth("prev")}
                   className="p-1 rounded hover:bg-gray-700 transition-colors"
                 >
                   <ChevronUp
@@ -310,7 +310,7 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
                   />
                 </button>
                 <button
-                  onClick={() => navigateMonth('next')}
+                  onClick={() => navigateMonth("next")}
                   className="p-1 rounded hover:bg-gray-700 transition-colors"
                 >
                   <ChevronDown
@@ -347,14 +347,14 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({
                       date && isSelected(date)
                         ? currentTheme.button.backgroundSelected
                         : date && isToday(date)
-                        ? currentTheme.button.backgroundActive
-                        : currentTheme.button.background,
+                          ? currentTheme.button.backgroundActive
+                          : currentTheme.button.background,
                     color:
                       date && isSelected(date)
-                        ? '#ffffff'
+                        ? "#ffffff"
                         : date && isCurrentMonth(date)
-                        ? currentTheme.text.primary
-                        : currentTheme.text.muted,
+                          ? currentTheme.text.primary
+                          : currentTheme.text.muted,
                   }}
                   onMouseEnter={(e) => {
                     if (date && !isSelected(date) && !isToday(date)) {
@@ -392,12 +392,12 @@ function NotificationCard({
 }) {
   const getIcon = () => {
     switch (notification.type) {
-      case 'success':
-      case 'copy':
+      case "success":
+      case "copy":
         return <Check size={14} className="text-green-500" />;
-      case 'error':
+      case "error":
         return <X size={14} className="text-red-500" />;
-      case 'info':
+      case "info":
       default:
         return <Info size={14} style={{ color: theme.text?.muted }} />;
     }

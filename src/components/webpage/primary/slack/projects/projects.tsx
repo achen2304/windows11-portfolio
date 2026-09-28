@@ -1,38 +1,38 @@
-import React from 'react';
-import Message from '../message';
-import { useTheme } from '@/components/theme-provider';
-import { themes } from '@/lib/themes';
-import { SlackTheme } from '@/components/types/system-types';
-import WelcomeBanner from '../common/WelcomeBanner';
-import { useAppOpener, availableApps } from '@/components/webpage/app-openers';
-import { useWindowManager } from '@/components/webpage/window-manager';
+import React from "react";
+import Message from "../message";
+import { useTheme } from "@/components/theme-provider";
+import { themes } from "@/lib/themes";
+import { SlackTheme } from "@/components/types/system-types";
+import WelcomeBanner from "../common/WelcomeBanner";
+import { useAppOpener, availableApps } from "@/components/webpage/app-openers";
+import { useWindowManager } from "@/components/webpage/window-manager";
 
 const Portfolio: React.FC = () => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
   const slackTheme = currentTheme.slack as SlackTheme;
   const { openAppById } = useAppOpener();
-  const { windows, focusAndRestoreWindow} = useWindowManager();
+  const { windows, focusAndRestoreWindow } = useWindowManager();
 
   // Create clickable Projects content
   const projectsContent = (
     <span>
-      Due the the amount of projects I have, I have created a separate{' '}
+      Due the the amount of projects I have, I have created a separate{" "}
       <button
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          
-          const openWindow = windows.find((window) => window.id === 'projects');
-          
-          if (openWindow) {
-              focusAndRestoreWindow('projects');
 
+          const openWindow = windows.find((window) => window.id === "projects");
+
+          if (openWindow) {
+            focusAndRestoreWindow("projects");
           } else {
-            const projectsApp = availableApps.find(app => app.id === 'projects');
+            const projectsApp = availableApps.find(
+              (app) => app.id === "projects",
+            );
             if (projectsApp) {
-              openAppById('projects');
-              
+              openAppById("projects");
             }
           }
         }}
@@ -40,7 +40,7 @@ const Portfolio: React.FC = () => {
         style={{ color: slackTheme.accent }}
       >
         Projects
-      </button>{' '}
+      </button>{" "}
       app :)
       <br />
       (and it was a lot of fun to make!)

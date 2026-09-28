@@ -1,7 +1,7 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from "react";
 
 interface SquaresProps {
-  direction?: 'right' | 'left' | 'up' | 'down' | 'diagonal';
+  direction?: "right" | "left" | "up" | "down" | "diagonal";
   speed?: number;
   borderColor?: string;
   squareSize?: number;
@@ -11,12 +11,12 @@ interface SquaresProps {
 }
 
 export function Squares({
-  direction = 'right',
+  direction = "right",
   speed = 1,
-  borderColor = '#333',
+  borderColor = "#333",
   squareSize = 40,
-  hoverFillColor = '#222',
-  backgroundColor = 'transparent',
+  hoverFillColor = "#222",
+  backgroundColor = "transparent",
   className,
 }: SquaresProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -33,7 +33,7 @@ export function Squares({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     canvas.style.background = backgroundColor;
@@ -45,7 +45,7 @@ export function Squares({
       numSquaresY.current = Math.ceil(canvas.height / squareSize) + 1;
     };
 
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
 
     const drawGrid = () => {
@@ -81,10 +81,10 @@ export function Squares({
         0,
         canvas.width / 2,
         canvas.height / 2,
-        Math.sqrt(Math.pow(canvas.width, 2) + Math.pow(canvas.height, 2)) / 2
+        Math.sqrt(Math.pow(canvas.width, 2) + Math.pow(canvas.height, 2)) / 2,
       );
-      gradient.addColorStop(0, 'rgba(6, 6, 6, 0)');
-      gradient.addColorStop(1, '#060606');
+      gradient.addColorStop(0, "rgba(6, 6, 6, 0)");
+      gradient.addColorStop(1, "#060606");
 
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -94,23 +94,23 @@ export function Squares({
       const effectiveSpeed = Math.max(speed, 0.1);
 
       switch (direction) {
-        case 'right':
+        case "right":
           gridOffset.current.x =
             (gridOffset.current.x - effectiveSpeed + squareSize) % squareSize;
           break;
-        case 'left':
+        case "left":
           gridOffset.current.x =
             (gridOffset.current.x + effectiveSpeed + squareSize) % squareSize;
           break;
-        case 'up':
+        case "up":
           gridOffset.current.y =
             (gridOffset.current.y + effectiveSpeed + squareSize) % squareSize;
           break;
-        case 'down':
+        case "down":
           gridOffset.current.y =
             (gridOffset.current.y - effectiveSpeed + squareSize) % squareSize;
           break;
-        case 'diagonal':
+        case "diagonal":
           gridOffset.current.x =
             (gridOffset.current.x - effectiveSpeed + squareSize) % squareSize;
           gridOffset.current.y =
@@ -131,10 +131,10 @@ export function Squares({
       const startY = Math.floor(gridOffset.current.y / squareSize) * squareSize;
 
       const hoveredSquareX = Math.floor(
-        (mouseX + gridOffset.current.x - startX) / squareSize
+        (mouseX + gridOffset.current.x - startX) / squareSize,
       );
       const hoveredSquareY = Math.floor(
-        (mouseY + gridOffset.current.y - startY) / squareSize
+        (mouseY + gridOffset.current.y - startY) / squareSize,
       );
 
       setHoveredSquare({ x: hoveredSquareX, y: hoveredSquareY });
@@ -144,17 +144,17 @@ export function Squares({
       setHoveredSquare(null);
     };
 
-    window.addEventListener('resize', resizeCanvas);
-    canvas.addEventListener('mousemove', handleMouseMove);
-    canvas.addEventListener('mouseleave', handleMouseLeave);
+    window.addEventListener("resize", resizeCanvas);
+    canvas.addEventListener("mousemove", handleMouseMove);
+    canvas.addEventListener("mouseleave", handleMouseLeave);
 
     resizeCanvas();
     requestRef.current = requestAnimationFrame(updateAnimation);
 
     return () => {
-      window.removeEventListener('resize', resizeCanvas);
-      canvas.removeEventListener('mousemove', handleMouseMove);
-      canvas.removeEventListener('mouseleave', handleMouseLeave);
+      window.removeEventListener("resize", resizeCanvas);
+      canvas.removeEventListener("mousemove", handleMouseMove);
+      canvas.removeEventListener("mouseleave", handleMouseLeave);
       if (requestRef.current) {
         cancelAnimationFrame(requestRef.current);
       }

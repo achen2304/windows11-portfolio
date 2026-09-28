@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
-import { BiDotsHorizontalRounded } from 'react-icons/bi';
-import { useTheme } from '../../../theme-provider';
-import { themes } from '@/lib/themes';
-import { CommentWithStringId } from './types';
-import { generateUserColor, formatTimestamp } from './utils';
+import React from "react";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
+import { useTheme } from "../../../theme-provider";
+import { themes } from "@/lib/themes";
+import { CommentWithStringId } from "./types";
+import { generateUserColor, formatTimestamp } from "./utils";
 
 interface CommentItemProps {
   comment: CommentWithStringId;
@@ -28,7 +28,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({
     text: currentTheme.text.primary,
     textMuted: currentTheme.text.muted,
     hover: currentTheme.button.backgroundHover,
-    red: '#f91880',
+    red: "#f91880",
   };
 
   return (
@@ -36,13 +36,13 @@ export const CommentItem: React.FC<CommentItemProps> = ({
       className="p-3 border-b transition-colors hover:cursor-pointer"
       style={{
         borderColor: colors.border,
-        backgroundColor: 'transparent',
+        backgroundColor: "transparent",
       }}
       onMouseEnter={(e) =>
         (e.currentTarget.style.backgroundColor = colors.hover)
       }
       onMouseLeave={(e) =>
-        (e.currentTarget.style.backgroundColor = 'transparent')
+        (e.currentTarget.style.backgroundColor = "transparent")
       }
     >
       <div className="flex space-x-3">

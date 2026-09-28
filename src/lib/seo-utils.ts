@@ -1,15 +1,15 @@
-import { Metadata } from 'next';
+import { Metadata } from "next";
 
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://caichen.dev';
+  process.env.NEXT_PUBLIC_SITE_URL || "https://caichen.dev";
 
 export const defaultMetadata = {
-  siteName: 'Cai Chen Portfolio',
-  author: 'Cai Chen',
-  twitterHandle: '@caichen',
-  defaultImage: '/other/readme-banner.webp',
-  defaultImageAlt: 'Cai Chen - Windows 11 Portfolio Preview',
-  profileImage: '/other/profile.webp',
+  siteName: "Cai Chen Portfolio",
+  author: "Cai Chen",
+  twitterHandle: "@caichen",
+  defaultImage: "/other/readme-banner.webp",
+  defaultImageAlt: "Cai Chen - Windows 11 Portfolio Preview",
+  profileImage: "/other/profile.webp",
 };
 
 export function generatePageMetadata({
@@ -31,13 +31,13 @@ export function generatePageMetadata({
   const url = SITE_URL;
 
   const keywords = [
-    'Cai Chen',
-    'software engineer',
-    'full-stack developer',
-    'portfolio',
-    'React',
-    'Next.js',
-    'TypeScript',
+    "Cai Chen",
+    "software engineer",
+    "full-stack developer",
+    "portfolio",
+    "React",
+    "Next.js",
+    "TypeScript",
     ...additionalKeywords,
   ];
 
@@ -60,11 +60,11 @@ export function generatePageMetadata({
           alt: imageAlt,
         },
       ],
-      locale: 'en_US',
-      type: 'website',
+      locale: "en_US",
+      type: "website",
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: fullTitle,
       description,
       images: [image],
@@ -76,9 +76,9 @@ export function generatePageMetadata({
       googleBot: {
         index: !noIndex,
         follow: !noIndex,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
       },
     },
     alternates: {
@@ -89,44 +89,44 @@ export function generatePageMetadata({
 
 export function generatePersonStructuredData() {
   return {
-    '@context': 'https://schema.org',
-    '@type': 'Person',
+    "@context": "https://schema.org",
+    "@type": "Person",
     name: defaultMetadata.author,
-    jobTitle: 'Full-Stack Software Engineer',
+    jobTitle: "Full-Stack Software Engineer",
     description:
-      'Passionate full-stack software engineer specializing in React, Next.js, TypeScript, Node.js, and modern web development.',
+      "Passionate full-stack software engineer specializing in React, Next.js, TypeScript, Node.js, and modern web development.",
     url: SITE_URL,
     image: `${SITE_URL}${defaultMetadata.profileImage}`,
     sameAs: [
-      process.env.NEXT_PUBLIC_GITHUB_URL || 'https://github.com/achen2304',
-      process.env.NEXT_PUBLIC_LINKEDIN_URL || 'https://linkedin.com/in/caichen',
+      process.env.NEXT_PUBLIC_GITHUB_URL || "https://github.com/achen2304",
+      process.env.NEXT_PUBLIC_LINKEDIN_URL || "https://linkedin.com/in/caichen",
     ],
     knowsAbout: [
-      'React',
-      'Next.js',
-      'TypeScript',
-      'JavaScript',
-      'Node.js',
-      'Python',
-      'Java',
-      'MongoDB',
-      'Express.js',
-      'AWS',
-      'Full-Stack Development',
-      'Frontend Development',
-      'Backend Development',
-      'Web Development',
+      "React",
+      "Next.js",
+      "TypeScript",
+      "JavaScript",
+      "Node.js",
+      "Python",
+      "Java",
+      "MongoDB",
+      "Express.js",
+      "AWS",
+      "Full-Stack Development",
+      "Frontend Development",
+      "Backend Development",
+      "Web Development",
     ],
     alumniOf: {
-      '@type': 'EducationalOrganization',
-      name: 'Iowa State University',
+      "@type": "EducationalOrganization",
+      name: "Iowa State University",
     },
     hasOccupation: {
-      '@type': 'Occupation',
-      name: 'Software Engineer',
+      "@type": "Occupation",
+      name: "Software Engineer",
       occupationLocation: {
-        '@type': 'Place',
-        name: 'United States',
+        "@type": "Place",
+        name: "United States",
       },
     },
   };
@@ -134,20 +134,20 @@ export function generatePersonStructuredData() {
 
 export function generateWebsiteStructuredData() {
   return {
-    '@context': 'https://schema.org',
-    '@type': 'Website',
+    "@context": "https://schema.org",
+    "@type": "Website",
     name: defaultMetadata.siteName,
     description:
-      'Interactive Windows 11-inspired portfolio showcasing full-stack development skills',
+      "Interactive Windows 11-inspired portfolio showcasing full-stack development skills",
     url: SITE_URL,
     author: {
-      '@type': 'Person',
+      "@type": "Person",
       name: defaultMetadata.author,
     },
-    inLanguage: 'en-US',
+    inLanguage: "en-US",
     copyrightYear: new Date().getFullYear(),
     copyrightHolder: {
-      '@type': 'Person',
+      "@type": "Person",
       name: defaultMetadata.author,
     },
   };
@@ -158,15 +158,15 @@ export function generateCreativeWorkStructuredData(
   description: string,
   technologies: string[],
   url?: string,
-  image?: string
+  image?: string,
 ) {
   return {
-    '@context': 'https://schema.org',
-    '@type': 'CreativeWork',
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
     name: title,
     description,
     creator: {
-      '@type': 'Person',
+      "@type": "Person",
       name: defaultMetadata.author,
     },
     about: technologies,
@@ -174,6 +174,6 @@ export function generateCreativeWorkStructuredData(
     image: image
       ? `${SITE_URL}${image}`
       : `${SITE_URL}${defaultMetadata.defaultImage}`,
-    inLanguage: 'en-US',
+    inLanguage: "en-US",
   };
 }

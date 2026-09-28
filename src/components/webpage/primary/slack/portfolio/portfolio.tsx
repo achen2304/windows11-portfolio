@@ -1,10 +1,10 @@
-import React from 'react';
-import Message from '../message';
-import { useTheme } from '@/components/theme-provider';
-import { themes } from '@/lib/themes';
-import { SlackTheme } from '@/components/types/system-types';
-import WelcomeBanner from '../common/WelcomeBanner';
-import { PORTFOLIO_MESSAGES } from '@/data/portfolio-messages';
+import React from "react";
+import Message from "../message";
+import { useTheme } from "@/components/theme-provider";
+import { themes } from "@/lib/themes";
+import { SlackTheme } from "@/components/types/system-types";
+import WelcomeBanner from "../common/WelcomeBanner";
+import { PORTFOLIO_MESSAGES } from "@/data/portfolio-messages";
 
 const Portfolio: React.FC = () => {
   const { theme } = useTheme();
@@ -26,7 +26,7 @@ const Portfolio: React.FC = () => {
           <Message
             key={index}
             content={message.content}
-            user={message.user || 'Cai Chen'}
+            user={message.user || "Cai Chen"}
             timestamp={message.time}
             avatar="/other/profile.webp"
           />

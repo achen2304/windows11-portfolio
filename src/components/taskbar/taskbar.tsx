@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import moment from 'moment';
-import { useTheme } from '../theme-provider';
-import { themes } from '@/lib/themes';
-import { TaskbarProps, PanelType } from './taskbar-types';
-import { useWindowManager } from '../webpage/window-manager';
-import { handleAppClick } from '@/lib/window-utils';
+import React, { useState, useEffect } from "react";
+import moment from "moment";
+import { useTheme } from "../theme-provider";
+import { themes } from "@/lib/themes";
+import { TaskbarProps, PanelType } from "./taskbar-types";
+import { useWindowManager } from "../webpage/window-manager";
+import { handleAppClick } from "@/lib/window-utils";
 import {
   Wifi,
   Volume2,
@@ -14,11 +14,11 @@ import {
   Sun,
   Moon,
   BatteryMedium,
-} from 'lucide-react';
-import Image from 'next/image';
-import { getQuickLinks } from '@/components/webpage/apps/apps';
-import { useToast } from '@/components/ui/toast';
-import { copyToClipboard } from '@/lib/notification-utils';
+} from "lucide-react";
+import Image from "next/image";
+import { getQuickLinks } from "@/components/webpage/apps/apps";
+import { useToast } from "@/components/ui/toast";
+import { copyToClipboard } from "@/lib/notification-utils";
 
 interface TaskbarComponentProps extends TaskbarProps {
   onSystemTrayClick?: () => void;
@@ -36,7 +36,7 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
   onDateTimeClick = () => {},
   onSoundboardClick = () => {},
   activePanels = new Set(),
-  className = '',
+  className = "",
 }) => {
   const { theme, setTheme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
@@ -60,23 +60,23 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
   const toggleTheme = () => {
     setIsSpinning(true);
     setTimeout(() => {
-      setTheme(theme === 'dark' ? 'light' : 'dark');
+      setTheme(theme === "dark" ? "light" : "dark");
       setIsSpinning(false);
     }, 150);
   };
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.style.backgroundColor =
-      theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+      theme === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)";
   };
 
   const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.currentTarget.style.backgroundColor = 'transparent';
+    e.currentTarget.style.backgroundColor = "transparent";
   };
 
-  const isSystemPanelActive = activePanels.has('system');
-  const isCalendarPanelActive = activePanels.has('calendar');
-  const isSoundboardPanelActive = activePanels.has('soundboard');
+  const isSystemPanelActive = activePanels.has("system");
+  const isCalendarPanelActive = activePanels.has("calendar");
+  const isSoundboardPanelActive = activePanels.has("soundboard");
 
   const handleTaskbarAppClick = (appId: string) => {
     setClickedApp(appId);
@@ -88,17 +88,17 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
       focusWindow,
       minimizeWindow,
       onAppClick,
-      focusAndRestoreWindow
+      focusAndRestoreWindow,
     );
   };
 
   const handleQuickLinkClick = async (item: (typeof quickLinks)[0]) => {
     if (item.url) {
-      if (item.type === 'copy' && item.url.startsWith('mailto:')) {
-        const email = item.url.replace('mailto:', '');
-        await copyToClipboard(email, 'Email copied!', addToast);
+      if (item.type === "copy" && item.url.startsWith("mailto:")) {
+        const email = item.url.replace("mailto:", "");
+        await copyToClipboard(email, "Email copied!", addToast);
       } else if (item.newTab === true) {
-        window.open(item.url, '_blank');
+        window.open(item.url, "_blank");
       } else {
         window.location.href = item.url;
       }
@@ -109,14 +109,14 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
     <div
       className={`fixed bottom-0 left-0 right-0 z-[300] backdrop-blur-md ${className}`}
       style={{
-        height: '48px',
+        height: "48px",
         background:
-          theme === 'dark'
-            ? 'rgba(31, 31, 31, 0.9)'
-            : 'rgba(243, 243, 243, 0.9)',
+          theme === "dark"
+            ? "rgba(31, 31, 31, 0.9)"
+            : "rgba(243, 243, 243, 0.9)",
         borderTop: `1px solid ${currentTheme.glass.border}`,
-        WebkitBackdropFilter: 'blur(20px)',
-        pointerEvents: 'auto',
+        WebkitBackdropFilter: "blur(20px)",
+        pointerEvents: "auto",
       }}
     >
       <div className="flex items-center justify-between h-full px-2">
@@ -131,19 +131,19 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
             }}
             className="flex items-center justify-center w-10 h-10 mx-1 rounded transition-colors duration-200 cursor-pointer"
             style={{
-              backgroundColor: activePanels.has('start')
-                ? theme === 'dark'
-                  ? 'rgba(255, 255, 255, 0.15)'
-                  : 'rgba(0, 0, 0, 0.15)'
-                : 'transparent',
+              backgroundColor: activePanels.has("start")
+                ? theme === "dark"
+                  ? "rgba(255, 255, 255, 0.15)"
+                  : "rgba(0, 0, 0, 0.15)"
+                : "transparent",
               color: currentTheme.text.primary,
-              pointerEvents: 'auto',
+              pointerEvents: "auto",
             }}
             onMouseEnter={
-              !activePanels.has('start') ? handleMouseEnter : undefined
+              !activePanels.has("start") ? handleMouseEnter : undefined
             }
             onMouseLeave={
-              !activePanels.has('start') ? handleMouseLeave : undefined
+              !activePanels.has("start") ? handleMouseLeave : undefined
             }
           >
             <div className="w-6 h-6 flex items-center justify-center">
@@ -170,20 +170,20 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
                 style={{
                   backgroundColor:
                     hoveredApp === app.id
-                      ? theme === 'dark'
-                        ? 'rgba(255, 255, 255, 0.1)'
-                        : 'rgba(0, 0, 0, 0.1)'
-                      : 'transparent',
-                  pointerEvents: 'auto',
+                      ? theme === "dark"
+                        ? "rgba(255, 255, 255, 0.1)"
+                        : "rgba(0, 0, 0, 0.1)"
+                      : "transparent",
+                  pointerEvents: "auto",
                 }}
               >
                 <Image
                   src={
-                    theme === 'dark' && app.iconLight !== undefined
-                      ? app.icon || '/app icons/quick links/default.svg'
+                    theme === "dark" && app.iconLight !== undefined
+                      ? app.icon || "/app icons/quick links/default.svg"
                       : app.iconLight ||
                         app.icon ||
-                        '/app icons/quick links/default.svg'
+                        "/app icons/quick links/default.svg"
                   }
                   alt={app.name}
                   className="w-8 h-8 object-contain pointer-events-none transition-transform duration-150 ease-out"
@@ -191,14 +191,14 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
                   height={32}
                   style={{
                     transform:
-                      clickedApp === app.id ? 'scale(0.9)' : 'scale(1)',
+                      clickedApp === app.id ? "scale(0.9)" : "scale(1)",
                   }}
                 />
 
                 {/* Window state indicators */}
                 {(() => {
                   const openWindow = windows.find((window) =>
-                    window.id.startsWith(app.id)
+                    window.id.startsWith(app.id),
                   );
                   const hasOpenWindow = !!openWindow;
                   const isWindowActive =
@@ -210,9 +210,9 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
                         className="absolute bottom-1 left-1/2 transform -translate-x-1/2 rounded-full pointer-events-none transition-all duration-300 ease-out"
                         style={{
                           backgroundColor:
-                            theme === 'dark' ? '#ffffff' : '#000000',
-                          width: '24px',
-                          height: '3px',
+                            theme === "dark" ? "#ffffff" : "#000000",
+                          width: "24px",
+                          height: "3px",
                         }}
                       />
                     );
@@ -222,9 +222,9 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
                         className="absolute bottom-1 left-1/2 transform -translate-x-1/2 rounded-full pointer-events-none transition-all duration-300 ease-out"
                         style={{
                           backgroundColor:
-                            theme === 'dark' ? '#ffffff' : '#000000',
-                          width: '6px',
-                          height: '6px',
+                            theme === "dark" ? "#ffffff" : "#000000",
+                          width: "6px",
+                          height: "6px",
                         }}
                       />
                     );
@@ -248,12 +248,12 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
             className="flex items-center justify-center w-10 h-10 rounded transition-colors duration-200 cursor-pointer"
             style={{
               backgroundColor: isSoundboardPanelActive
-                ? theme === 'dark'
-                  ? 'rgba(255, 255, 255, 0.15)'
-                  : 'rgba(0, 0, 0, 0.15)'
-                : 'transparent',
+                ? theme === "dark"
+                  ? "rgba(255, 255, 255, 0.15)"
+                  : "rgba(0, 0, 0, 0.15)"
+                : "transparent",
               color: currentTheme.text.primary,
-              pointerEvents: 'auto',
+              pointerEvents: "auto",
             }}
             onMouseEnter={
               !isSoundboardPanelActive ? handleMouseEnter : undefined
@@ -279,7 +279,7 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
                 className="flex items-center justify-center w-10 h-10 rounded transition-colors duration-200 cursor-pointer"
                 style={{
                   color: currentTheme.text.primary,
-                  pointerEvents: 'auto',
+                  pointerEvents: "auto",
                 }}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
@@ -287,11 +287,11 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
               >
                 <Image
                   src={
-                    theme === 'dark' && link.iconLight
-                      ? link.icon || '/app icons/quick links/default.svg'
+                    theme === "dark" && link.iconLight
+                      ? link.icon || "/app icons/quick links/default.svg"
                       : link.iconLight ||
                         link.icon ||
-                        '/app icons/quick links/default.svg'
+                        "/app icons/quick links/default.svg"
                   }
                   alt={link.name}
                   className="w-5 h-5 object-contain pointer-events-none"
@@ -312,19 +312,19 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
             className="flex items-center justify-center w-10 h-10 mx-1 rounded transition-colors duration-200 cursor-pointer"
             style={{
               color: currentTheme.text.primary,
-              pointerEvents: 'auto',
+              pointerEvents: "auto",
             }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
           >
             <div
               className="transition-transform duration-300 ease-in-out pointer-events-none"
               style={{
-                transform: isSpinning ? 'rotate(180deg)' : 'rotate(0deg)',
+                transform: isSpinning ? "rotate(180deg)" : "rotate(0deg)",
               }}
             >
-              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+              {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
             </div>
           </button>
 
@@ -338,12 +338,12 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
             className="flex items-center space-x-2 px-2 py-2 mx-1 rounded transition-colors duration-200 w-20 h-10 cursor-pointer"
             style={{
               backgroundColor: isSystemPanelActive
-                ? theme === 'dark'
-                  ? 'rgba(255, 255, 255, 0.15)'
-                  : 'rgba(0, 0, 0, 0.15)'
-                : 'transparent',
+                ? theme === "dark"
+                  ? "rgba(255, 255, 255, 0.15)"
+                  : "rgba(0, 0, 0, 0.15)"
+                : "transparent",
               color: currentTheme.text.primary,
-              pointerEvents: 'auto',
+              pointerEvents: "auto",
             }}
             onMouseEnter={!isSystemPanelActive ? handleMouseEnter : undefined}
             onMouseLeave={!isSystemPanelActive ? handleMouseLeave : undefined}
@@ -363,24 +363,24 @@ const Taskbar: React.FC<TaskbarComponentProps> = ({
             className="flex flex-col items-end justify-center px-3 py-1 rounded transition-colors duration-200 min-w-[80px] h-10 cursor-pointer"
             style={{
               backgroundColor: isCalendarPanelActive
-                ? theme === 'dark'
-                  ? 'rgba(255, 255, 255, 0.15)'
-                  : 'rgba(0, 0, 0, 0.15)'
-                : 'transparent',
+                ? theme === "dark"
+                  ? "rgba(255, 255, 255, 0.15)"
+                  : "rgba(0, 0, 0, 0.15)"
+                : "transparent",
               color: currentTheme.text.primary,
-              pointerEvents: 'auto',
+              pointerEvents: "auto",
             }}
             onMouseEnter={!isCalendarPanelActive ? handleMouseEnter : undefined}
             onMouseLeave={!isCalendarPanelActive ? handleMouseLeave : undefined}
           >
             <span className="text-sm font-medium leading-tight pointer-events-none">
-              {currentTime.format('h:mm A')}
+              {currentTime.format("h:mm A")}
             </span>
             <span
               className="text-xs leading-tight pointer-events-none"
               style={{ color: currentTheme.text.secondary }}
             >
-              {currentTime.format('M/D/YYYY')}
+              {currentTime.format("M/D/YYYY")}
             </span>
           </button>
         </div>

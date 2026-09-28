@@ -1,10 +1,10 @@
-import React from 'react';
-import { useTheme } from '../../../../theme-provider';
-import { themes } from '@/lib/themes';
-import { SlackTheme } from '@/components/types/system-types';
-import Message from '../message';
-import WelcomeBanner from '../common/WelcomeBanner';
-import { MESSAGES } from '@/data/about-messages';
+import React from "react";
+import { useTheme } from "../../../../theme-provider";
+import { themes } from "@/lib/themes";
+import { SlackTheme } from "@/components/types/system-types";
+import Message from "../message";
+import WelcomeBanner from "../common/WelcomeBanner";
+import { MESSAGES } from "@/data/about-messages";
 
 const GeneralChannel: React.FC = () => {
   const { theme } = useTheme();

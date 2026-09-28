@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { X, ChevronLeft, Play } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import { X, ChevronLeft, Play } from "lucide-react";
 import {
   Artist,
   PlaylistTrack,
   Playlist,
-} from '../helpers/spotify-play-service';
-import { AudioTrack, getSpotifyManager } from '../helpers/current-song-helper';
+} from "../helpers/spotify-play-service";
+import { AudioTrack, getSpotifyManager } from "../helpers/current-song-helper";
 
 interface SpotifyData {
   profile: {
@@ -49,11 +49,11 @@ const FriendPanel: React.FC<FriendPanelProps> = ({
   isActive = true,
 }) => {
   // Spotify colors
-  const spotifyBg = '#121212';
-  const spotifyCard = '#181818';
-  const spotifyText = '#FFFFFF';
-  const spotifyTextSecondary = '#B3B3B3';
-  const spotifyGreen = '#1DB954';
+  const spotifyBg = "#121212";
+  const spotifyCard = "#181818";
+  const spotifyText = "#FFFFFF";
+  const spotifyTextSecondary = "#B3B3B3";
+  const spotifyGreen = "#1DB954";
 
   // State for currently playing track
   const [currentlyPlaying, setCurrentlyPlaying] =
@@ -65,14 +65,14 @@ const FriendPanel: React.FC<FriendPanelProps> = ({
     currentTrack ||
     spotifyData.currentTrack ||
     spotifyData.topTracks?.items?.[0];
-  const displayName = spotifyData.profile?.display_name || 'You';
+  const displayName = spotifyData.profile?.display_name || "You";
 
   const spotifyManager = getSpotifyManager();
 
   // Function to fetch currently playing track
   const fetchCurrentlyPlaying = async () => {
     try {
-      const response = await fetch('/api/spotify?type=current-track');
+      const response = await fetch("/api/spotify?type=current-track");
 
       if (response.ok) {
         const data = await response.json();
@@ -102,7 +102,7 @@ const FriendPanel: React.FC<FriendPanelProps> = ({
         setCurrentlyPlaying(null);
       }
     } catch (error) {
-      console.error('Failed to fetch currently playing track:', error);
+      console.error("Failed to fetch currently playing track:", error);
       setCurrentlyPlaying(null);
     }
   };
@@ -121,12 +121,12 @@ const FriendPanel: React.FC<FriendPanelProps> = ({
 
   const handlePlayTrack = async (
     track: PlaylistTrack | AudioTrack,
-    context?: string
+    context?: string,
   ) => {
     // Convert track to AudioTrack format if it's a PlaylistTrack
     let audioTrack: AudioTrack;
 
-    if ('album' in track && track.album && 'name' in track.album) {
+    if ("album" in track && track.album && "name" in track.album) {
       // This is a PlaylistTrack
       audioTrack = {
         id: track.id,
@@ -148,9 +148,9 @@ const FriendPanel: React.FC<FriendPanelProps> = ({
     try {
       await spotifyManager.playTrack(audioTrack, context);
     } catch (error) {
-      console.error('❌ Failed to play track:', error);
+      console.error("❌ Failed to play track:", error);
       alert(
-        `Failed to play "${track.name}". Make sure you have Spotify Premium.`
+        `Failed to play "${track.name}". Make sure you have Spotify Premium.`,
       );
     }
   };
@@ -160,9 +160,9 @@ const FriendPanel: React.FC<FriendPanelProps> = ({
   }
 
   const truncateText = (text: string | undefined, maxLength: number) => {
-    if (!text) return '';
+    if (!text) return "";
     if (text.length <= maxLength) return text;
-    return text.substring(0, maxLength) + '...';
+    return text.substring(0, maxLength) + "...";
   };
 
   return (
@@ -170,14 +170,14 @@ const FriendPanel: React.FC<FriendPanelProps> = ({
       className="flex flex-col h-full"
       style={{
         backgroundColor: spotifyBg,
-        minWidth: '240px',
-        maxWidth: '400px',
+        minWidth: "240px",
+        maxWidth: "400px",
       }}
     >
       {/* Header */}
       <div
         className="flex items-center justify-between p-3 border-b flex-shrink-0"
-        style={{ borderColor: '#282828' }}
+        style={{ borderColor: "#282828" }}
       >
         <div className="flex items-center gap-3">
           {showBackButton && (
@@ -211,7 +211,7 @@ const FriendPanel: React.FC<FriendPanelProps> = ({
       {/* Friend Activity Content - scrollable */}
       <div
         className="flex-1 overflow-y-auto spotify-scrollbar"
-        style={{ maxHeight: 'calc(100% - 80px)' }}
+        style={{ maxHeight: "calc(100% - 80px)" }}
       >
         <div className="p-3">
           {displayTrack ? (
@@ -346,11 +346,11 @@ const FriendPanel: React.FC<FriendPanelProps> = ({
                     style={{ color: spotifyTextSecondary }}
                     title={displayTrack.artists
                       ?.map((a: { name: string }) => a.name)
-                      .join(', ')}
+                      .join(", ")}
                   >
                     {displayTrack.artists
                       ?.map((a: { name: string }) => a.name)
-                      .join(', ')}
+                      .join(", ")}
                   </div>
                 </div>
               </div>

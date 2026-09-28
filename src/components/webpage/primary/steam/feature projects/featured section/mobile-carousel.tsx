@@ -1,9 +1,9 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { Project } from '@/data/projects';
-import { SteamTheme } from '@/components/types/system-types';
-import { motion, AnimatePresence, PanInfo } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import MobileFeaturedCard from './mobile-featured-card';
+import React, { useState, useCallback, useEffect } from "react";
+import { Project } from "@/data/projects";
+import { SteamTheme } from "@/components/types/system-types";
+import { motion, AnimatePresence, PanInfo } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import MobileFeaturedCard from "./mobile-featured-card";
 
 interface MobileCarouselProps {
   projects: Project[];
@@ -53,7 +53,7 @@ const MobileCarousel: React.FC<MobileCarouselProps> = ({
 
   const handleDragEnd = (
     event: MouseEvent | TouchEvent | PointerEvent,
-    info: PanInfo
+    info: PanInfo,
   ) => {
     const threshold = 50; // minimum distance for swipe
     if (Math.abs(info.offset.x) > threshold) {
@@ -121,7 +121,7 @@ const MobileCarousel: React.FC<MobileCarouselProps> = ({
           onClick={prevProject}
           className="flex items-center justify-center w-10 h-10 text-white cursor-pointer rounded-full bg-black/70 backdrop-blur-sm"
           style={{
-            background: 'linear-gradient(to left, #1D2C3D, #141e2a)',
+            background: "linear-gradient(to left, #1D2C3D, #141e2a)",
             border: `1px solid ${steamTheme.divider}`,
           }}
           whileTap={{ scale: 0.9 }}
@@ -137,7 +137,7 @@ const MobileCarousel: React.FC<MobileCarouselProps> = ({
           onClick={nextProject}
           className="flex items-center justify-center w-10 h-10 text-white cursor-pointer rounded-full bg-black/70 backdrop-blur-sm"
           style={{
-            background: 'linear-gradient(to right, #1D2C3D, #141e2a)',
+            background: "linear-gradient(to right, #1D2C3D, #141e2a)",
             border: `1px solid ${steamTheme.divider}`,
           }}
           whileTap={{ scale: 0.9 }}
@@ -159,8 +159,8 @@ const MobileCarousel: React.FC<MobileCarouselProps> = ({
             }}
             className={`w-3.5 h-2 rounded-full transition-all hover:cursor-pointer ${
               index === currentIndex
-                ? 'bg-white/80 scale-110'
-                : 'bg-white/30 hover:bg-white/50'
+                ? "bg-white/80 scale-110"
+                : "bg-white/30 hover:bg-white/50"
             }`}
             whileTap={{ scale: 0.9 }}
           />

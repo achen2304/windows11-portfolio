@@ -1,11 +1,11 @@
-import React from 'react';
-import { Project } from '@/data/projects';
-import { SteamTheme } from '@/components/types/system-types';
-import Image from 'next/image';
-import { useWindowSize } from '@/components/webpage/breakpoints';
-import { useNavigation } from '@/components/webpage/chevron-button';
-import { Tilt } from '@/components/ui/tilt';
-import MobileFeaturedCard from './mobile-featured-card';
+import React from "react";
+import { Project } from "@/data/projects";
+import { SteamTheme } from "@/components/types/system-types";
+import Image from "next/image";
+import { useWindowSize } from "@/components/webpage/breakpoints";
+import { useNavigation } from "@/components/webpage/chevron-button";
+import { Tilt } from "@/components/ui/tilt";
+import MobileFeaturedCard from "./mobile-featured-card";
 
 interface FeaturedCardProps {
   project: Project;
@@ -16,8 +16,8 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ project, steamTheme }) => {
   const { navigate } = useNavigation();
 
   const handleProjectClick = (projectName: string) => {
-    navigate('steam-app', {
-      tab: 'all',
+    navigate("steam-app", {
+      tab: "all",
       project: projectName,
     });
   };
@@ -68,7 +68,7 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ project, steamTheme }) => {
           {/* Right sidebar */}
           <div
             className="w-1/3 h-full flex flex-col justify-between p-4"
-            style={{ background: 'rgba(0,0,0,0.4)' }}
+            style={{ background: "rgba(0,0,0,0.4)" }}
           >
             {/* Top content area */}
             <div className="flex flex-col gap-3">
@@ -112,7 +112,7 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ project, steamTheme }) => {
                       key={tech}
                       className="px-2 py-0.5 rounded text-sm"
                       style={{
-                        background: 'rgba(25, 32, 46, 0.8)',
+                        background: "rgba(25, 32, 46, 0.8)",
                         color: steamTheme.textSecondary,
                         border: `1px solid ${steamTheme.divider}`,
                       }}
@@ -138,7 +138,7 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ project, steamTheme }) => {
                 className="w-full flex items-center justify-center gap-2 px-3 py-2 cursor-pointer rounded text-md font-medium"
                 style={{
                   background: `linear-gradient(to right, ${steamTheme.buttonGradientStart}, ${steamTheme.buttonGradientEnd})`,
-                  color: '#ffffff',
+                  color: "#ffffff",
                 }}
               >
                 <span>View Project</span>

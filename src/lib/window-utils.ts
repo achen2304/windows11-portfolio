@@ -1,4 +1,4 @@
-import { WindowState } from '@/components/webpage/window-manager';
+import { WindowState } from "@/components/webpage/window-manager";
 
 export const handleAppClick = (
   appId: string,
@@ -6,7 +6,7 @@ export const handleAppClick = (
   focusWindow: (id: string) => void,
   minimizeWindow: (id: string) => void,
   openAppById: (id: string) => void,
-  focusAndRestoreWindow?: (id: string) => void
+  focusAndRestoreWindow?: (id: string) => void,
 ) => {
   const openWindow = windows.find((window) => window.id === appId);
 

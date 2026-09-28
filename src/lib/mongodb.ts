@@ -1,11 +1,11 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient } from "mongodb";
 
 const MONGODB_URI = process.env.MONGODB_URI;
-const DB_NAME = process.env.MONGODB_DB_NAME || 'portfolio';
+const DB_NAME = process.env.MONGODB_DB_NAME || "portfolio";
 
 if (!MONGODB_URI) {
   throw new Error(
-    'Please define the MONGODB_URI environment variable inside .env.local'
+    "Please define the MONGODB_URI environment variable inside .env.local",
   );
 }
 
@@ -17,7 +17,7 @@ declare global {
   var _mongoClientPromise: Promise<MongoClient> | undefined;
 }
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === "development") {
   if (!global._mongoClientPromise) {
     client = new MongoClient(MONGODB_URI, {
       maxPoolSize: 1,
@@ -48,8 +48,8 @@ export async function connectToDatabase() {
     const db = client.db(DB_NAME);
     return { client, db };
   } catch (error) {
-    console.error('Failed to connect to MongoDB:', error);
-    throw new Error('Database connection failed');
+    console.error("Failed to connect to MongoDB:", error);
+    throw new Error("Database connection failed");
   }
 }
 

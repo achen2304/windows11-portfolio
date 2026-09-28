@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useToast } from '@/components/ui/toast';
-import { copyToClipboard } from '@/lib/notification-utils';
-import { useAppOpeners } from '@/components/webpage/app-openers';
+import React from "react";
+import { useToast } from "@/components/ui/toast";
+import { copyToClipboard } from "@/lib/notification-utils";
+import { useAppOpeners } from "@/components/webpage/app-openers";
 
 export const defaultText = `hi, i'm cai \n\nthis is my (wip) portfolio website :) \n\nto get started checkout the "about" or slack app in the background, taskbar or start menu! \n\np.s. **everything** is interactive `;
 
 export const useEditorHandlers = (
   textareaRef: React.RefObject<HTMLTextAreaElement | null>,
   setContent: React.Dispatch<React.SetStateAction<string>>,
-  onNewDocument?: () => void
+  onNewDocument?: () => void,
 ) => {
   const { addToast } = useToast();
   const { openTextEditor } = useAppOpeners();
@@ -28,14 +28,14 @@ export const useEditorHandlers = (
   }, []);
 
   const handleNewDocument = () => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('notepad-content', defaultText);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("notepad-content", defaultText);
     }
 
     addToast({
-      title: 'New document created',
-      description: 'All content has been reset to default',
-      type: 'info',
+      title: "New document created",
+      description: "All content has been reset to default",
+      type: "info",
     });
 
     resetHistory(defaultText);
@@ -56,13 +56,13 @@ export const useEditorHandlers = (
   };
 
   const handleSave = () => {
-    if (typeof window !== 'undefined' && textareaRef.current) {
-      localStorage.setItem('notepad-content', textareaRef.current.value || '');
+    if (typeof window !== "undefined" && textareaRef.current) {
+      localStorage.setItem("notepad-content", textareaRef.current.value || "");
 
       addToast({
-        title: 'Document saved',
-        description: 'Your changes have been saved',
-        type: 'success',
+        title: "Document saved",
+        description: "Your changes have been saved",
+        type: "success",
       });
     }
   };
@@ -127,13 +127,13 @@ export const useEditorHandlers = (
       setCanRedo(true);
 
       addToast({
-        title: 'Undo successful',
-        type: 'success',
+        title: "Undo successful",
+        type: "success",
       });
     } else {
       addToast({
-        title: 'Nothing to undo',
-        type: 'info',
+        title: "Nothing to undo",
+        type: "info",
       });
     }
   };
@@ -148,13 +148,13 @@ export const useEditorHandlers = (
       setCanRedo(newIndex < textHistory.length - 1);
 
       addToast({
-        title: 'Redo successful',
-        type: 'success',
+        title: "Redo successful",
+        type: "success",
       });
     } else {
       addToast({
-        title: 'Nothing to redo',
-        type: 'info',
+        title: "Nothing to redo",
+        type: "info",
       });
     }
   };
@@ -163,12 +163,12 @@ export const useEditorHandlers = (
     if (textareaRef.current) {
       const textToCopy = textareaRef.current.value;
 
-      copyToClipboard(textToCopy, 'Cut to clipboard', addToast).then(
+      copyToClipboard(textToCopy, "Cut to clipboard", addToast).then(
         (success) => {
           if (success) {
-            setContent('');
+            setContent("");
           }
-        }
+        },
       );
     }
   };
@@ -176,7 +176,7 @@ export const useEditorHandlers = (
   const handleCopy = () => {
     if (textareaRef.current) {
       const textToCopy = textareaRef.current.value;
-      copyToClipboard(textToCopy, 'Copied to clipboard', addToast);
+      copyToClipboard(textToCopy, "Copied to clipboard", addToast);
     }
   };
 
@@ -191,17 +191,17 @@ export const useEditorHandlers = (
         setContent(newText);
 
         addToast({
-          title: 'Content pasted',
+          title: "Content pasted",
           description: `${clipboardText.length} characters pasted`,
-          type: 'success',
+          type: "success",
         });
       }
     } catch (err) {
-      console.error('Failed to read clipboard', err);
+      console.error("Failed to read clipboard", err);
       addToast({
-        title: 'Failed to paste content',
-        description: 'Could not access clipboard',
-        type: 'error',
+        title: "Failed to paste content",
+        description: "Could not access clipboard",
+        type: "error",
       });
     }
   };
@@ -210,7 +210,7 @@ export const useEditorHandlers = (
     textareaRef: React.RefObject<HTMLTextAreaElement | null>,
     setLineCol: React.Dispatch<
       React.SetStateAction<{ line: number; col: number }>
-    >
+    >,
   ) => {
     const textarea = textareaRef.current;
     if (!textarea) return;
@@ -222,7 +222,7 @@ export const useEditorHandlers = (
     let col = 1;
 
     for (let i = 0; i < cursorPos; i++) {
-      if (text[i] === '\n') {
+      if (text[i] === "\n") {
         line++;
         col = 1;
       } else {

@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useTheme } from '../theme-provider';
-import { themes } from '@/lib/themes';
-import { SoundboardPanelProps } from './taskbar-types';
-import Image from 'next/image';
-import { sounds } from '@/data/sounds';
-import { useClickSound } from '../click-sound-provider';
+import React from "react";
+import { useTheme } from "../theme-provider";
+import { themes } from "@/lib/themes";
+import { SoundboardPanelProps } from "./taskbar-types";
+import Image from "next/image";
+import { sounds } from "@/data/sounds";
+import { useClickSound } from "../click-sound-provider";
 
 const SoundboardPanel: React.FC<SoundboardPanelProps> = ({
   isOpen,
-  className = '',
+  className = "",
 }) => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
@@ -20,21 +20,21 @@ const SoundboardPanel: React.FC<SoundboardPanelProps> = ({
     <div
       className="fixed bottom-14 right-69 z-[200]"
       style={{
-        visibility: isOpen ? 'visible' : 'hidden',
+        visibility: isOpen ? "visible" : "hidden",
       }}
     >
       <div
         className={`rounded-md backdrop-blur-xl shadow-2xl overflow-hidden transition-all duration-300 ease-out ${className}`}
         style={{
           background:
-            theme === 'dark'
-              ? 'rgba(32, 32, 32, 0.85)'
-              : 'rgba(255, 255, 255, 0.85)',
+            theme === "dark"
+              ? "rgba(32, 32, 32, 0.85)"
+              : "rgba(255, 255, 255, 0.85)",
           border: `1px solid ${currentTheme.glass.border}`,
-          WebkitBackdropFilter: 'blur(30px)',
-          transform: isOpen ? 'translateY(0)' : 'translateY(20px)',
+          WebkitBackdropFilter: "blur(30px)",
+          transform: isOpen ? "translateY(0)" : "translateY(20px)",
           opacity: isOpen ? 1 : 0,
-          pointerEvents: isOpen ? 'auto' : 'none',
+          pointerEvents: isOpen ? "auto" : "none",
         }}
       >
         {/* Small header */}
@@ -64,7 +64,7 @@ const SoundboardPanel: React.FC<SoundboardPanelProps> = ({
                 onClick={() => playSoundById(sound.soundUrl)}
                 className="flex flex-col items-center justify-center p-1.5 rounded-lg transition-all duration-200 hover:scale-110"
                 style={{
-                  background: 'transparent',
+                  background: "transparent",
                 }}
               >
                 <div className="w-7 h-7 relative">

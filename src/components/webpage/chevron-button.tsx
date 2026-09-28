@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, {
   createContext,
@@ -7,9 +7,9 @@ import React, {
   useCallback,
   ReactNode,
   useEffect,
-} from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { SteamTheme } from '@/components/types/system-types';
+} from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { SteamTheme } from "@/components/types/system-types";
 
 type NavigationState = {
   id: string;
@@ -28,7 +28,7 @@ type NavigationContextType = {
 };
 
 const NavigationContext = createContext<NavigationContextType | undefined>(
-  undefined
+  undefined,
 );
 
 export const NavigationProvider: React.FC<{ children: ReactNode }> = ({
@@ -45,7 +45,7 @@ export const NavigationProvider: React.FC<{ children: ReactNode }> = ({
       setHistory([...newHistory, newState]);
       setCurrentIndex(newHistory.length);
     },
-    [history, currentIndex]
+    [history, currentIndex],
   );
 
   const canGoBack = currentIndex > 0;
@@ -91,13 +91,13 @@ export const NavigationProvider: React.FC<{ children: ReactNode }> = ({
 export const useNavigation = () => {
   const context = useContext(NavigationContext);
   if (context === undefined) {
-    throw new Error('useNavigation must be used within a NavigationProvider');
+    throw new Error("useNavigation must be used within a NavigationProvider");
   }
   return context;
 };
 
 interface ChevronButtonProps {
-  direction: 'back' | 'forward';
+  direction: "back" | "forward";
   steamTheme: SteamTheme;
   className?: string;
   color?: string;
@@ -106,36 +106,36 @@ interface ChevronButtonProps {
 export const ChevronButton: React.FC<ChevronButtonProps> = ({
   direction,
   steamTheme,
-  className = '',
+  className = "",
   color,
 }) => {
   const { canGoBack, canGoForward, goBack, goForward } = useNavigation();
 
   const handleClick = () => {
-    if (direction === 'back' && canGoBack) {
+    if (direction === "back" && canGoBack) {
       goBack();
-    } else if (direction === 'forward' && canGoForward) {
+    } else if (direction === "forward" && canGoForward) {
       goForward();
     }
   };
 
   const isDisabled =
-    (direction === 'back' && !canGoBack) ||
-    (direction === 'forward' && !canGoForward);
+    (direction === "back" && !canGoBack) ||
+    (direction === "forward" && !canGoForward);
 
   return (
     <button
       onClick={handleClick}
       disabled={isDisabled}
       className={`w-8 h-8 flex items-center justify-center rounded-full hover:cursor-pointer ${
-        isDisabled ? 'opacity-50' : 'hover:brightness-125'
+        isDisabled ? "opacity-50" : "hover:brightness-125"
       } ${className}`}
       style={{
-        background: 'rgba(0, 0, 0, 0.3)',
+        background: "rgba(0, 0, 0, 0.3)",
         color: color || steamTheme.textSecondary,
       }}
     >
-      {direction === 'back' ? (
+      {direction === "back" ? (
         <ChevronLeft size={16} />
       ) : (
         <ChevronRight size={16} />

@@ -2,7 +2,7 @@
 
 # Windows 11 Portfolio
 
-A modern, interactive portfolio website built with Next.js and React that mimics the Windows 11 desktop experience. 
+A modern, interactive portfolio website built with Next.js and React that mimics the Windows 11 desktop experience.
 
 ## Features
 
@@ -26,7 +26,6 @@ A modern, interactive portfolio website built with Next.js and React that mimics
 ## Technologies Used
 
 - **Frontend**:
-
   - Next.js 15.3
   - React 19
   - TypeScript

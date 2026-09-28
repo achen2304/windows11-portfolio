@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { usePathname } from 'next/navigation';
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
 declare global {
   interface Window {
     gtag: (
-      command: 'config' | 'event' | 'js' | 'set',
+      command: "config" | "event" | "js" | "set",
       targetId: string | Date,
-      config?: Record<string, unknown>
+      config?: Record<string, unknown>,
     ) => void;
   }
 }
@@ -21,7 +21,7 @@ export function Analytics() {
   useEffect(() => {
     if (!GA_MEASUREMENT_ID) return;
 
-    window.gtag('config', GA_MEASUREMENT_ID, {
+    window.gtag("config", GA_MEASUREMENT_ID, {
       page_path: pathname,
     });
   }, [pathname]);

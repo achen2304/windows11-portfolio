@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { BatteryMedium, BatteryCharging } from 'lucide-react';
-import { BatteryInfo } from '../taskbar-types';
+import { BatteryMedium, BatteryCharging } from "lucide-react";
+import { BatteryInfo } from "../taskbar-types";
 interface ThemeObject {
   text: {
     primary: string;

@@ -1,8 +1,8 @@
-import React from 'react';
-import { Project } from '@/data/projects';
-import { SteamTheme } from '@/components/types/system-types';
-import Image from 'next/image';
-import { Tilt } from '@/components/ui/tilt';
+import React from "react";
+import { Project } from "@/data/projects";
+import { SteamTheme } from "@/components/types/system-types";
+import Image from "next/image";
+import { Tilt } from "@/components/ui/tilt";
 
 interface MobileFeaturedCardProps {
   project: Project;
@@ -45,7 +45,7 @@ const MobileFeaturedCard: React.FC<MobileFeaturedCardProps> = ({
                 key={tech}
                 className="px-2 py-0.5 text-xs rounded"
                 style={{
-                  background: 'rgba(25, 32, 46, 0.8)',
+                  background: "rgba(25, 32, 46, 0.8)",
                   color: steamTheme.textSecondary,
                   border: `1px solid ${steamTheme.divider}`,
                 }}
@@ -70,7 +70,7 @@ const MobileFeaturedCard: React.FC<MobileFeaturedCardProps> = ({
             className="min-w-[120px] max-w-[160px] flex items-center justify-center gap-2 px-4 py-1.5 cursor-pointer rounded text-sm font-medium"
             style={{
               background: `linear-gradient(to right, ${steamTheme.buttonGradientStart}, ${steamTheme.buttonGradientEnd})`,
-              color: '#ffffff',
+              color: "#ffffff",
             }}
           >
             <span className="truncate">View Project</span>

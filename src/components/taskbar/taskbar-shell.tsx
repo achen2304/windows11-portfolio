@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import React, { useCallback, useEffect, useState, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { TaskbarApp, PanelType } from './taskbar-types';
-import { startPanelApps, quickLinks } from '@/components/webpage/apps/apps';
-import Taskbar from './taskbar';
-import StartPanel from './taskbar-pannel';
-import CalendarPanel from './calendar-pannel';
-import SystemPanel from './system pannel/system-panel';
-import SoundboardPanel from './soundboard-pannel';
+import React, { useCallback, useEffect, useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { TaskbarApp, PanelType } from "./taskbar-types";
+import { startPanelApps, quickLinks } from "@/components/webpage/apps/apps";
+import Taskbar from "./taskbar";
+import StartPanel from "./taskbar-pannel";
+import CalendarPanel from "./calendar-pannel";
+import SystemPanel from "./system pannel/system-panel";
+import SoundboardPanel from "./soundboard-pannel";
 
 interface TaskbarShellProps {
   apps?: TaskbarApp[];
@@ -19,17 +19,17 @@ interface TaskbarShellProps {
 const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
   apps = [],
   onAppClick = () => {},
-  className = '',
+  className = "",
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [activePanels, setActivePanels] = useState<Set<PanelType>>(new Set());
 
-  const activePanelParam = searchParams.get('panel');
+  const activePanelParam = searchParams.get("panel");
   const activePanel: PanelType =
     activePanelParam &&
-    ['start', 'system', 'calendar', 'soundboard', 'notifications'].includes(
-      activePanelParam
+    ["start", "system", "calendar", "soundboard", "notifications"].includes(
+      activePanelParam,
     )
       ? (activePanelParam as PanelType)
       : null;
@@ -37,7 +37,7 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
   useEffect(() => {
     if (
       activePanel &&
-      ['start', 'system', 'calendar', 'soundboard'].includes(activePanel)
+      ["start", "system", "calendar", "soundboard"].includes(activePanel)
     ) {
       setActivePanels(new Set([activePanel]));
     } else {
@@ -48,15 +48,15 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
   const openPanel = useCallback(
     (panelType: Exclude<PanelType, null>) => {
       const params = new URLSearchParams(searchParams.toString());
-      params.set('panel', panelType);
+      params.set("panel", panelType);
       router.push(`?${params.toString()}`, { scroll: false });
     },
-    [router, searchParams]
+    [router, searchParams],
   );
 
   const closePanel = useCallback(() => {
     const params = new URLSearchParams(searchParams.toString());
-    params.delete('panel');
+    params.delete("panel");
     router.push(`?${params.toString()}`, { scroll: false });
   }, [router, searchParams]);
 
@@ -68,23 +68,23 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
         openPanel(panelType);
       }
     },
-    [activePanel, openPanel, closePanel]
+    [activePanel, openPanel, closePanel],
   );
 
   const handleStartClick = useCallback(() => {
-    togglePanel('start');
+    togglePanel("start");
   }, [togglePanel]);
 
   const handleSystemTrayClick = useCallback(() => {
-    togglePanel('system');
+    togglePanel("system");
   }, [togglePanel]);
 
   const handleDateTimeClick = useCallback(() => {
-    togglePanel('calendar');
+    togglePanel("calendar");
   }, [togglePanel]);
 
   const handleSoundboardClick = useCallback(() => {
-    togglePanel('soundboard');
+    togglePanel("soundboard");
   }, [togglePanel]);
 
   const handleAppClick = useCallback(
@@ -92,7 +92,7 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
       closePanel();
       onAppClick(appId);
     },
-    [closePanel, onAppClick]
+    [closePanel, onAppClick],
   );
 
   return (
@@ -106,8 +106,8 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
             closePanel();
           }}
           style={{
-            pointerEvents: 'auto',
-            background: 'transparent',
+            pointerEvents: "auto",
+            background: "transparent",
           }}
         />
       )}
@@ -124,19 +124,19 @@ const TaskbarShellContent: React.FC<TaskbarShellProps> = ({
       />
 
       <StartPanel
-        isOpen={activePanel === 'start'}
+        isOpen={activePanel === "start"}
         onClose={closePanel}
         apps={startPanelApps}
         quickLinks={quickLinks}
         onAppClick={handleAppClick}
       />
 
-      <SystemPanel isOpen={activePanel === 'system'} onClose={closePanel} />
+      <SystemPanel isOpen={activePanel === "system"} onClose={closePanel} />
 
-      <CalendarPanel isOpen={activePanel === 'calendar'} onClose={closePanel} />
+      <CalendarPanel isOpen={activePanel === "calendar"} onClose={closePanel} />
 
       <SoundboardPanel
-        isOpen={activePanel === 'soundboard'}
+        isOpen={activePanel === "soundboard"}
         onClose={closePanel}
       />
     </>

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Sun } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { Sun } from "lucide-react";
 interface ThemeObject {
   text: {
     primary: string;
@@ -36,16 +36,16 @@ const BrightnessControl = ({
     const rootElement = document.documentElement;
 
     // Get current filter, extract any existing sepia/contrast (for night light)
-    const currentFilter = rootElement.style.filter || '';
+    const currentFilter = rootElement.style.filter || "";
     const nightLightFilter = currentFilter.match(
-      /(sepia\([^)]+\)|contrast\([^)]+\))/g
+      /(sepia\([^)]+\)|contrast\([^)]+\))/g,
     );
 
     // Combine brightness with existing night light filter if present
     if (nightLightFilter && nightLightFilter.length) {
       rootElement.style.filter = `brightness(${
         brightness / 100
-      }) ${nightLightFilter.join(' ')}`;
+      }) ${nightLightFilter.join(" ")}`;
     } else {
       rootElement.style.filter = `brightness(${brightness / 100})`;
     }
@@ -67,7 +67,7 @@ const BrightnessControl = ({
 
     handleBrightnessChange(newBrightness);
 
-    setClickedButton('brightness-icon');
+    setClickedButton("brightness-icon");
     setTimeout(() => {
       setClickedButton(null);
     }, 200);
@@ -81,7 +81,7 @@ const BrightnessControl = ({
           className="cursor-pointer transition-transform hover:scale-110 active:scale-95"
           style={{
             transform:
-              clickedButton === 'brightness-icon' ? 'scale(1.2)' : 'scale(1)',
+              clickedButton === "brightness-icon" ? "scale(1.2)" : "scale(1)",
           }}
         >
           <Sun
@@ -104,9 +104,9 @@ const BrightnessControl = ({
               background: `linear-gradient(to right, ${
                 currentTheme.text.primary
               } 0%, ${currentTheme.text.primary} ${brightness}%, rgba(${
-                theme === 'dark' ? '255,255,255' : '0,0,0'
+                theme === "dark" ? "255,255,255" : "0,0,0"
               },0.3) ${brightness}%, rgba(${
-                theme === 'dark' ? '255,255,255' : '0,0,0'
+                theme === "dark" ? "255,255,255" : "0,0,0"
               },0.3) 100%)`,
             }}
           />

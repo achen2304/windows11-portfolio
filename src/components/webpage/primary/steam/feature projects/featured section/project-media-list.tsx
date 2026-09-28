@@ -1,9 +1,9 @@
-import React from 'react';
-import { Project } from '@/data/projects';
-import { useWindowSize } from '@/components/webpage/breakpoints';
-import { cn } from '@/lib/utils';
-import Image from 'next/image';
-import { SteamTheme } from '@/components/types/system-types';
+import React from "react";
+import { Project } from "@/data/projects";
+import { useWindowSize } from "@/components/webpage/breakpoints";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+import { SteamTheme } from "@/components/types/system-types";
 
 interface ProjectCardProps {
   project: Project;
@@ -52,7 +52,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               key={tech}
               className="px-2 py-0.5 text-xs rounded"
               style={{
-                background: 'rgba(25, 32, 46, 0.8)',
+                background: "rgba(25, 32, 46, 0.8)",
                 color: steamTheme.textSecondary,
                 border: `1px solid ${steamTheme.divider}`,
               }}
@@ -90,9 +90,9 @@ const ProjectMediaList: React.FC<ProjectMediaListProps> = ({
 
   // Determine grid columns based on breakpoints
   const getGridCols = () => {
-    if (isXs || isSm) return 'grid-cols-1';
-    if (isMd) return 'grid-cols-2';
-    return 'grid-cols-3';
+    if (isXs || isSm) return "grid-cols-1";
+    if (isMd) return "grid-cols-2";
+    return "grid-cols-3";
   };
 
   // Filter projects for mobile view
@@ -101,7 +101,7 @@ const ProjectMediaList: React.FC<ProjectMediaListProps> = ({
   return (
     <div className="w-full">
       {/* Grid Layout */}
-      <div className={cn('grid gap-3 p-2 md:p-4', getGridCols())}>
+      <div className={cn("grid gap-3 p-2 md:p-4", getGridCols())}>
         {displayedProjects.map((project) => (
           <ProjectCard
             key={project.name}

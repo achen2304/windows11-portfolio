@@ -1,5 +1,5 @@
-import React from 'react';
-import Image from 'next/image';
+import React from "react";
+import Image from "next/image";
 
 interface ProfileImageProps {
   src: string;
@@ -10,7 +10,7 @@ interface ProfileImageProps {
 const ProfileImage: React.FC<ProfileImageProps> = ({
   src,
   alt,
-  className = '',
+  className = "",
 }) => (
   <div
     className={`w-9 h-9 rounded mr-2 overflow-hidden flex-shrink-0 ${className}`}

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from "react";
 
-export type WindowSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type WindowSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 export interface UseWindowSizeOptions {
   breakpoints?: {
@@ -40,7 +40,7 @@ const WindowSizeContext = React.createContext<
 export const useWindowSize = (): WindowSizeContextType => {
   const context = React.useContext(WindowSizeContext);
   if (!context) {
-    throw new Error('useWindowSize must be used within a WindowSizeProvider');
+    throw new Error("useWindowSize must be used within a WindowSizeProvider");
   }
   return context;
 };
@@ -68,7 +68,7 @@ export const WindowSizeProvider: React.FC<WindowSizeProviderProps> = ({
   }>({
     width: 0,
     height: 0,
-    size: 'md',
+    size: "md",
   });
 
   const prevDimensionsRef = useRef({ width: 0, height: 0 });
@@ -77,11 +77,11 @@ export const WindowSizeProvider: React.FC<WindowSizeProviderProps> = ({
 
   const getWindowSize = useCallback((width: number): WindowSize => {
     const { xs, sm, md, lg } = breakpointsRef.current;
-    if (width < xs) return 'xs';
-    if (width < sm) return 'sm';
-    if (width < md) return 'md';
-    if (width < lg) return 'lg';
-    return 'xl';
+    if (width < xs) return "xs";
+    if (width < sm) return "sm";
+    if (width < md) return "md";
+    if (width < lg) return "lg";
+    return "xl";
   }, []);
 
   const updateDimensions = useCallback(() => {
@@ -105,7 +105,7 @@ export const WindowSizeProvider: React.FC<WindowSizeProviderProps> = ({
           size,
         });
       }
-    } else if (typeof window !== 'undefined') {
+    } else if (typeof window !== "undefined") {
       const { innerWidth, innerHeight } = window;
 
       if (
@@ -148,15 +148,15 @@ export const WindowSizeProvider: React.FC<WindowSizeProviderProps> = ({
       return () => {
         observer.disconnect();
       };
-    } else if (typeof window !== 'undefined') {
+    } else if (typeof window !== "undefined") {
       const handleResize = () => {
         window.requestAnimationFrame(updateDimensions);
       };
 
-      window.addEventListener('resize', handleResize);
+      window.addEventListener("resize", handleResize);
 
       return () => {
-        window.removeEventListener('resize', handleResize);
+        window.removeEventListener("resize", handleResize);
       };
     }
   }, [containerRef, updateDimensions]);
@@ -165,11 +165,11 @@ export const WindowSizeProvider: React.FC<WindowSizeProviderProps> = ({
     width: dimensions.width,
     height: dimensions.height,
     size: dimensions.size,
-    isXs: dimensions.size === 'xs',
-    isSm: dimensions.size === 'sm',
-    isMd: dimensions.size === 'md',
-    isLg: dimensions.size === 'lg',
-    isXl: dimensions.size === 'xl',
+    isXs: dimensions.size === "xs",
+    isSm: dimensions.size === "sm",
+    isMd: dimensions.size === "md",
+    isLg: dimensions.size === "lg",
+    isXl: dimensions.size === "xl",
   };
 
   return (

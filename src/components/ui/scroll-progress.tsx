@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { motion, SpringOptions, useScroll, useSpring } from 'framer-motion';
-import { cn } from '@/lib/utils';
-import { RefObject } from 'react';
+import { motion, SpringOptions, useScroll, useSpring } from "framer-motion";
+import { cn } from "@/lib/utils";
+import { RefObject } from "react";
 
 interface ScrollProgressProps {
   className?: string;
@@ -31,7 +31,7 @@ export function ScrollProgress({
 
   return (
     <motion.div
-      className={cn('inset-x-0 top-0 h-1 origin-left', className)}
+      className={cn("inset-x-0 top-0 h-1 origin-left", className)}
       style={{
         scaleX,
       }}

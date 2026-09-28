@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Image from 'next/image';
-import { Play, Heart, MoreHorizontal } from 'lucide-react';
-import { getSpotifyManager, AudioTrack } from '../helpers/current-song-helper';
+import React from "react";
+import Image from "next/image";
+import { Play, Heart, MoreHorizontal } from "lucide-react";
+import { getSpotifyManager, AudioTrack } from "../helpers/current-song-helper";
 
 interface Artist {
   id: string;
@@ -49,18 +49,18 @@ const ArtistArea: React.FC<ArtistAreaProps> = ({
   onPlayAlbum,
 }) => {
   // Spotify colors
-  const spotifyBg = '#121212';
-  const spotifyCard = '#181818';
-  const spotifyText = '#FFFFFF';
-  const spotifyTextSecondary = '#B3B3B3';
-  const spotifyGreen = '#1DB954';
+  const spotifyBg = "#121212";
+  const spotifyCard = "#181818";
+  const spotifyText = "#FFFFFF";
+  const spotifyTextSecondary = "#B3B3B3";
+  const spotifyGreen = "#1DB954";
 
   const spotifyManager = getSpotifyManager();
 
   const formatDuration = (ms: number) => {
     const minutes = Math.floor(ms / 60000);
     const seconds = Math.floor((ms % 60000) / 1000);
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
   const formatFollowers = (count: number) => {
@@ -80,7 +80,7 @@ const ArtistArea: React.FC<ArtistAreaProps> = ({
       name: track.name,
       artists: track.artists,
       album: {
-        name: 'Unknown',
+        name: "Unknown",
         images: [],
       },
       preview_url: track.preview_url || null,
@@ -91,9 +91,9 @@ const ArtistArea: React.FC<ArtistAreaProps> = ({
     try {
       await spotifyManager.playTrack(audioTrack, context);
     } catch (error) {
-      console.error('❌ Failed to play track:', error);
+      console.error("❌ Failed to play track:", error);
       alert(
-        `Failed to play "${track.name}". Make sure you have Spotify Premium.`
+        `Failed to play "${track.name}". Make sure you have Spotify Premium.`,
       );
     }
   };
@@ -110,7 +110,7 @@ const ArtistArea: React.FC<ArtistAreaProps> = ({
       } else {
         // Fallback: fetch artist's top tracks first
         const response = await fetch(
-          `/api/spotify?type=artist-top-tracks&artist_id=${artist.id}`
+          `/api/spotify?type=artist-top-tracks&artist_id=${artist.id}`,
         );
         const data = await response.json();
 
@@ -124,7 +124,7 @@ const ArtistArea: React.FC<ArtistAreaProps> = ({
         }
       }
     } catch (error) {
-      console.error('❌ Failed to play artist:', error);
+      console.error("❌ Failed to play artist:", error);
       alert(`Unable to play tracks for ${artist.name}`);
     }
   };
@@ -133,7 +133,7 @@ const ArtistArea: React.FC<ArtistAreaProps> = ({
     try {
       // Fetch album tracks first
       const response = await fetch(
-        `/api/spotify?type=album-tracks&album_id=${album.id}`
+        `/api/spotify?type=album-tracks&album_id=${album.id}`,
       );
       const data = await response.json();
 
@@ -145,7 +145,7 @@ const ArtistArea: React.FC<ArtistAreaProps> = ({
         await handlePlayTrack(firstTrack, albumContext);
       } else {
         console.warn(
-          '❌ No tracks found in album, using artist top track fallback'
+          "❌ No tracks found in album, using artist top track fallback",
         );
         // Fallback to artist's first top track
         if (topTracks.length > 0) {
@@ -155,7 +155,7 @@ const ArtistArea: React.FC<ArtistAreaProps> = ({
         }
       }
     } catch (error) {
-      console.error('❌ Failed to fetch album tracks:', error);
+      console.error("❌ Failed to fetch album tracks:", error);
 
       // Fallback to artist's first top track
       if (topTracks.length > 0) {
@@ -176,7 +176,7 @@ const ArtistArea: React.FC<ArtistAreaProps> = ({
     >
       <div
         className="flex-1 overflow-y-auto spotify-scrollbar"
-        style={{ maxHeight: 'calc(100% - 80px)' }}
+        style={{ maxHeight: "calc(100% - 80px)" }}
       >
         {/* Artist Header */}
         <div
@@ -184,9 +184,9 @@ const ArtistArea: React.FC<ArtistAreaProps> = ({
           style={{
             background: artistImage
               ? `linear-gradient(transparent 0%, rgba(0,0,0,.5) 100%), url(${artistImage})`
-              : 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
+              : "linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
         >
           <div className="flex items-end gap-6">
@@ -198,7 +198,7 @@ const ArtistArea: React.FC<ArtistAreaProps> = ({
                   width={192}
                   height={192}
                   className="w-full h-full object-cover"
-                  style={{ width: 'auto', height: 'auto' }}
+                  style={{ width: "auto", height: "auto" }}
                 />
               </div>
             )}
@@ -340,7 +340,7 @@ const ArtistArea: React.FC<ArtistAreaProps> = ({
                             width={160}
                             height={160}
                             className="w-full h-full object-cover"
-                            style={{ width: 'auto', height: 'auto' }}
+                            style={{ width: "auto", height: "auto" }}
                           />
                         ) : (
                           <div
@@ -377,7 +377,7 @@ const ArtistArea: React.FC<ArtistAreaProps> = ({
                       className="text-sm truncate"
                       style={{ color: spotifyTextSecondary }}
                     >
-                      {new Date(album.release_date).getFullYear()} •{' '}
+                      {new Date(album.release_date).getFullYear()} •{" "}
                       {album.album_type}
                     </p>
                   </div>

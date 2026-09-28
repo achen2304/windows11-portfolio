@@ -1,8 +1,8 @@
-import React from 'react';
-import { useTheme } from '../../../theme-provider';
-import { themes } from '@/lib/themes';
-import { SlackTheme } from '@/components/types/system-types';
-import ProfileImage from './common/ProfileImage';
+import React from "react";
+import { useTheme } from "../../../theme-provider";
+import { themes } from "@/lib/themes";
+import { SlackTheme } from "@/components/types/system-types";
+import ProfileImage from "./common/ProfileImage";
 
 export interface MessageProps {
   content: string | React.ReactNode;
@@ -14,9 +14,9 @@ export interface MessageProps {
 // Simple function to render markdown-like syntax
 const renderMarkdown = (text: string) => {
   const boldRegex = /\*\*(.*?)\*\*/g;
-  const textWithBold = text.replace(boldRegex, '<strong>$1</strong>');
+  const textWithBold = text.replace(boldRegex, "<strong>$1</strong>");
 
-  const withLineBreaks = textWithBold.replace(/\n/g, '<br />');
+  const withLineBreaks = textWithBold.replace(/\n/g, "<br />");
 
   return { __html: withLineBreaks };
 };
@@ -47,8 +47,8 @@ const MessageHeader = ({
 const Message: React.FC<MessageProps> = ({
   content,
   user,
-  timestamp = '1:23 PM',
-  avatar = '/other/profile.webp',
+  timestamp = "1:23 PM",
+  avatar = "/other/profile.webp",
 }) => {
   const { theme } = useTheme();
   const currentTheme = themes[theme as keyof typeof themes];
@@ -58,13 +58,13 @@ const Message: React.FC<MessageProps> = ({
     <div
       className="py-2 px-2 transition-colors rounded-sm"
       style={{
-        background: 'transparent',
+        background: "transparent",
       }}
       onMouseOver={(e) => {
         e.currentTarget.style.background = slackTheme.messageBackground;
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.background = 'transparent';
+        e.currentTarget.style.background = "transparent";
       }}
     >
       <div className="flex items-start">
@@ -77,7 +77,7 @@ const Message: React.FC<MessageProps> = ({
             slackTheme={slackTheme}
           />
 
-          {typeof content === 'string' ? (
+          {typeof content === "string" ? (
             <div
               className="break-words text-sm"
               style={{ color: slackTheme.textPrimary }}

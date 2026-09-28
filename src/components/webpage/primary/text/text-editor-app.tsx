@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import React, { useState, useRef, useEffect } from 'react';
-import { useTheme } from '../../../theme-provider';
-import { themes } from '@/lib/themes';
+import React, { useState, useRef, useEffect } from "react";
+import { useTheme } from "../../../theme-provider";
+import { themes } from "@/lib/themes";
 import Dropdown, {
   createFileDropdownOptions,
   createEditDropdownOptions,
-} from './drop-down';
-import useEditorHandlers from './handlers';
-import { useWindowManager, WindowState } from '../../window-manager';
-import { useAppOpener } from '../../app-openers';
-import { defaultText } from './handlers';
+} from "./drop-down";
+import useEditorHandlers from "./handlers";
+import { useWindowManager, WindowState } from "../../window-manager";
+import { useAppOpener } from "../../app-openers";
+import { defaultText } from "./handlers";
 
 export const TextEditorApp: React.FC = () => {
   const { theme } = useTheme();
@@ -19,8 +19,8 @@ export const TextEditorApp: React.FC = () => {
   const { openAppById } = useAppOpener();
 
   const getInitialContent = () => {
-    if (typeof window !== 'undefined') {
-      const savedContent = localStorage.getItem('notepad-content');
+    if (typeof window !== "undefined") {
+      const savedContent = localStorage.getItem("notepad-content");
       if (savedContent) return savedContent;
     }
     return defaultText;
@@ -30,25 +30,25 @@ export const TextEditorApp: React.FC = () => {
   const [lineCol, setLineCol] = useState({ line: 1, col: 1 });
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const [activeMenu, setActiveMenu] = useState<'file' | 'edit' | null>(null);
+  const [activeMenu, setActiveMenu] = useState<"file" | "edit" | null>(null);
 
   const handleNewDocumentAction = () => {
     const textEditorWindow = windows.find((window: WindowState) =>
-      window.id.startsWith('text-editor')
+      window.id.startsWith("text-editor"),
     );
 
     if (textEditorWindow) {
       closeWindow(textEditorWindow.id);
 
       setTimeout(() => {
-        openAppById('text-editor');
+        openAppById("text-editor");
       }, 100);
     }
   };
 
   const handleExit = () => {
     const textEditorWindow = windows.find((window: WindowState) =>
-      window.id.startsWith('text-editor')
+      window.id.startsWith("text-editor"),
     );
 
     if (textEditorWindow) {
@@ -65,8 +65,8 @@ export const TextEditorApp: React.FC = () => {
     }
 
     return () => {
-      if (typeof window !== 'undefined' && textareaElement) {
-        localStorage.setItem('notepad-content', textareaElement.value);
+      if (typeof window !== "undefined" && textareaElement) {
+        localStorage.setItem("notepad-content", textareaElement.value);
       }
     };
   }, []);
@@ -74,8 +74,8 @@ export const TextEditorApp: React.FC = () => {
   useEffect(() => {
     const handleWindowClick = (e: MouseEvent) => {
       if (e.target instanceof Element) {
-        const isDropdownClick = e.target.closest('.dropdown-menu') !== null;
-        const isMenuBarClick = e.target.closest('.menu-bar-item') !== null;
+        const isDropdownClick = e.target.closest(".dropdown-menu") !== null;
+        const isMenuBarClick = e.target.closest(".menu-bar-item") !== null;
 
         if (!isDropdownClick && !isMenuBarClick && activeMenu) {
           setActiveMenu(null);
@@ -85,21 +85,21 @@ export const TextEditorApp: React.FC = () => {
 
     if (activeMenu) {
       const timeoutId = setTimeout(() => {
-        document.addEventListener('mousedown', handleWindowClick);
+        document.addEventListener("mousedown", handleWindowClick);
       }, 100);
 
       const handleEscape = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') {
+        if (e.key === "Escape") {
           setActiveMenu(null);
         }
       };
 
-      document.addEventListener('keydown', handleEscape);
+      document.addEventListener("keydown", handleEscape);
 
       return () => {
         clearTimeout(timeoutId);
-        document.removeEventListener('mousedown', handleWindowClick);
-        document.removeEventListener('keydown', handleEscape);
+        document.removeEventListener("mousedown", handleWindowClick);
+        document.removeEventListener("keydown", handleEscape);
       };
     }
   }, [activeMenu]);
@@ -107,7 +107,7 @@ export const TextEditorApp: React.FC = () => {
   const handlers = useEditorHandlers(
     textareaRef,
     setContent,
-    handleNewDocumentAction
+    handleNewDocumentAction,
   );
 
   const {
@@ -124,8 +124,8 @@ export const TextEditorApp: React.FC = () => {
   } = handlers;
 
   const handleMenuClick = (
-    menuType: 'file' | 'edit',
-    event: React.MouseEvent
+    menuType: "file" | "edit",
+    event: React.MouseEvent,
   ) => {
     event.stopPropagation();
     event.preventDefault();
@@ -142,19 +142,19 @@ export const TextEditorApp: React.FC = () => {
   };
 
   const editorColors = {
-    background: theme === 'dark' ? currentTheme.surface : '#ffffff',
-    text: theme === 'dark' ? currentTheme.text.primary : '#000000',
+    background: theme === "dark" ? currentTheme.surface : "#ffffff",
+    text: theme === "dark" ? currentTheme.text.primary : "#000000",
     menuBackground:
-      theme === 'dark' ? currentTheme.glass.backgroundDark : '#ffffff',
-    menuText: theme === 'dark' ? currentTheme.text.primary : '#000000',
+      theme === "dark" ? currentTheme.glass.backgroundDark : "#ffffff",
+    menuText: theme === "dark" ? currentTheme.text.primary : "#000000",
     menuHover:
-      theme === 'dark'
+      theme === "dark"
         ? currentTheme.button.backgroundHover
-        : 'rgba(0, 0, 0, 0.08)',
-    border: theme === 'dark' ? currentTheme.border : '#e5e5e5',
+        : "rgba(0, 0, 0, 0.08)",
+    border: theme === "dark" ? currentTheme.border : "#e5e5e5",
     statusBarBackground:
-      theme === 'dark' ? currentTheme.glass.background : '#f0f0f0',
-    statusBarText: theme === 'dark' ? currentTheme.text.secondary : '#555555',
+      theme === "dark" ? currentTheme.glass.background : "#f0f0f0",
+    statusBarText: theme === "dark" ? currentTheme.text.secondary : "#555555",
   };
 
   return (
@@ -168,42 +168,42 @@ export const TextEditorApp: React.FC = () => {
         style={{
           borderColor: editorColors.border,
           color: editorColors.menuText,
-          position: 'relative',
+          position: "relative",
         }}
       >
         <div
           className={`px-3 py-1.5 transition-colors duration-150 hover:cursor-pointer menu-bar-item ${
-            activeMenu === 'file' ? 'bg-opacity-80' : ''
+            activeMenu === "file" ? "bg-opacity-80" : ""
           }`}
           style={{
             color: editorColors.menuText,
             background:
-              activeMenu === 'file' ? editorColors.menuHover : 'transparent',
+              activeMenu === "file" ? editorColors.menuHover : "transparent",
           }}
-          onClick={(e) => handleMenuClick('file', e)}
+          onClick={(e) => handleMenuClick("file", e)}
         >
           File
         </div>
         <div
           className={`px-3 py-1.5 transition-colors duration-150 hover:cursor-pointer menu-bar-item ${
-            activeMenu === 'edit' ? 'bg-opacity-80' : ''
+            activeMenu === "edit" ? "bg-opacity-80" : ""
           }`}
           style={{
             color: editorColors.menuText,
             background:
-              activeMenu === 'edit' ? editorColors.menuHover : 'transparent',
+              activeMenu === "edit" ? editorColors.menuHover : "transparent",
           }}
-          onClick={(e) => handleMenuClick('edit', e)}
+          onClick={(e) => handleMenuClick("edit", e)}
         >
           Edit
         </div>
 
         <div className="relative">
           {/* File Dropdown */}
-          {activeMenu === 'file' && (
+          {activeMenu === "file" && (
             <div
               className="absolute top-full left-0 dropdown-menu"
-              style={{ marginLeft: '-87px' }}
+              style={{ marginLeft: "-87px" }}
             >
               <Dropdown
                 isOpen={true}
@@ -212,17 +212,17 @@ export const TextEditorApp: React.FC = () => {
                 options={createFileDropdownOptions(
                   handleNewDocument,
                   handleSave,
-                  handleExit
+                  handleExit,
                 )}
               />
             </div>
           )}
 
           {/* Edit Dropdown */}
-          {activeMenu === 'edit' && (
+          {activeMenu === "edit" && (
             <div
               className="absolute top-full left-0 dropdown-menu"
-              style={{ marginLeft: '-44px' }}
+              style={{ marginLeft: "-44px" }}
             >
               <Dropdown
                 isOpen={true}
@@ -235,7 +235,7 @@ export const TextEditorApp: React.FC = () => {
                   handlePaste,
                   handleRedo,
                   canUndo,
-                  canRedo
+                  canRedo,
                 )}
               />
             </div>

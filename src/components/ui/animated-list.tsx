@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { cn } from '@/lib/utils';
-import { AnimatePresence, motion } from 'framer-motion';
+import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
 import React, {
   ComponentPropsWithoutRef,
   useEffect,
-  useMemo,  
+  useMemo,
   useState,
-} from 'react';
+} from "react";
 
 export function AnimatedListItem({ children }: { children: React.ReactNode }) {
   return (
@@ -15,7 +15,7 @@ export function AnimatedListItem({ children }: { children: React.ReactNode }) {
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1, originY: 0 }}
       exit={{ scale: 0, opacity: 0 }}
-      transition={{ type: 'spring' as const, stiffness: 350, damping: 40 }}
+      transition={{ type: "spring" as const, stiffness: 350, damping: 40 }}
       layout
       className="mx-auto w-full"
     >
@@ -24,7 +24,7 @@ export function AnimatedListItem({ children }: { children: React.ReactNode }) {
   );
 }
 
-export interface AnimatedListProps extends ComponentPropsWithoutRef<'div'> {
+export interface AnimatedListProps extends ComponentPropsWithoutRef<"div"> {
   children: React.ReactNode;
   delay?: number;
 }
@@ -34,7 +34,7 @@ export const AnimatedList = React.memo(
     const [index, setIndex] = useState(0);
     const childrenArray = useMemo(
       () => React.Children.toArray(children),
-      [children]
+      [children],
     );
 
     useEffect(() => {
@@ -60,14 +60,14 @@ export const AnimatedList = React.memo(
         <AnimatePresence>
           {itemsToShow.map((item, idx) => {
             const originalKey = (item as React.ReactElement).key;
-            const uniqueKey = `${originalKey || ''}-${idx}`;
+            const uniqueKey = `${originalKey || ""}-${idx}`;
 
             return <AnimatedListItem key={uniqueKey}>{item}</AnimatedListItem>;
           })}
         </AnimatePresence>
       </div>
     );
-  }
+  },
 );
 
-AnimatedList.displayName = 'AnimatedList';
+AnimatedList.displayName = "AnimatedList";

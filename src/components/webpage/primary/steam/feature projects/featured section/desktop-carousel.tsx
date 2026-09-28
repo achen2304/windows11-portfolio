@@ -1,9 +1,9 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { Project } from '@/data/projects';
-import { SteamTheme } from '@/components/types/system-types';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import FeaturedCard from './featured-card';
+import React, { useState, useCallback, useEffect } from "react";
+import { Project } from "@/data/projects";
+import { SteamTheme } from "@/components/types/system-types";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import FeaturedCard from "./featured-card";
 
 interface DesktopCarouselProps {
   projects: Project[];
@@ -103,12 +103,12 @@ const DesktopCarousel: React.FC<DesktopCarouselProps> = ({
           whileTap={{ scale: 0.9 }}
           aria-label="Previous project"
           whileHover={{
-            background: 'linear-gradient(to left, #1D2C3D, #2a475e)',
+            background: "linear-gradient(to left, #1D2C3D, #2a475e)",
             opacity: 1,
           }}
           style={{
-            background: 'linear-gradient(to left, #1D2C3D, #141e2a)',
-            borderRadius: '2px',
+            background: "linear-gradient(to left, #1D2C3D, #141e2a)",
+            borderRadius: "2px",
             opacity: 0.9,
           }}
         >
@@ -123,12 +123,12 @@ const DesktopCarousel: React.FC<DesktopCarouselProps> = ({
           whileTap={{ scale: 0.9 }}
           aria-label="Next project"
           whileHover={{
-            background: 'linear-gradient(to right, #284258, #435D71)',
+            background: "linear-gradient(to right, #284258, #435D71)",
             opacity: 1,
           }}
           style={{
-            background: 'linear-gradient(to right, #284258, #1b2838)',
-            borderRadius: '2px',
+            background: "linear-gradient(to right, #284258, #1b2838)",
+            borderRadius: "2px",
             opacity: 0.9,
           }}
         >
@@ -147,8 +147,8 @@ const DesktopCarousel: React.FC<DesktopCarouselProps> = ({
             }}
             className={`w-4.5 h-2.5 rounded-full transition-all hover:cursor-pointer ${
               index === currentIndex
-                ? 'bg-white/80 scale-110'
-                : 'bg-white/30 hover:bg-white/50'
+                ? "bg-white/80 scale-110"
+                : "bg-white/30 hover:bg-white/50"
             }`}
             whileTap={{ scale: 0.9 }}
           />

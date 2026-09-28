@@ -1,30 +1,30 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import {
   WindowSizeProvider,
   useWindowSize,
-} from '@/components/webpage/breakpoints';
-import { ChevronLeft, ChevronRight, User, BarChart3 } from 'lucide-react';
-import { AnimatePresence, motion } from 'framer-motion';
+} from "@/components/webpage/breakpoints";
+import { ChevronLeft, ChevronRight, User, BarChart3 } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   NavigationProvider,
   useNavigation,
-} from '@/components/webpage/chevron-button';
-import MainArea from './components/main-area';
-import PlayingSong from './components/playing-song';
-import ArtistArea from './components/artist-area';
-import PlaylistArea from './components/playlist-area';
-import LibraryPanel from './components/library-pannel';
-import FriendPanel from './components/friend-pannel';
-import { IoHome } from 'react-icons/io5';
+} from "@/components/webpage/chevron-button";
+import MainArea from "./components/main-area";
+import PlayingSong from "./components/playing-song";
+import ArtistArea from "./components/artist-area";
+import PlaylistArea from "./components/playlist-area";
+import LibraryPanel from "./components/library-pannel";
+import FriendPanel from "./components/friend-pannel";
+import { IoHome } from "react-icons/io5";
 import {
   Artist,
   PlaylistTrack,
   Playlist,
   Album,
-} from './helpers/spotify-play-service';
-import { getSpotifyManager, AudioTrack } from './helpers/current-song-helper';
+} from "./helpers/spotify-play-service";
+import { getSpotifyManager, AudioTrack } from "./helpers/current-song-helper";
 
 interface SpotifyData {
   profile: {
@@ -66,14 +66,14 @@ const SpotifyContent: React.FC = () => {
   const [isLibraryPanelExpanded, setIsLibraryPanelExpanded] = useState(false);
 
   // Mobile view state - similar to Slack
-  const [mobileView, setMobileView] = useState<'library' | 'main' | 'friend'>(
-    'main'
+  const [mobileView, setMobileView] = useState<"library" | "main" | "friend">(
+    "main",
   );
 
   // Navigation state - using any because these objects get extended with additional properties at runtime
   const [currentView, setCurrentView] = useState<
-    'main' | 'artist' | 'playlist'
-  >('main');
+    "main" | "artist" | "playlist"
+  >("main");
   const [selectedArtist, setSelectedArtist] = useState<any>(null);
   const [selectedPlaylist, setSelectedPlaylist] = useState<any>(null);
 
@@ -82,21 +82,21 @@ const SpotifyContent: React.FC = () => {
     const currentState = getCurrentState();
 
     if (!currentState) {
-      navigate('spotify-main');
+      navigate("spotify-main");
     } else if (
-      currentState.id === 'spotify-artist' &&
+      currentState.id === "spotify-artist" &&
       currentState.data?.artist
     ) {
-      setCurrentView('artist');
+      setCurrentView("artist");
       setSelectedArtist(currentState.data.artist);
     } else if (
-      currentState.id === 'spotify-playlist' &&
+      currentState.id === "spotify-playlist" &&
       currentState.data?.playlist
     ) {
-      setCurrentView('playlist');
+      setCurrentView("playlist");
       setSelectedPlaylist(currentState.data.playlist);
     } else {
-      setCurrentView('main');
+      setCurrentView("main");
     }
   }, [history, currentIndex, navigate, getCurrentState]);
 
@@ -118,14 +118,14 @@ const SpotifyContent: React.FC = () => {
       };
 
       setSelectedArtist(artistWithData);
-      setCurrentView('artist');
-      navigate('spotify-artist', { artist: artistWithData });
+      setCurrentView("artist");
+      navigate("spotify-artist", { artist: artistWithData });
     } catch (error) {
-      console.error('❌ Error fetching artist data:', error);
+      console.error("❌ Error fetching artist data:", error);
       // Fallback to basic artist data
       setSelectedArtist(artist);
-      setCurrentView('artist');
-      navigate('spotify-artist', { artist });
+      setCurrentView("artist");
+      navigate("spotify-artist", { artist });
     }
   };
 
@@ -133,7 +133,7 @@ const SpotifyContent: React.FC = () => {
     try {
       // Fetch playlist tracks
       const response = await fetch(
-        `/api/spotify?type=playlist-tracks&playlist_id=${playlist.id}`
+        `/api/spotify?type=playlist-tracks&playlist_id=${playlist.id}`,
       );
       const data = await response.json();
 
@@ -144,14 +144,14 @@ const SpotifyContent: React.FC = () => {
       };
 
       setSelectedPlaylist(playlistWithTracks);
-      setCurrentView('playlist');
-      navigate('spotify-playlist', { playlist: playlistWithTracks });
+      setCurrentView("playlist");
+      navigate("spotify-playlist", { playlist: playlistWithTracks });
     } catch (error) {
-      console.error('Error fetching playlist tracks:', error);
+      console.error("Error fetching playlist tracks:", error);
       // Fallback to basic playlist data
       setSelectedPlaylist(playlist);
-      setCurrentView('playlist');
-      navigate('spotify-playlist', { playlist });
+      setCurrentView("playlist");
+      navigate("spotify-playlist", { playlist });
     }
   };
 
@@ -159,7 +159,7 @@ const SpotifyContent: React.FC = () => {
     try {
       // Fetch album tracks
       const response = await fetch(
-        `/api/spotify?type=album-tracks&album_id=${album.id}`
+        `/api/spotify?type=album-tracks&album_id=${album.id}`,
       );
       const data = await response.json();
 
@@ -168,15 +168,15 @@ const SpotifyContent: React.FC = () => {
         id: album.id,
         name: album.name,
         description: `Album by ${
-          album.artists?.map((a: { name: string }) => a.name).join(', ') ||
-          'Unknown Artist'
+          album.artists?.map((a: { name: string }) => a.name).join(", ") ||
+          "Unknown Artist"
         }`,
         images: album.images,
-        owner: { display_name: album.artists?.[0]?.name || 'Unknown Artist' },
+        owner: { display_name: album.artists?.[0]?.name || "Unknown Artist" },
         tracks: { total: data.items?.length || 0 },
         followers: { total: 0 },
         public: true,
-        type: 'album', // Add type to distinguish from regular playlists
+        type: "album", // Add type to distinguish from regular playlists
         release_date: album.release_date,
         album_type: album.album_type,
       };
@@ -189,7 +189,7 @@ const SpotifyContent: React.FC = () => {
             name: album.name,
             images: album.images || [],
           },
-        })
+        }),
       );
 
       const albumWithTracks = {
@@ -198,31 +198,31 @@ const SpotifyContent: React.FC = () => {
       };
 
       setSelectedPlaylist(albumWithTracks);
-      setCurrentView('playlist');
-      navigate('spotify-playlist', { playlist: albumWithTracks });
+      setCurrentView("playlist");
+      navigate("spotify-playlist", { playlist: albumWithTracks });
     } catch (error) {
-      console.error('❌ Error fetching album tracks:', error);
+      console.error("❌ Error fetching album tracks:", error);
       // Fallback to basic album data
       const albumAsPlaylist = {
         id: album.id,
         name: album.name,
         description: `Album by ${
-          album.artists?.map((a: { name: string }) => a.name).join(', ') ||
-          'Unknown Artist'
+          album.artists?.map((a: { name: string }) => a.name).join(", ") ||
+          "Unknown Artist"
         }`,
         images: album.images,
-        owner: { display_name: album.artists?.[0]?.name || 'Unknown Artist' },
+        owner: { display_name: album.artists?.[0]?.name || "Unknown Artist" },
         tracks: [], // Empty array of tracks for fallback
         followers: { total: 0 },
         public: true,
-        type: 'album',
+        type: "album",
         release_date: album.release_date,
         album_type: album.album_type,
       };
 
       setSelectedPlaylist(albumAsPlaylist);
-      setCurrentView('playlist');
-      navigate('spotify-playlist', { playlist: albumAsPlaylist });
+      setCurrentView("playlist");
+      navigate("spotify-playlist", { playlist: albumAsPlaylist });
     }
   };
 
@@ -257,27 +257,30 @@ const SpotifyContent: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch('/api/spotify?type=all');
+      const response = await fetch("/api/spotify?type=all");
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Due to me no longer having spotify premium, I no longer have access to the SDK player or any functionality.');
+        throw new Error(
+          data.error ||
+            "Due to me no longer having spotify premium, I no longer have access to the SDK player or any functionality.",
+        );
       }
 
       setSpotifyData(data);
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : 'Failed to load Spotify data'
+        err instanceof Error ? err.message : "Failed to load Spotify data",
       );
     } finally {
       setLoading(false);
     }
   };
 
-  const spotifyGreen = '#1DB954';
-  const spotifyBg = '#121212';
-  const spotifyText = '#FFFFFF';
-  const spotifyTextSecondary = '#B3B3B3';
+  const spotifyGreen = "#1DB954";
+  const spotifyBg = "#121212";
+  const spotifyText = "#FFFFFF";
+  const spotifyTextSecondary = "#B3B3B3";
 
   if (loading) {
     return (
@@ -309,7 +312,7 @@ const SpotifyContent: React.FC = () => {
           <button
             onClick={fetchSpotifyData}
             className="px-4 py-2 rounded-full font-semibold transition-colors hover:scale-105"
-            style={{ backgroundColor: spotifyGreen, color: 'black' }}
+            style={{ backgroundColor: spotifyGreen, color: "black" }}
           >
             Try Again
           </button>
@@ -369,14 +372,14 @@ const SpotifyContent: React.FC = () => {
         <div
           className={`border-r transition-all duration-300 ease-in-out flex-shrink-0 ${
             isXs || isSm || isMd
-              ? 'w-0 overflow-hidden'
+              ? "w-0 overflow-hidden"
               : isLibraryPanelExpanded
-              ? 'w-80'
-              : 'w-20'
+                ? "w-80"
+                : "w-20"
           }`}
           style={{
             backgroundColor: spotifyBg,
-            borderColor: '#282828',
+            borderColor: "#282828",
           }}
         >
           {spotifyData && (
@@ -393,13 +396,13 @@ const SpotifyContent: React.FC = () => {
 
         {(isXs || isSm || isMd) && (
           <AnimatePresence mode="wait">
-            {mobileView === 'library' && (
+            {mobileView === "library" && (
               <motion.div
                 key="library"
-                initial={{ x: '-100%' }}
+                initial={{ x: "-100%" }}
                 animate={{ x: 0 }}
-                exit={{ x: '-100%' }}
-                transition={{ type: 'tween', duration: 0.3 }}
+                exit={{ x: "-100%" }}
+                transition={{ type: "tween", duration: 0.3 }}
                 className="absolute inset-0 z-10"
                 style={{ backgroundColor: spotifyBg }}
               >
@@ -407,21 +410,21 @@ const SpotifyContent: React.FC = () => {
                   <LibraryPanel
                     spotifyData={spotifyData}
                     isExpanded={true}
-                    onExpandToggle={() => setMobileView('main')}
+                    onExpandToggle={() => setMobileView("main")}
                     showBackButton={true}
-                    onBackClick={() => setMobileView('main')}
+                    onBackClick={() => setMobileView("main")}
                     onPlaylistClick={navigateToPlaylist}
                   />
                 )}
               </motion.div>
             )}
-            {mobileView === 'friend' && (
+            {mobileView === "friend" && (
               <motion.div
                 key="friend"
-                initial={{ x: '100%' }}
+                initial={{ x: "100%" }}
                 animate={{ x: 0 }}
-                exit={{ x: '100%' }}
-                transition={{ type: 'tween', duration: 0.3 }}
+                exit={{ x: "100%" }}
+                transition={{ type: "tween", duration: 0.3 }}
                 className="absolute inset-0 z-10"
                 style={{ backgroundColor: spotifyBg }}
               >
@@ -431,14 +434,14 @@ const SpotifyContent: React.FC = () => {
                     currentTrack={currentTrack || undefined}
                     isPlaying={isPlaying}
                     isOpen={true}
-                    onClose={() => setMobileView('main')}
+                    onClose={() => setMobileView("main")}
                     showBackButton={true}
-                    onBack={() => setMobileView('main')}
+                    onBack={() => setMobileView("main")}
                   />
                 )}
               </motion.div>
             )}
-            {mobileView === 'main' && (
+            {mobileView === "main" && (
               <motion.div
                 key="main"
                 initial={{ opacity: 0 }}
@@ -449,7 +452,7 @@ const SpotifyContent: React.FC = () => {
               >
                 <div
                   className="flex items-center justify-between p-4 border-b flex-shrink-0"
-                  style={{ borderColor: '#282828' }}
+                  style={{ borderColor: "#282828" }}
                 >
                   <div className="flex items-center gap-2 min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-shrink-0">
@@ -458,10 +461,10 @@ const SpotifyContent: React.FC = () => {
                         disabled={!canGoBack}
                         className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
                           !canGoBack
-                            ? 'opacity-50 cursor-not-allowed'
-                            : 'hover:bg-white/10 cursor-pointer'
+                            ? "opacity-50 cursor-not-allowed"
+                            : "hover:bg-white/10 cursor-pointer"
                         }`}
-                        style={{ backgroundColor: '#000000' }}
+                        style={{ backgroundColor: "#000000" }}
                       >
                         <ChevronLeft size={20} color={spotifyTextSecondary} />
                       </button>
@@ -470,18 +473,18 @@ const SpotifyContent: React.FC = () => {
                         disabled={!canGoForward}
                         className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
                           !canGoForward
-                            ? 'opacity-50 cursor-not-allowed'
-                            : 'hover:bg-white/10 cursor-pointer'
+                            ? "opacity-50 cursor-not-allowed"
+                            : "hover:bg-white/10 cursor-pointer"
                         }`}
-                        style={{ backgroundColor: '#000000' }}
+                        style={{ backgroundColor: "#000000" }}
                       >
                         <ChevronRight size={20} color={spotifyTextSecondary} />
                       </button>
                     </div>
                     <button
                       onClick={() => {
-                        setCurrentView('main');
-                        navigate('spotify-main');
+                        setCurrentView("main");
+                        navigate("spotify-main");
                       }}
                       className="p-2 rounded-full hover:bg-white/10 transition-colors flex-shrink-0 cursor-pointer"
                       style={{ color: spotifyText }}
@@ -489,7 +492,7 @@ const SpotifyContent: React.FC = () => {
                       <IoHome size={20} color={spotifyTextSecondary} />
                     </button>
                     <button
-                      onClick={() => setMobileView('library')}
+                      onClick={() => setMobileView("library")}
                       className="p-2 rounded-full hover:bg-white/10 transition-colors flex-shrink-0 cursor-pointer"
                       style={{ color: spotifyTextSecondary }}
                     >
@@ -497,7 +500,7 @@ const SpotifyContent: React.FC = () => {
                     </button>
                   </div>
                   <button
-                    onClick={() => setMobileView('friend')}
+                    onClick={() => setMobileView("friend")}
                     className="p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
                     style={{ color: spotifyTextSecondary }}
                     title="Friend Activity"
@@ -506,14 +509,14 @@ const SpotifyContent: React.FC = () => {
                   </button>
                 </div>
                 <div className="flex-1 min-h-0 overflow-hidden">
-                  {currentView === 'main' && spotifyData && (
+                  {currentView === "main" && spotifyData && (
                     <MainArea
                       spotifyData={spotifyData}
                       onArtistClick={navigateToArtist}
                       onPlaylistClick={navigateToPlaylist}
                     />
                   )}
-                  {currentView === 'artist' && selectedArtist && (
+                  {currentView === "artist" && selectedArtist && (
                     <ArtistArea
                       artist={selectedArtist}
                       albums={selectedArtist.albums}
@@ -521,7 +524,7 @@ const SpotifyContent: React.FC = () => {
                       onPlayAlbum={navigateToAlbum}
                     />
                   )}
-                  {currentView === 'playlist' && selectedPlaylist && (
+                  {currentView === "playlist" && selectedPlaylist && (
                     <PlaylistArea
                       playlist={selectedPlaylist}
                       tracks={selectedPlaylist.tracks}
@@ -540,7 +543,7 @@ const SpotifyContent: React.FC = () => {
             <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
               <div
                 className="flex items-center justify-between p-4 border-b flex-shrink-0"
-                style={{ borderColor: '#282828' }}
+                style={{ borderColor: "#282828" }}
               >
                 <div className="flex items-center gap-2 min-w-0 flex-1">
                   <div className="flex items-center gap-2 flex-shrink-0">
@@ -549,10 +552,10 @@ const SpotifyContent: React.FC = () => {
                       disabled={!canGoBack}
                       className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
                         !canGoBack
-                          ? 'opacity-50 cursor-not-allowed'
-                          : 'hover:bg-white/10 cursor-pointer'
+                          ? "opacity-50 cursor-not-allowed"
+                          : "hover:bg-white/10 cursor-pointer"
                       }`}
-                      style={{ backgroundColor: '#000000' }}
+                      style={{ backgroundColor: "#000000" }}
                     >
                       <ChevronLeft size={20} color={spotifyTextSecondary} />
                     </button>
@@ -561,18 +564,18 @@ const SpotifyContent: React.FC = () => {
                       disabled={!canGoForward}
                       className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
                         !canGoForward
-                          ? 'opacity-50 cursor-not-allowed'
-                          : 'hover:bg-white/10 cursor-pointer'
+                          ? "opacity-50 cursor-not-allowed"
+                          : "hover:bg-white/10 cursor-pointer"
                       }`}
-                      style={{ backgroundColor: '#000000' }}
+                      style={{ backgroundColor: "#000000" }}
                     >
                       <ChevronRight size={20} color={spotifyTextSecondary} />
                     </button>
                   </div>
                   <button
                     onClick={() => {
-                      setCurrentView('main');
-                      navigate('spotify-main');
+                      setCurrentView("main");
+                      navigate("spotify-main");
                     }}
                     className="px-3 py-1.5 text-sm font-medium rounded-full hover:bg-white/10 transition-colors whitespace-nowrap cursor-pointer"
                     style={{ color: spotifyText }}
@@ -595,14 +598,14 @@ const SpotifyContent: React.FC = () => {
                 </button>
               </div>
               <div className="flex-1 overflow-hidden">
-                {currentView === 'main' && spotifyData && (
+                {currentView === "main" && spotifyData && (
                   <MainArea
                     spotifyData={spotifyData}
                     onArtistClick={navigateToArtist}
                     onPlaylistClick={navigateToPlaylist}
                   />
                 )}
-                {currentView === 'artist' && selectedArtist && (
+                {currentView === "artist" && selectedArtist && (
                   <ArtistArea
                     artist={selectedArtist}
                     albums={selectedArtist.albums}
@@ -610,7 +613,7 @@ const SpotifyContent: React.FC = () => {
                     onPlayAlbum={navigateToAlbum}
                   />
                 )}
-                {currentView === 'playlist' && selectedPlaylist && (
+                {currentView === "playlist" && selectedPlaylist && (
                   <PlaylistArea
                     playlist={selectedPlaylist}
                     tracks={selectedPlaylist.tracks}
@@ -623,7 +626,7 @@ const SpotifyContent: React.FC = () => {
               className="border-l flex-shrink-0"
               style={{
                 backgroundColor: spotifyBg,
-                borderColor: '#282828',
+                borderColor: "#282828",
               }}
             >
               {spotifyData && (

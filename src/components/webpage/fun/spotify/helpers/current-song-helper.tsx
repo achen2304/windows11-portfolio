@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 declare global {
   interface Window {
@@ -95,8 +95,8 @@ export class SpotifySDKManager {
   private readyCallbacks: ((isReady: boolean) => void)[] = [];
 
   constructor() {
-    if (typeof window !== 'undefined') {
-      const savedVolume = localStorage.getItem('spotify-volume');
+    if (typeof window !== "undefined") {
+      const savedVolume = localStorage.getItem("spotify-volume");
       if (savedVolume) {
         this.volume = parseFloat(savedVolume);
       }
@@ -120,7 +120,7 @@ export class SpotifySDKManager {
       await this.getAccessToken();
 
       if (!this.accessToken) {
-        console.error('Failed to get access token');
+        console.error("Failed to get access token");
         return;
       }
 
@@ -132,18 +132,18 @@ export class SpotifySDKManager {
       // Initialize player
       this.initializePlayer();
     } catch (error) {
-      console.error('Failed to initialize Spotify SDK:', error);
+      console.error("Failed to initialize Spotify SDK:", error);
     }
   }
 
   private async checkPremiumStatus() {
     try {
-      const response = await fetch('/api/spotify?type=profile');
+      const response = await fetch("/api/spotify?type=profile");
       const profile = await response.json();
-      this.isPremium = profile.product === 'premium';
+      this.isPremium = profile.product === "premium";
       this.notifyPremiumCallbacks(this.isPremium);
     } catch (error) {
-      console.error('Failed to check premium status:', error);
+      console.error("Failed to check premium status:", error);
       this.isPremium = false;
       this.notifyPremiumCallbacks(false);
     }
@@ -151,11 +151,11 @@ export class SpotifySDKManager {
 
   private async getAccessToken() {
     try {
-      const response = await fetch('/api/spotify/token');
+      const response = await fetch("/api/spotify/token");
       const data = await response.json();
       this.accessToken = data.access_token;
     } catch (error) {
-      console.error('Failed to get access token:', error);
+      console.error("Failed to get access token:", error);
     }
   }
 
@@ -171,40 +171,40 @@ export class SpotifySDKManager {
     try {
       // Check available devices
       const devicesResponse = await fetch(
-        'https://api.spotify.com/v1/me/player/devices',
+        "https://api.spotify.com/v1/me/player/devices",
         {
           headers: { Authorization: `Bearer ${this.accessToken}` },
-        }
+        },
       );
 
       if (devicesResponse.ok) {
         const devicesData = await devicesResponse.json();
 
         const webPlayerDevice = devicesData.devices.find(
-          (d: any) => d.id === this.deviceId
+          (d: any) => d.id === this.deviceId,
         );
         if (webPlayerDevice) {
         } else {
-          console.warn('Web player device not found in available devices list');
+          console.warn("Web player device not found in available devices list");
         }
       } else {
-        console.error('Failed to get devices:', devicesResponse.status);
+        console.error("Failed to get devices:", devicesResponse.status);
       }
 
       // Check current playback state
       const playerResponse = await fetch(
-        'https://api.spotify.com/v1/me/player',
+        "https://api.spotify.com/v1/me/player",
         {
           headers: { Authorization: `Bearer ${this.accessToken}` },
-        }
+        },
       );
 
       if (playerResponse.status === 204) {
       } else {
-        console.error('Failed to get playback state:', playerResponse.status);
+        console.error("Failed to get playback state:", playerResponse.status);
       }
     } catch (error) {
-      console.error('Error debugging player state:', error);
+      console.error("Error debugging player state:", error);
     }
   }
 
@@ -219,8 +219,8 @@ export class SpotifySDKManager {
         resolve();
       };
 
-      const script = document.createElement('script');
-      script.src = 'https://sdk.scdn.co/spotify-player.js';
+      const script = document.createElement("script");
+      script.src = "https://sdk.scdn.co/spotify-player.js";
       script.async = true;
       document.body.appendChild(script);
     });
@@ -230,7 +230,7 @@ export class SpotifySDKManager {
     if (!window.Spotify || !this.accessToken) return;
 
     this.player = new window.Spotify.Player({
-      name: 'Windows 11 Portfolio Player',
+      name: "Windows 11 Portfolio Player",
       getOAuthToken: (cb) => {
         if (this.accessToken) {
           cb(this.accessToken);
@@ -240,28 +240,28 @@ export class SpotifySDKManager {
     });
 
     // Error handling
-    this.player.addListener('initialization_error', ({ message }) => {
-      console.error('Spotify initialization error:', message);
+    this.player.addListener("initialization_error", ({ message }) => {
+      console.error("Spotify initialization error:", message);
     });
 
-    this.player.addListener('authentication_error', ({ message }) => {
-      console.error('Spotify authentication error:', message);
+    this.player.addListener("authentication_error", ({ message }) => {
+      console.error("Spotify authentication error:", message);
       // Try to refresh the access token
       this.refreshAccessToken().then(() => {
         this.reconnectPlayer();
       });
     });
 
-    this.player.addListener('account_error', ({ message }) => {
-      console.error('Spotify account error:', message);
+    this.player.addListener("account_error", ({ message }) => {
+      console.error("Spotify account error:", message);
     });
 
-    this.player.addListener('playback_error', ({ message }) => {
-      console.error('Spotify playback error:', message);
+    this.player.addListener("playback_error", ({ message }) => {
+      console.error("Spotify playback error:", message);
     });
 
     // Ready
-    this.player.addListener('ready', ({ device_id }) => {
+    this.player.addListener("ready", ({ device_id }) => {
       this.deviceId = device_id;
       this.isInitialized = true;
       this.notifyReadyCallbacks(true);
@@ -271,13 +271,13 @@ export class SpotifySDKManager {
     });
 
     // Not ready
-    this.player.addListener('not_ready', () => {
+    this.player.addListener("not_ready", () => {
       this.isInitialized = false;
       this.notifyReadyCallbacks(false);
     });
 
     // Player state changed
-    this.player.addListener('player_state_changed', (state) => {
+    this.player.addListener("player_state_changed", (state) => {
       if (!state) return;
 
       this.isPlaying = !state.paused;
@@ -319,12 +319,12 @@ export class SpotifySDKManager {
 
   async playTrack(track: AudioTrack, context?: string) {
     if (!this.isPremium) {
-      console.warn('Spotify Premium required for playback');
+      console.warn("Spotify Premium required for playback");
       return;
     }
 
     if (!this.isInitialized || !this.deviceId || !this.accessToken) {
-      console.warn('Spotify player not ready');
+      console.warn("Spotify player not ready");
       return;
     }
 
@@ -353,32 +353,32 @@ export class SpotifySDKManager {
       const response = await fetch(
         `https://api.spotify.com/v1/me/player/play?device_id=${this.deviceId}`,
         {
-          method: 'PUT',
+          method: "PUT",
           headers: {
             Authorization: `Bearer ${this.accessToken}`,
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(playBody),
-        }
+        },
       );
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('Play track error response:', errorText);
+        console.error("Play track error response:", errorText);
 
         if (response.status === 404) {
-          console.warn('Device not found, attempting to re-register...');
+          console.warn("Device not found, attempting to re-register...");
           // Try to reconnect the player
           await this.reconnectPlayer();
           return;
         }
 
         throw new Error(
-          `Failed to play track: ${response.status} - ${errorText}`
+          `Failed to play track: ${response.status} - ${errorText}`,
         );
       }
     } catch (error) {
-      console.error('Failed to play track:', error);
+      console.error("Failed to play track:", error);
     }
   }
 
@@ -386,11 +386,11 @@ export class SpotifySDKManager {
     if (!this.deviceId || !this.accessToken) return;
 
     try {
-      const response = await fetch('https://api.spotify.com/v1/me/player', {
-        method: 'PUT',
+      const response = await fetch("https://api.spotify.com/v1/me/player", {
+        method: "PUT",
         headers: {
           Authorization: `Bearer ${this.accessToken}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           device_ids: [this.deviceId],
@@ -399,10 +399,10 @@ export class SpotifySDKManager {
       });
 
       if (!response.ok && response.status !== 204) {
-        console.warn('Failed to transfer playback to device:', response.status);
+        console.warn("Failed to transfer playback to device:", response.status);
       }
     } catch (error) {
-      console.warn('Error transferring playback:', error);
+      console.warn("Error transferring playback:", error);
     }
   }
 
@@ -414,10 +414,10 @@ export class SpotifySDKManager {
       const connected = await this.player.connect();
       if (connected) {
       } else {
-        console.error('Failed to reconnect Spotify player');
+        console.error("Failed to reconnect Spotify player");
       }
     } catch (error) {
-      console.error('Error reconnecting player:', error);
+      console.error("Error reconnecting player:", error);
     }
   }
 
@@ -434,7 +434,7 @@ export class SpotifySDKManager {
             this.notifyProgressCallbacks(progress);
           }
         } catch (error) {
-          console.error('Error getting progress:', error);
+          console.error("Error getting progress:", error);
         }
       }
     }, 1000); // Update every second
@@ -453,7 +453,7 @@ export class SpotifySDKManager {
     try {
       await this.player.togglePlay();
     } catch (error) {
-      console.error('Failed to toggle play/pause:', error);
+      console.error("Failed to toggle play/pause:", error);
     }
   }
 
@@ -463,7 +463,7 @@ export class SpotifySDKManager {
     try {
       await this.player.nextTrack();
     } catch (error) {
-      console.error('Failed to skip to next track:', error);
+      console.error("Failed to skip to next track:", error);
     }
   }
 
@@ -473,7 +473,7 @@ export class SpotifySDKManager {
     try {
       await this.player.previousTrack();
     } catch (error) {
-      console.error('Failed to skip to previous track:', error);
+      console.error("Failed to skip to previous track:", error);
     }
   }
 
@@ -489,18 +489,18 @@ export class SpotifySDKManager {
       const response = await fetch(
         `https://api.spotify.com/v1/me/player/shuffle?state=${newShuffleState}&device_id=${this.deviceId}`,
         {
-          method: 'PUT',
+          method: "PUT",
           headers: {
             Authorization: `Bearer ${this.accessToken}`,
           },
-        }
+        },
       );
 
       if (!response.ok) {
         throw new Error(`Failed to toggle shuffle: ${response.status}`);
       }
     } catch (error) {
-      console.error('Failed to toggle shuffle:', error);
+      console.error("Failed to toggle shuffle:", error);
     }
   }
 
@@ -511,36 +511,36 @@ export class SpotifySDKManager {
     try {
       // Get current state to cycle through repeat modes
       const state = await this.player?.getCurrentState();
-      let newRepeatState = 'off';
+      let newRepeatState = "off";
 
       if (state) {
         if (state.repeat_mode === 0) {
           // off
-          newRepeatState = 'context'; // repeat all
+          newRepeatState = "context"; // repeat all
         } else if (state.repeat_mode === 1) {
           // context
-          newRepeatState = 'track'; // repeat one
+          newRepeatState = "track"; // repeat one
         } else {
           // track
-          newRepeatState = 'off'; // off
+          newRepeatState = "off"; // off
         }
       }
 
       const response = await fetch(
         `https://api.spotify.com/v1/me/player/repeat?state=${newRepeatState}&device_id=${this.deviceId}`,
         {
-          method: 'PUT',
+          method: "PUT",
           headers: {
             Authorization: `Bearer ${this.accessToken}`,
           },
-        }
+        },
       );
 
       if (!response.ok) {
         throw new Error(`Failed to toggle repeat: ${response.status}`);
       }
     } catch (error) {
-      console.error('Failed to toggle repeat:', error);
+      console.error("Failed to toggle repeat:", error);
     }
   }
 
@@ -551,12 +551,12 @@ export class SpotifySDKManager {
       try {
         await this.player.setVolume(this.volume);
       } catch (error) {
-        console.error('Failed to set volume:', error);
+        console.error("Failed to set volume:", error);
       }
     }
 
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('spotify-volume', this.volume.toString());
+    if (typeof window !== "undefined") {
+      localStorage.setItem("spotify-volume", this.volume.toString());
     }
   }
 
@@ -571,7 +571,7 @@ export class SpotifySDKManager {
       const state = await this.player.getCurrentState();
       return state ? state.position : 0;
     } catch (error) {
-      console.error('Failed to get current position:', error);
+      console.error("Failed to get current position:", error);
       return 0;
     }
   }
@@ -586,7 +586,7 @@ export class SpotifySDKManager {
     try {
       await this.player.seek(position * 1000); // Convert to milliseconds
     } catch (error) {
-      console.error('Failed to seek:', error);
+      console.error("Failed to seek:", error);
     }
   }
 
@@ -594,7 +594,7 @@ export class SpotifySDKManager {
     this.progressCallbacks.push(callback);
     return () => {
       this.progressCallbacks = this.progressCallbacks.filter(
-        (cb) => cb !== callback
+        (cb) => cb !== callback,
       );
     };
   }
@@ -603,7 +603,7 @@ export class SpotifySDKManager {
     this.statusCallbacks.push(callback);
     return () => {
       this.statusCallbacks = this.statusCallbacks.filter(
-        (cb) => cb !== callback
+        (cb) => cb !== callback,
       );
     };
   }
@@ -619,7 +619,7 @@ export class SpotifySDKManager {
     this.premiumCallbacks.push(callback);
     return () => {
       this.premiumCallbacks = this.premiumCallbacks.filter(
-        (cb) => cb !== callback
+        (cb) => cb !== callback,
       );
     };
   }
@@ -696,5 +696,5 @@ export const getAudioManager = getSpotifyManager;
 export const formatTime = (seconds: number): string => {
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
+  return `${mins}:${secs.toString().padStart(2, "0")}`;
 };

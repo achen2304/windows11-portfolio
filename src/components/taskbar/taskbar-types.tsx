@@ -19,7 +19,7 @@ export interface QuickLink {
   id: string;
   name: string;
   newTab?: boolean;
-  type?: 'link' | 'copy';
+  type?: "link" | "copy";
   url?: string;
   icon?: string;
   iconLight?: string;
@@ -43,7 +43,7 @@ export interface WifiNetwork {
 export interface AudioDevice {
   id: string;
   name: string;
-  type: 'speaker' | 'headphone' | 'microphone';
+  type: "speaker" | "headphone" | "microphone";
   isDefault?: boolean;
   volume?: number;
 }
@@ -52,7 +52,7 @@ export interface BatteryInfo {
   percentage: number;
   isCharging: boolean;
   timeRemaining?: string;
-  powerMode?: 'battery-saver' | 'balanced' | 'performance';
+  powerMode?: "battery-saver" | "balanced" | "performance";
 }
 
 export interface CalendarEvent {
@@ -71,7 +71,7 @@ export interface NotificationItem {
   timestamp: Date;
   app: string;
   isRead?: boolean;
-  priority: 'low' | 'normal' | 'high';
+  priority: "low" | "normal" | "high";
 }
 
 export interface TaskbarProps {
@@ -134,10 +134,10 @@ export interface PowerPanelProps {
 }
 
 export type PanelType =
-  | 'start'
-  | 'calendar'
-  | 'system'
-  | 'soundboard'
-  | 'notifications'
-  | 'power'
+  | "start"
+  | "calendar"
+  | "system"
+  | "soundboard"
+  | "notifications"
+  | "power"
   | null;

@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useCallback } from 'react';
-import { toast } from 'sonner';
-import { useTheme } from '@/components/theme-provider';
-import { themes } from '@/lib/themes';
-import { Check, Copy, X } from 'lucide-react';
-import { notificationUtils } from '@/lib/notification-utils';
+import { createContext, useContext, useCallback } from "react";
+import { toast } from "sonner";
+import { useTheme } from "@/components/theme-provider";
+import { themes } from "@/lib/themes";
+import { Check, Copy, X } from "lucide-react";
+import { notificationUtils } from "@/lib/notification-utils";
 
 export interface Toast {
   title: string;
   description?: string;
-  type: 'success' | 'error' | 'info';
+  type: "success" | "error" | "info";
   duration?: number;
   notification?: boolean;
 }
@@ -40,11 +40,11 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
           title: toastProps.title,
           description: toastProps.description,
           type:
-            toastProps.type === 'success'
-              ? 'success'
-              : toastProps.type === 'error'
-              ? 'error'
-              : 'info',
+            toastProps.type === "success"
+              ? "success"
+              : toastProps.type === "error"
+                ? "error"
+                : "info",
           fromToast: true,
         });
       }
@@ -52,7 +52,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       const descriptionEl = toastProps.description ? (
         <div
           style={{
-            color: theme === 'light' ? '#4b5563' : '#cccccc',
+            color: theme === "light" ? "#4b5563" : "#cccccc",
             opacity: 1,
             fontWeight: 400,
           }}
@@ -65,13 +65,13 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         duration: toastProps.duration || 3000,
         id: Math.random().toString(36).substr(2, 9),
         icon:
-          toastProps.type === 'success' ? (
+          toastProps.type === "success" ? (
             <Check
               size={iconSize}
               className="text-green-500"
               style={iconStyle}
             />
-          ) : toastProps.type === 'error' ? (
+          ) : toastProps.type === "error" ? (
             <X size={iconSize} className="text-red-500" style={iconStyle} />
           ) : (
             <Copy
@@ -84,15 +84,15 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
           border: `1px solid ${currentTheme.glass?.border}`,
           color: currentTheme.text?.primary,
         },
-        className: 'backdrop-blur-xl shadow-lg',
+        className: "backdrop-blur-xl shadow-lg",
       };
 
-      if (toastProps.type === 'success') {
+      if (toastProps.type === "success") {
         toast.success(toastProps.title, {
           description: descriptionEl,
           ...toastOptions,
         });
-      } else if (toastProps.type === 'error') {
+      } else if (toastProps.type === "error") {
         toast.error(toastProps.title, {
           description: descriptionEl,
           ...toastOptions,
@@ -104,7 +104,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         });
       }
     },
-    [currentTheme, theme]
+    [currentTheme, theme],
   );
 
   return (
@@ -117,7 +117,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 export function useToast() {
   const context = useContext(ToastContext);
   if (!context) {
-    throw new Error('useToast must be used within a ToastProvider');
+    throw new Error("useToast must be used within a ToastProvider");
   }
   return context;
 }

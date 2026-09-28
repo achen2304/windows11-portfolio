@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useTheme } from '../../../theme-provider';
-import { themes } from '@/lib/themes';
+import React from "react";
+import { useTheme } from "../../../theme-provider";
+import { themes } from "@/lib/themes";
 
 const GoogleApp: React.FC = () => {
   const { theme } = useTheme();

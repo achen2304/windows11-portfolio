@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useRef, useEffect } from 'react';
-import { useTheme } from '../../../theme-provider';
-import { themes } from '@/lib/themes';
+import React, { useRef, useEffect } from "react";
+import { useTheme } from "../../../theme-provider";
+import { themes } from "@/lib/themes";
 
 interface DropdownProps {
   isOpen: boolean;
@@ -37,10 +37,10 @@ export const Dropdown: React.FC<DropdownProps> = ({
     };
 
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen, onClose]);
 
@@ -52,11 +52,11 @@ export const Dropdown: React.FC<DropdownProps> = ({
       className="shadow-lg rounded-sm z-[999] dropdown-menu"
       style={{
         background:
-          theme === 'dark' ? currentTheme.glass.background : '#ffffff',
+          theme === "dark" ? currentTheme.glass.background : "#ffffff",
         border: `1px solid ${currentTheme.border}`,
-        minWidth: '180px',
-        transformOrigin: 'top left',
-        boxShadow: '0 6px 16px rgba(0, 0, 0, 0.12)',
+        minWidth: "180px",
+        transformOrigin: "top left",
+        boxShadow: "0 6px 16px rgba(0, 0, 0, 0.12)",
       }}
     >
       {options.map((option, index) => (
@@ -64,13 +64,13 @@ export const Dropdown: React.FC<DropdownProps> = ({
           <button
             type="button"
             className={`w-full text-left px-4 py-1.5 text-xs ${
-              option.disabled ? 'opacity-50' : 'hover:cursor-pointer'
+              option.disabled ? "opacity-50" : "hover:cursor-pointer"
             }`}
             style={{
               color: currentTheme.text.primary,
-              background: 'transparent',
-              border: 'none',
-              outline: 'none',
+              background: "transparent",
+              border: "none",
+              outline: "none",
             }}
             disabled={option.disabled}
             onClick={(e) => {
@@ -83,13 +83,13 @@ export const Dropdown: React.FC<DropdownProps> = ({
             onMouseEnter={(e) => {
               if (!option.disabled) {
                 e.currentTarget.style.background =
-                  theme === 'dark'
+                  theme === "dark"
                     ? currentTheme.button.backgroundHover
-                    : 'rgba(0, 0, 0, 0.08)';
+                    : "rgba(0, 0, 0, 0.08)";
               }
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.background = "transparent";
             }}
           >
             <div className="flex justify-between items-center">
@@ -119,28 +119,28 @@ export const Dropdown: React.FC<DropdownProps> = ({
 export const createFileDropdownOptions = (
   onNew: () => void,
   onSave: () => void,
-  onExit: () => void
+  onExit: () => void,
 ) => [
   {
-    label: 'New',
+    label: "New",
     onClick: onNew,
-    shortcut: 'Ctrl+N',
+    shortcut: "Ctrl+N",
   },
   {
-    label: 'Open...',
+    label: "Open...",
     onClick: () => {},
-    shortcut: 'Ctrl+O',
+    shortcut: "Ctrl+O",
     disabled: true,
     dividerAfter: true,
   },
   {
-    label: 'Save',
+    label: "Save",
     onClick: onSave,
-    shortcut: 'Ctrl+S',
+    shortcut: "Ctrl+S",
     dividerAfter: true,
   },
   {
-    label: 'Exit',
+    label: "Exit",
     onClick: onExit,
   },
 ];
@@ -152,35 +152,35 @@ export const createEditDropdownOptions = (
   onPaste: () => void,
   onRedo: () => void,
   canUndo: boolean = false,
-  canRedo: boolean = false
+  canRedo: boolean = false,
 ) => [
   {
-    label: 'Undo',
+    label: "Undo",
     onClick: onUndo,
-    shortcut: 'Ctrl+Z',
+    shortcut: "Ctrl+Z",
     disabled: !canUndo,
   },
   {
-    label: 'Redo',
+    label: "Redo",
     onClick: onRedo,
-    shortcut: 'Ctrl+Y',
+    shortcut: "Ctrl+Y",
     dividerAfter: true,
     disabled: !canRedo,
   },
   {
-    label: 'Cut',
+    label: "Cut",
     onClick: onCut,
-    shortcut: 'Ctrl+X',
+    shortcut: "Ctrl+X",
   },
   {
-    label: 'Copy',
+    label: "Copy",
     onClick: onCopy,
-    shortcut: 'Ctrl+C',
+    shortcut: "Ctrl+C",
   },
   {
-    label: 'Paste',
+    label: "Paste",
     onClick: onPaste,
-    shortcut: 'Ctrl+V',
+    shortcut: "Ctrl+V",
   },
 ];
 

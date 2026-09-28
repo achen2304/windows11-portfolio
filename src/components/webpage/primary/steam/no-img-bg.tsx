@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Image from 'next/image';
+import React from "react";
+import Image from "next/image";
 
 interface ProjectImageBackgroundProps {
   imagePath: string;
@@ -17,9 +17,9 @@ const ProjectImageBackground: React.FC<ProjectImageBackgroundProps> = ({
   imagePath,
   alt,
   children,
-  height = 'h-56',
-  gradientFrom = 'transparent',
-  gradientTo = 'black',
+  height = "h-56",
+  gradientFrom = "transparent",
+  gradientTo = "black",
   opacity = 0.7,
 }) => {
   return (

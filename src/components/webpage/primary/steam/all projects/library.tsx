@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { useTheme } from '../../../../theme-provider';
-import { themes } from '@/lib/themes';
-import { projects, Project } from '@/data/projects';
-import { Search, Menu, X } from 'lucide-react';
-import LeftCard from './left-card';
-import MainArea from './main-area';
-import { useNavigation } from '@/components/webpage/chevron-button';
-import { useWindowSize } from '@/components/webpage/breakpoints';
+import React, { useState, useEffect } from "react";
+import { useTheme } from "../../../../theme-provider";
+import { themes } from "@/lib/themes";
+import { projects, Project } from "@/data/projects";
+import { Search, Menu, X } from "lucide-react";
+import LeftCard from "./left-card";
+import MainArea from "./main-area";
+import { useNavigation } from "@/components/webpage/chevron-button";
+import { useWindowSize } from "@/components/webpage/breakpoints";
 
 const Library: React.FC = () => {
   const { theme } = useTheme();
@@ -17,7 +17,7 @@ const Library: React.FC = () => {
   const { navigate, getCurrentState, history, currentIndex } = useNavigation();
   const { isXs, isSm } = useWindowSize();
 
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [sidebarVisible, setSidebarVisible] = useState(() => {
     return !isXs && !isSm;
@@ -42,7 +42,7 @@ const Library: React.FC = () => {
 
     if (currentState?.data?.project) {
       const projectFromHistory = projects.find(
-        (p) => p.name === currentState.data?.project
+        (p) => p.name === currentState.data?.project,
       );
       if (projectFromHistory) {
         setSelectedProject(projectFromHistory);
@@ -52,8 +52,8 @@ const Library: React.FC = () => {
 
     if (projects.length > 0 && !selectedProject) {
       setSelectedProject(projects[0]);
-      const currentTab = currentState?.data?.tab || 'all';
-      navigate('steam-app', { tab: currentTab, project: projects[0].name });
+      const currentTab = currentState?.data?.tab || "all";
+      navigate("steam-app", { tab: currentTab, project: projects[0].name });
     }
   }, [
     history,
@@ -68,9 +68,9 @@ const Library: React.FC = () => {
     setSelectedProject(project);
 
     const currentState = getCurrentState();
-    const currentTab = currentState?.data?.tab || 'all';
+    const currentTab = currentState?.data?.tab || "all";
 
-    navigate('steam-app', { tab: currentTab, project: project.name });
+    navigate("steam-app", { tab: currentTab, project: project.name });
 
     if (isXs || isSm) {
       setSidebarVisible(false);
@@ -88,10 +88,10 @@ const Library: React.FC = () => {
   });
 
   const featuredProjects = filteredProjects.filter(
-    (project) => project.featured
+    (project) => project.featured,
   );
   const nonFeaturedProjects = filteredProjects.filter(
-    (project) => !project.featured
+    (project) => !project.featured,
   );
 
   if (!selectedProject) {
@@ -119,14 +119,14 @@ const Library: React.FC = () => {
         {/* Left sidebar with game list */}
         <div
           className={`${
-            isXs || isSm ? 'absolute z-10 h-full' : 'w-64'
+            isXs || isSm ? "absolute z-10 h-full" : "w-64"
           } flex flex-col border-r overflow-hidden transition-all duration-300 ease-in-out`}
           style={{
             background: steamTheme.sidebar,
             borderColor: steamTheme.divider,
-            width: sidebarVisible ? (isXs ? '85%' : '300px') : '0',
+            width: sidebarVisible ? (isXs ? "85%" : "300px") : "0",
             opacity: sidebarVisible ? 1 : 0,
-            visibility: sidebarVisible ? 'visible' : 'hidden',
+            visibility: sidebarVisible ? "visible" : "hidden",
           }}
         >
           {/* Search bar */}
@@ -221,8 +221,8 @@ const Library: React.FC = () => {
         <div
           className="flex-1"
           style={{
-            marginLeft: isXs || isSm ? 0 : sidebarVisible ? '0' : '-64px',
-            transition: 'margin-left 0.3s ease-in-out',
+            marginLeft: isXs || isSm ? 0 : sidebarVisible ? "0" : "-64px",
+            transition: "margin-left 0.3s ease-in-out",
           }}
         >
           <MainArea selectedProject={selectedProject} steamTheme={steamTheme} />

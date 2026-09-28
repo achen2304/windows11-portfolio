@@ -1,18 +1,18 @@
-import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 
 export async function POST(request: Request) {
   try {
-    console.log('Email API route hit:', new Date().toISOString());
+    console.log("Email API route hit:", new Date().toISOString());
 
     const { to, from, subject, message } = await request.json();
-    console.log('Received email data:', { to, from, subject });
+    console.log("Received email data:", { to, from, subject });
 
     if (!to || !from || !subject || !message) {
-      console.error('Missing required fields');
+      console.error("Missing required fields");
       return NextResponse.json(
-        { error: 'All fields are required: to, from, subject, message' },
-        { status: 400 }
+        { error: "All fields are required: to, from, subject, message" },
+        { status: 400 },
       );
     }
 
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     `;
 
     const transporter = nodemailer.createTransport({
-      host: 'smtp.zoho.com',
+      host: "smtp.zoho.com",
       port: 465,
       secure: true,
       auth: {
@@ -46,25 +46,25 @@ export async function POST(request: Request) {
       html: htmlContent,
     };
 
-    console.log('Sending email with transporter');
+    console.log("Sending email with transporter");
     const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent successfully:', info.messageId);
+    console.log("Email sent successfully:", info.messageId);
 
     return NextResponse.json({
       success: true,
       messageId: info.messageId,
     });
   } catch (error) {
-    console.error('Email sending error:', error);
+    console.error("Email sending error:", error);
 
     return NextResponse.json(
       {
-        error: 'Failed to send email',
-        details: (error as Error).message || 'Unknown error',
+        error: "Failed to send email",
+        details: (error as Error).message || "Unknown error",
         pass: process.env.APP_PASSWORD,
         email: process.env.EMAIL,
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

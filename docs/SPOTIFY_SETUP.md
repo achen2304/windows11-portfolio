@@ -75,7 +75,6 @@ https://accounts.spotify.com/authorize?client_id=YOUR_CLIENT_ID&response_type=co
 2. Visit the URL in your browser and authorize the app
 
 3. **Copy the authorization code from the redirect:**
-
    - **example.com**: Page will fail to load, copy code from URL bar: `https://example.com/callback?code=SOME_CODE&state=...`
    - **httpbin.org**: Will show JSON response, copy the code from the `args.code` field
    - **localhost**: Page will fail to load, copy code from URL bar: `http://localhost:3000/callback?code=SOME_CODE&state=...`

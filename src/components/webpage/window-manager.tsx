@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, {
   useState,
@@ -6,10 +6,10 @@ import React, {
   createContext,
   useContext,
   useEffect,
-} from 'react';
-import AppOutline from './outline';
-import { ErrorBoundary } from './error-boundary';
-import { availableApps } from './app-openers';
+} from "react";
+import AppOutline from "./outline";
+import { ErrorBoundary } from "./error-boundary";
+import { availableApps } from "./app-openers";
 
 export interface WindowState {
   id: string;
@@ -29,32 +29,32 @@ export interface WindowState {
 
 interface WindowManagerContextType {
   windows: WindowState[];
-  openWindow: (window: Omit<WindowState, 'zIndex' | 'isActive'>) => void;
+  openWindow: (window: Omit<WindowState, "zIndex" | "isActive">) => void;
   closeWindow: (id: string) => void;
   focusWindow: (id: string) => void;
   minimizeWindow: (id: string) => void;
   maximizeWindow: (id: string) => void;
   updateWindowPosition: (
     id: string,
-    position: { x: number; y: number }
+    position: { x: number; y: number },
   ) => void;
   updateWindowSize: (
     id: string,
-    size: { width: number; height: number }
+    size: { width: number; height: number },
   ) => void;
   finishOpeningAnimation: (id: string) => void;
   focusAndRestoreWindow: (id: string) => void;
 }
 
 const WindowManagerContext = createContext<WindowManagerContextType | null>(
-  null
+  null,
 );
 
 export const useWindowManager = () => {
   const context = useContext(WindowManagerContext);
   if (!context) {
     throw new Error(
-      'useWindowManager must be used within a WindowManagerProvider'
+      "useWindowManager must be used within a WindowManagerProvider",
     );
   }
   return context;
@@ -82,7 +82,7 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
 
   useEffect(() => {
     try {
-      const storedWindows = localStorage.getItem('windowStates');
+      const storedWindows = localStorage.getItem("windowStates");
       if (storedWindows) {
         const loadDelay = setTimeout(() => {
           const parsedWindows: StoredWindowState[] = JSON.parse(storedWindows);
@@ -108,7 +108,7 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
         return () => clearTimeout(loadDelay);
       }
     } catch (error) {
-      console.error('Failed to restore window states:', error);
+      console.error("Failed to restore window states:", error);
     }
   }, []);
 
@@ -129,12 +129,12 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
             };
           });
 
-        localStorage.setItem('windowStates', JSON.stringify(storableWindows));
+        localStorage.setItem("windowStates", JSON.stringify(storableWindows));
       } catch (error) {
-        console.error('Failed to save window states:', error);
+        console.error("Failed to save window states:", error);
       }
     } else {
-      localStorage.removeItem('windowStates');
+      localStorage.removeItem("windowStates");
     }
   }, [windows]);
 
@@ -160,7 +160,7 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
               ...window,
               zIndex: 50 + index,
             };
-          })
+          }),
         );
 
         return 50;
@@ -168,11 +168,11 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
 
       return currentHighest + 1;
     },
-    [windows]
+    [windows],
   );
 
   const openWindow = useCallback(
-    (windowData: Omit<WindowState, 'zIndex' | 'isActive'>) => {
+    (windowData: Omit<WindowState, "zIndex" | "isActive">) => {
       setWindows((windows) => {
         const existingWindow = windows.find((w) => w.id === windowData.id);
         if (existingWindow) {
@@ -209,26 +209,26 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
         return [...updatedWindows, newWindow];
       });
     },
-    [nextZIndex, getStaggeredPosition, getNextZIndex]
+    [nextZIndex, getStaggeredPosition, getNextZIndex],
   );
 
   const closeWindow = useCallback((id: string) => {
     setWindows((prev) =>
-      prev.map((w) => (w.id === id ? { ...w, isClosing: true } : w))
+      prev.map((w) => (w.id === id ? { ...w, isClosing: true } : w)),
     );
 
     setTimeout(() => {
       setWindows((prev) => prev.filter((w) => w.id !== id));
 
       try {
-        const storedWindows = localStorage.getItem('windowStates');
+        const storedWindows = localStorage.getItem("windowStates");
         if (storedWindows) {
           const parsedWindows: StoredWindowState[] = JSON.parse(storedWindows);
           const filteredWindows = parsedWindows.filter((w) => w.id !== id);
-          localStorage.setItem('windowStates', JSON.stringify(filteredWindows));
+          localStorage.setItem("windowStates", JSON.stringify(filteredWindows));
         }
       } catch (error) {
-        console.error('Failed to update stored window states:', error);
+        console.error("Failed to update stored window states:", error);
       }
     }, 300);
   }, []);
@@ -252,45 +252,47 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
         return updatedWindows;
       });
     },
-    [getNextZIndex]
+    [getNextZIndex],
   );
 
   const minimizeWindow = useCallback((id: string) => {
     setWindows((prev) =>
       prev.map((w) =>
-        w.id === id ? { ...w, isMinimizing: true, isActive: false } : w
-      )
+        w.id === id ? { ...w, isMinimizing: true, isActive: false } : w,
+      ),
     );
 
     setTimeout(() => {
       setWindows((prev) =>
         prev.map((w) =>
-          w.id === id ? { ...w, isMinimized: true, isMinimizing: false } : w
-        )
+          w.id === id ? { ...w, isMinimized: true, isMinimizing: false } : w,
+        ),
       );
     }, 300);
   }, []);
 
   const maximizeWindow = useCallback((id: string) => {
     setWindows((prev) =>
-      prev.map((w) => (w.id === id ? { ...w, isMaximized: !w.isMaximized } : w))
+      prev.map((w) =>
+        w.id === id ? { ...w, isMaximized: !w.isMaximized } : w,
+      ),
     );
   }, []);
 
   const updateWindowPosition = useCallback(
     (id: string, position: { x: number; y: number }) => {
       setWindows((prev) =>
-        prev.map((w) => (w.id === id ? { ...w, position } : w))
+        prev.map((w) => (w.id === id ? { ...w, position } : w)),
       );
     },
-    []
+    [],
   );
 
   const updateWindowSize = useCallback(
     (id: string, size: { width: number; height: number }) => {
       setWindows((prev) => prev.map((w) => (w.id === id ? { ...w, size } : w)));
     },
-    []
+    [],
   );
 
   const finishOpeningAnimation = useCallback((id: string) => {
@@ -302,8 +304,8 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
               isOpening: false,
               isReopening: false,
             }
-          : w
-      )
+          : w,
+      ),
     );
   }, []);
 
@@ -324,11 +326,11 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
 
       setTimeout(() => {
         setWindows((prev) =>
-          prev.map((w) => (w.id === id ? { ...w, isReopening: false } : w))
+          prev.map((w) => (w.id === id ? { ...w, isReopening: false } : w)),
         );
       }, 300);
     },
-    [getNextZIndex]
+    [getNextZIndex],
   );
 
   const contextValue: WindowManagerContextType = {
@@ -401,8 +403,8 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
                     !window.isClosing &&
                     !window.isMinimizing &&
                     !window.isReopening
-                      ? 'opacity 0.2s ease, box-shadow 0.2s ease'
-                      : 'none',
+                      ? "opacity 0.2s ease, box-shadow 0.2s ease"
+                      : "none",
                 }}
                 onFocus={() => focusWindow(window.id)}
                 onPositionChange={(position) =>
@@ -413,7 +415,7 @@ export const WindowManagerProvider: React.FC<WindowManagerProviderProps> = ({
                 {window.component}
               </AppOutline>
             </ErrorBoundary>
-          )
+          ),
       )}
     </WindowManagerContext.Provider>
   );
@@ -427,7 +429,7 @@ export const useWindow = () => {
       id: string,
       title: string,
       component: React.ReactNode,
-      options?: Partial<Pick<WindowState, 'position' | 'size' | 'isMaximized'>>
+      options?: Partial<Pick<WindowState, "position" | "size" | "isMaximized">>,
     ) => {
       openWindow({
         id,
@@ -439,7 +441,7 @@ export const useWindow = () => {
         isMinimized: false,
       });
     },
-    [openWindow]
+    [openWindow],
   );
 
   return { createWindow, closeWindow };

@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
-import { useTheme } from '../../../theme-provider';
-import { themes } from '@/lib/themes';
+import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+import { useTheme } from "../../../theme-provider";
+import { themes } from "@/lib/themes";
 import {
   ChevronButton,
   NavigationProvider,
   useNavigation,
-} from '@/components/webpage/chevron-button';
-import Library from './all projects/library';
-import FeaturedProjects from './feature projects/featured-projects';
+} from "@/components/webpage/chevron-button";
+import Library from "./all projects/library";
+import FeaturedProjects from "./feature projects/featured-projects";
 import {
   WindowSizeProvider,
   useWindowSize,
-} from '@/components/webpage/breakpoints';
-import { SteamTheme } from '@/components/types/system-types';
+} from "@/components/webpage/breakpoints";
+import { SteamTheme } from "@/components/types/system-types";
 
 const SteamContent: React.FC = () => {
   const { theme } = useTheme();
@@ -24,25 +24,25 @@ const SteamContent: React.FC = () => {
   const { navigate, getCurrentState, history, currentIndex } = useNavigation();
   const { isXs, isSm, isMd } = useWindowSize();
 
-  const [activeTab, setActiveTab] = useState<'featured' | 'all'>('featured');
+  const [activeTab, setActiveTab] = useState<"featured" | "all">("featured");
 
   useEffect(() => {
     const currentState = getCurrentState();
 
     if (!currentState) {
-      navigate('steam-app', { tab: 'featured' });
+      navigate("steam-app", { tab: "featured" });
     } else if (currentState.data?.tab) {
-      setActiveTab(currentState.data.tab as 'featured' | 'all');
+      setActiveTab(currentState.data.tab as "featured" | "all");
     }
   }, [history, currentIndex, navigate, getCurrentState]);
 
-  const handleTabChange = (tab: 'featured' | 'all') => {
+  const handleTabChange = (tab: "featured" | "all") => {
     if (activeTab !== tab) {
       const currentState = getCurrentState();
       const currentProject = currentState?.data?.project;
 
       setActiveTab(tab);
-      navigate('steam-app', {
+      navigate("steam-app", {
         tab,
         project: currentProject,
       });
@@ -77,36 +77,36 @@ const SteamContent: React.FC = () => {
 
         <div className="flex items-center space-x-4">
           <button
-            onClick={() => handleTabChange('featured')}
+            onClick={() => handleTabChange("featured")}
             className="uppercase font-medium text-sm px-2 py-1 transition-colors truncate hover:cursor-pointer"
             style={{
               color:
-                activeTab === 'featured'
+                activeTab === "featured"
                   ? steamTheme.textPrimary
                   : steamTheme.textSecondary,
               borderBottom:
-                activeTab === 'featured'
+                activeTab === "featured"
                   ? `2px solid ${steamTheme.highlight}`
-                  : 'none',
+                  : "none",
             }}
           >
             FEATURED
           </button>
           <button
-            onClick={() => handleTabChange('all')}
+            onClick={() => handleTabChange("all")}
             className="uppercase font-medium text-sm px-2 py-1 transition-colors truncate hover:cursor-pointer"
             style={{
               color:
-                activeTab === 'all'
+                activeTab === "all"
                   ? steamTheme.textPrimary
                   : steamTheme.textSecondary,
               borderBottom:
-                activeTab === 'all'
+                activeTab === "all"
                   ? `2px solid ${steamTheme.highlight}`
-                  : 'none',
+                  : "none",
             }}
           >
-            {isXs ? 'ALL' : 'ALL PROJECTS'}
+            {isXs ? "ALL" : "ALL PROJECTS"}
           </button>
         </div>
 
@@ -115,7 +115,7 @@ const SteamContent: React.FC = () => {
           className="ml-auto flex items-center gap-2 px-3 py-1 rounded"
           style={{
             background: steamTheme.sidebarHover,
-            display: isXs || isSm || isMd ? 'none' : 'flex',
+            display: isXs || isSm || isMd ? "none" : "flex",
           }}
         >
           <div className="relative w-7 h-7 rounded-full overflow-hidden">
@@ -124,7 +124,7 @@ const SteamContent: React.FC = () => {
               alt="Profile"
               fill
               sizes="28px"
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: "cover" }}
             />
           </div>
           <span
@@ -139,8 +139,8 @@ const SteamContent: React.FC = () => {
       {/* Content */}
       <div className="flex-1 overflow-hidden">
         <div className="h-full">
-          {activeTab === 'all' && <Library />}
-          {activeTab === 'featured' && <FeaturedProjects />}
+          {activeTab === "all" && <Library />}
+          {activeTab === "featured" && <FeaturedProjects />}
         </div>
       </div>
     </div>

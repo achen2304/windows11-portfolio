@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useTheme } from '../../../../theme-provider';
-import { themes } from '@/lib/themes';
-import { projects } from '@/data/projects';
-import Image from 'next/image';
-import AboutMe from './about-me';
-import MediaList from './media-list';
-import { useWindowSize } from '@/components/webpage/breakpoints';
-import { useNavigation } from '@/components/webpage/chevron-button';
-import MobileCarousel from './featured section/mobile-carousel';
-import DesktopCarousel from './featured section/desktop-carousel';
-import ProjectMediaList from './featured section/project-media-list';
+import React from "react";
+import { useTheme } from "../../../../theme-provider";
+import { themes } from "@/lib/themes";
+import { projects } from "@/data/projects";
+import Image from "next/image";
+import AboutMe from "./about-me";
+import MediaList from "./media-list";
+import { useWindowSize } from "@/components/webpage/breakpoints";
+import { useNavigation } from "@/components/webpage/chevron-button";
+import MobileCarousel from "./featured section/mobile-carousel";
+import DesktopCarousel from "./featured section/desktop-carousel";
+import ProjectMediaList from "./featured section/project-media-list";
 
 const FeaturedProjects: React.FC = () => {
   const { theme } = useTheme();
@@ -24,8 +24,8 @@ const FeaturedProjects: React.FC = () => {
   const featuredProjects = projects.filter((project) => project.featured);
 
   const handleProjectClick = (projectName: string) => {
-    navigate('steam-app', {
-      tab: 'all',
+    navigate("steam-app", {
+      tab: "all",
       project: projectName,
     });
   };
@@ -54,8 +54,8 @@ const FeaturedProjects: React.FC = () => {
       <div
         className="flex-1 flex flex-col p-4 md:p-6 w-full"
         style={{
-          maxWidth: '900px',
-          margin: '0 auto',
+          maxWidth: "900px",
+          margin: "0 auto",
         }}
       >
         <div className="w-full flex flex-col">
@@ -108,7 +108,7 @@ const FeaturedProjects: React.FC = () => {
           />
           <div className="flex justify-center">
             <button
-              onClick={() => navigate('steam-app', { tab: 'all' })}
+              onClick={() => navigate("steam-app", { tab: "all" })}
               className="px-6 py-1 text-sm font-medium cursor-pointer rounded transition-all duration-200 hover:scale-[1.05] hover:opacity-90 disabled:opacity-50"
               style={{
                 backgroundColor: steamTheme.sidebarHover,

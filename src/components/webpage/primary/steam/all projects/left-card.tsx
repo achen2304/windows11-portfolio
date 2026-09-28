@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { Project } from '@/data/projects';
-import { SteamTheme } from '@/components/types/system-types';
-import { motion } from 'framer-motion';
+import React from "react";
+import { Project } from "@/data/projects";
+import { SteamTheme } from "@/components/types/system-types";
+import { motion } from "framer-motion";
 
 interface LeftCardProps {
   project: Project;
@@ -21,10 +21,10 @@ const LeftCard: React.FC<LeftCardProps> = ({
   return (
     <motion.div
       className={`flex items-center p-2 rounded cursor-pointer ${
-        isSelected ? 'brightness-110' : ''
+        isSelected ? "brightness-110" : ""
       }`}
       style={{
-        background: isSelected ? steamTheme.sidebarHover : 'transparent',
+        background: isSelected ? steamTheme.sidebarHover : "transparent",
       }}
       onClick={onClick}
       whileHover={{
@@ -36,7 +36,7 @@ const LeftCard: React.FC<LeftCardProps> = ({
       animate={{ opacity: 1, x: 0 }}
       transition={{
         duration: 0.3,
-        ease: 'easeOut',
+        ease: "easeOut",
       }}
     >
       <motion.div

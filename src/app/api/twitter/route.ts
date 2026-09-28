@@ -1,13 +1,13 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { MongoClient, ObjectId } from 'mongodb';
+import { NextRequest, NextResponse } from "next/server";
+import { MongoClient, ObjectId } from "mongodb";
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017';
-const DB_NAME = process.env.MONGODB_DB_NAME || 'portfolio';
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017";
+const DB_NAME = process.env.MONGODB_DB_NAME || "portfolio";
 
 let client: MongoClient | null = null;
 let clientPromise: Promise<MongoClient>;
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === "development") {
   const globalWithMongo = global as typeof globalThis & {
     _mongoClientPromise?: Promise<MongoClient>;
   };
@@ -35,7 +35,7 @@ async function connectToDatabase() {
     const client = await clientPromise;
     return client.db(DB_NAME);
   } catch (error) {
-    console.error('Failed to connect to MongoDB:', error);
+    console.error("Failed to connect to MongoDB:", error);
     throw error;
   }
 }
@@ -80,35 +80,35 @@ function isRateLimited(ip: string): boolean {
 }
 
 function getClientIP(request: NextRequest): string {
-  const forwarded = request.headers.get('x-forwarded-for');
-  const realIP = request.headers.get('x-real-ip');
+  const forwarded = request.headers.get("x-forwarded-for");
+  const realIP = request.headers.get("x-real-ip");
 
   if (forwarded) {
-    return forwarded.split(',')[0].trim();
+    return forwarded.split(",")[0].trim();
   }
 
   if (realIP) {
     return realIP.trim();
   }
 
-  return 'unknown';
+  return "unknown";
 }
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const requestedLimit = parseInt(searchParams.get('limit') || '20');
+    const requestedLimit = parseInt(searchParams.get("limit") || "20");
     const limit = requestedLimit >= 1000 ? 0 : Math.min(requestedLimit, 50);
-    const page = Math.max(parseInt(searchParams.get('page') || '1'), 1);
+    const page = Math.max(parseInt(searchParams.get("page") || "1"), 1);
     const skip = requestedLimit >= 1000 ? 0 : (page - 1) * limit;
 
     const db = await connectToDatabase();
-    const collection = db.collection<Comment>('comments');
+    const collection = db.collection<Comment>("comments");
 
-    const sortBy = searchParams.get('sort') || 'date';
+    const sortBy = searchParams.get("sort") || "date";
 
     let sortOrder: Record<string, 1 | -1> = { timestamp: -1 };
-    if (sortBy === 'likes') {
+    if (sortBy === "likes") {
       sortOrder = { likes: -1, timestamp: -1 };
     }
 
@@ -134,10 +134,10 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error fetching comments:', error);
+    console.error("Error fetching comments:", error);
     return NextResponse.json(
-      { error: 'Failed to fetch comments' },
-      { status: 500 }
+      { error: "Failed to fetch comments" },
+      { status: 500 },
     );
   }
 }
@@ -147,8 +147,8 @@ export async function POST(request: NextRequest) {
     const clientIP = getClientIP(request);
     if (isRateLimited(clientIP)) {
       return NextResponse.json(
-        { error: 'Rate limit exceeded. Please wait before posting again.' },
-        { status: 429 }
+        { error: "Rate limit exceeded. Please wait before posting again." },
+        { status: 429 },
       );
     }
 
@@ -157,31 +157,31 @@ export async function POST(request: NextRequest) {
 
     if (!username || !content) {
       return NextResponse.json(
-        { error: 'Username and content are required' },
-        { status: 400 }
+        { error: "Username and content are required" },
+        { status: 400 },
       );
     }
 
     if (content.length > 280) {
       return NextResponse.json(
-        { error: 'Content must be 280 characters or less' },
-        { status: 400 }
+        { error: "Content must be 280 characters or less" },
+        { status: 400 },
       );
     }
 
     if (username.length > 50 || (handle && handle.length > 50)) {
       return NextResponse.json(
-        { error: 'Username and handle must be 50 characters or less' },
-        { status: 400 }
+        { error: "Username and handle must be 50 characters or less" },
+        { status: 400 },
       );
     }
 
     const db = await connectToDatabase();
-    const collection = db.collection<Comment>('comments');
+    const collection = db.collection<Comment>("comments");
 
-    const newComment: Omit<Comment, '_id'> = {
+    const newComment: Omit<Comment, "_id"> = {
       username: username.trim(),
-      handle: handle ? handle.trim().replace(/^@/, '') : '',
+      handle: handle ? handle.trim().replace(/^@/, "") : "",
       content: content.trim(),
       timestamp: new Date(),
       likes: 0,
@@ -199,13 +199,13 @@ export async function POST(request: NextRequest) {
         success: true,
         comment: insertedComment,
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
-    console.error('Error creating comment:', error);
+    console.error("Error creating comment:", error);
     return NextResponse.json(
-      { error: 'Failed to create comment' },
-      { status: 500 }
+      { error: "Failed to create comment" },
+      { status: 500 },
     );
   }
 }
@@ -213,36 +213,36 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const commentId = searchParams.get('id');
-    const action = searchParams.get('action');
+    const commentId = searchParams.get("id");
+    const action = searchParams.get("action");
 
     if (!commentId || !action) {
       return NextResponse.json(
-        { error: 'Comment ID and action are required' },
-        { status: 400 }
+        { error: "Comment ID and action are required" },
+        { status: 400 },
       );
     }
 
     if (!ObjectId.isValid(commentId)) {
       return NextResponse.json(
-        { error: 'Invalid comment ID' },
-        { status: 400 }
+        { error: "Invalid comment ID" },
+        { status: 400 },
       );
     }
 
     const db = await connectToDatabase();
-    const collection = db.collection<Comment>('comments');
+    const collection = db.collection<Comment>("comments");
 
     const updateOperation =
-      action === 'like' ? { $inc: { likes: 1 } } : { $inc: { likes: -1 } };
+      action === "like" ? { $inc: { likes: 1 } } : { $inc: { likes: -1 } };
 
     const result = await collection.updateOne(
       { _id: new ObjectId(commentId) },
-      updateOperation
+      updateOperation,
     );
 
     if (result.matchedCount === 0) {
-      return NextResponse.json({ error: 'Comment not found' }, { status: 404 });
+      return NextResponse.json({ error: "Comment not found" }, { status: 404 });
     }
 
     const updatedComment = await collection.findOne({
@@ -254,10 +254,10 @@ export async function PUT(request: NextRequest) {
       comment: updatedComment,
     });
   } catch (error) {
-    console.error('Error updating comment:', error);
+    console.error("Error updating comment:", error);
     return NextResponse.json(
-      { error: 'Failed to update comment' },
-      { status: 500 }
+      { error: "Failed to update comment" },
+      { status: 500 },
     );
   }
 }
@@ -265,17 +265,17 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const commentId = searchParams.get('id');
+    const commentId = searchParams.get("id");
 
     if (!commentId || !ObjectId.isValid(commentId)) {
       return NextResponse.json(
-        { error: 'Valid comment ID is required' },
-        { status: 400 }
+        { error: "Valid comment ID is required" },
+        { status: 400 },
       );
     }
 
     const db = await connectToDatabase();
-    const collection = db.collection<Comment>('comments');
+    const collection = db.collection<Comment>("comments");
 
     await collection.deleteMany({
       $or: [
@@ -286,10 +286,10 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error deleting comment:', error);
+    console.error("Error deleting comment:", error);
     return NextResponse.json(
-      { error: 'Failed to delete comment' },
-      { status: 500 }
+      { error: "Failed to delete comment" },
+      { status: 500 },
     );
   }
 }

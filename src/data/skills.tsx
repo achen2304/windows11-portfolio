@@ -9,7 +9,7 @@ import {
   FaJava,
   FaGitAlt,
   FaAws,
-} from 'react-icons/fa';
+} from "react-icons/fa";
 import {
   SiMongodb,
   SiMariadb,
@@ -27,153 +27,153 @@ import {
   SiJavascript,
   SiDocker,
   SiN8N,
-} from 'react-icons/si';
-import { TbBrandMysql } from 'react-icons/tb';
-import { BiLogoSpringBoot } from 'react-icons/bi';
-import { RiNextjsFill } from 'react-icons/ri';
+} from "react-icons/si";
+import { TbBrandMysql } from "react-icons/tb";
+import { BiLogoSpringBoot } from "react-icons/bi";
+import { RiNextjsFill } from "react-icons/ri";
 
 export interface Skill {
   name: string;
   icon: React.ReactNode;
-  type: 'language' | 'frontend' | 'backend' | 'database' | 'devops' | 'tools';
+  type: "language" | "frontend" | "backend" | "database" | "devops" | "tools";
 }
 
 export const skills: Skill[] = [
   {
-    name: 'Typescript',
+    name: "Typescript",
     icon: <SiTypescript />,
-    type: 'language',
+    type: "language",
   },
 
   {
-    name: 'Javascript',
+    name: "Javascript",
     icon: <SiJavascript />,
-    type: 'language',
+    type: "language",
   },
   {
-    name: 'Java',
+    name: "Java",
     icon: <FaJava />,
-    type: 'language',
+    type: "language",
   },
   {
-    name: 'Python',
+    name: "Python",
     icon: <FaPython />,
-    type: 'language',
+    type: "language",
   },
   {
-    name: 'Bash',
+    name: "Bash",
     icon: <SiGnubash />,
-    type: 'language',
+    type: "language",
   },
   {
-    name: 'C',
+    name: "C",
     icon: <SiC />,
-    type: 'language',
+    type: "language",
   },
   {
-    name: 'HTML',
+    name: "HTML",
     icon: <FaHtml5 />,
-    type: 'language',
+    type: "language",
   },
   {
-    name: 'CSS',
+    name: "CSS",
     icon: <FaCss3Alt />,
-    type: 'language',
+    type: "language",
   },
 
   // ----------------Frontend----------------
 
   {
-    name: 'Next.js',
+    name: "Next.js",
     icon: <RiNextjsFill />,
-    type: 'frontend',
+    type: "frontend",
   },
   {
-    name: 'React',
+    name: "React",
     icon: <FaReact />,
-    type: 'frontend',
+    type: "frontend",
   },
   {
-    name: 'Tailwind CSS',
+    name: "Tailwind CSS",
     icon: <SiTailwindcss />,
-    type: 'frontend',
+    type: "frontend",
   },
   {
-    name: 'Material UI',
+    name: "Material UI",
     icon: <SiMui />,
-    type: 'frontend',
+    type: "frontend",
   },
   {
-    name: 'Redux Toolkit',
+    name: "Redux Toolkit",
     icon: <SiRedux />,
-    type: 'frontend',
+    type: "frontend",
   },
   {
-    name: 'Storybook',
+    name: "Storybook",
     icon: <SiStorybook />,
-    type: 'frontend',
+    type: "frontend",
   },
   {
-    name: 'Jest',
+    name: "Jest",
     icon: <SiJest />,
-    type: 'frontend',
+    type: "frontend",
   },
 
   // ----------------Backend----------------
 
   {
-    name: 'Express.js',
+    name: "Express.js",
     icon: <SiExpress />,
-    type: 'backend',
+    type: "backend",
   },
   {
-    name: 'Node.js',
+    name: "Node.js",
     icon: <FaNodeJs />,
-    type: 'backend',
+    type: "backend",
   },
   {
-    name: 'Spring Boot',
+    name: "Spring Boot",
     icon: <BiLogoSpringBoot />,
-    type: 'backend',
+    type: "backend",
   },
   {
-    name: 'Junit',
+    name: "Junit",
     icon: <SiJunit5 />,
-    type: 'backend',
+    type: "backend",
   },
   {
-    name: 'Swagger',
+    name: "Swagger",
     icon: <SiSwagger />,
-    type: 'backend',
+    type: "backend",
   },
 
   // ----------------Database----------------
 
   {
-    name: 'MongoDB',
+    name: "MongoDB",
     icon: <SiMongodb />,
-    type: 'database',
+    type: "database",
   },
   {
-    name: 'MySQL',
+    name: "MySQL",
     icon: <TbBrandMysql />,
-    type: 'database',
+    type: "database",
   },
   {
-    name: 'PostgreSQL',
+    name: "PostgreSQL",
     icon: <SiMariadb />,
-    type: 'database',
+    type: "database",
   },
 
   // ----------------Tools----------------
 
   {
-    name: 'AWS',
+    name: "AWS",
     icon: <FaAws />,
-    type: 'tools',
+    type: "tools",
   },
-  { name: 'Bash', icon: <SiGnubash />, type: 'tools' },
-  { name: 'Git', icon: <FaGitAlt />, type: 'tools' },
-  { name: 'Docker', icon: <SiDocker />, type: 'tools' },
-  { name: 'n8n', icon: <SiN8N />, type: 'tools' },
+  { name: "Bash", icon: <SiGnubash />, type: "tools" },
+  { name: "Git", icon: <FaGitAlt />, type: "tools" },
+  { name: "Docker", icon: <SiDocker />, type: "tools" },
+  { name: "n8n", icon: <SiN8N />, type: "tools" },
 ];

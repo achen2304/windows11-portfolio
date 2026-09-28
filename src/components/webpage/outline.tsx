@@ -1,10 +1,9 @@
-'use client';
+"use client";
 
-import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { useTheme } from '../theme-provider';
-import { themes } from '@/lib/themes';
-import { X, Maximize2, Minimize2, Minus } from 'lucide-react';
-
+import React, { useState, useCallback, useRef, useEffect } from "react";
+import { useTheme } from "../theme-provider";
+import { themes } from "@/lib/themes";
+import { X, Maximize2, Minimize2, Minus } from "lucide-react";
 
 interface AppOutlineProps {
   title: string;
@@ -38,7 +37,7 @@ const AppOutline: React.FC<AppOutlineProps> = ({
   minWidth = 300,
   minHeight = 300,
   onClose,
-  className = '',
+  className = "",
   isMaximized = false,
   onMaximizeToggle,
   onMinimize,
@@ -59,22 +58,22 @@ const AppOutline: React.FC<AppOutlineProps> = ({
   const constrainedInitialSize = {
     width: Math.max(
       minWidth,
-      Math.min(initialSize.width, window.innerWidth - 40)
+      Math.min(initialSize.width, window.innerWidth - 40),
     ),
     height: Math.max(
       minHeight,
-      Math.min(initialSize.height, window.innerHeight - 88)
+      Math.min(initialSize.height, window.innerHeight - 88),
     ),
   };
 
   const constrainedInitialPosition = {
     x: Math.min(
       Math.max(0, initialPosition.x),
-      window.innerWidth - constrainedInitialSize.width
+      window.innerWidth - constrainedInitialSize.width,
     ),
     y: Math.min(
       Math.max(0, initialPosition.y),
-      window.innerHeight - constrainedInitialSize.height - 48
+      window.innerHeight - constrainedInitialSize.height - 48,
     ),
   };
 
@@ -89,7 +88,7 @@ const AppOutline: React.FC<AppOutlineProps> = ({
 
   // Auto-resize and reposition when viewport changes
   const constrainWindowToViewport = useCallback(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
@@ -117,12 +116,18 @@ const AppOutline: React.FC<AppOutlineProps> = ({
     if (position.y + size.height > viewportHeight - taskbarHeight) {
       if (size.height > viewportHeight - taskbarHeight - 20) {
         // Resize if window is taller than viewport
-        newSize.height = Math.max(minHeight, viewportHeight - taskbarHeight - 20);
+        newSize.height = Math.max(
+          minHeight,
+          viewportHeight - taskbarHeight - 20,
+        );
         newPosition.y = 10;
         hasChanged = true;
       } else {
         // Just reposition
-        newPosition.y = Math.max(0, viewportHeight - size.height - taskbarHeight - 10);
+        newPosition.y = Math.max(
+          0,
+          viewportHeight - size.height - taskbarHeight - 10,
+        );
         hasChanged = true;
       }
     }
@@ -153,123 +158,136 @@ const AppOutline: React.FC<AppOutlineProps> = ({
       constrainWindowToViewport();
     };
 
-    window.addEventListener('resize', handleResize);
-    
+    window.addEventListener("resize", handleResize);
+
     // Also run on mount to fix any initially out-of-bounds windows
     constrainWindowToViewport();
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, [constrainWindowToViewport]);
 
   // Handle dragging (mouse and touch)
-  const handleDragStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {
-    if (!dragRef.current?.contains(e.target as Node)) return;
+  const handleDragStart = useCallback(
+    (e: React.MouseEvent | React.TouchEvent) => {
+      if (!dragRef.current?.contains(e.target as Node)) return;
 
-    setIsDragging(true);
-    onFocus?.();
-    
-    const rect = windowRef.current?.getBoundingClientRect();
-    if (!rect) return;
+      setIsDragging(true);
+      onFocus?.();
 
-    // Handle both mouse and touch events
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+      const rect = windowRef.current?.getBoundingClientRect();
+      if (!rect) return;
 
-    const offsetX = clientX - rect.left;
-    const offsetY = clientY - rect.top;
+      // Handle both mouse and touch events
+      const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+      const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
 
-    const handleDragMove = (e: MouseEvent | TouchEvent) => {
-      e.preventDefault(); // Prevent scrolling on touch devices
+      const offsetX = clientX - rect.left;
+      const offsetY = clientY - rect.top;
 
-      const currentX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-      const currentY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+      const handleDragMove = (e: MouseEvent | TouchEvent) => {
+        e.preventDefault(); // Prevent scrolling on touch devices
 
-      const newX = currentX - offsetX;
-      const newY = currentY - offsetY;
+        const currentX = "touches" in e ? e.touches[0].clientX : e.clientX;
+        const currentY = "touches" in e ? e.touches[0].clientY : e.clientY;
 
-      // Keep window within viewport bounds
-      const maxX = window.innerWidth - size.width;
-      const maxY = window.innerHeight - size.height - 48; // Account for taskbar
+        const newX = currentX - offsetX;
+        const newY = currentY - offsetY;
 
-      const newPosition = {
-        x: Math.max(0, Math.min(newX, maxX)),
-        y: Math.max(0, Math.min(newY, maxY)),
+        // Keep window within viewport bounds
+        const maxX = window.innerWidth - size.width;
+        const maxY = window.innerHeight - size.height - 48; // Account for taskbar
+
+        const newPosition = {
+          x: Math.max(0, Math.min(newX, maxX)),
+          y: Math.max(0, Math.min(newY, maxY)),
+        };
+
+        setPosition(newPosition);
+        onPositionChange?.(newPosition);
       };
 
-      setPosition(newPosition);
-      onPositionChange?.(newPosition);
-    };
+      const handleDragEnd = () => {
+        setIsDragging(false);
+        // Remove both mouse and touch event listeners
+        document.removeEventListener("mousemove", handleDragMove);
+        document.removeEventListener("mouseup", handleDragEnd);
+        document.removeEventListener("touchmove", handleDragMove);
+        document.removeEventListener("touchend", handleDragEnd);
+      };
 
-    const handleDragEnd = () => {
-      setIsDragging(false);
-      // Remove both mouse and touch event listeners
-      document.removeEventListener('mousemove', handleDragMove);
-      document.removeEventListener('mouseup', handleDragEnd);
-      document.removeEventListener('touchmove', handleDragMove);
-      document.removeEventListener('touchend', handleDragEnd);
-    };
-
-    // Add both mouse and touch event listeners
-    document.addEventListener('mousemove', handleDragMove);
-    document.addEventListener('mouseup', handleDragEnd);
-    document.addEventListener('touchmove', handleDragMove, { passive: false });
-    document.addEventListener('touchend', handleDragEnd);
-  }, [size, onFocus, onPositionChange]);
+      // Add both mouse and touch event listeners
+      document.addEventListener("mousemove", handleDragMove);
+      document.addEventListener("mouseup", handleDragEnd);
+      document.addEventListener("touchmove", handleDragMove, {
+        passive: false,
+      });
+      document.addEventListener("touchend", handleDragEnd);
+    },
+    [size, onFocus, onPositionChange],
+  );
 
   // Handle resizing (mouse and touch)
-  const handleResizeStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {
-    if (!resizeRef.current?.contains(e.target as Node)) return;
+  const handleResizeStart = useCallback(
+    (e: React.MouseEvent | React.TouchEvent) => {
+      if (!resizeRef.current?.contains(e.target as Node)) return;
 
-    e.preventDefault();
-    e.stopPropagation();
-
-    setIsResizing(true);
-
-    // Handle both mouse and touch events
-    const startX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const startY = 'touches' in e ? e.touches[0].clientY : e.clientY;
-    const startWidth = size.width;
-    const startHeight = size.height;
-
-    const handleResizeMove = (e: MouseEvent | TouchEvent) => {
       e.preventDefault();
+      e.stopPropagation();
 
-      const currentX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-      const currentY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+      setIsResizing(true);
 
-      const newWidth = Math.max(minWidth, startWidth + (currentX - startX));
-      const newHeight = Math.max(minHeight, startHeight + (currentY - startY));
+      // Handle both mouse and touch events
+      const startX = "touches" in e ? e.touches[0].clientX : e.clientX;
+      const startY = "touches" in e ? e.touches[0].clientY : e.clientY;
+      const startWidth = size.width;
+      const startHeight = size.height;
 
-      // Keep window within viewport bounds
-      const maxWidth = window.innerWidth - position.x;
-      const maxHeight = window.innerHeight - position.y - 48;
+      const handleResizeMove = (e: MouseEvent | TouchEvent) => {
+        e.preventDefault();
 
-      const newSize = {
-        width: Math.min(newWidth, maxWidth),
-        height: Math.min(newHeight, maxHeight)
+        const currentX = "touches" in e ? e.touches[0].clientX : e.clientX;
+        const currentY = "touches" in e ? e.touches[0].clientY : e.clientY;
+
+        const newWidth = Math.max(minWidth, startWidth + (currentX - startX));
+        const newHeight = Math.max(
+          minHeight,
+          startHeight + (currentY - startY),
+        );
+
+        // Keep window within viewport bounds
+        const maxWidth = window.innerWidth - position.x;
+        const maxHeight = window.innerHeight - position.y - 48;
+
+        const newSize = {
+          width: Math.min(newWidth, maxWidth),
+          height: Math.min(newHeight, maxHeight),
+        };
+
+        setSize(newSize);
+        onSizeChange?.(newSize);
       };
 
-      setSize(newSize);
-      onSizeChange?.(newSize);
-    };
+      const handleResizeEnd = () => {
+        setIsResizing(false);
+        // Remove both mouse and touch event listeners
+        document.removeEventListener("mousemove", handleResizeMove);
+        document.removeEventListener("mouseup", handleResizeEnd);
+        document.removeEventListener("touchmove", handleResizeMove);
+        document.removeEventListener("touchend", handleResizeEnd);
+      };
 
-    const handleResizeEnd = () => {
-      setIsResizing(false);
-      // Remove both mouse and touch event listeners
-      document.removeEventListener('mousemove', handleResizeMove);
-      document.removeEventListener('mouseup', handleResizeEnd);
-      document.removeEventListener('touchmove', handleResizeMove);
-      document.removeEventListener('touchend', handleResizeEnd);
-    };
-
-    // Add both mouse and touch event listeners
-    document.addEventListener('mousemove', handleResizeMove);
-    document.addEventListener('mouseup', handleResizeEnd);
-    document.addEventListener('touchmove', handleResizeMove, { passive: false });
-    document.addEventListener('touchend', handleResizeEnd);
-  }, [size, position, minWidth, minHeight, onSizeChange]);
+      // Add both mouse and touch event listeners
+      document.addEventListener("mousemove", handleResizeMove);
+      document.addEventListener("mouseup", handleResizeEnd);
+      document.addEventListener("touchmove", handleResizeMove, {
+        passive: false,
+      });
+      document.addEventListener("touchend", handleResizeEnd);
+    },
+    [size, position, minWidth, minHeight, onSizeChange],
+  );
 
   useEffect(() => {
     if (isOpening) {
@@ -292,9 +310,9 @@ const AppOutline: React.FC<AppOutlineProps> = ({
     if (isActive) {
       return currentTheme.glass.backgroundDark;
     } else {
-      return theme === 'dark'
-        ? 'rgba(60, 60, 60, 0.95)'
-        : 'rgba(240, 240, 240, 0.95)';
+      return theme === "dark"
+        ? "rgba(60, 60, 60, 0.95)"
+        : "rgba(240, 240, 240, 0.95)";
     }
   }, [isActive, currentTheme.glass.backgroundDark, theme]);
 
@@ -368,31 +386,31 @@ const AppOutline: React.FC<AppOutlineProps> = ({
         <div
           className={`fixed inset-0 z-50 shadow-2xl maximized-window transition-all duration-300 ease-out ${className} ${
             isOpening && !isClosing && !isMinimizing
-              ? 'animate-window-open'
-              : ''
+              ? "animate-window-open"
+              : ""
           } ${
             isClosing && !isOpening && !isMinimizing
-              ? 'animate-window-close'
-              : ''
-          } ${isMinimizing ? 'animate-window-minimize' : ''} ${
-            isReopening ? 'animate-window-reopen' : ''
+              ? "animate-window-close"
+              : ""
+          } ${isMinimizing ? "animate-window-minimize" : ""} ${
+            isReopening ? "animate-window-reopen" : ""
           }`}
           style={{
             background: currentTheme.glass.background,
             border: `1px solid ${currentTheme.glass.border}`,
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            bottom: '48px',
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+            bottom: "48px",
             transform:
               isOpening && !isReopening
-                ? 'scale(0.9)'
+                ? "scale(0.9)"
                 : isClosing
-                ? 'scale(0.9)'
-                : isMinimizing
-                ? 'scale(0.6) translateY(80vh)'
-                : isReopening
-                ? 'scale(0.6) translateY(80vh)'
-                : 'scale(1)',
+                  ? "scale(0.9)"
+                  : isMinimizing
+                    ? "scale(0.6) translateY(80vh)"
+                    : isReopening
+                      ? "scale(0.6) translateY(80vh)"
+                      : "scale(1)",
             opacity:
               isOpening || isMinimizing || isReopening ? 0 : isClosing ? 0 : 1,
             ...style,
@@ -404,7 +422,7 @@ const AppOutline: React.FC<AppOutlineProps> = ({
             style={{
               background: getHeaderBackground(),
               borderBottom: `1px solid ${currentTheme.glass.border}`,
-              height: '40px',
+              height: "40px",
             }}
           >
             <div
@@ -425,7 +443,7 @@ const AppOutline: React.FC<AppOutlineProps> = ({
                       currentTheme.button.backgroundHover;
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.backgroundColor = "transparent";
                   }}
                 >
                   <Minus size={14} />
@@ -442,7 +460,7 @@ const AppOutline: React.FC<AppOutlineProps> = ({
                       currentTheme.button.backgroundHover;
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.backgroundColor = "transparent";
                   }}
                 >
                   <Minimize2 size={14} />
@@ -455,11 +473,11 @@ const AppOutline: React.FC<AppOutlineProps> = ({
                   className="p-1.5 rounded transition-all duration-150"
                   style={{ color: currentTheme.text.primary }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#e81123';
-                    e.currentTarget.style.color = '#ffffff';
+                    e.currentTarget.style.backgroundColor = "#e81123";
+                    e.currentTarget.style.color = "#ffffff";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.backgroundColor = "transparent";
                     e.currentTarget.style.color = currentTheme.text.primary;
                   }}
                 >
@@ -472,7 +490,7 @@ const AppOutline: React.FC<AppOutlineProps> = ({
           <div
             className="overflow-auto custom-scrollbar"
             style={{
-              height: 'calc(100% - 40px)',
+              height: "calc(100% - 40px)",
               background: currentTheme.background,
             }}
           >
@@ -553,16 +571,16 @@ const AppOutline: React.FC<AppOutlineProps> = ({
         }
 
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: ${theme === 'dark'
-            ? 'rgba(255, 255, 255, 0.05)'
-            : 'rgba(0, 0, 0, 0.05)'};
+          background: ${theme === "dark"
+            ? "rgba(255, 255, 255, 0.05)"
+            : "rgba(0, 0, 0, 0.05)"};
           border-radius: 6px;
         }
 
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: ${theme === 'dark'
-            ? 'rgba(255, 255, 255, 0.2)'
-            : 'rgba(0, 0, 0, 0.2)'};
+          background: ${theme === "dark"
+            ? "rgba(255, 255, 255, 0.2)"
+            : "rgba(0, 0, 0, 0.2)"};
           border-radius: 6px;
           border: 2px solid transparent;
           background-clip: content-box;
@@ -570,36 +588,36 @@ const AppOutline: React.FC<AppOutlineProps> = ({
         }
 
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: ${theme === 'dark'
-            ? 'rgba(255, 255, 255, 0.35)'
-            : 'rgba(0, 0, 0, 0.35)'};
+          background: ${theme === "dark"
+            ? "rgba(255, 255, 255, 0.35)"
+            : "rgba(0, 0, 0, 0.35)"};
           background-clip: content-box;
         }
 
         .custom-scrollbar::-webkit-scrollbar-thumb:active {
-          background: ${theme === 'dark'
-            ? 'rgba(255, 255, 255, 0.5)'
-            : 'rgba(0, 0, 0, 0.5)'};
+          background: ${theme === "dark"
+            ? "rgba(255, 255, 255, 0.5)"
+            : "rgba(0, 0, 0, 0.5)"};
           background-clip: content-box;
         }
 
         .custom-scrollbar::-webkit-scrollbar-corner {
-          background: ${theme === 'dark'
-            ? 'rgba(255, 255, 255, 0.05)'
-            : 'rgba(0, 0, 0, 0.05)'};
+          background: ${theme === "dark"
+            ? "rgba(255, 255, 255, 0.05)"
+            : "rgba(0, 0, 0, 0.05)"};
         }
 
         .custom-scrollbar {
           scrollbar-width: thin;
-          scrollbar-color: ${theme === 'dark'
-            ? 'rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05)'
-            : 'rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.05)'};
+          scrollbar-color: ${theme === "dark"
+            ? "rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05)"
+            : "rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.05)"};
         }
       `}</style>
 
       <div
         className={`fixed ${
-          isDragging || isResizing ? '' : 'transition-all duration-200 ease-out'
+          isDragging || isResizing ? "" : "transition-all duration-200 ease-out"
         } ${className}`}
         style={{
           left: position.x,
@@ -607,7 +625,11 @@ const AppOutline: React.FC<AppOutlineProps> = ({
           width: size.width,
           height: size.height,
           zIndex: isDragging || isResizing ? 999 : style?.zIndex || 50,
-          cursor: isDragging ? 'grabbing' : isResizing ? 'nw-resize' : 'default',
+          cursor: isDragging
+            ? "grabbing"
+            : isResizing
+              ? "nw-resize"
+              : "default",
           ...style,
         }}
         onClick={handleWindowClick}
@@ -618,32 +640,32 @@ const AppOutline: React.FC<AppOutlineProps> = ({
           ref={windowRef}
           className={`h-full shadow-2xl transition-all duration-300 ease-out ${
             isOpening && !isClosing && !isMinimizing
-              ? 'animate-window-open'
-              : ''
+              ? "animate-window-open"
+              : ""
           } ${
             isClosing && !isOpening && !isMinimizing
-              ? 'animate-window-close'
-              : ''
-          } ${isMinimizing ? 'animate-window-minimize' : ''} ${
-            isReopening ? 'animate-window-reopen' : ''
+              ? "animate-window-close"
+              : ""
+          } ${isMinimizing ? "animate-window-minimize" : ""} ${
+            isReopening ? "animate-window-reopen" : ""
           }`}
           style={{
             background: currentTheme.glass.background,
             border: `1px solid ${currentTheme.glass.border}`,
-            borderRadius: '8px',
-            overflow: 'hidden',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
+            borderRadius: "8px",
+            overflow: "hidden",
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
             transform:
               isOpening && !isReopening
-                ? 'scale(0.8)'
+                ? "scale(0.8)"
                 : isClosing
-                ? 'scale(0.8)'
-                : isMinimizing
-                ? 'scale(0.6) translateY(80vh)'
-                : isReopening
-                ? 'scale(0.6) translateY(80vh)'
-                : 'scale(1)',
+                  ? "scale(0.8)"
+                  : isMinimizing
+                    ? "scale(0.6) translateY(80vh)"
+                    : isReopening
+                      ? "scale(0.6) translateY(80vh)"
+                      : "scale(1)",
             opacity:
               isOpening || isMinimizing || isReopening ? 0 : isClosing ? 0 : 1,
           }}
@@ -654,7 +676,7 @@ const AppOutline: React.FC<AppOutlineProps> = ({
             style={{
               background: getHeaderBackground(),
               borderBottom: `1px solid ${currentTheme.glass.border}`,
-              height: '40px',
+              height: "40px",
             }}
           >
             <div
@@ -675,7 +697,7 @@ const AppOutline: React.FC<AppOutlineProps> = ({
                       currentTheme.button.backgroundHover;
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.backgroundColor = "transparent";
                   }}
                 >
                   <Minus size={14} />
@@ -692,7 +714,7 @@ const AppOutline: React.FC<AppOutlineProps> = ({
                       currentTheme.button.backgroundHover;
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.backgroundColor = "transparent";
                   }}
                 >
                   <Maximize2 size={14} />
@@ -705,11 +727,11 @@ const AppOutline: React.FC<AppOutlineProps> = ({
                   className="p-1.5 rounded transition-all duration-150"
                   style={{ color: currentTheme.text.primary }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#e81123';
-                    e.currentTarget.style.color = '#ffffff';
+                    e.currentTarget.style.backgroundColor = "#e81123";
+                    e.currentTarget.style.color = "#ffffff";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.backgroundColor = "transparent";
                     e.currentTarget.style.color = currentTheme.text.primary;
                   }}
                 >
@@ -722,7 +744,7 @@ const AppOutline: React.FC<AppOutlineProps> = ({
           <div
             className="window-content relative overflow-auto custom-scrollbar"
             style={{
-              height: 'calc(100% - 40px)',
+              height: "calc(100% - 40px)",
               background: currentTheme.background,
             }}
           >
@@ -737,8 +759,8 @@ const AppOutline: React.FC<AppOutlineProps> = ({
             onTouchStart={handleResizeStart}
             style={{
               background:
-                'linear-gradient(-45deg, transparent 0%, transparent 30%, currentColor 30%, currentColor 35%, transparent 35%, transparent 65%, currentColor 65%, currentColor 70%, transparent 70%)',
-              color: theme === 'dark' ? 'rgb(156 163 175)' : 'rgb(107 114 128)',
+                "linear-gradient(-45deg, transparent 0%, transparent 30%, currentColor 30%, currentColor 35%, transparent 35%, transparent 65%, currentColor 65%, currentColor 70%, transparent 70%)",
+              color: theme === "dark" ? "rgb(156 163 175)" : "rgb(107 114 128)",
             }}
             title="Drag to resize"
           />

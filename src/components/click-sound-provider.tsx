@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   createContext,
@@ -7,9 +7,9 @@ import {
   useRef,
   useState,
   useCallback,
-} from 'react';
-import { Howl } from 'howler';
-import { sounds } from '@/data/sounds';
+} from "react";
+import { Howl } from "howler";
+import { sounds } from "@/data/sounds";
 
 interface ClickSoundContextProps {
   soundEnabled: boolean;
@@ -32,7 +32,7 @@ const ClickSoundContext = createContext<ClickSoundContextProps>({
 });
 
 const clickSound = new Howl({
-  src: ['/sounds/click.mp3'],
+  src: ["/sounds/click.mp3"],
   volume: 0.3,
   preload: true,
 });
@@ -55,7 +55,7 @@ export function ClickSoundProvider({
 
       clickSound.volume(normalizedVolume);
     } catch (error) {
-      console.error('Error setting click sound volume:', error);
+      console.error("Error setting click sound volume:", error);
     }
   };
 
@@ -69,7 +69,7 @@ export function ClickSoundProvider({
       });
       sound.play();
     } catch (error) {
-      console.error('Error playing sound:', error);
+      console.error("Error playing sound:", error);
     }
   };
 
@@ -80,15 +80,15 @@ export function ClickSoundProvider({
       const target = e.target as HTMLElement;
 
       const isInteractive =
-        target.tagName === 'BUTTON' ||
-        target.tagName === 'A' ||
-        target.getAttribute('role') === 'button' ||
-        target.getAttribute('aria-role') === 'button' ||
-        target.classList.contains('cursor-pointer') ||
+        target.tagName === "BUTTON" ||
+        target.tagName === "A" ||
+        target.getAttribute("role") === "button" ||
+        target.getAttribute("aria-role") === "button" ||
+        target.classList.contains("cursor-pointer") ||
         target.closest('[role="button"]') ||
-        target.closest('.cursor-pointer') ||
-        target.closest('button') ||
-        target.closest('a');
+        target.closest(".cursor-pointer") ||
+        target.closest("button") ||
+        target.closest("a");
 
       if (isInteractive) {
         try {
@@ -96,11 +96,11 @@ export function ClickSoundProvider({
 
           clickSound.play();
         } catch (error) {
-          console.error('Error playing click sound:', error);
+          console.error("Error playing click sound:", error);
         }
       }
     },
-    [soundEnabled]
+    [soundEnabled],
   );
 
   const playTestSound = () => {
@@ -111,7 +111,7 @@ export function ClickSoundProvider({
         clickSound.play();
         return true;
       } catch (error) {
-        console.error('Error playing test click sound:', error);
+        console.error("Error playing test click sound:", error);
       }
     }
     return null;
@@ -122,12 +122,12 @@ export function ClickSoundProvider({
   };
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       documentRef.current = document;
-      document.addEventListener('click', handleGlobalClick);
+      document.addEventListener("click", handleGlobalClick);
 
       return () => {
-        document.removeEventListener('click', handleGlobalClick);
+        document.removeEventListener("click", handleGlobalClick);
       };
     }
   }, [soundEnabled, handleGlobalClick]);

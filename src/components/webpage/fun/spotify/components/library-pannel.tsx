@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Image from 'next/image';
-import { BarChart3, ChevronLeft } from 'lucide-react';
+import React from "react";
+import Image from "next/image";
+import { BarChart3, ChevronLeft } from "lucide-react";
 import {
   Artist,
   PlaylistTrack,
   Playlist,
-} from '../helpers/spotify-play-service';
+} from "../helpers/spotify-play-service";
 
 interface SpotifyData {
   profile: {
@@ -47,15 +47,15 @@ const LibraryPanel: React.FC<LibraryPanelProps> = ({
   onBackClick,
 }) => {
   // Spotify colors
-  const spotifyBg = '#121212';
-  const spotifyCard = '#181818';
-  const spotifyText = '#FFFFFF';
-  const spotifyTextSecondary = '#B3B3B3';
+  const spotifyBg = "#121212";
+  const spotifyCard = "#181818";
+  const spotifyText = "#FFFFFF";
+  const spotifyTextSecondary = "#B3B3B3";
 
   // Get first 8 public playlists/albums for display
   const publicPlaylists =
     spotifyData.playlists?.items?.filter(
-      (playlist: Playlist) => playlist.public !== false
+      (playlist: Playlist) => playlist.public !== false,
     ) || [];
   const displayItems = publicPlaylists.slice(0, 8);
 
@@ -81,11 +81,11 @@ const LibraryPanel: React.FC<LibraryPanelProps> = ({
         className="flex flex-col"
         style={{
           backgroundColor: spotifyBg,
-          borderRight: '1px solid #282828',
-          width: '80px',
-          height: '100%',
-          maxHeight: '100%',
-          overflow: 'hidden',
+          borderRight: "1px solid #282828",
+          width: "80px",
+          height: "100%",
+          maxHeight: "100%",
+          overflow: "hidden",
         }}
       >
         {/* Header with expand button */}
@@ -105,7 +105,7 @@ const LibraryPanel: React.FC<LibraryPanelProps> = ({
           className="flex-1 px-3 overflow-y-auto spotify-scrollbar"
           style={{
             minHeight: 0,
-            maxHeight: 'calc(100% - 140px)', // Account for header height and playing song component
+            maxHeight: "calc(100% - 140px)", // Account for header height and playing song component
           }}
         >
           <div className="space-y-4">
@@ -146,8 +146,8 @@ const LibraryPanel: React.FC<LibraryPanelProps> = ({
       className="flex flex-col"
       style={{
         backgroundColor: spotifyBg,
-        maxHeight: 'calc(100% - 80px)',
-        overflow: 'hidden',
+        maxHeight: "calc(100% - 80px)",
+        overflow: "hidden",
       }}
     >
       {/* Header */}
@@ -200,7 +200,7 @@ const LibraryPanel: React.FC<LibraryPanelProps> = ({
         className="flex-1 px-4 overflow-y-auto spotify-scrollbar"
         style={{
           minHeight: 0,
-          maxHeight: 'calc(100% - 160px)', // Account for header, filter tabs, and playing song component
+          maxHeight: "calc(100% - 160px)", // Account for header, filter tabs, and playing song component
         }}
       >
         <div className="space-y-2 pb-4">
@@ -242,7 +242,7 @@ const LibraryPanel: React.FC<LibraryPanelProps> = ({
                   className="text-sm truncate"
                   style={{ color: spotifyTextSecondary }}
                 >
-                  Playlist • {playlist.owner?.display_name || 'Unknown'}
+                  Playlist • {playlist.owner?.display_name || "Unknown"}
                 </div>
               </div>
             </div>

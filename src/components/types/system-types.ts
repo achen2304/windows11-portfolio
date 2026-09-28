@@ -1,5 +1,5 @@
 // Define theme type to match theme-provider
-export type Theme = 'dark' | 'light';
+export type Theme = "dark" | "light";
 
 export interface ThemeObject {
   text: {

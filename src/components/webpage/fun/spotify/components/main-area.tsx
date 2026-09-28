@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Image from 'next/image';
-import { Play } from 'lucide-react';
-import { getSpotifyManager, AudioTrack } from '../helpers/current-song-helper';
-import { useWindowSize } from '@/components/webpage/breakpoints';
+import React from "react";
+import Image from "next/image";
+import { Play } from "lucide-react";
+import { getSpotifyManager, AudioTrack } from "../helpers/current-song-helper";
+import { useWindowSize } from "@/components/webpage/breakpoints";
 import {
   Artist,
   Playlist,
   PlaylistTrack,
-} from '../helpers/spotify-play-service';
+} from "../helpers/spotify-play-service";
 
 interface SpotifyData {
   profile: {
@@ -43,11 +43,11 @@ const MainArea: React.FC<MainAreaProps> = ({
   onPlaylistClick,
 }) => {
   const { isXs, isSm, isMd, isLg } = useWindowSize();
-  const spotifyGreen = '#1DB954';
-  const spotifyBg = '#121212';
-  const spotifyCard = '#181818';
-  const spotifyText = '#FFFFFF';
-  const spotifyTextSecondary = '#B3B3B3';
+  const spotifyGreen = "#1DB954";
+  const spotifyBg = "#121212";
+  const spotifyCard = "#181818";
+  const spotifyText = "#FFFFFF";
+  const spotifyTextSecondary = "#B3B3B3";
 
   const spotifyManager = getSpotifyManager();
 
@@ -66,9 +66,9 @@ const MainArea: React.FC<MainAreaProps> = ({
     try {
       await spotifyManager.playTrack(audioTrack, context);
     } catch (error) {
-      console.error('❌ Failed to play track:', error);
+      console.error("❌ Failed to play track:", error);
       alert(
-        `Failed to play "${track.name}". Make sure you have Spotify Premium.`
+        `Failed to play "${track.name}". Make sure you have Spotify Premium.`,
       );
     }
   };
@@ -77,7 +77,7 @@ const MainArea: React.FC<MainAreaProps> = ({
     try {
       // Fetch playlist tracks from Spotify API
       const response = await fetch(
-        `/api/spotify?type=playlist-tracks&playlist_id=${playlist.id}`
+        `/api/spotify?type=playlist-tracks&playlist_id=${playlist.id}`,
       );
       const data = await response.json();
 
@@ -85,7 +85,7 @@ const MainArea: React.FC<MainAreaProps> = ({
         // Play the first available track (no need to check for preview_url with SDK)
         const firstTrack = data.items.find(
           (item: { track: PlaylistTrack; is_local?: boolean }) =>
-            item.track && !item.track.is_local
+            item.track && !item.track.is_local,
         );
 
         if (firstTrack && firstTrack.track) {
@@ -94,33 +94,33 @@ const MainArea: React.FC<MainAreaProps> = ({
             playlist.uri || `spotify:playlist:${playlist.id}`;
           await handlePlayTrack(firstTrack.track, playlistContext);
         } else {
-          console.warn('❌ No valid tracks in playlist, using fallback');
+          console.warn("❌ No valid tracks in playlist, using fallback");
           // Fallback: play a track from top tracks
           const fallbackTrack = spotifyData.topTracks?.items?.[0];
           if (fallbackTrack) {
             await handlePlayTrack(fallbackTrack);
           } else {
-            alert('No playable tracks available');
+            alert("No playable tracks available");
           }
         }
       } else {
-        console.warn('❌ No tracks in playlist response, using fallback');
+        console.warn("❌ No tracks in playlist response, using fallback");
         // Fallback: play a track from top tracks
         const fallbackTrack = spotifyData.topTracks?.items?.[0];
         if (fallbackTrack) {
           await handlePlayTrack(fallbackTrack);
         } else {
-          alert('No playable tracks available');
+          alert("No playable tracks available");
         }
       }
     } catch (error) {
-      console.error('💥 Error fetching playlist tracks:', error);
+      console.error("💥 Error fetching playlist tracks:", error);
       // Fallback: play a track from top tracks
       const fallbackTrack = spotifyData.topTracks?.items?.[0];
       if (fallbackTrack) {
         await handlePlayTrack(fallbackTrack);
       } else {
-        alert('No playable tracks available');
+        alert("No playable tracks available");
       }
     }
   };
@@ -129,7 +129,7 @@ const MainArea: React.FC<MainAreaProps> = ({
     try {
       // Fetch the artist's top tracks from Spotify
       const response = await fetch(
-        `/api/spotify?type=artist-top-tracks&artist_id=${artist.id}`
+        `/api/spotify?type=artist-top-tracks&artist_id=${artist.id}`,
       );
       const data = await response.json();
 
@@ -142,7 +142,7 @@ const MainArea: React.FC<MainAreaProps> = ({
           topTrack.album?.uri || `spotify:album:${topTrack.album?.id}`;
         await handlePlayTrack(topTrack, albumContext);
       } else {
-        console.warn('❌ No top tracks found for artist, using fallback');
+        console.warn("❌ No top tracks found for artist, using fallback");
         // Fallback: play a track from user's top tracks
         const fallbackTrack = spotifyData.topTracks?.items?.[0];
         if (fallbackTrack) {
@@ -155,7 +155,7 @@ const MainArea: React.FC<MainAreaProps> = ({
         }
       }
     } catch (error) {
-      console.error('❌ Failed to fetch artist top tracks:', error);
+      console.error("❌ Failed to fetch artist top tracks:", error);
 
       // Fallback: play a track from user's top tracks
       const fallbackTrack = spotifyData.topTracks?.items?.[0];
@@ -177,7 +177,7 @@ const MainArea: React.FC<MainAreaProps> = ({
     >
       <div
         className="flex-1 overflow-y-auto spotify-scrollbar"
-        style={{ maxHeight: 'calc(100% - 80px)' }}
+        style={{ maxHeight: "calc(100% - 80px)" }}
       >
         <div className="p-6 pb-6">
           {/* Header */}
@@ -206,14 +206,14 @@ const MainArea: React.FC<MainAreaProps> = ({
             <div
               className={`grid gap-4 mb-8 ${
                 isXs
-                  ? 'grid-cols-1'
+                  ? "grid-cols-1"
                   : isSm
-                  ? 'grid-cols-1'
-                  : isMd
-                  ? 'grid-cols-2'
-                  : isLg
-                  ? 'grid-cols-2'
-                  : 'grid-cols-3'
+                    ? "grid-cols-1"
+                    : isMd
+                      ? "grid-cols-2"
+                      : isLg
+                        ? "grid-cols-2"
+                        : "grid-cols-3"
               }`}
             >
               {spotifyData.playlists?.items
@@ -222,7 +222,7 @@ const MainArea: React.FC<MainAreaProps> = ({
                   <div
                     key={playlist.id}
                     className="flex items-center gap-4 p-2 rounded-lg hover:bg-white/10 transition-all cursor-pointer group"
-                    style={{ backgroundColor: '#2A2A2A' }}
+                    style={{ backgroundColor: "#2A2A2A" }}
                     onClick={() =>
                       onPlaylistClick
                         ? onPlaylistClick(playlist)
@@ -407,7 +407,7 @@ const MainArea: React.FC<MainAreaProps> = ({
                     >
                       {track.artists
                         ?.map((artist: { name: string }) => artist.name)
-                        .join(', ')}
+                        .join(", ")}
                     </p>
                   </div>
                 ))}

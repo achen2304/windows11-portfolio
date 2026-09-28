@@ -1,17 +1,17 @@
-import React from 'react';
-import { useTheme } from '../../../theme-provider';
-import { themes } from '@/lib/themes';
-import { SlackTheme } from '@/components/types/system-types';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { getQuickLinks } from '@/components/webpage/apps/apps';
-import { ExternalLink, Copy } from 'lucide-react';
-import { copyToClipboard } from '@/lib/notification-utils';
-import { QuickLink } from '@/components/taskbar/taskbar-types';
-import { useToast } from '@/components/ui/toast';
+import React from "react";
+import { useTheme } from "../../../theme-provider";
+import { themes } from "@/lib/themes";
+import { SlackTheme } from "@/components/types/system-types";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { getQuickLinks } from "@/components/webpage/apps/apps";
+import { ExternalLink, Copy } from "lucide-react";
+import { copyToClipboard } from "@/lib/notification-utils";
+import { QuickLink } from "@/components/taskbar/taskbar-types";
+import { useToast } from "@/components/ui/toast";
 
 // Type for the channel
-type Channel = 'general' | 'skills' | 'experience' | 'projects' | 'portfolio';
+type Channel = "general" | "skills" | "experience" | "projects" | "portfolio";
 
 // Props for the LeftPanel component
 export interface LeftPanelProps {
@@ -65,14 +65,14 @@ const SearchBar = ({
     className="p-3"
     initial={{ opacity: 0, y: -5 }}
     animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.3, ease: 'easeOut' }}
+    transition={{ duration: 0.3, ease: "easeOut" }}
     style={{ background: slackTheme.sidebarBackground }}
   >
     <div
       className="rounded flex items-center px-2 py-1 transition-all duration-300"
       style={{
         background: slackTheme.searchBackground,
-        boxShadow: searchQuery ? `0 1px 4px ${slackTheme.divider}` : 'none',
+        boxShadow: searchQuery ? `0 1px 4px ${slackTheme.divider}` : "none",
       }}
     >
       <svg
@@ -112,7 +112,7 @@ const ChannelItem = ({
   slackTheme,
   index,
 }: {
-  channel: LeftPanelProps['channels'][0];
+  channel: LeftPanelProps["channels"][0];
   isActive: boolean;
   onClick: () => void;
   slackTheme: SlackTheme;
@@ -123,7 +123,7 @@ const ChannelItem = ({
     animate={{ opacity: 1, x: 0 }}
     transition={{
       duration: 0.3,
-      ease: 'easeOut',
+      ease: "easeOut",
       delay: index * 0.05,
     }}
     whileHover={{
@@ -133,11 +133,11 @@ const ChannelItem = ({
     whileTap={{ scale: 0.98 }}
     className={`
       flex items-center justify-between py-1 px-2 rounded cursor-pointer
-      ${isActive ? 'font-medium' : ''}
+      ${isActive ? "font-medium" : ""}
     `}
     style={{
-      background: isActive ? slackTheme.sidebarActive : 'transparent',
-      color: isActive ? '#FFFFFF' : slackTheme.sidebarText,
+      background: isActive ? slackTheme.sidebarActive : "transparent",
+      color: isActive ? "#FFFFFF" : slackTheme.sidebarText,
     }}
     onClick={onClick}
   >
@@ -172,11 +172,11 @@ const QuickLinkItem = ({
 
   const handleLinkClick = async () => {
     if (item.url) {
-      if (item.type === 'copy' && item.url.startsWith('mailto:')) {
-        const email = item.url.replace('mailto:', '');
-        await copyToClipboard(email, 'Email copied!', addToast);
+      if (item.type === "copy" && item.url.startsWith("mailto:")) {
+        const email = item.url.replace("mailto:", "");
+        await copyToClipboard(email, "Email copied!", addToast);
       } else if (item.newTab === true) {
-        window.open(item.url, '_blank');
+        window.open(item.url, "_blank");
       } else {
         window.location.href = item.url;
       }
@@ -189,7 +189,7 @@ const QuickLinkItem = ({
       animate={{ opacity: 1, x: 0 }}
       transition={{
         duration: 0.3,
-        ease: 'easeOut',
+        ease: "easeOut",
         delay: index * 0.05,
       }}
       whileHover={{
@@ -201,7 +201,7 @@ const QuickLinkItem = ({
       className="flex items-center justify-between py-2 px-2 rounded cursor-pointer mb-1"
       style={{
         color: slackTheme.sidebarText,
-        background: 'transparent',
+        background: "transparent",
       }}
       onClick={handleLinkClick}
     >
@@ -220,8 +220,8 @@ const QuickLinkItem = ({
         <span className="text-sm">{item.name}</span>
       </div>
       <div className="flex items-center space-x-1 text-xs opacity-70">
-        <span>{item.type === 'copy' ? 'Copy' : 'Link'}</span>
-        {item.type === 'copy' ? <Copy size={12} /> : <ExternalLink size={12} />}
+        <span>{item.type === "copy" ? "Copy" : "Link"}</span>
+        {item.type === "copy" ? <Copy size={12} /> : <ExternalLink size={12} />}
       </div>
     </motion.li>
   );
@@ -234,7 +234,7 @@ const ChannelList = ({
   onChannelSelect,
   slackTheme,
 }: {
-  channels: LeftPanelProps['channels'];
+  channels: LeftPanelProps["channels"];
   activeChannel: Channel;
   onChannelSelect: (channel: Channel) => void;
   slackTheme: SlackTheme;

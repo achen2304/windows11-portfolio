@@ -1,6 +1,6 @@
-import React from 'react';
-import { SlackTheme } from '@/components/types/system-types';
-import { skills as allSkills } from '@/data/skills';
+import React from "react";
+import { SlackTheme } from "@/components/types/system-types";
+import { skills as allSkills } from "@/data/skills";
 
 interface SkillCategoryProps {
   title: string;
@@ -15,7 +15,7 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
 }) => {
   const getIconForSkill = (skillName: string) => {
     const skill = allSkills.find(
-      (s) => s.name.toLowerCase() === skillName.toLowerCase()
+      (s) => s.name.toLowerCase() === skillName.toLowerCase(),
     );
     return skill?.icon || null;
   };
@@ -31,7 +31,7 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
       >
         <span
           className="inline-flex items-center justify-center w-5 h-5 mr-2 rounded-sm"
-          style={{ background: theme.accent, color: '#fff' }}
+          style={{ background: theme.accent, color: "#fff" }}
         >
           {title.charAt(0)}
         </span>

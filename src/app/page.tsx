@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import React, { useEffect } from 'react';
-import { Squares } from '@/components/ui/squares-background';
-import { useTheme } from '@/components/theme-provider';
-import { themes } from '@/lib/themes';
-import TaskbarShell from '@/components/taskbar/taskbar-shell';
+import React, { useEffect } from "react";
+import { Squares } from "@/components/ui/squares-background";
+import { useTheme } from "@/components/theme-provider";
+import { themes } from "@/lib/themes";
+import TaskbarShell from "@/components/taskbar/taskbar-shell";
 import {
   WindowManagerProvider,
   useWindowManager,
-} from '@/components/webpage/window-manager';
-import { useAppOpener } from '@/components/webpage/app-openers';
-import { desktopApps, taskbarApps } from '@/components/webpage/apps/apps';
-import Image from 'next/image';
+} from "@/components/webpage/window-manager";
+import { useAppOpener } from "@/components/webpage/app-openers";
+import { desktopApps, taskbarApps } from "@/components/webpage/apps/apps";
+import Image from "next/image";
 
 // Demo content component that uses the window manager
 const DemoContent: React.FC = () => {
@@ -22,20 +22,20 @@ const DemoContent: React.FC = () => {
 
   useEffect(() => {
     const isFirstVisit = () => {
-      if (typeof window === 'undefined') return false;
-      
-      const hasVisited = localStorage.getItem('hasVisited');
-      const storedWindows = localStorage.getItem('windowStates');
-      
+      if (typeof window === "undefined") return false;
+
+      const hasVisited = localStorage.getItem("hasVisited");
+      const storedWindows = localStorage.getItem("windowStates");
+
       return !hasVisited && !storedWindows && windows.length === 0;
     };
 
     if (isFirstVisit()) {
       const timer = setTimeout(() => {
-        openAppById('about-me');
-        
+        openAppById("about-me");
+
         // Mark as visited
-        localStorage.setItem('hasVisited', 'true');
+        localStorage.setItem("hasVisited", "true");
       }, 1500);
 
       return () => clearTimeout(timer);
@@ -59,7 +59,7 @@ const DemoContent: React.FC = () => {
   return (
     <div
       className="h-full w-full p-6 relative"
-      style={{ minHeight: 'calc(100vh - 48px)' }}
+      style={{ minHeight: "calc(100vh - 48px)" }}
     >
       <div className="flex flex-col flex-wrap fixed top-6 left-6 h-[calc(100vh-65px)] gap-4 content-start z-0">
         {desktopApps.map((app) => (
@@ -68,18 +68,18 @@ const DemoContent: React.FC = () => {
             onClick={() => handleDesktopIconClick(app.id)}
             className="flex flex-col items-center justify-center p-3 rounded-lg cursor-pointer transition-all duration-200 hover:bg-white/10 active:bg-white/20 group"
             style={{
-              width: '90px',
-              height: '90px',
+              width: "90px",
+              height: "90px",
             }}
           >
             <div className="mb-2 transition-transform duration-200 group-hover:scale-110">
               <Image
                 src={
-                  theme === 'dark' && app.iconLight !== undefined
-                    ? app.icon || '/app icons/quick links/default.svg'
+                  theme === "dark" && app.iconLight !== undefined
+                    ? app.icon || "/app icons/quick links/default.svg"
                     : app.iconLight ||
                       app.icon ||
-                      '/app icons/quick links/default.svg'
+                      "/app icons/quick links/default.svg"
                 }
                 alt={app.name}
                 className="w-12 h-12 object-contain drop-shadow-lg"
@@ -87,9 +87,9 @@ const DemoContent: React.FC = () => {
                 height={48}
                 style={{
                   filter:
-                    theme === 'dark'
-                      ? 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))'
-                      : 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))',
+                    theme === "dark"
+                      ? "drop-shadow(0 2px 4px rgba(0,0,0,0.5))"
+                      : "drop-shadow(0 2px 4px rgba(0,0,0,0.2))",
                 }}
               />
             </div>
@@ -169,8 +169,8 @@ const HomeContent: React.FC = () => {
         <div
           className="fixed inset-0 pointer-events-none z-[1000]"
           style={{
-            backgroundColor: 'black',
-            animation: 'fadeIn 2s ease-out forwards',
+            backgroundColor: "black",
+            animation: "fadeIn 2s ease-out forwards",
           }}
         />
       )}
@@ -193,7 +193,7 @@ const HomeContent: React.FC = () => {
 
       <div
         className="relative z-10 pb-12"
-        style={{ minHeight: 'calc(100vh - 48px)' }}
+        style={{ minHeight: "calc(100vh - 48px)" }}
       >
         <DemoContent />
       </div>

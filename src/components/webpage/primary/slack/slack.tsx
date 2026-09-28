@@ -1,60 +1,60 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { useTheme } from '../../../theme-provider';
-import { themes } from '@/lib/themes';
+import React, { useState, useEffect } from "react";
+import { useTheme } from "../../../theme-provider";
+import { themes } from "@/lib/themes";
 import {
   NavigationProvider,
   useNavigation,
-} from '@/components/webpage/chevron-button';
+} from "@/components/webpage/chevron-button";
 import {
   WindowSizeProvider,
   useWindowSize,
-} from '@/components/webpage/breakpoints';
-import { SlackTheme } from '@/components/types/system-types';
-import LeftPanel from './left-pannel';
-import dynamic from 'next/dynamic';
-import { motion, AnimatePresence } from 'framer-motion';
+} from "@/components/webpage/breakpoints";
+import { SlackTheme } from "@/components/types/system-types";
+import LeftPanel from "./left-pannel";
+import dynamic from "next/dynamic";
+import { motion, AnimatePresence } from "framer-motion";
 
 // Type for the channel
-type Channel = 'general' | 'skills' | 'experience' | 'projects' | 'portfolio';
+type Channel = "general" | "skills" | "experience" | "projects" | "portfolio";
 
 // Channel configuration
 const CHANNELS = [
   {
-    id: 'general' as Channel,
-    name: 'general',
+    id: "general" as Channel,
+    name: "general",
     notificationCount: 0,
   },
   {
-    id: 'skills' as Channel,
-    name: 'skills',
+    id: "skills" as Channel,
+    name: "skills",
     notificationCount: 0,
   },
   {
-    id: 'projects' as Channel,
-    name: 'projects',
+    id: "projects" as Channel,
+    name: "projects",
     notificationCount: 0,
   },
   {
-    id: 'experience' as Channel,
-    name: 'experience',
+    id: "experience" as Channel,
+    name: "experience",
     notificationCount: 0,
   },
   {
-    id: 'portfolio' as Channel,
-    name: 'portfolio',
+    id: "portfolio" as Channel,
+    name: "portfolio",
     notificationCount: 0,
   },
 ];
 
 // Dynamically import channel components
 const ChannelComponents = {
-  general: dynamic(() => import('./general/general'), { ssr: false }),
-  skills: dynamic(() => import('./skills/skills'), { ssr: false }),
-  experience: dynamic(() => import('./experience/experience'), { ssr: false }),
-  portfolio: dynamic(() => import('./portfolio/portfolio'), { ssr: false }),
-  projects: dynamic(() => import('./projects/projects'), { ssr: false }),
+  general: dynamic(() => import("./general/general"), { ssr: false }),
+  skills: dynamic(() => import("./skills/skills"), { ssr: false }),
+  experience: dynamic(() => import("./experience/experience"), { ssr: false }),
+  portfolio: dynamic(() => import("./portfolio/portfolio"), { ssr: false }),
+  projects: dynamic(() => import("./projects/projects"), { ssr: false }),
 };
 
 // Channel Header Component
@@ -72,7 +72,7 @@ const ChannelHeader = ({
     style={{
       background: slackTheme.contentBackground,
       borderColor: slackTheme.divider,
-      borderBottomWidth: '1px',
+      borderBottomWidth: "1px",
       marginBottom: 0,
       paddingBottom: 0,
     }}
@@ -184,13 +184,13 @@ const SlackContent: React.FC = () => {
   const { isXs, isSm, isMd } = useWindowSize();
 
   // Active channel state
-  const [activeChannel, setActiveChannel] = useState<Channel>('general');
+  const [activeChannel, setActiveChannel] = useState<Channel>("general");
 
   // Mobile view state
   const [showChannelOnMobile, setShowChannelOnMobile] = useState(false);
 
   // Search state
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [filteredChannels, setFilteredChannels] = useState(CHANNELS);
 
   // Check if we're on a mobile device
@@ -205,7 +205,7 @@ const SlackContent: React.FC = () => {
 
     const trimmedQuery = searchQuery.trim().toLowerCase();
     const filtered = CHANNELS.filter((channel) =>
-      channel.name.toLowerCase().startsWith(trimmedQuery)
+      channel.name.toLowerCase().startsWith(trimmedQuery),
     );
 
     setFilteredChannels(filtered);
@@ -216,7 +216,7 @@ const SlackContent: React.FC = () => {
     const currentState = getCurrentState();
 
     if (!currentState) {
-      navigate('slack-app', { channel: 'general' });
+      navigate("slack-app", { channel: "general" });
     } else if (currentState.data?.channel) {
       setActiveChannel(currentState.data.channel as Channel);
 
@@ -230,7 +230,7 @@ const SlackContent: React.FC = () => {
   const handleChannelChange = (channel: Channel) => {
     if (activeChannel !== channel) {
       setActiveChannel(channel);
-      navigate('slack-app', { channel });
+      navigate("slack-app", { channel });
 
       if (isMobile) {
         setShowChannelOnMobile(true);

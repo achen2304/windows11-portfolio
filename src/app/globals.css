@@ -1,5 +1,5 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
+@import "tailwindcss";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -190,7 +190,7 @@
 
 .spotify-volume-slider:hover::-webkit-slider-thumb,
 .spotify-volume-slider.active::-webkit-slider-thumb {
-  background: #1DB954;
+  background: #1db954;
   opacity: 1;
 }
 
@@ -207,7 +207,7 @@
 
 .spotify-volume-slider:hover::-moz-range-thumb,
 .spotify-volume-slider.active::-moz-range-thumb {
-  background: #1DB954;
+  background: #1db954;
   opacity: 1;
 }
 

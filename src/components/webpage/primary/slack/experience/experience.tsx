@@ -1,12 +1,12 @@
-import React from 'react';
-import { useTheme } from '../../../../theme-provider';
-import { themes } from '@/lib/themes';
-import { SlackTheme } from '@/components/types/system-types';
-import ExperienceItem from './experience-item';
-import Message from '../message';
-import WelcomeBanner from '../common/WelcomeBanner';
-import ProfileImage from '../common/ProfileImage';
-import { EXPERIENCES } from '@/data/experience';
+import React from "react";
+import { useTheme } from "../../../../theme-provider";
+import { themes } from "@/lib/themes";
+import { SlackTheme } from "@/components/types/system-types";
+import ExperienceItem from "./experience-item";
+import Message from "../message";
+import WelcomeBanner from "../common/WelcomeBanner";
+import ProfileImage from "../common/ProfileImage";
+import { EXPERIENCES } from "@/data/experience";
 
 // Custom Experience List Component
 const ExperienceList = ({ slackTheme }: { slackTheme: SlackTheme }) => (
@@ -53,13 +53,13 @@ const ExperienceChannel: React.FC = () => {
         <div
           className="p-2 pb-3 flex items-start rounded-sm"
           style={{
-            background: 'transparent',
+            background: "transparent",
           }}
           onMouseOver={(e) => {
             e.currentTarget.style.background = slackTheme.messageBackground;
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'transparent';
+            e.currentTarget.style.background = "transparent";
           }}
         >
           <ProfileImage src="/other/profile.webp" alt="profile" />

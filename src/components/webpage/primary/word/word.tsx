@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useTheme } from '../../../theme-provider';
-import { themes } from '@/lib/themes';
-import { Download } from 'lucide-react';
-import resume from '@/data/resume';
+import React from "react";
+import { useTheme } from "../../../theme-provider";
+import { themes } from "@/lib/themes";
+import { Download } from "lucide-react";
+import resume from "@/data/resume";
 
 export const WordApp: React.FC = () => {
   const { theme } = useTheme();
@@ -12,7 +12,7 @@ export const WordApp: React.FC = () => {
   //   const [scale, setScale] = useState<number>(1.2);
 
   const handleDownload = () => {
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = resume.location;
     link.download = resume.title;
     link.click();
@@ -30,22 +30,22 @@ export const WordApp: React.FC = () => {
     <div
       className="h-full flex flex-col min-h-0"
       style={{
-        background: theme === 'dark' ? currentTheme.surface : '#ffffff',
+        background: theme === "dark" ? currentTheme.surface : "#ffffff",
       }}
     >
       {/* Header */}
       <div
         className="flex items-center justify-between px-4 py-2 border-b"
         style={{
-          borderColor: theme === 'dark' ? currentTheme.border : '#e5e5e5',
+          borderColor: theme === "dark" ? currentTheme.border : "#e5e5e5",
           background:
-            theme === 'dark' ? currentTheme.glass.background : '#f9f9f9',
+            theme === "dark" ? currentTheme.glass.background : "#f9f9f9",
         }}
       >
         <div
           className="font-medium"
           style={{
-            color: theme === 'dark' ? currentTheme.text.primary : '#111111',
+            color: theme === "dark" ? currentTheme.text.primary : "#111111",
           }}
         >
           {resume.title}
@@ -54,9 +54,9 @@ export const WordApp: React.FC = () => {
           className="flex items-center gap-1 px-3 py-1 rounded-md transition-colors"
           style={{
             background:
-              theme === 'dark' ? currentTheme.button.background : '#f3f4f6',
-            color: theme === 'dark' ? currentTheme.text.primary : '#111111',
-            borderColor: theme === 'dark' ? currentTheme.border : '#e5e5e5',
+              theme === "dark" ? currentTheme.button.background : "#f3f4f6",
+            color: theme === "dark" ? currentTheme.text.primary : "#111111",
+            borderColor: theme === "dark" ? currentTheme.border : "#e5e5e5",
           }}
           onClick={handleDownload}
         >
@@ -112,7 +112,7 @@ export const WordApp: React.FC = () => {
         <iframe
           src={resume.location}
           className="w-full h-full"
-          style={{ border: 'none' }}
+          style={{ border: "none" }}
         ></iframe>
       </div>
     </div>

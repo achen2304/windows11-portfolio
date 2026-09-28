@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Volume2, Volume1, VolumeX } from 'lucide-react';
-import { useClickSound } from '@/components/click-sound-provider';
+import { useState } from "react";
+import { Volume2, Volume1, VolumeX } from "lucide-react";
+import { useClickSound } from "@/components/click-sound-provider";
 
 // Define a type for the theme object
 interface ThemeObject {
@@ -59,11 +59,11 @@ const VolumeControl = ({
         }, 30);
       }
     } catch (error) {
-      console.error('Error setting click sound volume:', error);
+      console.error("Error setting click sound volume:", error);
     }
 
     if (soundEnabled && newVolume > 0) {
-      setClickedButton('volume-feedback');
+      setClickedButton("volume-feedback");
       setTimeout(() => {
         setClickedButton(null);
       }, 100);
@@ -89,7 +89,7 @@ const VolumeControl = ({
       applyVolumeChange(0);
     }
 
-    setClickedButton('volume-icon');
+    setClickedButton("volume-icon");
     setTimeout(() => {
       setClickedButton(null);
     }, 200);
@@ -103,7 +103,7 @@ const VolumeControl = ({
           className="cursor-pointer transition-transform hover:scale-110 active:scale-95"
           style={{
             transform:
-              clickedButton === 'volume-icon' ? 'scale(1.2)' : 'scale(1)',
+              clickedButton === "volume-icon" ? "scale(1.2)" : "scale(1)",
           }}
         >
           {tempVolume === 0 ? (
@@ -151,9 +151,9 @@ const VolumeControl = ({
               background: `linear-gradient(to right, ${
                 currentTheme.text.primary
               } 0%, ${currentTheme.text.primary} ${tempVolume}%, rgba(${
-                theme === 'dark' ? '255,255,255' : '0,0,0'
+                theme === "dark" ? "255,255,255" : "0,0,0"
               },0.3) ${tempVolume}%, rgba(${
-                theme === 'dark' ? '255,255,255' : '0,0,0'
+                theme === "dark" ? "255,255,255" : "0,0,0"
               },0.3) 100%)`,
             }}
           />

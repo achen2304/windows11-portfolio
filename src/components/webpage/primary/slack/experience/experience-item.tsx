@@ -1,5 +1,5 @@
-import React from 'react';
-import { SlackTheme } from '@/components/types/system-types';
+import React from "react";
+import { SlackTheme } from "@/components/types/system-types";
 
 interface ExperienceItemProps {
   company: string;

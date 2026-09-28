@@ -77,23 +77,23 @@ class SpotifyPlayService {
       const { getSpotifyManager } = eval('require("./current-song-helper")');
       return getSpotifyManager();
     } catch (error) {
-      console.error('Failed to get Spotify manager:', error);
-      throw new Error('Spotify manager not available');
+      console.error("Failed to get Spotify manager:", error);
+      throw new Error("Spotify manager not available");
     }
   }
 
   private createAudioTrack(
     track: Track | PlaylistTrack,
-    includeAlbum = false
+    includeAlbum = false,
   ): AudioTrack {
     const audioTrack: AudioTrack = {
       id: track.id,
       name: track.name,
       artists: track.artists,
       album:
-        includeAlbum && 'album' in track
+        includeAlbum && "album" in track
           ? track.album
-          : { name: 'Unknown', images: [] },
+          : { name: "Unknown", images: [] },
       preview_url: track.preview_url,
       duration_ms: track.duration_ms,
       uri: `spotify:track:${track.id}`,
@@ -107,9 +107,9 @@ class SpotifyPlayService {
       const audioTrack = this.createAudioTrack(track);
       await spotifyManager.playTrack(audioTrack);
     } catch (error) {
-      console.error('Failed to play artist track:', error);
+      console.error("Failed to play artist track:", error);
       alert(
-        `Failed to play "${track.name}". Make sure you have Spotify Premium and the app is active.`
+        `Failed to play "${track.name}". Make sure you have Spotify Premium and the app is active.`,
       );
       throw error;
     }
@@ -121,9 +121,9 @@ class SpotifyPlayService {
       const albumContext = `spotify:album:${album.id}`;
       await spotifyManager.playContext(albumContext);
     } catch (error) {
-      console.error('Failed to play album:', error);
+      console.error("Failed to play album:", error);
       alert(
-        `Failed to play "${album.name}". Make sure you have Spotify Premium and the app is active.`
+        `Failed to play "${album.name}". Make sure you have Spotify Premium and the app is active.`,
       );
       throw error;
     }
@@ -131,7 +131,7 @@ class SpotifyPlayService {
 
   async playPlaylistTrack(
     track: PlaylistTrack,
-    playlist: Playlist
+    playlist: Playlist,
   ): Promise<void> {
     try {
       const spotifyManager = this.getSpotifyManager();
@@ -139,9 +139,9 @@ class SpotifyPlayService {
       const playlistContext = `spotify:playlist:${playlist.id}`;
       await spotifyManager.playTrack(audioTrack, playlistContext);
     } catch (error) {
-      console.error('Failed to play playlist track:', error);
+      console.error("Failed to play playlist track:", error);
       alert(
-        `Failed to play "${track.name}". Make sure you have Spotify Premium and the app is active.`
+        `Failed to play "${track.name}". Make sure you have Spotify Premium and the app is active.`,
       );
       throw error;
     }
@@ -153,9 +153,9 @@ class SpotifyPlayService {
       const playlistContext = `spotify:playlist:${playlist.id}`;
       await spotifyManager.playContext(playlistContext);
     } catch (error) {
-      console.error('Failed to play playlist:', error);
+      console.error("Failed to play playlist:", error);
       alert(
-        `Failed to play "${playlist.name}". Make sure you have Spotify Premium and the app is active.`
+        `Failed to play "${playlist.name}". Make sure you have Spotify Premium and the app is active.`,
       );
       throw error;
     }
@@ -167,9 +167,9 @@ class SpotifyPlayService {
       const artistContext = `spotify:artist:${artist.id}`;
       await spotifyManager.playContext(artistContext);
     } catch (error) {
-      console.error('Failed to play artist:', error);
+      console.error("Failed to play artist:", error);
       alert(
-        `Failed to play "${artist.name}". Make sure you have Spotify Premium and the app is active.`
+        `Failed to play "${artist.name}". Make sure you have Spotify Premium and the app is active.`,
       );
       throw error;
     }
@@ -180,10 +180,10 @@ class SpotifyPlayService {
       const spotifyManager = this.getSpotifyManager();
       await spotifyManager.playContext(contextUri);
     } catch (error) {
-      console.error('Failed to play context:', error);
-      const name = contextName || 'content';
+      console.error("Failed to play context:", error);
+      const name = contextName || "content";
       alert(
-        `Failed to play "${name}". Make sure you have Spotify Premium and the app is active.`
+        `Failed to play "${name}". Make sure you have Spotify Premium and the app is active.`,
       );
       throw error;
     }

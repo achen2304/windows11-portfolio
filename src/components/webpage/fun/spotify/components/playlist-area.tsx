@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Image from 'next/image';
-import { Play, Clock } from 'lucide-react';
-import { getSpotifyManager, AudioTrack } from '../helpers/current-song-helper';
-import { Playlist } from '../helpers/spotify-play-service';
+import React from "react";
+import Image from "next/image";
+import { Play, Clock } from "lucide-react";
+import { getSpotifyManager, AudioTrack } from "../helpers/current-song-helper";
+import { Playlist } from "../helpers/spotify-play-service";
 
 interface Track {
   id: string;
@@ -32,11 +32,11 @@ const PlaylistArea: React.FC<PlaylistAreaProps> = ({
   tracks = [],
 }) => {
   // Spotify colors
-  const spotifyBg = '#121212';
-  const spotifyCard = '#181818';
-  const spotifyText = '#FFFFFF';
-  const spotifyTextSecondary = '#B3B3B3';
-  const spotifyGreen = '#1DB954';
+  const spotifyBg = "#121212";
+  const spotifyCard = "#181818";
+  const spotifyText = "#FFFFFF";
+  const spotifyTextSecondary = "#B3B3B3";
+  const spotifyGreen = "#1DB954";
 
   const spotifyManager = getSpotifyManager();
 
@@ -46,7 +46,7 @@ const PlaylistArea: React.FC<PlaylistAreaProps> = ({
   const formatDuration = (ms: number) => {
     const minutes = Math.floor(ms / 60000);
     const seconds = Math.floor((ms % 60000) / 1000);
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
   const formatDate = (dateString: string) => {
@@ -55,7 +55,7 @@ const PlaylistArea: React.FC<PlaylistAreaProps> = ({
     const diffTime = Math.abs(now.getTime() - date.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    if (diffDays === 1) return '1 day ago';
+    if (diffDays === 1) return "1 day ago";
     if (diffDays < 7) return `${diffDays} days ago`;
     if (diffDays < 30) return `${Math.ceil(diffDays / 7)} weeks ago`;
     if (diffDays < 365) return `${Math.ceil(diffDays / 30)} months ago`;
@@ -91,9 +91,9 @@ const PlaylistArea: React.FC<PlaylistAreaProps> = ({
     try {
       await spotifyManager.playTrack(audioTrack, context);
     } catch (error) {
-      console.error('❌ Failed to play track:', error);
+      console.error("❌ Failed to play track:", error);
       alert(
-        `Failed to play "${track.name}". Make sure you have Spotify Premium.`
+        `Failed to play "${track.name}". Make sure you have Spotify Premium.`,
       );
     }
   };
@@ -109,12 +109,12 @@ const PlaylistArea: React.FC<PlaylistAreaProps> = ({
           const playlistContext = `spotify:playlist:${playlist.id}`;
           await handlePlayTrack(firstTrack, playlistContext);
         } else {
-          alert('No playable tracks available');
+          alert("No playable tracks available");
         }
       } else {
         // Fetch playlist tracks from Spotify API
         const response = await fetch(
-          `/api/spotify?type=playlist-tracks&playlist_id=${playlist.id}`
+          `/api/spotify?type=playlist-tracks&playlist_id=${playlist.id}`,
         );
         const data = await response.json();
 
@@ -122,7 +122,7 @@ const PlaylistArea: React.FC<PlaylistAreaProps> = ({
           // Play the first available track
           const firstTrack = data.items.find(
             (item: { track: Track; is_local?: boolean }) =>
-              item.track && !item.track.is_local
+              item.track && !item.track.is_local,
           );
 
           if (firstTrack && firstTrack.track) {
@@ -130,15 +130,15 @@ const PlaylistArea: React.FC<PlaylistAreaProps> = ({
             const playlistContext = `spotify:playlist:${playlist.id}`;
             await handlePlayTrack(firstTrack.track, playlistContext);
           } else {
-            alert('No playable tracks available');
+            alert("No playable tracks available");
           }
         } else {
-          alert('No playable tracks available');
+          alert("No playable tracks available");
         }
       }
     } catch (error) {
-      console.error('💥 Error playing playlist:', error);
-      alert('No playable tracks available');
+      console.error("💥 Error playing playlist:", error);
+      alert("No playable tracks available");
     }
   };
 
@@ -149,7 +149,7 @@ const PlaylistArea: React.FC<PlaylistAreaProps> = ({
     >
       <div
         className="flex-1 overflow-y-auto spotify-scrollbar"
-        style={{ maxHeight: 'calc(100% - 80px)' }}
+        style={{ maxHeight: "calc(100% - 80px)" }}
       >
         {/* Playlist Header */}
         <div
@@ -157,9 +157,9 @@ const PlaylistArea: React.FC<PlaylistAreaProps> = ({
           style={{
             backgroundImage: playlistImage
               ? `linear-gradient(transparent 0%, rgba(0,0,0,.5) 100%), url(${playlistImage})`
-              : 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
-            backgroundSize: '100%',
-            backgroundPosition: 'center',
+              : "linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)",
+            backgroundSize: "100%",
+            backgroundPosition: "center",
           }}
         >
           <div className="flex items-end gap-6">
@@ -191,7 +191,7 @@ const PlaylistArea: React.FC<PlaylistAreaProps> = ({
                 className="text-sm font-semibold mb-2"
                 style={{ color: spotifyText }}
               >
-                {playlist.public ? 'Public Playlist' : 'Playlist'}
+                {playlist.public ? "Public Playlist" : "Playlist"}
               </p>
               <h1
                 className="text-6xl font-bold mb-4"
@@ -209,7 +209,7 @@ const PlaylistArea: React.FC<PlaylistAreaProps> = ({
               )}
               <div className="flex items-center gap-2 text-sm">
                 <span className="font-semibold" style={{ color: spotifyText }}>
-                  {playlist.owner?.display_name || 'Unknown'}
+                  {playlist.owner?.display_name || "Unknown"}
                 </span>
                 <span style={{ color: spotifyTextSecondary }}>•</span>
                 <span style={{ color: spotifyTextSecondary }}>
@@ -247,7 +247,7 @@ const PlaylistArea: React.FC<PlaylistAreaProps> = ({
               <div
                 className="grid grid-cols-12 gap-4 px-4 py-2 border-b text-sm font-medium"
                 style={{
-                  borderColor: '#282828',
+                  borderColor: "#282828",
                   color: spotifyTextSecondary,
                 }}
               >
@@ -316,7 +316,7 @@ const PlaylistArea: React.FC<PlaylistAreaProps> = ({
                           className="text-sm truncate"
                           style={{ color: spotifyTextSecondary }}
                         >
-                          {track.artists.map((a) => a.name).join(', ')}
+                          {track.artists.map((a) => a.name).join(", ")}
                         </div>
                       </div>
                     </div>
