@@ -65,6 +65,18 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    name: "Folio",
+    created: "October 2026",
+    updated: "October 2026",
+    d1: "Evidence-Backed Stock Research Platform",
+    d2: "A full-stack stock research application that aggregates attributed news, dated market indicators, and transparent AI-generated assessments into one interface. Features a microservices architecture with a Next.js frontend, a Python/FastAPI research API with AWS Strands orchestration, a scraper/analysis service pulling live SEC filings and market data, and an optional volatility surface builder for options IV grids. Includes a read-only Robinhood OAuth connector for local portfolio context.",
+    d3: "Developed for HackMidwest 2026 in a team of 4. Owned the source-collection and market-data adapter layer — building the scraper/analysis microservice, normalizing SEC EDGAR filings and Yahoo Finance signals, and wiring them into the Strands research pipeline.",
+    image: "campus_mind.jpg",
+    github: "https://github.com/hemanthsrp/hackmidwest26",
+    technologies: ["TypeScript", "Next.js", "React", "Python", "FastAPI", "AWS Strands Agents SDK", "PostgreSQL", "pgvector", "Drizzle ORM", "Next Auth", "Docker", "Recharts", "Zod"],
+    featured: true,
+  },
+  {
     name: "Windows 11 Portfolio (V3)",
     created: "June 2025",
     updated: "Today",

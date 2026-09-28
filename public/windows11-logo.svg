@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88" width="88" height="88">
+  <!-- Windows 11 logo: four colored squares arranged in a grid with slight perspective -->
+  <!-- Top-left: blue -->
+  <rect x="4" y="4" width="38" height="38" rx="3" fill="#0078D4"/>
+  <!-- Top-right: green -->
+  <rect x="46" y="4" width="38" height="38" rx="3" fill="#0EA83B"/>
+  <!-- Bottom-left: orange/yellow -->
+  <rect x="4" y="46" width="38" height="38" rx="3" fill="#FFB900"/>
+  <!-- Bottom-right: red -->
+  <rect x="46" y="46" width="38" height="38" rx="3" fill="#E74856"/>
+</svg>

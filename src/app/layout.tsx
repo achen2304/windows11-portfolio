@@ -145,8 +145,8 @@ export default function RootLayout({
         />
 
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/window.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/window.svg" />
+        <link rel="icon" href="/windows11-logo.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/windows11-logo.svg" />
         <link rel="manifest" href="/manifest.json" />
 
         <Analytics />
