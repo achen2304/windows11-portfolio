@@ -1,12 +1,22 @@
 // My professional experiences: use google to research more about the company if asked.
 export const EXPERIENCES = [
   {
+    company: "Chardle LLC",
+    companyUrl: "https://chardle.com/",
+    position: "Founder and Software Engineer",
+    period: "Feb 2025 - Present",
+    description: [
+      "Founded, developed, and deployed the app supporting 120k monthly average users. See more details in the projects app.",
+    ],
+
+  },
+  {
     company: "W.R. Berkley",
     companyUrl: "https://www.berkley.com/",
     position: "Software Developer Intern",
     period: "June 2026 - Aug 2026",
     description: [
-      "Worked on full-stack tickets relating to the first-notice of loss (FNOL) system. Also worked on improving the email microservice",
+      "Worked on full-stack tickets relating to the first-notice of loss (FNOL) system. Also worked on improving the email microservice.",
     ],
   },
   {
@@ -16,15 +26,6 @@ export const EXPERIENCES = [
     period: "Aug 2025 - April 2026",
     description: [
       "Spearheading the development of a new web application for Todd Agriscience, leveraging modern web technologies and best practices to create a seamless and efficient user experience.",
-    ],
-  },
-  {
-    company: "Chardle",
-    companyUrl: "https://chardle.com",
-    position: "Founder",
-    period: "Feb 2025 - Present",
-    description: [
-      "Founded, developed, and deployed Chardle. More information can be found in the Projects section.",
     ],
   },
   {

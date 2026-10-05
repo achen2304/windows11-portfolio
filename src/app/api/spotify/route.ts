@@ -188,7 +188,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(
       {
         error:
-          "Due to me no longer having spotify premium, I no longer have access to the SDK player or any functionality.",
+          "Due to me no longer having spotify premium, I no longer have access to the SDK player for any functionality.",
         details: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 },

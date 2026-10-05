@@ -5,7 +5,7 @@ import { useToast } from "@/components/ui/toast";
 import { copyToClipboard } from "@/lib/notification-utils";
 import { useAppOpeners } from "@/components/webpage/app-openers";
 
-export const defaultText = `hi, i'm cai \n\nthis is my (wip) portfolio website :) \n\nto get started checkout the "about" or slack app in the background, taskbar or start menu! \n\np.s. **everything** is interactive `;
+export const defaultText = `hi, i'm cai \n\nthis is my portfolio website :) \n\nto get started checkout the "about" or slack app in the background, taskbar or start menu! \n\np.s. **everything** is interactive `;
 
 export const useEditorHandlers = (
   textareaRef: React.RefObject<HTMLTextAreaElement | null>,
