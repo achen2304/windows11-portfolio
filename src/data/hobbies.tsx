@@ -134,11 +134,11 @@ export const favoriteGames = [
   },
   {
     name: 'Shadow Slave',
-    image:'https://static.wikia.nocookie.net/shadowslave/images/c/c8/Mask-wallpaper_2_2.jpg/revision/latest/scale-to-width-down/670?cb=20230507051241',
+    image:'https://static.wikia.nocookie.net/shadowslave/images/c/c8/Mask-wallpaper_2_2.jpg',
     description: 'Super fun fantasy read.',
     tags: ['Fantasy', 'Action', 'Adventure'],
     type: 'western',
-    link: 'https://www.imdb.com/title/tt11138512/',
+    link: 'https://www.webnovel.com/book/22196546206090805',
   },
   {
     name: "Percy Jackson/Heroes of Olympus",
